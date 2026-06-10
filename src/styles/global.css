@@ -24,6 +24,7 @@ nav{position:sticky;top:0;z-index:100;background:rgba(11,9,8,.72);backdrop-filte
 .nav-links{display:flex;gap:30px;align-items:center}
 .nav-links a{font-size:14px;font-weight:600;letter-spacing:-.01em;opacity:.82;transition:.2s}
 .nav-links a:hover{opacity:1;color:var(--pink)}
+.nav-links a.btn:hover{color:#fff}
 .btn{display:inline-flex;align-items:center;gap:9px;background:var(--ink);color:#0b0908;font-weight:700;font-size:14px;padding:12px 20px;border-radius:100px;transition:.2s;border:1px solid var(--ink);cursor:pointer}
 .btn:hover{background:var(--pink);border-color:var(--pink);color:#fff;transform:translateY(-1px)}
 .btn .dot{width:7px;height:7px;border-radius:50%;background:var(--yellow)}

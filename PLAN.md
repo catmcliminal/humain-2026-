@@ -17,11 +17,14 @@ remote build environment (403 / network allowlist).
   - Blank repo connected (`rightothen/humain-site`), `CLAUDE.md` + `PLAN.md` created.
   - Deviation from original plan: repo is in Paul's account, not the site
     owner's; hosting starts on Vercel, not Netlify. See Decision Log.
-- [ ] **Phase 1 — Scaffold Astro** — Empty template, TypeScript strict, no UI
-  framework. Confirm dev server boots.
-- [ ] **Phase 2 — Port the Pulse design** — Requires the original HTML file
-  uploaded to the session. BaseLayout + section components + extract base64
-  images to `public/images/`. Must be visually identical before moving on.
+- [x] **Phase 1 — Scaffold Astro** *(2026-06-10)* — Minimal template, Astro
+  5.18.2 (pinned to 5.x per CLAUDE.md; create-astro now defaults to 6.x),
+  TypeScript strict, no UI framework. Dev server and production build both
+  verified.
+- [ ] **Phase 2 — Port the Pulse design** — Source HTML is now in the repo at
+  `_source/humAIn - 06 Pulse.html`. BaseLayout + section components + extract
+  base64 images to `public/images/`. Must be visually identical before moving
+  on.
 - [ ] **Phase 3 — Content collections** — Six collections (speakers, schedule,
   news, gallery, sponsors, faq) in `src/content.config.ts` with Zod schemas
   and one example entry each. Get schemas right here; backtracking later is
@@ -54,21 +57,21 @@ remote build environment (403 / network allowlist).
 | 2026-06-10 | Start in `rightothen/humain-site` under Paul's account; transfer to owner later | Owner hasn't set up accounts yet; don't block progress. Adds Phase 9 |
 | 2026-06-10 | Deploy to Vercel in the interim; Netlify remains the intended final host | Owner hasn't provided Netlify details; Paul happy to proceed on Vercel |
 | 2026-06-10 | Defer form *submission* wiring until final host confirmed | Netlify Forms (planned) don't function on Vercel; avoid building twice |
+| 2026-06-10 | Working assumption: repo transfer happens *after* Keystatic setup (Phase 5); rework if needed | Transfer timing won't be known for a while; Phase 9 already captures the GitHub App re-install |
+| 2026-06-10 | Stay on Astro 5.x even though create-astro scaffolds 6.x | CLAUDE.md targets 5.x; Keystatic compatibility planned against 5. Revisit only if a dependency forces it |
 
 ## Open questions
 
 1. **Final host** — Netlify in owner's account (assumed) or stay on Vercel? If
    Vercel becomes permanent, Phase 6 needs a form solution (e.g. Formspree /
    Web3Forms / an Astro action) instead of Netlify Forms.
-2. **Repo transfer timing** — transfer before or after Keystatic setup? The
-   Keystatic GitHub App is installed per-repo, so transferring after Phase 5
-   means re-doing that install (small, but must be remembered — captured in
-   Phase 9).
-3. **Default branch** — work is on `claude/kind-volta-cdf749`; once merged,
-   confirm `main` is the default branch, since Keystatic commits to and the
-   host deploys from the default branch.
-4. **Original HTML file** — Paul to upload `humAIn - 06 Pulse.html` (plus any
-   separate image assets) at the start of the Phase 2 session.
+2. ~~**Repo transfer timing**~~ — *resolved 2026-06-10 as a working
+   assumption*: transfer after Keystatic setup; Phase 9 covers re-installing
+   the GitHub App on the transferred repo.
+3. ~~**Default branch**~~ — *resolved 2026-06-10*: Paul set `main` as the
+   default branch.
+4. ~~**Original HTML file**~~ — *resolved 2026-06-10*: committed at
+   `_source/humAIn - 06 Pulse.html`.
 
 ## Session notes
 
@@ -76,3 +79,7 @@ remote build environment (403 / network allowlist).
   returns 403 to non-browser clients from this environment, so design fidelity
   checks (Phase 2) depend on the source HTML file and Paul eyeballing the dev
   server/preview against the original in his browser.
+- **2026-06-10 (Phase 1)** — Scaffolded Astro from the minimal template, pinned
+  to `astro@^5.18.2` (the wizard now defaults to 6.x). Verified `npm run build`
+  and the dev server serving on :4321. Resolved open questions 2–4 (see above).
+  Branch: `claude/bold-feynman-r52x11`.

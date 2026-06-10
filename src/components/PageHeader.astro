@@ -1,0 +1,23 @@
+---
+/**
+ * Header for the full-list pages (/voices, /news, /gallery). Mirrors the
+ * homepage section idiom — pulsing eyebrow dot + mono section number, a
+ * display-font title, and a line of flavour copy — so the pages read as the
+ * same site rather than bolt-ons.
+ */
+interface Props {
+  secNum: string; // e.g. "05 — Speakers"
+  title: string;
+  lede: string;
+}
+
+const { secNum, title, lede } = Astro.props;
+---
+
+<header class="page-head">
+  <div class="wrap">
+    <span class="eyebrow"><span class="tk"></span><span class="mono">{secNum}</span></span>
+    <h1 class="rv" set:html={title} />
+    <p class="lede rv">{lede}</p>
+  </div>
+</header>

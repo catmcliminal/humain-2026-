@@ -1,12 +1,12 @@
 ---
 import { getCollection } from 'astro:content';
 import ImageSlot from './ImageSlot.astro';
+import { featuredFirst } from '../utils/featured';
 
-// Homepage shows the featured speakers; the full lineup lives behind the
-// "See the full lineup" link. Sorted by `order` so editors control sequence.
-const speakers = (await getCollection('speakers'))
-  .filter((s) => s.data.featured)
-  .sort((a, b) => a.data.order - b.data.order);
+// Homepage shows up to four speakers — featured first, then by `order` to fill.
+// The full lineup lives at /voices.
+const all = (await getCollection('speakers')).sort((a, b) => a.data.order - b.data.order);
+const speakers = featuredFirst(all, 4);
 ---
 
 <section id="voices" style="padding-top:0">
@@ -35,7 +35,7 @@ const speakers = (await getCollection('speakers'))
       }
     </div>
     <div style="margin-top:30px;display:flex;gap:12px;align-items:center;flex-wrap:wrap">
-      <a href="#" class="btn ghost">See the full lineup →</a><span class="mono" style="color:var(--ink-2)"
+      <a href="/voices" class="btn ghost">See the full lineup →</a><span class="mono" style="color:var(--ink-2)"
         >+ 36 more being announced</span
       >
     </div>

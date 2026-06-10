@@ -7,6 +7,7 @@ description: >-
 publishDate: 2026-05-20
 author: the humAIn desk
 readingTime: 9 min read
+featured: true
 draft: false
 ---
 

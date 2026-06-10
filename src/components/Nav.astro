@@ -1,16 +1,23 @@
+---
+import { TICKET_URL, TICKET_IS_EXTERNAL } from '../config';
+
+const ticketTarget = TICKET_IS_EXTERNAL ? '_blank' : undefined;
+const ticketRel = TICKET_IS_EXTERNAL ? 'noopener noreferrer' : undefined;
+---
+
 <nav>
   <div class="wrap nav-in">
     <div class="brand">
       <b>hum<i>AI</i>n</b>
     </div>
     <div class="nav-links">
-      <a href="#conference">Conference</a>
-      <a href="#themes">Themes</a>
-      <a href="#articles">Media</a>
-      <a href="#voices">Voices</a>
-      <a href="#gallery">Gallery</a>
-      <a href="#community">Community</a>
-      <a href="#conference" class="btn"><span class="dot"></span>Get tickets</a>
+      <a href="/#conference">Conference</a>
+      <a href="/#themes">Themes</a>
+      <a href="/#articles">Media</a>
+      <a href="/#voices">Voices</a>
+      <a href="/#gallery">Gallery</a>
+      <a href="/#community">Community</a>
+      <a href={TICKET_URL} class="btn" target={ticketTarget} rel={ticketRel}><span class="dot"></span>Get tickets</a>
     </div>
   </div>
 </nav>

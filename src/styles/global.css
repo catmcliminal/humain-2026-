@@ -237,3 +237,30 @@ image-slot .is-empty{position:absolute;inset:0;display:flex;flex-direction:colum
 image-slot .is-empty svg{opacity:.45}
 image-slot .is-cap{max-width:90%;font-weight:500;letter-spacing:.01em}
 image-slot .is-ring{position:absolute;inset:0;pointer-events:none;border:1.5px dashed rgba(0,0,0,.25)}
+
+/* ---------- news article pages (added Phase 4b; not in the source design,
+   which was a single page — styled in the Pulse idiom) ---------- */
+.article-page{padding:72px 0 96px}
+.article-col{max-width:760px;margin:0 auto}
+.article-back{display:inline-block;color:var(--ink-2);margin-bottom:34px;transition:.2s}
+.article-back:hover{color:var(--pink)}
+.article-col .cat{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);margin-bottom:18px}
+.article-h{font-family:var(--disp);font-weight:800;font-size:clamp(32px,5vw,56px);line-height:1.04;letter-spacing:-.02em;text-wrap:balance;margin-bottom:22px}
+.article-col .meta{display:flex;align-items:center;flex-wrap:wrap;gap:10px;font-size:13px;color:var(--ink-2);padding-bottom:28px;border-bottom:1px solid var(--line);margin-bottom:34px}
+.article-col .meta .d{width:4px;height:4px;border-radius:50%;background:var(--ink-2)}
+.article-cover{border-radius:14px;overflow:hidden;border:1px solid var(--line-2);background:#1c1714;margin-bottom:34px}
+.article-cover img{width:100%;height:auto}
+.article-body{font-size:17px;line-height:1.65;color:var(--ink)}
+.article-body p{margin-bottom:1.25em}
+.article-body h2,.article-body h3{font-family:var(--disp);font-weight:700;letter-spacing:-.01em;line-height:1.15;margin:1.6em 0 .6em}
+.article-body h2{font-size:26px}
+.article-body h3{font-size:21px}
+.article-body a{color:var(--pink);border-bottom:1px solid rgba(240,55,154,.4);transition:.2s}
+.article-body a:hover{border-bottom-color:var(--pink)}
+.article-body ul,.article-body ol{margin:0 0 1.25em 1.3em}
+.article-body li{margin-bottom:.4em}
+.article-body blockquote{border-left:3px solid var(--pink);padding:.2em 0 .2em 1.1em;margin:0 0 1.25em;color:var(--ink-2);font-style:italic}
+.article-body img{border-radius:10px;border:1px solid var(--line-2);margin:1.5em 0}
+.article-body hr{border:none;border-top:1px solid var(--line);margin:2em 0}
+.article-body code{font-family:var(--mono);font-size:.85em;background:var(--panel-2);padding:2px 6px;border-radius:5px}
+.article-end{margin-top:48px;padding-top:32px;border-top:1px solid var(--line)}

@@ -30,7 +30,7 @@ function patternSvg(index: number, key: string): string {
     <div class="arts">
       {
         articles.map((a, i) => (
-          <article class="art rv">
+          <a class="art rv" href={`/news/${a.id}/`}>
             <div class="ph">
               {
                 a.data.coverImage ? (
@@ -51,7 +51,7 @@ function patternSvg(index: number, key: string): string {
               )}
               <span>by {a.data.author}</span>
             </div>
-          </article>
+          </a>
         ))
       }
     </div>

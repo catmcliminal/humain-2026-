@@ -52,8 +52,14 @@ remote build environment (403 / network allowlist).
   HTML. Decision (with owner): the three collections lacking Pulse markup
   (schedule, sponsors, faq) are deferred — they need net-new sections, built
   later as a deliberate step.
-- [ ] **Phase 4b — News article pages** — `/news/[slug]` dynamic route, link
-  homepage news cards.
+- [x] **Phase 4b — News article pages** *(2026-06-10)* — `/news/[slug]`
+  static route (one page per non-draft news entry, slug = filename). Article
+  layout styled in the Pulse idiom (new `.article-*` CSS appended to
+  `global.css`; the source design was single-page so this is net-new but
+  visually consistent). Homepage news cards are now whole-card links to their
+  articles; Nav anchors changed to root-relative (`/#...`) so they work from
+  article pages. "Browse all media →" still points at `#` — a /news index
+  page wasn't in scope; decide later whether it's wanted.
 - [ ] **Phase 5 — Keystatic admin** — GitHub storage mode, `/keystatic` route,
   schemas mirroring the Zod ones. Needs server adapter (`@astrojs/vercel` for
   now). Keystatic GitHub App install + env vars (placeholders only).
@@ -158,3 +164,14 @@ remote build environment (403 / network allowlist).
   yet linked — the `/news/[slug]` route is Phase 4b; doing it then keeps the
   link and its target landing together. Build green; section data confirmed in
   the built HTML.
+- **2026-06-10 (Phase 4b)** — PR #3 (Phases 3+4) merged to main; branch synced.
+  Added `src/pages/news/[slug].astro`: getStaticPaths over non-draft news,
+  header (category / display-font title / date · reading time · author),
+  optional cover image, Markdown body via `render()`, back-links to
+  `/#articles`. Prose + page CSS appended to `global.css` under a clearly
+  marked "added Phase 4b" comment, using the design's variables and type
+  scale. Homepage cards converted from `<article>` to `<a class="art">`
+  (whole card clickable; existing hover treatment unchanged). Nav anchors are
+  now `/#...` so they resolve from /news/ pages. Dates render en-AU ("20 May
+  2026"). Open: no /news index page yet — "Browse all media →" remains `#`.
+  Build green: index + 1 article page generated, card href verified.

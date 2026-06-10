@@ -19,7 +19,10 @@ image store. One repo, one host, one admin.
 
 ## Stack
 
-- **Astro 5.x** — static-first, TypeScript strict, no UI framework integration.
+- **Astro 6.x** — static-first, TypeScript strict, no UI framework beyond the
+  React integration Keystatic's admin requires (the site itself ships no
+  framework components). Originally scaffolded on 5.x; upgraded 2026-06-10 for
+  security fixes only available in 6.
 - **Astro Content Collections** — schemas in `src/content.config.ts`, entries
   under `src/content/`. Six collections: `speakers`, `schedule`, `news`,
   `gallery`, `sponsors`, `faq`. Markdown for body-text collections (news, faq);

@@ -74,9 +74,15 @@ remote build environment (403 / network allowlist).
   auto-adds target/rel when it becomes external). `npm run build` green — 5
   routes. Out of scope, deliberately left: Community "Register interest"
   (Phase 6 forms) and footer links (per owner).
-- [ ] **Phase 5 — Keystatic admin** — GitHub storage mode, `/keystatic` route,
-  schemas mirroring the Zod ones. Needs server adapter (`@astrojs/vercel` for
-  now). Keystatic GitHub App install + env vars (placeholders only).
+- [x] **Phase 5 — Keystatic admin** *(2026-06-10)* — `keystatic.config.ts`
+  (GitHub storage mode, `rightothen/humain-site`) mirroring all six Zod
+  collections incl. `keynote`/`active`/`year` defaults; `@astrojs/vercel`
+  adapter + React integration added (site routes stay prerendered; only
+  `/keystatic` + `/api/keystatic` render on demand). `.env.example` documents
+  the four Keystatic env vars. Build + type-check green; `/keystatic` serves.
+  **Pending (Paul, in a browser): run the one-time /keystatic GitHub App
+  onboarding locally, install the app on the repo, add the env vars to
+  Vercel.**
 - [ ] **Phase 6 — Forms** — ⚠ Blocked on final-host decision. Netlify Forms
   don't work on Vercel. Build markup only until the host is settled, or pick a
   host-agnostic provider (see Open Questions).
@@ -87,8 +93,9 @@ remote build environment (403 / network allowlist).
   `EDITING.md` for the owners.
 - [ ] **Phase 9 — Migration to owner's accounts** *(added; not in original
   plan)* — Transfer repo to owner's GitHub, re-install Keystatic GitHub App on
-  the transferred repo, move hosting to her Netlify account, swap
-  `@astrojs/vercel` → `@astrojs/netlify`, wire Netlify Forms, update env vars.
+  the transferred repo, update `storage.repo` in `keystatic.config.ts`, move
+  hosting to her Netlify account, swap `@astrojs/vercel` → `@astrojs/netlify`,
+  wire Netlify Forms, update env vars.
 
 ## Decision log
 
@@ -99,7 +106,7 @@ remote build environment (403 / network allowlist).
 | 2026-06-10 | Deploy to Vercel in the interim; Netlify remains the intended final host | Owner hasn't provided Netlify details; Paul happy to proceed on Vercel |
 | 2026-06-10 | Defer form *submission* wiring until final host confirmed | Netlify Forms (planned) don't function on Vercel; avoid building twice |
 | 2026-06-10 | Working assumption: repo transfer happens *after* Keystatic setup (Phase 5); rework if needed | Transfer timing won't be known for a while; Phase 9 already captures the GitHub App re-install |
-| 2026-06-10 | Stay on Astro 5.x even though create-astro scaffolds 6.x | CLAUDE.md targets 5.x; Keystatic compatibility planned against 5. Revisit only if a dependency forces it |
+| 2026-06-10 | Stay on Astro 5.x even though create-astro scaffolds 6.x | CLAUDE.md targets 5.x; Keystatic compatibility planned against 5. Revisit only if a dependency forces it. *Superseded same day — see Astro 6 upgrade below* |
 | 2026-06-10 | Image fields are repo-relative `/images/...` string paths, not Astro `image()` imports | Keystatic stores uploads to `public/images/` and writes back the path; string paths render directly and avoid import/optimization friction at handover. Static site gains nothing from `image()` here |
 | 2026-06-10 | Schedule `speaker` is free-text, not a `reference('speakers')` | Keeps schema simple now; can upgrade to a relationship field (with Keystatic relationship UI) later if cross-linking is wanted |
 | 2026-06-10 | Homepage curation = "featured first, then fill" (news→3, gallery→7, speakers→4) | Owner wants to pin items but the homepage must never look empty or overflow; unflagged items fill remaining slots by date/order. Speakers given the same rule for consistency + to avoid an empty section |
@@ -107,12 +114,23 @@ remote build environment (403 / network allowlist).
 | 2026-06-10 | Ticketing links off-site via a single `TICKET_URL` constant (`src/config.ts`) | Owner confirmed ticketing is external; URL not finalised, so placeholder `#conference` now, one-line swap later. Auto-adds `target=_blank`/rel when external |
 | 2026-06-10 | `keynote` flag on speakers, separate from `featured` | Owner wants keynotes larger + atop the /voices lineup, independent of homepage curation |
 | 2026-06-10 | Year-to-year content modelled with BOTH `active` (bool) and `year` (number) on speakers/schedule/sponsors; live site shows `active && year===CURRENT_EDITION_YEAR` | Owner wants lossless yearly swaps + the option of past-year archives. One `CURRENT_EDITION_YEAR` constant (src/config.ts) rolls the site over; old entries persist as data |
+| 2026-06-10 | Keystatic deps pinned to Astro-5-compatible majors: `@astrojs/vercel@^8`, `@astrojs/react@^4` (+ React 19) | Latest `@astrojs/vercel@10` requires Astro 6; we stay on 5.x per earlier decision. *Superseded same day by the Astro 6 upgrade below* |
+| 2026-06-10 | Upgrade to Astro 6 (6.4.5) + `@astrojs/vercel@10` + `@astrojs/react@5`, ending the 5.x pin | Security advisories (define:vars XSS, x-astro-path override) are patched only in 6; Keystatic supports 6; owner said be up to date. Build/type-check/admin route all verified post-upgrade |
+| 2026-06-10 | Keystatic rich-text fields use `fields.markdoc` with `extension: 'md'` (news body, faq answer) | Writes plain `.md` files that Astro's glob loader + existing example entries already use, instead of Keystatic's default `.mdoc` |
 
 ## Open questions
 
 1. **Final host** — Netlify in owner's account (assumed) or stay on Vercel? If
    Vercel becomes permanent, Phase 6 needs a form solution (e.g. Formspree /
    Web3Forms / an Astro action) instead of Netlify Forms.
+5. ~~**Astro 5 security advisories**~~ — *resolved 2026-06-10*: upgraded to
+   Astro 6.4.5 (+ `@astrojs/vercel@10`, `@astrojs/react@5`) the same session,
+   per owner. The Astro-core advisories are gone; two transitive ones remain
+   *inside the latest Vercel adapter itself* (`path-to-regexp` ReDoS via
+   `@vercel/routing-utils`, `ws` memory disclosure via `@vercel/functions`)
+   with no upstream fix published — low exposure (build-time/edge tooling),
+   re-check `npm audit` before launch and at the Phase 9 Netlify swap (which
+   removes the Vercel adapter anyway).
 2. ~~**Repo transfer timing**~~ — *resolved 2026-06-10 as a working
    assumption*: transfer after Keystatic setup; Phase 9 covers re-installing
    the GitHub App on the transferred repo.
@@ -240,3 +258,36 @@ remote build environment (403 / network allowlist).
   `active` (default checked) and `year` (default current); (b) the schedule
   `day` enum is still 2026-specific — revisit when the schedule section is
   built, so it doesn't fight the `year` field.
+- **2026-06-10 (Phase 5)** — Keystatic admin wired up. Installed
+  `@keystatic/core@0.5.50` + `@keystatic/astro@5.1.0`, `@astrojs/react@4.4.2`
+  + React 19, and `@astrojs/vercel@8.2.11` (v8 is the Astro-5-compatible
+  major; v10 needs Astro 6). `astro.config.mjs` gains the two integrations +
+  adapter, with a comment keeping host-specifics confined there for the
+  Netlify swap. `keystatic.config.ts` (repo root) mirrors all six collections
+  — YAML data format for speakers/schedule/gallery/sponsors, `contentField`
+  markdown (`extension: 'md'`) for news/faq — including the Phase 4-era
+  fields: `keynote`, `featured`, `active` (default on), `year` (default
+  `CURRENT_EDITION_YEAR`, imported from src/config). Image fields upload to
+  `public/images/<collection>/` and store `/images/...` paths, matching the
+  Zod `imagePath` convention. `author` gets its default in Keystatic too so
+  the field is pre-filled. Slug sources: name (speakers/sponsors), title
+  (schedule/news), question (faq), alt (gallery). `.env.example` documents
+  the 4 env vars + the onboarding flow that generates them; `.vercel/` added
+  to .gitignore. Verified: `npm run build` green (5 static routes prerendered,
+  Keystatic bundled into the Vercel function), `npx tsc --noEmit` clean, dev
+  server serves `/keystatic` (200, admin shell). NOT done here (needs Paul in
+  a browser): the one-time GitHub App creation via local `/keystatic`
+  onboarding, installing the app on the repo, and setting the env vars in
+  Vercel. Also logged new Open Question 5 (Astro-6-only security advisories
+  from `npm audit`).
+- **2026-06-10 (Astro 6 upgrade)** — Owner opted to be up to date rather than
+  hold the 5.x pin, resolving Open Question 5 hours after it was logged.
+  `astro@6.4.5`, `@astrojs/vercel@10.0.8`, `@astrojs/react@5.0.7`; Keystatic
+  unchanged (already supports 6). No code changes needed — the project uses
+  no APIs that changed between 5 and 6 (glob-loader collections, `render()`,
+  default-static + adapter). Verified post-upgrade: `npm run build` green
+  (same 5 prerendered routes), `npx tsc --noEmit` clean, dev server 200s on
+  `/`, `/keystatic` and an article page. `npm audit`: Astro-core advisories
+  cleared; two transitive ones remain inside the latest Vercel adapter
+  (no upstream fix yet; see Open Question 5 resolution). CLAUDE.md stack
+  section updated to 6.x.

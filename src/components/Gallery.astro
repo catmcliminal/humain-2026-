@@ -1,5 +1,12 @@
 ---
-import ImageSlot from './ImageSlot.astro';
+import { getCollection } from 'astro:content';
+
+// The Pulse design is a 7-tile bento grid (g-a … g-g, each a fixed span).
+// We map gallery entries onto those layout slots in `order`; if an editor adds
+// more than seven images the layout classes cycle so the grid still tiles.
+const tileClasses = ['g-a', 'g-b', 'g-c', 'g-d', 'g-e', 'g-f', 'g-g'];
+
+const images = (await getCollection('gallery')).sort((a, b) => a.data.order - b.data.order);
 ---
 
 <section id="gallery" style="padding-top:0">
@@ -9,19 +16,14 @@ import ImageSlot from './ImageSlot.astro';
       <span class="sec-num">06 — Gallery</span>
     </div>
     <div class="gal rv">
-      <div class="gtile g-a">
-        <span class="cap">Main stage · 2025</span><ImageSlot id="g1" placeholder="Stage / keynote" />
-      </div>
-      <div class="gtile g-b"><ImageSlot id="g2" placeholder="The audience" /></div>
-      <div class="gtile g-c"><ImageSlot id="g3" placeholder="Workshop" /></div>
-      <div class="gtile g-d">
-        <span class="cap">After-hours floor</span><ImageSlot id="g4" placeholder="Networking" />
-      </div>
-      <div class="gtile g-e"><ImageSlot id="g5" placeholder="Panel / debate" /></div>
-      <div class="gtile g-f"><ImageSlot id="g6" placeholder="Detail / signage" /></div>
-      <div class="gtile g-g">
-        <span class="cap">Shoreditch · London</span><ImageSlot id="g7" placeholder="The venue" />
-      </div>
+      {
+        images.map((img, i) => (
+          <div class={`gtile ${tileClasses[i % tileClasses.length]}`}>
+            {img.data.caption && <span class="cap">{img.data.caption}</span>}
+            <img src={img.data.image} alt={img.data.alt} loading="lazy" />
+          </div>
+        ))
+      }
     </div>
     <div style="margin-top:26px"><a href="#" class="btn ghost">See the full gallery →</a></div>
   </div>

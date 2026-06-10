@@ -39,8 +39,19 @@ remote build environment (403 / network allowlist).
   + `npm run build` green. Note: schedule, sponsors and faq have no markup in
   the Pulse design yet (only speakers/news/gallery do); their sections arrive
   in a later phase.
-- [ ] **Phase 4 — Wire collections into the page** — Replace hardcoded section
-  content with `getCollection()`. Hero/Themes stay static.
+- [x] **Phase 4 — Wire collections into the page** *(2026-06-10)* — Voices
+  (speakers, featured + by `order`), Articles (news, newest 3, non-draft) and
+  Gallery (gallery, by `order`, cycling the 7 bento layout slots) now render
+  from `getCollection()`. Hero/Themes/Conference stay static. Real `<img>`s
+  fill the existing image containers via three small `object-fit:cover` rules
+  added to `global.css`; speakers with no photo still show the `ImageSlot`
+  empty state, and news with no cover image fall back to the original
+  decorative SVG patterns. Shipped SVG placeholder assets under
+  `public/images/{gallery,sponsors}/` so the example entries render cleanly
+  instead of 404ing. `npm run build` green; data verified present in the built
+  HTML. Decision (with owner): the three collections lacking Pulse markup
+  (schedule, sponsors, faq) are deferred — they need net-new sections, built
+  later as a deliberate step.
 - [ ] **Phase 4b — News article pages** — `/news/[slug]` dynamic route, link
   homepage news cards.
 - [ ] **Phase 5 — Keystatic admin** — GitHub storage mode, `/keystatic` route,
@@ -135,3 +146,15 @@ remote build environment (403 / network allowlist).
   (no equivalent exists in the Pulse design); speakers→Voices, news→Articles,
   gallery→Gallery already have markup to wire up. Branch:
   `claude/charming-ride-y4bopq`.
+- **2026-06-10 (Phase 4)** — Wired speakers/news/gallery into the page via
+  `getCollection()` (Voices, Articles, Gallery). Decided WITH the owner to
+  defer the three collections without Pulse markup (schedule, sponsors, faq)
+  rather than invent sections speculatively — adding them is net-new design,
+  not a port, and partly the owner's call on whether/where they appear. Added
+  three `object-fit:cover` rules to `global.css` for real images in the
+  existing slots (kept the `ImageSlot` empty state and the decorative news
+  SVG patterns as fallbacks). Shipped obvious "replace me" SVG placeholders so
+  example gallery/sponsor entries render rather than 404. News cards are NOT
+  yet linked — the `/news/[slug]` route is Phase 4b; doing it then keeps the
+  link and its target landing together. Build green; section data confirmed in
+  the built HTML.

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800" role="img" aria-label="Placeholder image — replace in Keystatic">
+  <rect width="1200" height="800" fill="#1c1714"/>
+  <rect x="1" y="1" width="1198" height="798" fill="none" stroke="#3a302a" stroke-width="2" stroke-dasharray="10 8"/>
+  <g fill="none" stroke="#6b5e54" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" transform="translate(560 350) scale(3.4)">
+    <rect x="0" y="0" width="24" height="24" rx="2"/>
+    <circle cx="8.5" cy="8.5" r="1.8"/>
+    <path d="m24 16-6-6L4 24"/>
+  </g>
+  <text x="600" y="520" font-family="ui-monospace, monospace" font-size="26" fill="#6b5e54" text-anchor="middle" letter-spacing="2">EXAMPLE IMAGE — REPLACE IN KEYSTATIC</text>
+</svg>

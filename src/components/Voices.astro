@@ -1,5 +1,12 @@
 ---
+import { getCollection } from 'astro:content';
 import ImageSlot from './ImageSlot.astro';
+
+// Homepage shows the featured speakers; the full lineup lives behind the
+// "See the full lineup" link. Sorted by `order` so editors control sequence.
+const speakers = (await getCollection('speakers'))
+  .filter((s) => s.data.featured)
+  .sort((a, b) => a.data.order - b.data.order);
 ---
 
 <section id="voices" style="padding-top:0">
@@ -9,26 +16,23 @@ import ImageSlot from './ImageSlot.astro';
       <span class="sec-num">05 — Speakers</span>
     </div>
     <div class="voices">
-      <div class="voice rv">
-        <div class="vp"><ImageSlot id="v1" placeholder="Speaker photo" /></div>
-        <h4>Speaker Name</h4>
-        <p>Creative Director, an agency exploring generative workflows</p>
-      </div>
-      <div class="voice rv">
-        <div class="vp"><ImageSlot id="v2" placeholder="Speaker photo" /></div>
-        <h4>Speaker Name</h4>
-        <p>Founder, an applied-AI research studio</p>
-      </div>
-      <div class="voice rv">
-        <div class="vp"><ImageSlot id="v3" placeholder="Speaker photo" /></div>
-        <h4>Speaker Name</h4>
-        <p>Head of Brand, a consumer company facing AI search</p>
-      </div>
-      <div class="voice rv">
-        <div class="vp"><ImageSlot id="v4" placeholder="Speaker photo" /></div>
-        <h4>Speaker Name</h4>
-        <p>Writer &amp; critic on culture, taste and machines</p>
-      </div>
+      {
+        speakers.map((s) => (
+          <div class="voice rv">
+            <div class="vp">
+              {
+                s.data.photo ? (
+                  <img src={s.data.photo} alt={s.data.name} loading="lazy" />
+                ) : (
+                  <ImageSlot placeholder="Speaker photo" />
+                )
+              }
+            </div>
+            <h4>{s.data.name}</h4>
+            <p set:html={s.data.role} />
+          </div>
+        ))
+      }
     </div>
     <div style="margin-top:30px;display:flex;gap:12px;align-items:center;flex-wrap:wrap">
       <a href="#" class="btn ghost">See the full lineup →</a><span class="mono" style="color:var(--ink-2)"

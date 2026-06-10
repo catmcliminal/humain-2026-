@@ -1,5 +1,6 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
+import { CURRENT_EDITION_YEAR } from './config';
 
 /*
  * Content collections for the humAIn site.
@@ -27,6 +28,18 @@ const imagePath = z
   .string()
   .startsWith('/images/', { message: 'Image path must start with /images/' });
 
+/*
+ * Edition fields, shared by the collections that rotate year to year
+ * (speakers, schedule, sponsors). The live site shows only entries that are
+ * `active` AND whose `year` is the current edition (src/config.ts). Retiring
+ * content for next year is therefore lossless: bump CURRENT_EDITION_YEAR and/or
+ * uncheck `active` — the entry stays in the repo as data, just stops rendering.
+ */
+const editionFields = {
+  active: z.boolean().default(true),
+  year: z.number().default(CURRENT_EDITION_YEAR),
+};
+
 // 05 — Speakers ("The voices.") — structured, YAML, one file per speaker.
 const speakers = defineCollection({
   loader: glob({ pattern: '**/*.yaml', base: './src/content/speakers' }),
@@ -36,9 +49,14 @@ const speakers = defineCollection({
     role: z.string(),
     photo: imagePath.optional(),
     bio: z.string().optional(),
+    // Keynote speakers lead the /voices lineup (pulled above the rest of the
+    // `order` and shown larger). Independent of `featured` — a speaker can be
+    // a keynote, homepage-featured, both, or neither.
+    keynote: z.boolean().default(false),
     // Surface on the homepage lineup vs. only on the full-lineup page.
     featured: z.boolean().default(false),
     order: z.number(),
+    ...editionFields,
   }),
 });
 
@@ -57,6 +75,7 @@ const schedule = defineCollection({
     speaker: z.string().optional(),
     description: z.string().optional(),
     order: z.number(),
+    ...editionFields,
   }),
 });
 
@@ -104,6 +123,7 @@ const sponsors = defineCollection({
     url: z.string().url().optional(),
     tier: z.enum(['headline', 'partner', 'supporter', 'community']),
     order: z.number(),
+    ...editionFields,
   }),
 });
 

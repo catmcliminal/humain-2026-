@@ -1,0 +1,29 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import ImageSlot from './ImageSlot.astro';
+
+interface Props {
+  speaker: CollectionEntry<'speakers'>;
+  showBio?: boolean; // show the bio line (full-lineup page, not the homepage)
+  keynote?: boolean; // larger card + "Keynote" badge
+}
+
+const { speaker, showBio = false, keynote = false } = Astro.props;
+const s = speaker.data;
+---
+
+<div class={`voice rv${keynote ? ' is-keynote' : ''}`}>
+  <div class="vp">
+    {keynote && <span class="voice-badge mono">Keynote</span>}
+    {
+      s.photo ? (
+        <img src={s.photo} alt={s.name} loading="lazy" />
+      ) : (
+        <ImageSlot placeholder="Speaker photo" />
+      )
+    }
+  </div>
+  <h4>{s.name}</h4>
+  <p set:html={s.role} />
+  {showBio && s.bio && <p class="voice-bio">{s.bio}</p>}
+</div>

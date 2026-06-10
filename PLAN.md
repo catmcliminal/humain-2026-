@@ -106,7 +106,7 @@ remote build environment (403 / network allowlist).
 | 2026-06-10 | Deploy to Vercel in the interim; Netlify remains the intended final host | Owner hasn't provided Netlify details; Paul happy to proceed on Vercel |
 | 2026-06-10 | Defer form *submission* wiring until final host confirmed | Netlify Forms (planned) don't function on Vercel; avoid building twice |
 | 2026-06-10 | Working assumption: repo transfer happens *after* Keystatic setup (Phase 5); rework if needed | Transfer timing won't be known for a while; Phase 9 already captures the GitHub App re-install |
-| 2026-06-10 | Stay on Astro 5.x even though create-astro scaffolds 6.x | CLAUDE.md targets 5.x; Keystatic compatibility planned against 5. Revisit only if a dependency forces it |
+| 2026-06-10 | Stay on Astro 5.x even though create-astro scaffolds 6.x | CLAUDE.md targets 5.x; Keystatic compatibility planned against 5. Revisit only if a dependency forces it. *Superseded same day — see Astro 6 upgrade below* |
 | 2026-06-10 | Image fields are repo-relative `/images/...` string paths, not Astro `image()` imports | Keystatic stores uploads to `public/images/` and writes back the path; string paths render directly and avoid import/optimization friction at handover. Static site gains nothing from `image()` here |
 | 2026-06-10 | Schedule `speaker` is free-text, not a `reference('speakers')` | Keeps schema simple now; can upgrade to a relationship field (with Keystatic relationship UI) later if cross-linking is wanted |
 | 2026-06-10 | Homepage curation = "featured first, then fill" (news→3, gallery→7, speakers→4) | Owner wants to pin items but the homepage must never look empty or overflow; unflagged items fill remaining slots by date/order. Speakers given the same rule for consistency + to avoid an empty section |
@@ -114,7 +114,8 @@ remote build environment (403 / network allowlist).
 | 2026-06-10 | Ticketing links off-site via a single `TICKET_URL` constant (`src/config.ts`) | Owner confirmed ticketing is external; URL not finalised, so placeholder `#conference` now, one-line swap later. Auto-adds `target=_blank`/rel when external |
 | 2026-06-10 | `keynote` flag on speakers, separate from `featured` | Owner wants keynotes larger + atop the /voices lineup, independent of homepage curation |
 | 2026-06-10 | Year-to-year content modelled with BOTH `active` (bool) and `year` (number) on speakers/schedule/sponsors; live site shows `active && year===CURRENT_EDITION_YEAR` | Owner wants lossless yearly swaps + the option of past-year archives. One `CURRENT_EDITION_YEAR` constant (src/config.ts) rolls the site over; old entries persist as data |
-| 2026-06-10 | Keystatic deps pinned to Astro-5-compatible majors: `@astrojs/vercel@^8`, `@astrojs/react@^4` (+ React 19) | Latest `@astrojs/vercel@10` requires Astro 6; we stay on 5.x per earlier decision |
+| 2026-06-10 | Keystatic deps pinned to Astro-5-compatible majors: `@astrojs/vercel@^8`, `@astrojs/react@^4` (+ React 19) | Latest `@astrojs/vercel@10` requires Astro 6; we stay on 5.x per earlier decision. *Superseded same day by the Astro 6 upgrade below* |
+| 2026-06-10 | Upgrade to Astro 6 (6.4.5) + `@astrojs/vercel@10` + `@astrojs/react@5`, ending the 5.x pin | Security advisories (define:vars XSS, x-astro-path override) are patched only in 6; Keystatic supports 6; owner said be up to date. Build/type-check/admin route all verified post-upgrade |
 | 2026-06-10 | Keystatic rich-text fields use `fields.markdoc` with `extension: 'md'` (news body, faq answer) | Writes plain `.md` files that Astro's glob loader + existing example entries already use, instead of Keystatic's default `.mdoc` |
 
 ## Open questions
@@ -122,12 +123,14 @@ remote build environment (403 / network allowlist).
 1. **Final host** — Netlify in owner's account (assumed) or stay on Vercel? If
    Vercel becomes permanent, Phase 6 needs a form solution (e.g. Formspree /
    Web3Forms / an Astro action) instead of Netlify Forms.
-5. **Astro 5 security advisories** — `npm audit` flags advisories fixed only in
-   Astro 6 (XSS in `define:vars` GHSA-j687-52p2-xcff; `x-astro-path` path
-   override GHSA-mr6q-rp88-fx84; transitive `path-to-regexp` ReDoS via the
-   Vercel adapter). Low practical exposure today (static pages; the only
-   server routes are the GitHub-authed Keystatic admin), but revisit the
-   Astro 5.x pin before launch — Keystatic now supports Astro 6.
+5. ~~**Astro 5 security advisories**~~ — *resolved 2026-06-10*: upgraded to
+   Astro 6.4.5 (+ `@astrojs/vercel@10`, `@astrojs/react@5`) the same session,
+   per owner. The Astro-core advisories are gone; two transitive ones remain
+   *inside the latest Vercel adapter itself* (`path-to-regexp` ReDoS via
+   `@vercel/routing-utils`, `ws` memory disclosure via `@vercel/functions`)
+   with no upstream fix published — low exposure (build-time/edge tooling),
+   re-check `npm audit` before launch and at the Phase 9 Netlify swap (which
+   removes the Vercel adapter anyway).
 2. ~~**Repo transfer timing**~~ — *resolved 2026-06-10 as a working
    assumption*: transfer after Keystatic setup; Phase 9 covers re-installing
    the GitHub App on the transferred repo.
@@ -277,3 +280,14 @@ remote build environment (403 / network allowlist).
   onboarding, installing the app on the repo, and setting the env vars in
   Vercel. Also logged new Open Question 5 (Astro-6-only security advisories
   from `npm audit`).
+- **2026-06-10 (Astro 6 upgrade)** — Owner opted to be up to date rather than
+  hold the 5.x pin, resolving Open Question 5 hours after it was logged.
+  `astro@6.4.5`, `@astrojs/vercel@10.0.8`, `@astrojs/react@5.0.7`; Keystatic
+  unchanged (already supports 6). No code changes needed — the project uses
+  no APIs that changed between 5 and 6 (glob-loader collections, `render()`,
+  default-static + adapter). Verified post-upgrade: `npm run build` green
+  (same 5 prerendered routes), `npx tsc --noEmit` clean, dev server 200s on
+  `/`, `/keystatic` and an article page. `npm audit`: Astro-core advisories
+  cleared; two transitive ones remain inside the latest Vercel adapter
+  (no upstream fix yet; see Open Question 5 resolution). CLAUDE.md stack
+  section updated to 6.x.

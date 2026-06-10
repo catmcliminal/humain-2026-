@@ -103,8 +103,12 @@ remote build environment (403 / network allowlist).
     in Phase 4. The editor-only "or browse files" line was not reproduced.
   - The hero waveform (the page's only base64 image) is now
     `public/images/humain-waveform.png` (1205×533).
-  Note: the source's reveal animation is effectively disabled (its CSS is
+  Note: the source's reveal animation was effectively disabled (its CSS is
   gated on an `html.pre` class the source never sets — "reveal disabled for
-  offline"); ported as-is. Verification: built body is node-for-node identical
-  to the source after normalising the two deviations; all 174 CSS selectors
-  and 3 keyframes present in the bundle; dev server + build green.
+  offline"). Re-enabled at Paul's request by setting `class="pre"` on `<html>`
+  in BaseLayout; the ported script handles reveal-on-scroll and falls back to
+  instantly visible (removing `pre`) if JS doesn't settle within 250ms.
+  Verification: built body is node-for-node identical to the source after
+  normalising the two deviations; all 174 CSS selectors and 3 keyframes
+  present in the bundle; dev server + build green. Paul deploying to Vercel
+  to inspect visually.

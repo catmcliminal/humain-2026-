@@ -28,12 +28,30 @@ remote build environment (403 / network allowlist).
   the bundle. Two deliberate exclusions (see session notes): the fixed
   design-variant switcher and the interactive `<image-slot>` mockup tooling.
   **Pending: Paul's visual eyeball against the original in a browser.**
-- [ ] **Phase 3 — Content collections** — Six collections (speakers, schedule,
-  news, gallery, sponsors, faq) in `src/content.config.ts` with Zod schemas
-  and one example entry each. Get schemas right here; backtracking later is
-  the main time sink.
-- [ ] **Phase 4 — Wire collections into the page** — Replace hardcoded section
-  content with `getCollection()`. Hero/Themes stay static.
+- [x] **Phase 3 — Content collections** *(2026-06-10)* — Six collections
+  (speakers, schedule, news, gallery, sponsors, faq) defined in
+  `src/content.config.ts` with Zod schemas and one example entry each. Astro
+  5 `glob` loader; Markdown for body-text collections (news, faq), YAML for
+  structured ones (speakers, schedule, gallery, sponsors). Every collection
+  carries an `order` number. Image fields are repo-relative `/images/...`
+  string paths (not Astro's `image()` helper) so Keystatic's path-based
+  uploads render directly — see config comments + Decision Log. `astro sync`
+  + `npm run build` green. Note: schedule, sponsors and faq have no markup in
+  the Pulse design yet (only speakers/news/gallery do); their sections arrive
+  in a later phase.
+- [x] **Phase 4 — Wire collections into the page** *(2026-06-10)* — Voices
+  (speakers, featured + by `order`), Articles (news, newest 3, non-draft) and
+  Gallery (gallery, by `order`, cycling the 7 bento layout slots) now render
+  from `getCollection()`. Hero/Themes/Conference stay static. Real `<img>`s
+  fill the existing image containers via three small `object-fit:cover` rules
+  added to `global.css`; speakers with no photo still show the `ImageSlot`
+  empty state, and news with no cover image fall back to the original
+  decorative SVG patterns. Shipped SVG placeholder assets under
+  `public/images/{gallery,sponsors}/` so the example entries render cleanly
+  instead of 404ing. `npm run build` green; data verified present in the built
+  HTML. Decision (with owner): the three collections lacking Pulse markup
+  (schedule, sponsors, faq) are deferred — they need net-new sections, built
+  later as a deliberate step.
 - [ ] **Phase 4b — News article pages** — `/news/[slug]` dynamic route, link
   homepage news cards.
 - [ ] **Phase 5 — Keystatic admin** — GitHub storage mode, `/keystatic` route,
@@ -62,6 +80,8 @@ remote build environment (403 / network allowlist).
 | 2026-06-10 | Defer form *submission* wiring until final host confirmed | Netlify Forms (planned) don't function on Vercel; avoid building twice |
 | 2026-06-10 | Working assumption: repo transfer happens *after* Keystatic setup (Phase 5); rework if needed | Transfer timing won't be known for a while; Phase 9 already captures the GitHub App re-install |
 | 2026-06-10 | Stay on Astro 5.x even though create-astro scaffolds 6.x | CLAUDE.md targets 5.x; Keystatic compatibility planned against 5. Revisit only if a dependency forces it |
+| 2026-06-10 | Image fields are repo-relative `/images/...` string paths, not Astro `image()` imports | Keystatic stores uploads to `public/images/` and writes back the path; string paths render directly and avoid import/optimization friction at handover. Static site gains nothing from `image()` here |
+| 2026-06-10 | Schedule `speaker` is free-text, not a `reference('speakers')` | Keeps schema simple now; can upgrade to a relationship field (with Keystatic relationship UI) later if cross-linking is wanted |
 
 ## Open questions
 
@@ -112,3 +132,29 @@ remote build environment (403 / network allowlist).
   normalising the two deviations; all 174 CSS selectors and 3 keyframes
   present in the bundle; dev server + build green. Paul deploying to Vercel
   to inspect visually.
+- **2026-06-10 (Phase 2 sign-off)** — Paul inspected the deploy; design
+  confirmed good. Phase 2 closed.
+- **2026-06-10 (Phase 3)** — Defined the six content collections in
+  `src/content.config.ts` (Astro 5 `glob` loader) with one example entry each
+  under `src/content/`. Markdown: `news`, `faq`. YAML: `speakers`, `schedule`,
+  `gallery`, `sponsors`. All carry `order`; `news` also has `publishDate`.
+  Decided image fields are `/images/...` string paths (not `image()`) and
+  schedule `speaker` stays free-text — both in the Decision Log, both to keep
+  the Keystatic mirror (Phase 5) simple. `astro sync` + `npm run build` green.
+  Final host still undefined (Open Question 1) — does not affect Phase 3.
+  Heads-up for Phase 4/5: schedule, sponsors and faq need new section markup
+  (no equivalent exists in the Pulse design); speakers→Voices, news→Articles,
+  gallery→Gallery already have markup to wire up. Branch:
+  `claude/charming-ride-y4bopq`.
+- **2026-06-10 (Phase 4)** — Wired speakers/news/gallery into the page via
+  `getCollection()` (Voices, Articles, Gallery). Decided WITH the owner to
+  defer the three collections without Pulse markup (schedule, sponsors, faq)
+  rather than invent sections speculatively — adding them is net-new design,
+  not a port, and partly the owner's call on whether/where they appear. Added
+  three `object-fit:cover` rules to `global.css` for real images in the
+  existing slots (kept the `ImageSlot` empty state and the decorative news
+  SVG patterns as fallbacks). Shipped obvious "replace me" SVG placeholders so
+  example gallery/sponsor entries render rather than 404. News cards are NOT
+  yet linked — the `/news/[slug]` route is Phase 4b; doing it then keeps the
+  link and its target landing together. Build green; section data confirmed in
+  the built HTML.

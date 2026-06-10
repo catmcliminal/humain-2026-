@@ -1,0 +1,8 @@
+name: Second Speaker
+role: Founder, an applied-AI research studio
+bio: >-
+  A second example speaker, not a keynote. Appears in the main lineup grid
+  below the keynotes, ordered by the `order` field.
+keynote: false
+featured: true
+order: 2

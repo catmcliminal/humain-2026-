@@ -36,6 +36,10 @@ const speakers = defineCollection({
     role: z.string(),
     photo: imagePath.optional(),
     bio: z.string().optional(),
+    // Keynote speakers lead the /voices lineup (pulled above the rest of the
+    // `order` and shown larger). Independent of `featured` — a speaker can be
+    // a keynote, homepage-featured, both, or neither.
+    keynote: z.boolean().default(false),
     // Surface on the homepage lineup vs. only on the full-lineup page.
     featured: z.boolean().default(false),
     order: z.number(),

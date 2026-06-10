@@ -1,10 +1,10 @@
 ---
 import { getCollection } from 'astro:content';
-import ImageSlot from './ImageSlot.astro';
+import SpeakerCard from './SpeakerCard.astro';
 import { featuredFirst } from '../utils/featured';
 
 // Homepage shows up to four speakers — featured first, then by `order` to fill.
-// The full lineup lives at /voices.
+// The full lineup (with keynotes pulled to the top) lives at /voices.
 const all = (await getCollection('speakers')).sort((a, b) => a.data.order - b.data.order);
 const speakers = featuredFirst(all, 4);
 ---
@@ -16,23 +16,7 @@ const speakers = featuredFirst(all, 4);
       <span class="sec-num">05 — Speakers</span>
     </div>
     <div class="voices">
-      {
-        speakers.map((s) => (
-          <div class="voice rv">
-            <div class="vp">
-              {
-                s.data.photo ? (
-                  <img src={s.data.photo} alt={s.data.name} loading="lazy" />
-                ) : (
-                  <ImageSlot placeholder="Speaker photo" />
-                )
-              }
-            </div>
-            <h4>{s.data.name}</h4>
-            <p set:html={s.data.role} />
-          </div>
-        ))
-      }
+      {speakers.map((s) => <SpeakerCard speaker={s} />)}
     </div>
     <div style="margin-top:30px;display:flex;gap:12px;align-items:center;flex-wrap:wrap">
       <a href="/voices" class="btn ghost">See the full lineup →</a><span class="mono" style="color:var(--ink-2)"

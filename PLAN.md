@@ -213,3 +213,13 @@ remote build environment (403 / network allowlist).
   (2) Fixed the Hero ticket-button copy "London '26" → "Sydney '26" (owner
   confirmed Sydney is correct; the source HTML had London). Build green, no
   "London" left in output.
+- **2026-06-10 (Keynote speakers)** — Added a `keynote` boolean to the
+  `speakers` schema, independent of `featured`. On `/voices`, keynotes are
+  pulled above the rest of the `order` into a larger 2-up row with a "Keynote"
+  badge; the remaining speakers follow in the standard grid. Homepage lineup is
+  unchanged (still featured-driven, uniform cards) — keynote emphasis is a
+  full-lineup concept only; a keynote shows on the homepage only if also
+  `featured`. Refactored the speaker card markup into a reusable
+  `SpeakerCard.astro` (used by the homepage section, the lineup grid and the
+  keynote variant). Example content now has two speakers (one keynote) to
+  exercise both paths. Build green.

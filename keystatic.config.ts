@@ -1,4 +1,5 @@
 import { config, fields, collection } from '@keystatic/core';
+import { block } from '@keystatic/core/content-components';
 import { CURRENT_EDITION_YEAR } from './src/config';
 
 /*
@@ -185,12 +186,24 @@ export default config({
         }),
         content: fields.markdoc({
           label: 'Article body',
-          extension: 'md',
           options: {
             image: {
               directory: 'public/images/news',
               publicPath: '/images/news/',
             },
+          },
+          components: {
+            video: block({
+              label: 'Video embed',
+              description: 'Embed a YouTube or Vimeo video',
+              schema: {
+                url: fields.text({
+                  label: 'Video URL',
+                  description: 'Paste a YouTube (youtu.be / watch?v=) or Vimeo URL',
+                  validation: { isRequired: true },
+                }),
+              },
+            }),
           },
         }),
       },

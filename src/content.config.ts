@@ -81,7 +81,7 @@ const schedule = defineCollection({
 
 // 04 — Media & articles ("Thinking out loud.") — body text, Markdown.
 const news = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/content/news' }),
+  loader: glob({ pattern: '**/*.mdoc', base: './src/content/news' }),
   schema: z.object({
     title: z.string(),
     // e.g. "Essay · The Taste Gap" — shown as the card category line.

@@ -1,6 +1,7 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
+import markdoc from '@astrojs/markdoc';
 import keystatic from '@keystatic/astro';
 import vercel from '@astrojs/vercel';
 
@@ -12,6 +13,6 @@ import vercel from '@astrojs/vercel';
  * `@astrojs/netlify` here and nowhere else.
  */
 export default defineConfig({
-  integrations: [react(), keystatic()],
+  integrations: [react(), markdoc(), keystatic()],
   adapter: vercel(),
 });

@@ -21,10 +21,13 @@ remote build environment (403 / network allowlist).
   5.18.2 (pinned to 5.x per CLAUDE.md; create-astro now defaults to 6.x),
   TypeScript strict, no UI framework. Dev server and production build both
   verified.
-- [ ] **Phase 2 — Port the Pulse design** — Source HTML is now in the repo at
-  `_source/humAIn - 06 Pulse.html`. BaseLayout + section components + extract
-  base64 images to `public/images/`. Must be visually identical before moving
-  on.
+- [x] **Phase 2 — Port the Pulse design** *(2026-06-10)* — BaseLayout + 14
+  section components + global stylesheet; hero waveform PNG extracted to
+  `public/images/humain-waveform.png`. Built output verified structurally
+  identical to the source body (node-for-node) and all CSS rules present in
+  the bundle. Two deliberate exclusions (see session notes): the fixed
+  design-variant switcher and the interactive `<image-slot>` mockup tooling.
+  **Pending: Paul's visual eyeball against the original in a browser.**
 - [ ] **Phase 3 — Content collections** — Six collections (speakers, schedule,
   news, gallery, sponsors, faq) in `src/content.config.ts` with Zod schemas
   and one example entry each. Get schemas right here; backtracking later is
@@ -83,3 +86,25 @@ remote build environment (403 / network allowlist).
   to `astro@^5.18.2` (the wizard now defaults to 6.x). Verified `npm run build`
   and the dev server serving on :4321. Resolved open questions 2–4 (see above).
   Branch: `claude/bold-feynman-r52x11`.
+- **2026-06-10 (Phase 2)** — Ported the Pulse design. Layout:
+  `src/layouts/BaseLayout.astro` owns head/fonts/global CSS and the two inline
+  scripts from the source (ECG pulse-band generator + scroll-reveal).
+  Components: Nav, Hero, About, Audience, PulseBand, Conference, Themes,
+  Articles, Voices, Gallery, Praise, Community, Newsletter, Footer. CSS lives
+  in `src/styles/global.css`, copied verbatim from the source style block.
+  Deliberate deviations from the source HTML, all mockup-tool artifacts rather
+  than site design:
+  - The fixed bottom "DIRECTION 01–06" switcher (links to five other variant
+    HTML files that aren't part of this project) was dropped, with its CSS.
+  - The ~650-line interactive `<image-slot>` drag-and-drop element (an
+    "omelette" design-tool component for filling mockup images) was replaced
+    by a static `ImageSlot.astro` that reproduces its empty-state appearance
+    (frame, icon, caption, dashed ring). Real images arrive via collections
+    in Phase 4. The editor-only "or browse files" line was not reproduced.
+  - The hero waveform (the page's only base64 image) is now
+    `public/images/humain-waveform.png` (1205×533).
+  Note: the source's reveal animation is effectively disabled (its CSS is
+  gated on an `html.pre` class the source never sets — "reveal disabled for
+  offline"); ported as-is. Verification: built body is node-for-node identical
+  to the source after normalising the two deviations; all 174 CSS selectors
+  and 3 keyframes present in the bundle; dev server + build green.

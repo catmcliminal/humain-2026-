@@ -1,0 +1,24 @@
+---
+/**
+ * Form markup only — submission is deliberately not wired up until the
+ * final host is confirmed (Netlify Forms don't work on Vercel). See
+ * PLAN.md Phase 6 before adding submission handling.
+ */
+---
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="news rv">
+      <div>
+        <h2>Get the signal,<br />not the noise.</h2>
+        <p>
+          One considered email a week on what AI is doing to creativity, brands and work — and what it can't touch.
+        </p>
+      </div>
+      <form class="nform" onsubmit="return false">
+        <input type="email" placeholder="you@studio.com" aria-label="Email" />
+        <button type="submit">Subscribe</button>
+      </form>
+    </div>
+  </div>
+</section>

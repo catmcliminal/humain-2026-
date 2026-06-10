@@ -1,0 +1,130 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+}
+
+const { title = 'humAIn — Pulse' } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,500&family=Archivo+Expanded:wght@500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <slot />
+    <script is:inline>
+      /* ---- heartbeat / ECG generator ---- */
+      function wavePath(w, H) {
+        const U = 340,
+          b = H * 0.55,
+          a = H * 0.4;
+        // logo silhouette: shoulder → subtle notch → tall W (peak, deep V, peak) → elevated plateau → descend
+        const pat = [
+          [0, 0],
+          [0.13, -0.2],
+          [0.18, -0.12],
+          [0.225, -0.24],
+          [0.3, -1.0],
+          [0.39, 0.28],
+          [0.48, -1.0],
+          [0.57, -0.08],
+          [0.64, -0.5],
+          [0.86, -0.56],
+          [1, 0],
+        ];
+        let d = '',
+          first = true;
+        for (let x0 = -U * 0.2; x0 < w + U; x0 += U) {
+          for (let i = 0; i < pat.length; i++) {
+            const x = x0 + pat[i][0] * U,
+              y = b + pat[i][1] * a;
+            if (first) {
+              d += 'M' + x.toFixed(1) + ' ' + y.toFixed(1);
+              first = false;
+            } else d += 'L' + x.toFixed(1) + ' ' + y.toFixed(1);
+          }
+        }
+        return d;
+      }
+      function buildPulses() {
+        document.querySelectorAll('.pulse-band').forEach((band) => {
+          const svg = band.querySelector('svg');
+          const w = Math.max(band.clientWidth, 320);
+          const H = +band.dataset.h || 120;
+          svg.setAttribute('viewBox', '0 0 ' + w + ' ' + H);
+          const d = wavePath(w, H);
+          svg.querySelectorAll('path').forEach((p) => p.setAttribute('d', d));
+          const grad = svg.querySelector('#pgrad');
+          if (grad) grad.setAttribute('x2', w);
+        });
+      }
+      buildPulses();
+      let rt;
+      addEventListener('resize', () => {
+        clearTimeout(rt);
+        rt = setTimeout(buildPulses, 150);
+      });
+
+      /* ---- reveal ---- */
+      const rvs = [...document.querySelectorAll('.rv')];
+      rvs.forEach((el, i) => {
+        el.style.transitionDelay = Math.min(i % 3, 3) * 70 + 'ms';
+      });
+      let frames = 0,
+        settled = false;
+      function settle(animate) {
+        if (settled) return;
+        settled = true;
+        if (!animate) {
+          rvs.forEach((el) => {
+            el.style.transition = 'none';
+            el.style.opacity = '1';
+            el.style.transform = 'none';
+          });
+          document.documentElement.classList.remove('pre');
+          return;
+        }
+        const io = new IntersectionObserver(
+          (es) => {
+            es.forEach((e) => {
+              if (e.isIntersecting) {
+                e.target.classList.add('in');
+                io.unobserve(e.target);
+              }
+            });
+          },
+          { threshold: 0.1, rootMargin: '0px 0px -8% 0px' }
+        );
+        rvs.forEach((el) => {
+          const r = el.getBoundingClientRect();
+          if (r.top < innerHeight * 0.95) {
+            el.classList.add('in');
+          } else {
+            io.observe(el);
+          }
+        });
+      }
+      function probe() {
+        frames++;
+        if (frames >= 4) {
+          settle(true);
+        } else {
+          requestAnimationFrame(probe);
+        }
+      }
+      requestAnimationFrame(probe);
+      setTimeout(() => settle(false), 250);
+    </script>
+  </body>
+</html>

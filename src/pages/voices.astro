@@ -1,0 +1,44 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import PageHeader from '../components/PageHeader.astro';
+import ImageSlot from '../components/ImageSlot.astro';
+
+const speakers = (await getCollection('speakers')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout title="The full lineup — humAIn">
+  <Nav />
+  <main>
+    <PageHeader
+      secNum="05 — Speakers"
+      title="The full&nbsp;lineup."
+      lede="Every voice taking the humAIn stage — builders, founders, leaders and critics, in the order they appear. More are still being announced."
+    />
+    <section style="padding-top:48px">
+      <div class="wrap">
+        <div class="voices">
+          {
+            speakers.map((s) => (
+              <div class="voice rv">
+                <div class="vp">
+                  {s.data.photo ? (
+                    <img src={s.data.photo} alt={s.data.name} loading="lazy" />
+                  ) : (
+                    <ImageSlot placeholder="Speaker photo" />
+                  )}
+                </div>
+                <h4>{s.data.name}</h4>
+                <p set:html={s.data.role} />
+                {s.data.bio && <p class="voice-bio">{s.data.bio}</p>}
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>

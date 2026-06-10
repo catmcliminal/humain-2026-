@@ -1,0 +1,39 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import PageHeader from '../components/PageHeader.astro';
+
+// The bento layout repeats every seven tiles, so any number of images tiles
+// cleanly in the same Pulse rhythm.
+const tileClasses = ['g-a', 'g-b', 'g-c', 'g-d', 'g-e', 'g-f', 'g-g'];
+
+const images = (await getCollection('gallery')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout title="Gallery — humAIn">
+  <Nav />
+  <main>
+    <PageHeader
+      secNum="06 — Gallery"
+      title="Scenes from the&nbsp;floor."
+      lede="The room, the stage and the after-hours — moments from humAIn, end to end."
+    />
+    <section style="padding-top:48px">
+      <div class="wrap">
+        <div class="gal rv">
+          {
+            images.map((img, i) => (
+              <div class={`gtile ${tileClasses[i % tileClasses.length]}`}>
+                {img.data.caption && <span class="cap">{img.data.caption}</span>}
+                <img src={img.data.image} alt={img.data.alt} loading="lazy" />
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>

@@ -60,6 +60,20 @@ remote build environment (403 / network allowlist).
   articles; Nav anchors changed to root-relative (`/#...`) so they work from
   article pages. "Browse all media →" still points at `#` — a /news index
   page wasn't in scope; decide later whether it's wanted.
+- [x] **Phase 4c — Full-list pages + featured curation** *(2026-06-10)* —
+  Built `/voices`, `/news` (index) and `/gallery`: each pulls its collection,
+  has Pulse-idiom flavour copy via a shared `PageHeader.astro`, and reuses the
+  homepage card/grid styles. The three section "See all" CTAs now link to
+  them. Added a `featured` boolean to the `news` and `gallery` schemas
+  (`speakers` already had one); homepage sections now select **featured first,
+  then fill** — to 3 (news, newest-first fill), 7 (gallery, by `order`) and 4
+  (speakers, by `order`) — via shared `src/utils/featured.ts`. This also fixes
+  a latent trap where the homepage gallery rendered *every* image. Ticketing
+  CTAs (Nav, Hero, Conference) now read from a single `TICKET_URL` in
+  `src/config.ts` (placeholder `#conference` until the off-site URL is known;
+  auto-adds target/rel when it becomes external). `npm run build` green — 5
+  routes. Out of scope, deliberately left: Community "Register interest"
+  (Phase 6 forms) and footer links (per owner).
 - [ ] **Phase 5 — Keystatic admin** — GitHub storage mode, `/keystatic` route,
   schemas mirroring the Zod ones. Needs server adapter (`@astrojs/vercel` for
   now). Keystatic GitHub App install + env vars (placeholders only).
@@ -88,6 +102,9 @@ remote build environment (403 / network allowlist).
 | 2026-06-10 | Stay on Astro 5.x even though create-astro scaffolds 6.x | CLAUDE.md targets 5.x; Keystatic compatibility planned against 5. Revisit only if a dependency forces it |
 | 2026-06-10 | Image fields are repo-relative `/images/...` string paths, not Astro `image()` imports | Keystatic stores uploads to `public/images/` and writes back the path; string paths render directly and avoid import/optimization friction at handover. Static site gains nothing from `image()` here |
 | 2026-06-10 | Schedule `speaker` is free-text, not a `reference('speakers')` | Keeps schema simple now; can upgrade to a relationship field (with Keystatic relationship UI) later if cross-linking is wanted |
+| 2026-06-10 | Homepage curation = "featured first, then fill" (news→3, gallery→7, speakers→4) | Owner wants to pin items but the homepage must never look empty or overflow; unflagged items fill remaining slots by date/order. Speakers given the same rule for consistency + to avoid an empty section |
+| 2026-06-10 | Reordering is via a numeric `order` field in Keystatic, not drag-and-drop | One-file-per-entry collections can't be drag-reordered in Keystatic; numeric order is the robust, standard handover pattern |
+| 2026-06-10 | Ticketing links off-site via a single `TICKET_URL` constant (`src/config.ts`) | Owner confirmed ticketing is external; URL not finalised, so placeholder `#conference` now, one-line swap later. Auto-adds `target=_blank`/rel when external |
 
 ## Open questions
 
@@ -175,3 +192,19 @@ remote build environment (403 / network allowlist).
   now `/#...` so they resolve from /news/ pages. Dates render en-AU ("20 May
   2026"). Open: no /news index page yet — "Browse all media →" remains `#`.
   Build green: index + 1 article page generated, card href verified.
+- **2026-06-10 (Phase 4c)** — Built the three full-list pages (`/voices`,
+  `/news`, `/gallery`) the section CTAs were missing, in the design style with
+  flavour copy (shared `PageHeader.astro`) and the existing card/grid CSS.
+  Added a `featured` flag to news + gallery (speakers already had one) and a
+  shared `featuredFirst()` helper so homepage sections show featured-first then
+  fill (news 3 / gallery 7 / speakers 4) — confirmed with the owner via two
+  quick choices. Centralised ticketing in `src/config.ts` (`TICKET_URL`,
+  placeholder until the off-site link is provided) and wired Nav/Hero/
+  Conference CTAs to it. Set `featured: true` on the example news + gallery
+  entries to demonstrate the field. Build green (5 routes); homepage and list
+  pages verified to render collection data and correct CTA hrefs. Note for
+  later: footer "Tickets"/"Speakers" links and the Community "Register
+  interest" form CTA were left as-is (footer excluded by owner; the form is
+  Phase 6). Also unchanged: a pre-existing source copy mismatch — the Hero
+  ticket button still says "London '26" while Conference says Sydney; flag for
+  a content pass.

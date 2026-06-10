@@ -238,6 +238,15 @@ image-slot .is-empty svg{opacity:.45}
 image-slot .is-cap{max-width:90%;font-weight:500;letter-spacing:.01em}
 image-slot .is-ring{position:absolute;inset:0;pointer-events:none;border:1.5px dashed rgba(0,0,0,.25)}
 
+/* ---------- full-list page headers (/voices, /news, /gallery — added when
+   the section "See all" CTAs got real destinations; Pulse idiom) ---------- */
+.page-head{padding:76px 0 0}
+.page-head .eyebrow{margin-bottom:22px}
+.page-head h1{font-family:var(--disp);font-weight:800;font-size:clamp(40px,7vw,92px);line-height:.95;letter-spacing:-.025em;text-wrap:balance}
+.page-head .lede{max-width:640px;margin-top:24px;font-size:clamp(16px,1.5vw,19px);line-height:1.55;color:var(--ink-2)}
+/* Optional speaker bio on the full lineup. */
+.voice-bio{margin-top:8px;font-size:13px;line-height:1.5;color:var(--ink-2);opacity:.85}
+
 /* ---------- news article pages (added Phase 4b; not in the source design,
    which was a single page — styled in the Pulse idiom) ---------- */
 .article-page{padding:72px 0 96px}

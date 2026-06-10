@@ -1,3 +1,10 @@
+---
+import { TICKET_URL, TICKET_IS_EXTERNAL } from '../config';
+
+const ticketTarget = TICKET_IS_EXTERNAL ? '_blank' : undefined;
+const ticketRel = TICKET_IS_EXTERNAL ? 'noopener noreferrer' : undefined;
+---
+
 <section id="conference">
   <div class="wrap">
     <div class="conf">
@@ -38,8 +45,10 @@
             <div class="tp">$790</div>
           </div>
           <a
-            href="#"
+            href={TICKET_URL}
             class="btn"
+            target={ticketTarget}
+            rel={ticketRel}
             style="margin-top:8px;justify-content:center;background:var(--yellow);color:var(--ink);border-color:var(--yellow)"
             >Secure your seat →</a
           >

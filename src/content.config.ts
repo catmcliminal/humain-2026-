@@ -73,6 +73,9 @@ const news = defineCollection({
     // e.g. "9 min read" / "Podcast · 41 min" — free text from the design.
     readingTime: z.string().optional(),
     coverImage: imagePath.optional(),
+    // Pin to the homepage Media section. Unflagged articles still appear there
+    // (newest first) until the three slots are full, and always on /news.
+    featured: z.boolean().default(false),
     draft: z.boolean().default(false),
   }),
 });
@@ -84,6 +87,9 @@ const gallery = defineCollection({
     image: imagePath,
     alt: z.string(),
     caption: z.string().optional(), // overlaid label, e.g. "Main stage · 2025"
+    // Pin to the homepage gallery (the 7-tile bento). Unflagged images fill any
+    // remaining slots by `order`, and all images appear on /gallery.
+    featured: z.boolean().default(false),
     order: z.number(),
   }),
 });

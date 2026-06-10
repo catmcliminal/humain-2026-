@@ -1,12 +1,14 @@
 ---
 import { getCollection } from 'astro:content';
+import { featuredFirst } from '../utils/featured';
 
 // The Pulse design is a 7-tile bento grid (g-a … g-g, each a fixed span).
-// We map gallery entries onto those layout slots in `order`; if an editor adds
-// more than seven images the layout classes cycle so the grid still tiles.
+// Homepage shows seven images — featured first, then by `order` to fill — so it
+// stays a tidy bento no matter how many photos exist. The rest live at /gallery.
 const tileClasses = ['g-a', 'g-b', 'g-c', 'g-d', 'g-e', 'g-f', 'g-g'];
 
-const images = (await getCollection('gallery')).sort((a, b) => a.data.order - b.data.order);
+const all = (await getCollection('gallery')).sort((a, b) => a.data.order - b.data.order);
+const images = featuredFirst(all, 7);
 ---
 
 <section id="gallery" style="padding-top:0">
@@ -25,6 +27,6 @@ const images = (await getCollection('gallery')).sort((a, b) => a.data.order - b.
         ))
       }
     </div>
-    <div style="margin-top:26px"><a href="#" class="btn ghost">See the full gallery →</a></div>
+    <div style="margin-top:26px"><a href="/gallery" class="btn ghost">See the full gallery →</a></div>
   </div>
 </section>

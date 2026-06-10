@@ -1,5 +1,9 @@
 ---
 import PulseBand from './PulseBand.astro';
+import { TICKET_URL, TICKET_IS_EXTERNAL } from '../config';
+
+const ticketTarget = TICKET_IS_EXTERNAL ? '_blank' : undefined;
+const ticketRel = TICKET_IS_EXTERNAL ? 'noopener noreferrer' : undefined;
 ---
 
 <header class="hero">
@@ -14,7 +18,9 @@ import PulseBand from './PulseBand.astro';
           practice.
         </p>
         <div class="hero-cta">
-          <a href="#conference" class="btn"><span class="dot"></span>Get tickets — London '26</a>
+          <a href={TICKET_URL} class="btn" target={ticketTarget} rel={ticketRel}
+            ><span class="dot"></span>Get tickets — London '26</a
+          >
           <a href="#articles" class="btn ghost">Read the media →</a>
         </div>
       </div>

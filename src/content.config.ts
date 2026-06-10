@@ -1,0 +1,114 @@
+import { defineCollection, z } from 'astro:content';
+import { glob } from 'astro/loaders';
+
+/*
+ * Content collections for the humAIn site.
+ *
+ * IMPORTANT (handover): these Zod schemas are one of TWO sources of truth.
+ * The Keystatic field schemas in `keystatic.config.ts` (Phase 5) must mirror
+ * these exactly. When you change a field here, change it there too.
+ *
+ * Conventions (see CLAUDE.md):
+ *  - Markdown (frontmatter + body) for body-text collections: `news`, `faq`.
+ *  - YAML data files for structured collections: `speakers`, `schedule`,
+ *    `gallery`, `sponsors`.
+ *  - Every collection has an `order` number so editors control display
+ *    sequence without touching code. `news` also sorts by `publishDate`.
+ *  - Image fields are repo-relative URL strings under `public/images/...`
+ *    (e.g. `/images/speakers/jane-doe.jpg`). Keystatic stores uploads there
+ *    and writes back the path, so the value is render-ready as an <img src>.
+ *    We intentionally do NOT use Astro's `image()` helper: it expects local
+ *    imports and would fight Keystatic's path-based image handling, adding
+ *    handover fragility for no visual gain on this static site.
+ */
+
+// Reusable: an optional repo-relative image path under /images/...
+const imagePath = z
+  .string()
+  .startsWith('/images/', { message: 'Image path must start with /images/' });
+
+// 05 — Speakers ("The voices.") — structured, YAML, one file per speaker.
+const speakers = defineCollection({
+  loader: glob({ pattern: '**/*.yaml', base: './src/content/speakers' }),
+  schema: z.object({
+    name: z.string(),
+    // e.g. "Creative Director, an agency exploring generative workflows"
+    role: z.string(),
+    photo: imagePath.optional(),
+    bio: z.string().optional(),
+    // Surface on the homepage lineup vs. only on the full-lineup page.
+    featured: z.boolean().default(false),
+    order: z.number(),
+  }),
+});
+
+// Schedule / agenda — structured, YAML, one file per session.
+// (No section in the Pulse design yet; markup arrives with a later phase.)
+const schedule = defineCollection({
+  loader: glob({ pattern: '**/*.yaml', base: './src/content/schedule' }),
+  schema: z.object({
+    title: z.string(),
+    // The two conference days: 13–14 Oct 2026, Sydney.
+    day: z.enum(['2026-10-13', '2026-10-14']),
+    startTime: z.string(), // "09:30"
+    endTime: z.string().optional(),
+    stage: z.string().optional(), // e.g. "Main stage", "Workshop room"
+    // Free-text speaker name(s) for now; can become a reference later.
+    speaker: z.string().optional(),
+    description: z.string().optional(),
+    order: z.number(),
+  }),
+});
+
+// 04 — Media & articles ("Thinking out loud.") — body text, Markdown.
+const news = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/news' }),
+  schema: z.object({
+    title: z.string(),
+    // e.g. "Essay · The Taste Gap" — shown as the card category line.
+    category: z.string(),
+    description: z.string(),
+    publishDate: z.coerce.date(),
+    author: z.string().default('the humAIn desk'),
+    // e.g. "9 min read" / "Podcast · 41 min" — free text from the design.
+    readingTime: z.string().optional(),
+    coverImage: imagePath.optional(),
+    draft: z.boolean().default(false),
+  }),
+});
+
+// 06 — Gallery ("Scenes from the floor.") — structured, YAML, one file per image.
+const gallery = defineCollection({
+  loader: glob({ pattern: '**/*.yaml', base: './src/content/gallery' }),
+  schema: z.object({
+    image: imagePath,
+    alt: z.string(),
+    caption: z.string().optional(), // overlaid label, e.g. "Main stage · 2025"
+    order: z.number(),
+  }),
+});
+
+// Sponsors / partners — structured, YAML, one file per sponsor.
+// (No section in the Pulse design yet; markup arrives with a later phase.)
+const sponsors = defineCollection({
+  loader: glob({ pattern: '**/*.yaml', base: './src/content/sponsors' }),
+  schema: z.object({
+    name: z.string(),
+    logo: imagePath,
+    url: z.string().url().optional(),
+    tier: z.enum(['headline', 'partner', 'supporter', 'community']),
+    order: z.number(),
+  }),
+});
+
+// FAQ — body text (the answer is Markdown), one file per question.
+const faq = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/faq' }),
+  schema: z.object({
+    question: z.string(),
+    category: z.string().optional(), // e.g. "Tickets", "Travel"
+    order: z.number(),
+  }),
+});
+
+export const collections = { speakers, schedule, news, gallery, sponsors, faq };

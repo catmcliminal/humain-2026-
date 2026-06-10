@@ -205,6 +205,11 @@ remote build environment (403 / network allowlist).
   pages verified to render collection data and correct CTA hrefs. Note for
   later: footer "Tickets"/"Speakers" links and the Community "Register
   interest" form CTA were left as-is (footer excluded by owner; the form is
-  Phase 6). Also unchanged: a pre-existing source copy mismatch — the Hero
-  ticket button still says "London '26" while Conference says Sydney; flag for
-  a content pass.
+  Phase 6).
+- **2026-06-10 (follow-ups)** — Per owner: (1) wired the footer's Tickets →
+  `TICKET_URL`, Speakers → `/voices` and Articles → `/news` (the latter for the
+  same consistency reason, since the page now exists); other footer links
+  (Programme, Sponsor, Podcast, etc.) have no destinations yet and stay `#`.
+  (2) Fixed the Hero ticket-button copy "London '26" → "Sydney '26" (owner
+  confirmed Sydney is correct; the source HTML had London). Build green, no
+  "London" left in output.

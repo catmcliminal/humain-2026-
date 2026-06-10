@@ -2,10 +2,13 @@
 import { getCollection } from 'astro:content';
 import SpeakerCard from './SpeakerCard.astro';
 import { featuredFirst } from '../utils/featured';
+import { currentEdition } from '../utils/edition';
 
 // Homepage shows up to four speakers — featured first, then by `order` to fill.
 // The full lineup (with keynotes pulled to the top) lives at /voices.
-const all = (await getCollection('speakers')).sort((a, b) => a.data.order - b.data.order);
+const all = currentEdition(await getCollection('speakers')).sort(
+  (a, b) => a.data.order - b.data.order
+);
 const speakers = featuredFirst(all, 4);
 ---
 

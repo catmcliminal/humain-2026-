@@ -5,10 +5,13 @@ import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import PageHeader from '../components/PageHeader.astro';
 import SpeakerCard from '../components/SpeakerCard.astro';
+import { currentEdition } from '../utils/edition';
 
 // Keynotes lead the lineup (shown larger, above the rest), with the remaining
 // speakers below. Both groups keep their own `order`.
-const all = (await getCollection('speakers')).sort((a, b) => a.data.order - b.data.order);
+const all = currentEdition(await getCollection('speakers')).sort(
+  (a, b) => a.data.order - b.data.order
+);
 const keynotes = all.filter((s) => s.data.keynote);
 const rest = all.filter((s) => !s.data.keynote);
 ---

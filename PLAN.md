@@ -105,6 +105,8 @@ remote build environment (403 / network allowlist).
 | 2026-06-10 | Homepage curation = "featured first, then fill" (news→3, gallery→7, speakers→4) | Owner wants to pin items but the homepage must never look empty or overflow; unflagged items fill remaining slots by date/order. Speakers given the same rule for consistency + to avoid an empty section |
 | 2026-06-10 | Reordering is via a numeric `order` field in Keystatic, not drag-and-drop | One-file-per-entry collections can't be drag-reordered in Keystatic; numeric order is the robust, standard handover pattern |
 | 2026-06-10 | Ticketing links off-site via a single `TICKET_URL` constant (`src/config.ts`) | Owner confirmed ticketing is external; URL not finalised, so placeholder `#conference` now, one-line swap later. Auto-adds `target=_blank`/rel when external |
+| 2026-06-10 | `keynote` flag on speakers, separate from `featured` | Owner wants keynotes larger + atop the /voices lineup, independent of homepage curation |
+| 2026-06-10 | Year-to-year content modelled with BOTH `active` (bool) and `year` (number) on speakers/schedule/sponsors; live site shows `active && year===CURRENT_EDITION_YEAR` | Owner wants lossless yearly swaps + the option of past-year archives. One `CURRENT_EDITION_YEAR` constant (src/config.ts) rolls the site over; old entries persist as data |
 
 ## Open questions
 
@@ -223,3 +225,18 @@ remote build environment (403 / network allowlist).
   `SpeakerCard.astro` (used by the homepage section, the lineup grid and the
   keynote variant). Example content now has two speakers (one keynote) to
   exercise both paths. Build green.
+- **2026-06-10 (Edition / archive fields)** — Confirmed Keystatic has no native
+  "inactive/archive" state; modelled it as schema fields instead (data stays in
+  the repo, just stops rendering — same idea as news `draft`). Owner chose
+  "both": added `active` (boolean, default true) and `year` (number, default
+  `CURRENT_EDITION_YEAR`) to speakers, schedule and sponsors via a shared
+  `editionFields` fragment. New `CURRENT_EDITION_YEAR` constant in
+  `src/config.ts` (2026) is the single roll-over switch. `currentEdition()`
+  helper (`src/utils/edition.ts`) filters to `active && year===current`; wired
+  into the homepage Voices and `/voices` (the only rendered rotating
+  collection so far). Example speakers/schedule/sponsor entries set
+  `active: true`, `year: 2026`. Build green.
+  Two follow-ups for later: (a) Phase 5 Keystatic must mirror `keynote`,
+  `active` (default checked) and `year` (default current); (b) the schedule
+  `day` enum is still 2026-specific — revisit when the schedule section is
+  built, so it doesn't fight the `year` field.

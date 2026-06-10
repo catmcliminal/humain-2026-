@@ -3,3 +3,5 @@ logo: /images/sponsors/example-sponsor.svg
 url: https://example.com
 tier: headline
 order: 1
+active: true
+year: 2026

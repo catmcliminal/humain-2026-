@@ -11,3 +11,11 @@ export const TICKET_URL = '#conference';
 
 /** True when TICKET_URL is an external link (so we add target/rel). */
 export const TICKET_IS_EXTERNAL = /^https?:\/\//.test(TICKET_URL);
+
+/**
+ * The edition currently being promoted. The live site shows only entries whose
+ * `year` matches this (and that are `active`); past years stay in the repo as
+ * data and can power archive views later. Bump this one number to roll the
+ * site over to the next edition — new entries default to this year.
+ */
+export const CURRENT_EDITION_YEAR = 2026;

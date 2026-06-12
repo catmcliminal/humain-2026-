@@ -26,7 +26,7 @@ import { CURRENT_EDITION_YEAR } from './src/config';
 export default config({
   storage: {
     kind: 'github',
-    repo: 'rightothen/humain-site',
+    repo: 'catmcliminal/humain-2026-',
   },
   ui: {
     brand: { name: 'humAIn' },

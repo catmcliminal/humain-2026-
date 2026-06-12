@@ -1,0 +1,77 @@
+---
+import { TICKET_URL, TICKET_IS_EXTERNAL } from '../config';
+
+const ticketTarget = TICKET_IS_EXTERNAL ? '_blank' : undefined;
+const ticketRel = TICKET_IS_EXTERNAL ? 'noopener noreferrer' : undefined;
+
+const tickets = [
+  {
+    name: 'Conference only',
+    days: 'Day one only',
+    earlyPrice: '$595',
+    standardPrice: '$745',
+    saving: '$150',
+    color: 'var(--blue)',
+    featured: false,
+  },
+  {
+    name: 'Conference + Workshop',
+    days: 'Both days',
+    earlyPrice: '$795',
+    standardPrice: '$995',
+    saving: '$200',
+    color: 'var(--pink)',
+    featured: true,
+  },
+  {
+    name: 'Workshop only',
+    days: 'Day two only',
+    earlyPrice: '$475',
+    standardPrice: '$595',
+    saving: '$120',
+    color: 'var(--orange)',
+    featured: false,
+  },
+];
+---
+
+<section id="tickets">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 class="rv">Tickets.</h2>
+      <span class="sec-num">03 — Join us</span>
+    </div>
+
+    <div class="tix-early-banner rv">
+      <span class="tix-early-dot"></span>
+      Register before <strong>25 August</strong> to save on all ticket types
+    </div>
+
+    <div class="tix-grid">
+      {tickets.map((t) => (
+        <div class:list={['tix-card', 'rv', { 'tix-feat': t.featured }]} style={`--tc:${t.color}`}>
+          <div class="tix-top">
+            <div class="tix-name">{t.name}</div>
+            <div class="tix-days">{t.days}</div>
+          </div>
+          <div class="tix-pricing">
+            <div class="tix-price">
+              <span class="tix-amount">{t.earlyPrice}</span>
+              <span class="tix-gst">+ gst</span>
+            </div>
+            <div class="tix-save">Save {t.saving} · Early bird</div>
+            <div class="tix-standard">Standard price {t.standardPrice} + gst</div>
+          </div>
+          <a
+            href={TICKET_URL}
+            class="btn tix-btn"
+            target={ticketTarget}
+            rel={ticketRel}
+          >
+            Register now →
+          </a>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

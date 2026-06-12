@@ -281,3 +281,35 @@ image-slot .is-ring{position:absolute;inset:0;pointer-events:none;border:1.5px d
 .article-body hr{border:none;border-top:1px solid var(--line);margin:2em 0}
 .article-body code{font-family:var(--mono);font-size:.85em;background:var(--panel-2);padding:2px 6px;border-radius:5px}
 .article-end{margin-top:48px;padding-top:32px;border-top:1px solid var(--line)}
+
+/* Audience stats */
+.aud-stats{margin-top:40px;background:var(--panel);border:1px solid var(--line-2);border-radius:16px;padding:32px 36px;display:flex;align-items:center;gap:40px;flex-wrap:wrap}
+.aud-stat-label{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);flex-shrink:0}
+.aud-stats-grid{display:flex;gap:48px;flex-wrap:wrap}
+.aud-stat{display:flex;flex-direction:column;gap:4px}
+.aud-stat-num{font-family:var(--disp);font-weight:800;font-size:42px;letter-spacing:-.03em;line-height:1;color:var(--pink)}
+.aud-stat-desc{font-size:14px;color:var(--ink-2);max-width:200px}
+@media(max-width:600px){.aud-stats{flex-direction:column;gap:20px}.aud-stats-grid{gap:28px}}
+
+/* Tickets */
+#tickets{padding-top:80px;padding-bottom:80px}
+.tix-early-banner{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--ink-2);margin-bottom:36px;padding:14px 20px;background:var(--panel);border:1px solid var(--line-2);border-radius:10px;width:fit-content}
+.tix-early-dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);flex-shrink:0;animation:pulse 1.6s infinite}
+.tix-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;align-items:start}
+.tix-card{background:var(--panel);border:1px solid var(--line-2);border-radius:16px;padding:32px 28px;display:flex;flex-direction:column;gap:20px;transition:.25s;position:relative;overflow:hidden}
+.tix-card::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:var(--tc)}
+.tix-card:hover{background:var(--panel-2);transform:translateY(-4px)}
+.tix-feat{border-color:var(--tc);box-shadow:0 0 0 1px var(--tc)}
+.tix-top{display:flex;flex-direction:column;gap:6px}
+.tix-name{font-family:var(--disp);font-weight:800;font-size:20px;letter-spacing:-.01em}
+.tix-days{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2)}
+.tix-pricing{display:flex;flex-direction:column;gap:6px}
+.tix-price{display:flex;align-items:baseline;gap:4px}
+.tix-amount{font-family:var(--disp);font-weight:800;font-size:40px;letter-spacing:-.03em;line-height:1;color:var(--tc)}
+.tix-gst{font-size:13px;color:var(--ink-2)}
+.tix-save{font-size:13px;font-weight:600;color:var(--green)}
+.tix-standard{font-size:13px;color:var(--ink-2);text-decoration:line-through;opacity:.7}
+.tix-btn{justify-content:center;border-color:var(--tc);color:var(--tc)}
+.tix-feat .tix-btn{background:var(--tc);border-color:var(--tc);color:#fff}
+.tix-btn:hover{background:var(--tc)!important;border-color:var(--tc)!important;color:#fff!important}
+@media(max-width:900px){.tix-grid{grid-template-columns:1fr}}

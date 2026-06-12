@@ -4,10 +4,8 @@ Living tracker for the migration of the Pulse (06) static HTML design into
 Astro + Keystatic. Claude Code updates this file as work progresses — keep the
 checkboxes, decision log, and open questions current. One phase per session.
 
-**Source design:** `humAIn - 06 Pulse.html` (hand-built single page, previously
-at https://gorgeous-kitsune-b00abd.netlify.app/). The HTML file must be provided
-in the session that runs Phase 2 — the live URL is not reachable from the
-remote build environment (403 / network allowlist).
+**Source design:** `humAIn - 06 Pulse.html` (hand-built single page, committed
+at `_source/humAIn - 06 Pulse.html`).
 
 ---
 
@@ -18,276 +16,93 @@ remote build environment (403 / network allowlist).
   - Deviation from original plan: repo is in Paul's account, not the site
     owner's; hosting starts on Vercel, not Netlify. See Decision Log.
 - [x] **Phase 1 — Scaffold Astro** *(2026-06-10)* — Minimal template, Astro
-  5.18.2 (pinned to 5.x per CLAUDE.md; create-astro now defaults to 6.x),
-  TypeScript strict, no UI framework. Dev server and production build both
-  verified.
+  5.18.2 (later upgraded to 6.x). TypeScript strict, no UI framework. Dev
+  server and production build verified.
 - [x] **Phase 2 — Port the Pulse design** *(2026-06-10)* — BaseLayout + 14
   section components + global stylesheet; hero waveform PNG extracted to
-  `public/images/humain-waveform.png`. Built output verified structurally
-  identical to the source body (node-for-node) and all CSS rules present in
-  the bundle. Two deliberate exclusions (see session notes): the fixed
-  design-variant switcher and the interactive `<image-slot>` mockup tooling.
-  **Pending: Paul's visual eyeball against the original in a browser.**
+  `public/images/humain-waveform.png`. Design confirmed good by Paul.
 - [x] **Phase 3 — Content collections** *(2026-06-10)* — Six collections
   (speakers, schedule, news, gallery, sponsors, faq) defined in
-  `src/content.config.ts` with Zod schemas and one example entry each. Astro
-  5 `glob` loader; Markdown for body-text collections (news, faq), YAML for
-  structured ones (speakers, schedule, gallery, sponsors). Every collection
-  carries an `order` number. Image fields are repo-relative `/images/...`
-  string paths (not Astro's `image()` helper) so Keystatic's path-based
-  uploads render directly — see config comments + Decision Log. `astro sync`
-  + `npm run build` green. Note: schedule, sponsors and faq have no markup in
-  the Pulse design yet (only speakers/news/gallery do); their sections arrive
-  in a later phase.
-- [x] **Phase 4 — Wire collections into the page** *(2026-06-10)* — Voices
-  (speakers, featured + by `order`), Articles (news, newest 3, non-draft) and
-  Gallery (gallery, by `order`, cycling the 7 bento layout slots) now render
-  from `getCollection()`. Hero/Themes/Conference stay static. Real `<img>`s
-  fill the existing image containers via three small `object-fit:cover` rules
-  added to `global.css`; speakers with no photo still show the `ImageSlot`
-  empty state, and news with no cover image fall back to the original
-  decorative SVG patterns. Shipped SVG placeholder assets under
-  `public/images/{gallery,sponsors}/` so the example entries render cleanly
-  instead of 404ing. `npm run build` green; data verified present in the built
-  HTML. Decision (with owner): the three collections lacking Pulse markup
-  (schedule, sponsors, faq) are deferred — they need net-new sections, built
-  later as a deliberate step.
-- [x] **Phase 4b — News article pages** *(2026-06-10)* — `/news/[slug]`
-  static route (one page per non-draft news entry, slug = filename). Article
-  layout styled in the Pulse idiom (new `.article-*` CSS appended to
-  `global.css`; the source design was single-page so this is net-new but
-  visually consistent). Homepage news cards are now whole-card links to their
-  articles; Nav anchors changed to root-relative (`/#...`) so they work from
-  article pages. "Browse all media →" still points at `#` — a /news index
-  page wasn't in scope; decide later whether it's wanted.
-- [x] **Phase 4c — Full-list pages + featured curation** *(2026-06-10)* —
-  Built `/voices`, `/news` (index) and `/gallery`: each pulls its collection,
-  has Pulse-idiom flavour copy via a shared `PageHeader.astro`, and reuses the
-  homepage card/grid styles. The three section "See all" CTAs now link to
-  them. Added a `featured` boolean to the `news` and `gallery` schemas
-  (`speakers` already had one); homepage sections now select **featured first,
-  then fill** — to 3 (news, newest-first fill), 7 (gallery, by `order`) and 4
-  (speakers, by `order`) — via shared `src/utils/featured.ts`. This also fixes
-  a latent trap where the homepage gallery rendered *every* image. Ticketing
-  CTAs (Nav, Hero, Conference) now read from a single `TICKET_URL` in
-  `src/config.ts` (placeholder `#conference` until the off-site URL is known;
-  auto-adds target/rel when it becomes external). `npm run build` green — 5
-  routes. Out of scope, deliberately left: Community "Register interest"
-  (Phase 6 forms) and footer links (per owner).
+  `src/content.config.ts` with Zod schemas and one example entry each.
+- [x] **Phase 4 — Wire collections into the page** *(2026-06-10)* — Voices,
+  Articles and Gallery render from `getCollection()`. Full-list pages
+  (`/voices`, `/news`, `/gallery`) and news article pages (`/news/[slug]`)
+  built. Featured curation helper, keynote badges, edition/archive fields,
+  `TICKET_URL` constant, footer links all wired.
 - [x] **Phase 5 — Keystatic admin** *(2026-06-10)* — `keystatic.config.ts`
-  (GitHub storage mode, `rightothen/humain-site`) mirroring all six Zod
-  collections incl. `keynote`/`active`/`year` defaults; `@astrojs/vercel`
-  adapter + React integration added (site routes stay prerendered; only
-  `/keystatic` + `/api/keystatic` render on demand). `.env.example` documents
-  the four Keystatic env vars. Build + type-check green; `/keystatic` serves.
-  **Pending (Paul, in a browser): run the one-time /keystatic GitHub App
-  onboarding locally, install the app on the repo, add the env vars to
-  Vercel.**
-- [ ] **Phase 6 — Forms** — ⚠ Blocked on final-host decision. Netlify Forms
-  don't work on Vercel. Build markup only until the host is settled, or pick a
-  host-agnostic provider (see Open Questions).
+  mirroring all six Zod collections. Astro 6 upgrade. Build green.
+- [x] **Phase 6 — Forms** *(2026-06-12)* — Contact form (`src/components/Contact.astro`)
+  built with Web3Forms (host-agnostic). Four enquiry types: Suggest a speaker,
+  Join the advisory panel, Become a commercial partner, Subscribe to newsletter.
+  Selected option becomes email subject; submissions go to `admin@humain.au`.
+  `WEB3FORMS_ACCESS_KEY` env var required (set in Netlify).
 - [ ] **Phase 7 — SEO + deploy** — Per-page meta via BaseLayout, OG/Twitter
-  tags, `@astrojs/sitemap`, robots.txt, JSON-LD (Event + Person). Deploy to
-  Vercel (interim).
+  tags, `@astrojs/sitemap`, robots.txt, JSON-LD (Event + Person).
 - [ ] **Phase 8 — Handover hardening** — Finalise `CLAUDE.md`, write
   `EDITING.md` for the owners.
-- [ ] **Phase 9 — Migration to owner's accounts** *(added; not in original
-  plan)* — Transfer repo to owner's GitHub, re-install Keystatic GitHub App on
-  the transferred repo, update `storage.repo` in `keystatic.config.ts`, move
-  hosting to her Netlify account, swap `@astrojs/vercel` → `@astrojs/netlify`,
-  wire Netlify Forms, update env vars.
+- [x] **Phase 9 — Migration to owner's accounts** *(2026-06-12)* — Repo copied
+  (mirror push) to `catmcliminal/humain-2026-`. Adapter swapped from
+  `@astrojs/vercel` to `@astrojs/netlify` (v7). Keystatic GitHub App
+  (`humainCat-keystatic`) created manually and installed on the new repo.
+  Netlify project `humain2026v2` connected to `catmcliminal/humain-2026-`,
+  all five env vars set, site deployed and live at
+  https://humain2026v2.netlify.app. `.npmrc` added with `legacy-peer-deps=true`
+  to resolve adapter peer dep conflict on Netlify's npm.
+  **Remaining:** finalise domain, update Keystatic GitHub App callback URL
+  to the real domain, remove Paul's Vercel project.
+
+## Design additions (2026-06-12)
+
+- **Audience section** updated with real delegate personas (CMOs & marketing
+  leaders, Founders, Researchers, Creative directors) + past-delegate stats
+  (56% marketing leaders, 81% senior decision-makers).
+- **Tickets section** added (`src/components/Tickets.astro`) — three early-bird
+  tiers (Conference $595, Workshop $475, Conference+Workshop $795, all +gst)
+  with 25 August deadline callout. All link to Humanitix.
+- **Conference section** tiers updated with correct pricing to match.
+- **Speaker role tags** — yellow "Speaker" / pink "Advisory panel" tag on all
+  voice cards, driven by `advisory` boolean in the speakers schema.
+- **Nav logo** links to `/`.
+- **`TICKET_URL`** set to `https://events.humanitix.com/humain/tickets`.
 
 ## Decision log
 
 | Date | Decision | Why |
 |------|----------|-----|
-| 2026-06-09 | Stack: Astro + Keystatic (GitHub mode), content in repo, images in repo | Clean non-technical handover; no extra services (original plan) |
-| 2026-06-10 | Start in `rightothen/humain-site` under Paul's account; transfer to owner later | Owner hasn't set up accounts yet; don't block progress. Adds Phase 9 |
-| 2026-06-10 | Deploy to Vercel in the interim; Netlify remains the intended final host | Owner hasn't provided Netlify details; Paul happy to proceed on Vercel |
-| 2026-06-10 | Defer form *submission* wiring until final host confirmed | Netlify Forms (planned) don't function on Vercel; avoid building twice |
-| 2026-06-10 | Working assumption: repo transfer happens *after* Keystatic setup (Phase 5); rework if needed | Transfer timing won't be known for a while; Phase 9 already captures the GitHub App re-install |
-| 2026-06-10 | Stay on Astro 5.x even though create-astro scaffolds 6.x | CLAUDE.md targets 5.x; Keystatic compatibility planned against 5. Revisit only if a dependency forces it. *Superseded same day — see Astro 6 upgrade below* |
-| 2026-06-10 | Image fields are repo-relative `/images/...` string paths, not Astro `image()` imports | Keystatic stores uploads to `public/images/` and writes back the path; string paths render directly and avoid import/optimization friction at handover. Static site gains nothing from `image()` here |
-| 2026-06-10 | Schedule `speaker` is free-text, not a `reference('speakers')` | Keeps schema simple now; can upgrade to a relationship field (with Keystatic relationship UI) later if cross-linking is wanted |
-| 2026-06-10 | Homepage curation = "featured first, then fill" (news→3, gallery→7, speakers→4) | Owner wants to pin items but the homepage must never look empty or overflow; unflagged items fill remaining slots by date/order. Speakers given the same rule for consistency + to avoid an empty section |
-| 2026-06-10 | Reordering is via a numeric `order` field in Keystatic, not drag-and-drop | One-file-per-entry collections can't be drag-reordered in Keystatic; numeric order is the robust, standard handover pattern |
-| 2026-06-10 | Ticketing links off-site via a single `TICKET_URL` constant (`src/config.ts`) | Owner confirmed ticketing is external; URL not finalised, so placeholder `#conference` now, one-line swap later. Auto-adds `target=_blank`/rel when external |
-| 2026-06-10 | `keynote` flag on speakers, separate from `featured` | Owner wants keynotes larger + atop the /voices lineup, independent of homepage curation |
-| 2026-06-10 | Year-to-year content modelled with BOTH `active` (bool) and `year` (number) on speakers/schedule/sponsors; live site shows `active && year===CURRENT_EDITION_YEAR` | Owner wants lossless yearly swaps + the option of past-year archives. One `CURRENT_EDITION_YEAR` constant (src/config.ts) rolls the site over; old entries persist as data |
-| 2026-06-10 | Keystatic deps pinned to Astro-5-compatible majors: `@astrojs/vercel@^8`, `@astrojs/react@^4` (+ React 19) | Latest `@astrojs/vercel@10` requires Astro 6; we stay on 5.x per earlier decision. *Superseded same day by the Astro 6 upgrade below* |
-| 2026-06-10 | Upgrade to Astro 6 (6.4.5) + `@astrojs/vercel@10` + `@astrojs/react@5`, ending the 5.x pin | Security advisories (define:vars XSS, x-astro-path override) are patched only in 6; Keystatic supports 6; owner said be up to date. Build/type-check/admin route all verified post-upgrade |
-| 2026-06-10 | Keystatic rich-text fields use `fields.markdoc` with `extension: 'md'` (news body, faq answer) | Writes plain `.md` files that Astro's glob loader + existing example entries already use, instead of Keystatic's default `.mdoc` |
+| 2026-06-09 | Stack: Astro + Keystatic (GitHub mode), content in repo, images in repo | Clean non-technical handover; no extra services |
+| 2026-06-10 | Start in `rightothen/humain-site` under Paul's account; copy to owner later | Owner hadn't set up accounts yet |
+| 2026-06-10 | Deploy to Vercel in the interim; Netlify remains the intended final host | Owner hadn't provided Netlify details |
+| 2026-06-10 | Image fields are repo-relative `/images/...` string paths, not Astro `image()` imports | Keystatic stores uploads to `public/images/` and writes back the path |
+| 2026-06-10 | Schedule `speaker` is free-text, not a `reference('speakers')` | Keeps schema simple; can upgrade later |
+| 2026-06-10 | Homepage curation = "featured first, then fill" (news→3, gallery→7, speakers→4) | Owner wants to pin items; homepage must never look empty |
+| 2026-06-10 | Reordering via numeric `order` field, not drag-and-drop | One-file-per-entry collections can't be drag-reordered in Keystatic |
+| 2026-06-10 | `TICKET_URL` constant in `src/config.ts` | Owner confirmed ticketing is external; one-line swap when URL known |
+| 2026-06-10 | `keynote` flag on speakers, separate from `featured` | Keynotes shown larger + atop /voices, independent of homepage curation |
+| 2026-06-10 | `active` + `year` fields on speakers/schedule/sponsors | Lossless yearly content swaps; `CURRENT_EDITION_YEAR` is the roll-over switch |
+| 2026-06-10 | Upgrade to Astro 6 (6.4.5) | Security advisories patched only in 6; Keystatic supports 6 |
+| 2026-06-10 | Keystatic rich-text uses `fields.markdoc` with `extension: 'md'` | Writes plain `.md` files matching the glob loader |
+| 2026-06-12 | Forms use Web3Forms, not Netlify Forms | Host-agnostic; works on both Vercel and Netlify; no backend needed |
+| 2026-06-12 | Repo copied (mirror push) rather than transferred | Paul not available; copy is lower risk; original stays as backup |
+| 2026-06-12 | `legacy-peer-deps=true` in `.npmrc` | `@astrojs/netlify` v7 peer dep conflict with npm's strict resolver on Netlify CI |
+| 2026-06-12 | `advisory` boolean on speakers (separate from `keynote`) | Owner wants advisory panel members visually distinguished from speakers |
 
 ## Open questions
 
-1. **Final host** — Netlify in owner's account (assumed) or stay on Vercel? If
-   Vercel becomes permanent, Phase 6 needs a form solution (e.g. Formspree /
-   Web3Forms / an Astro action) instead of Netlify Forms.
-5. ~~**Astro 5 security advisories**~~ — *resolved 2026-06-10*: upgraded to
-   Astro 6.4.5 (+ `@astrojs/vercel@10`, `@astrojs/react@5`) the same session,
-   per owner. The Astro-core advisories are gone; two transitive ones remain
-   *inside the latest Vercel adapter itself* (`path-to-regexp` ReDoS via
-   `@vercel/routing-utils`, `ws` memory disclosure via `@vercel/functions`)
-   with no upstream fix published — low exposure (build-time/edge tooling),
-   re-check `npm audit` before launch and at the Phase 9 Netlify swap (which
-   removes the Vercel adapter anyway).
-2. ~~**Repo transfer timing**~~ — *resolved 2026-06-10 as a working
-   assumption*: transfer after Keystatic setup; Phase 9 covers re-installing
-   the GitHub App on the transferred repo.
-3. ~~**Default branch**~~ — *resolved 2026-06-10*: Paul set `main` as the
-   default branch.
-4. ~~**Original HTML file**~~ — *resolved 2026-06-10*: committed at
-   `_source/humAIn - 06 Pulse.html`.
+1. **Domain** — final domain for the site not yet confirmed. When known:
+   update Keystatic GitHub App callback URL in github.com/settings/apps/humaincat-keystatic,
+   and update Netlify custom domain settings.
+2. **Paul's Vercel project** — still running at humain-site-seven.vercel.app.
+   Decommission once the Netlify site is confirmed stable.
+3. **Future Claude Code sessions** — should be scoped to `catmcliminal/humain-2026-`,
+   not `rightothen/humain-site`. The current session is locked to Paul's repo;
+   mirror pushes are needed until a new session is started.
 
 ## Session notes
 
-- **2026-06-10** — Reviewed plan, created CLAUDE.md/PLAN.md. Live Netlify URL
-  returns 403 to non-browser clients from this environment, so design fidelity
-  checks (Phase 2) depend on the source HTML file and Paul eyeballing the dev
-  server/preview against the original in his browser.
-- **2026-06-10 (Phase 1)** — Scaffolded Astro from the minimal template, pinned
-  to `astro@^5.18.2` (the wizard now defaults to 6.x). Verified `npm run build`
-  and the dev server serving on :4321. Resolved open questions 2–4 (see above).
-  Branch: `claude/bold-feynman-r52x11`.
-- **2026-06-10 (Phase 2)** — Ported the Pulse design. Layout:
-  `src/layouts/BaseLayout.astro` owns head/fonts/global CSS and the two inline
-  scripts from the source (ECG pulse-band generator + scroll-reveal).
-  Components: Nav, Hero, About, Audience, PulseBand, Conference, Themes,
-  Articles, Voices, Gallery, Praise, Community, Newsletter, Footer. CSS lives
-  in `src/styles/global.css`, copied verbatim from the source style block.
-  Deliberate deviations from the source HTML, all mockup-tool artifacts rather
-  than site design:
-  - The fixed bottom "DIRECTION 01–06" switcher (links to five other variant
-    HTML files that aren't part of this project) was dropped, with its CSS.
-  - The ~650-line interactive `<image-slot>` drag-and-drop element (an
-    "omelette" design-tool component for filling mockup images) was replaced
-    by a static `ImageSlot.astro` that reproduces its empty-state appearance
-    (frame, icon, caption, dashed ring). Real images arrive via collections
-    in Phase 4. The editor-only "or browse files" line was not reproduced.
-  - The hero waveform (the page's only base64 image) is now
-    `public/images/humain-waveform.png` (1205×533).
-  Note: the source's reveal animation was effectively disabled (its CSS is
-  gated on an `html.pre` class the source never sets — "reveal disabled for
-  offline"). Re-enabled at Paul's request by setting `class="pre"` on `<html>`
-  in BaseLayout; the ported script handles reveal-on-scroll and falls back to
-  instantly visible (removing `pre`) if JS doesn't settle within 250ms.
-  Verification: built body is node-for-node identical to the source after
-  normalising the two deviations; all 174 CSS selectors and 3 keyframes
-  present in the bundle; dev server + build green. Paul deploying to Vercel
-  to inspect visually.
-- **2026-06-10 (Phase 2 sign-off)** — Paul inspected the deploy; design
-  confirmed good. Phase 2 closed.
-- **2026-06-10 (Phase 3)** — Defined the six content collections in
-  `src/content.config.ts` (Astro 5 `glob` loader) with one example entry each
-  under `src/content/`. Markdown: `news`, `faq`. YAML: `speakers`, `schedule`,
-  `gallery`, `sponsors`. All carry `order`; `news` also has `publishDate`.
-  Decided image fields are `/images/...` string paths (not `image()`) and
-  schedule `speaker` stays free-text — both in the Decision Log, both to keep
-  the Keystatic mirror (Phase 5) simple. `astro sync` + `npm run build` green.
-  Final host still undefined (Open Question 1) — does not affect Phase 3.
-  Heads-up for Phase 4/5: schedule, sponsors and faq need new section markup
-  (no equivalent exists in the Pulse design); speakers→Voices, news→Articles,
-  gallery→Gallery already have markup to wire up. Branch:
-  `claude/charming-ride-y4bopq`.
-- **2026-06-10 (Phase 4)** — Wired speakers/news/gallery into the page via
-  `getCollection()` (Voices, Articles, Gallery). Decided WITH the owner to
-  defer the three collections without Pulse markup (schedule, sponsors, faq)
-  rather than invent sections speculatively — adding them is net-new design,
-  not a port, and partly the owner's call on whether/where they appear. Added
-  three `object-fit:cover` rules to `global.css` for real images in the
-  existing slots (kept the `ImageSlot` empty state and the decorative news
-  SVG patterns as fallbacks). Shipped obvious "replace me" SVG placeholders so
-  example gallery/sponsor entries render rather than 404. News cards are NOT
-  yet linked — the `/news/[slug]` route is Phase 4b; doing it then keeps the
-  link and its target landing together. Build green; section data confirmed in
-  the built HTML.
-- **2026-06-10 (Phase 4b)** — PR #3 (Phases 3+4) merged to main; branch synced.
-  Added `src/pages/news/[slug].astro`: getStaticPaths over non-draft news,
-  header (category / display-font title / date · reading time · author),
-  optional cover image, Markdown body via `render()`, back-links to
-  `/#articles`. Prose + page CSS appended to `global.css` under a clearly
-  marked "added Phase 4b" comment, using the design's variables and type
-  scale. Homepage cards converted from `<article>` to `<a class="art">`
-  (whole card clickable; existing hover treatment unchanged). Nav anchors are
-  now `/#...` so they resolve from /news/ pages. Dates render en-AU ("20 May
-  2026"). Open: no /news index page yet — "Browse all media →" remains `#`.
-  Build green: index + 1 article page generated, card href verified.
-- **2026-06-10 (Phase 4c)** — Built the three full-list pages (`/voices`,
-  `/news`, `/gallery`) the section CTAs were missing, in the design style with
-  flavour copy (shared `PageHeader.astro`) and the existing card/grid CSS.
-  Added a `featured` flag to news + gallery (speakers already had one) and a
-  shared `featuredFirst()` helper so homepage sections show featured-first then
-  fill (news 3 / gallery 7 / speakers 4) — confirmed with the owner via two
-  quick choices. Centralised ticketing in `src/config.ts` (`TICKET_URL`,
-  placeholder until the off-site link is provided) and wired Nav/Hero/
-  Conference CTAs to it. Set `featured: true` on the example news + gallery
-  entries to demonstrate the field. Build green (5 routes); homepage and list
-  pages verified to render collection data and correct CTA hrefs. Note for
-  later: footer "Tickets"/"Speakers" links and the Community "Register
-  interest" form CTA were left as-is (footer excluded by owner; the form is
-  Phase 6).
-- **2026-06-10 (follow-ups)** — Per owner: (1) wired the footer's Tickets →
-  `TICKET_URL`, Speakers → `/voices` and Articles → `/news` (the latter for the
-  same consistency reason, since the page now exists); other footer links
-  (Programme, Sponsor, Podcast, etc.) have no destinations yet and stay `#`.
-  (2) Fixed the Hero ticket-button copy "London '26" → "Sydney '26" (owner
-  confirmed Sydney is correct; the source HTML had London). Build green, no
-  "London" left in output.
-- **2026-06-10 (Keynote speakers)** — Added a `keynote` boolean to the
-  `speakers` schema, independent of `featured`. On `/voices`, keynotes are
-  pulled above the rest of the `order` into a larger 2-up row with a "Keynote"
-  badge; the remaining speakers follow in the standard grid. Homepage lineup is
-  unchanged (still featured-driven, uniform cards) — keynote emphasis is a
-  full-lineup concept only; a keynote shows on the homepage only if also
-  `featured`. Refactored the speaker card markup into a reusable
-  `SpeakerCard.astro` (used by the homepage section, the lineup grid and the
-  keynote variant). Example content now has two speakers (one keynote) to
-  exercise both paths. Build green.
-- **2026-06-10 (Edition / archive fields)** — Confirmed Keystatic has no native
-  "inactive/archive" state; modelled it as schema fields instead (data stays in
-  the repo, just stops rendering — same idea as news `draft`). Owner chose
-  "both": added `active` (boolean, default true) and `year` (number, default
-  `CURRENT_EDITION_YEAR`) to speakers, schedule and sponsors via a shared
-  `editionFields` fragment. New `CURRENT_EDITION_YEAR` constant in
-  `src/config.ts` (2026) is the single roll-over switch. `currentEdition()`
-  helper (`src/utils/edition.ts`) filters to `active && year===current`; wired
-  into the homepage Voices and `/voices` (the only rendered rotating
-  collection so far). Example speakers/schedule/sponsor entries set
-  `active: true`, `year: 2026`. Build green.
-  Two follow-ups for later: (a) Phase 5 Keystatic must mirror `keynote`,
-  `active` (default checked) and `year` (default current); (b) the schedule
-  `day` enum is still 2026-specific — revisit when the schedule section is
-  built, so it doesn't fight the `year` field.
-- **2026-06-10 (Phase 5)** — Keystatic admin wired up. Installed
-  `@keystatic/core@0.5.50` + `@keystatic/astro@5.1.0`, `@astrojs/react@4.4.2`
-  + React 19, and `@astrojs/vercel@8.2.11` (v8 is the Astro-5-compatible
-  major; v10 needs Astro 6). `astro.config.mjs` gains the two integrations +
-  adapter, with a comment keeping host-specifics confined there for the
-  Netlify swap. `keystatic.config.ts` (repo root) mirrors all six collections
-  — YAML data format for speakers/schedule/gallery/sponsors, `contentField`
-  markdown (`extension: 'md'`) for news/faq — including the Phase 4-era
-  fields: `keynote`, `featured`, `active` (default on), `year` (default
-  `CURRENT_EDITION_YEAR`, imported from src/config). Image fields upload to
-  `public/images/<collection>/` and store `/images/...` paths, matching the
-  Zod `imagePath` convention. `author` gets its default in Keystatic too so
-  the field is pre-filled. Slug sources: name (speakers/sponsors), title
-  (schedule/news), question (faq), alt (gallery). `.env.example` documents
-  the 4 env vars + the onboarding flow that generates them; `.vercel/` added
-  to .gitignore. Verified: `npm run build` green (5 static routes prerendered,
-  Keystatic bundled into the Vercel function), `npx tsc --noEmit` clean, dev
-  server serves `/keystatic` (200, admin shell). NOT done here (needs Paul in
-  a browser): the one-time GitHub App creation via local `/keystatic`
-  onboarding, installing the app on the repo, and setting the env vars in
-  Vercel. Also logged new Open Question 5 (Astro-6-only security advisories
-  from `npm audit`).
-- **2026-06-10 (Astro 6 upgrade)** — Owner opted to be up to date rather than
-  hold the 5.x pin, resolving Open Question 5 hours after it was logged.
-  `astro@6.4.5`, `@astrojs/vercel@10.0.8`, `@astrojs/react@5.0.7`; Keystatic
-  unchanged (already supports 6). No code changes needed — the project uses
-  no APIs that changed between 5 and 6 (glob-loader collections, `render()`,
-  default-static + adapter). Verified post-upgrade: `npm run build` green
-  (same 5 prerendered routes), `npx tsc --noEmit` clean, dev server 200s on
-  `/`, `/keystatic` and an article page. `npm audit`: Astro-core advisories
-  cleared; two transitive ones remain inside the latest Vercel adapter
-  (no upstream fix yet; see Open Question 5 resolution). CLAUDE.md stack
-  section updated to 6.x.
+- **2026-06-10** — Phases 0–5 completed. See original session notes for detail.
+- **2026-06-12** — Design updates (Audience, Tickets, Contact form, speaker tags,
+  nav logo, ticket URL). Phase 9 migration: repo copied to `catmcliminal/humain-2026-`,
+  Netlify adapter swapped, Keystatic GitHub App created manually (auto-onboarding
+  failed due to OAuth callback timing issues), site live on Netlify.
+  Branch for this session: `claude/gracious-feynman-c1oyzc` (Paul's repo).
+  Next session should use `catmcliminal/humain-2026-` directly.

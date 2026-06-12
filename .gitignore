@@ -1,7 +1,8 @@
 # build output
 dist/
-# vercel adapter build output
+# adapter build output
 .vercel/
+.netlify/
 # generated types
 .astro/
 

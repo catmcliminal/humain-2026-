@@ -57,6 +57,12 @@ export default config({
             'Keynote speakers appear above the rest of the lineup on the Voices page, larger and badged.',
           defaultValue: false,
         }),
+        advisory: fields.checkbox({
+          label: 'Advisory panel member',
+          description:
+            'Advisory panel members get a pink "Advisory panel" tag on the Voices page; speakers get a yellow "Speaker" tag.',
+          defaultValue: false,
+        }),
         featured: fields.checkbox({
           label: 'Featured on homepage',
           description:

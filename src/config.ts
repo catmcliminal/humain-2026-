@@ -7,7 +7,7 @@
  * link) and every "Get tickets" / "Secure your seat" CTA across the site
  * updates at once and opens off-site in a new tab.
  */
-export const TICKET_URL = '#conference';
+export const TICKET_URL = 'https://events.humanitix.com/humain/tickets';
 
 /** True when TICKET_URL is an external link (so we add target/rel). */
 export const TICKET_IS_EXTERNAL = /^https?:\/\//.test(TICKET_URL);

@@ -53,6 +53,8 @@ const speakers = defineCollection({
     // `order` and shown larger). Independent of `featured` — a speaker can be
     // a keynote, homepage-featured, both, or neither.
     keynote: z.boolean().default(false),
+    // Advisory panel members get a pink tag on the Voices page; speakers get yellow.
+    advisory: z.boolean().default(false),
     // Surface on the homepage lineup vs. only on the full-lineup page.
     featured: z.boolean().default(false),
     order: z.number(),

@@ -26,4 +26,7 @@ const s = speaker.data;
   <h4>{s.name}</h4>
   <p set:html={s.role} />
   {showBio && s.bio && <p class="voice-bio">{s.bio}</p>}
+  <span class={`voice-role-tag${s.advisory ? ' advisory' : ''}`}>
+    {s.advisory ? 'Advisory panel' : 'Speaker'}
+  </span>
 </div>

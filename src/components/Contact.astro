@@ -1,0 +1,85 @@
+---
+const accessKey = import.meta.env.WEB3FORMS_ACCESS_KEY ?? '';
+---
+
+<section id="contact">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 class="rv">Get in touch.</h2>
+      <span class="sec-num">— Contact</span>
+    </div>
+    <div class="contact-grid rv">
+      <div class="contact-intro">
+        <p>Whether you'd like to speak, join our advisory panel, partner with us, or simply stay in the loop — we'd love to hear from you.</p>
+      </div>
+      <form
+        class="contact-form"
+        action="https://api.web3forms.com/submit"
+        method="POST"
+        id="contact-form"
+      >
+        <input type="hidden" name="access_key" value={accessKey} />
+        <input type="hidden" name="redirect" value="false" />
+        <input type="checkbox" name="botcheck" style="display:none" />
+
+        <div class="cf-field">
+          <label for="cf-subject">I want to…</label>
+          <select id="cf-subject" name="subject" required>
+            <option value="" disabled selected>Select an option</option>
+            <option value="Suggest a speaker">Suggest a speaker</option>
+            <option value="Join the advisory panel">Join the advisory panel</option>
+            <option value="Become a commercial partner">Become a commercial partner</option>
+            <option value="Subscribe to the newsletter">Subscribe to the newsletter</option>
+          </select>
+        </div>
+
+        <div class="cf-row">
+          <div class="cf-field">
+            <label for="cf-name">Name</label>
+            <input id="cf-name" type="text" name="name" placeholder="Your name" required />
+          </div>
+          <div class="cf-field">
+            <label for="cf-email">Email</label>
+            <input id="cf-email" type="email" name="email" placeholder="your@email.com" required />
+          </div>
+        </div>
+
+        <div class="cf-field">
+          <label for="cf-message">Message <span class="cf-opt">(optional)</span></label>
+          <textarea id="cf-message" name="message" rows="4" placeholder="Anything else you'd like to share…"></textarea>
+        </div>
+
+        <div class="cf-footer">
+          <button type="submit" class="btn cf-submit">Send message →</button>
+          <p class="cf-result" id="cf-result" aria-live="polite"></p>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<script>
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+  const result = document.getElementById('cf-result');
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+
+    const data = new FormData(form);
+    const res = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: data });
+    const json = await res.json();
+
+    if (json.success) {
+      form.reset();
+      btn.textContent = 'Sent ✓';
+      if (result) result.textContent = "Thanks — we'll be in touch soon.";
+    } else {
+      btn.disabled = false;
+      btn.textContent = 'Send message →';
+      if (result) result.textContent = 'Something went wrong. Please try again or email admin@humain.au directly.';
+    }
+  });
+</script>

@@ -313,3 +313,25 @@ image-slot .is-ring{position:absolute;inset:0;pointer-events:none;border:1.5px d
 .tix-feat .tix-btn{background:var(--tc);border-color:var(--tc);color:#fff}
 .tix-btn:hover{background:var(--tc)!important;border-color:var(--tc)!important;color:#fff!important}
 @media(max-width:900px){.tix-grid{grid-template-columns:1fr}}
+
+/* Speaker role tag */
+.voice-role-tag{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:3px 9px;border-radius:20px;background:var(--yellow);color:var(--ink);font-weight:600;margin-top:6px}
+.voice-role-tag.advisory{background:var(--pink);color:#fff}
+
+/* Contact form */
+#contact{padding-top:80px;padding-bottom:80px}
+.contact-grid{display:grid;grid-template-columns:.35fr .65fr;gap:60px;align-items:start}
+.contact-intro p{font-size:16px;line-height:1.6;color:var(--ink-2)}
+.contact-form{display:flex;flex-direction:column;gap:20px}
+.cf-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.cf-field{display:flex;flex-direction:column;gap:7px}
+.cf-field label{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2)}
+.cf-opt{text-transform:none;letter-spacing:0;font-family:inherit;opacity:.6}
+.cf-field input,.cf-field select,.cf-field textarea{background:var(--panel);border:1px solid var(--line-2);border-radius:10px;padding:12px 16px;font-size:15px;color:var(--ink);font-family:inherit;transition:.2s;outline:none;width:100%}
+.cf-field input:focus,.cf-field select:focus,.cf-field textarea:focus{border-color:var(--pink);box-shadow:0 0 0 3px rgba(240,55,154,.12)}
+.cf-field textarea{resize:vertical;min-height:100px}
+.cf-field select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
+.cf-footer{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.cf-submit{min-width:180px;justify-content:center}
+.cf-result{font-size:14px;color:var(--green)}
+@media(max-width:800px){.contact-grid{grid-template-columns:1fr}.cf-row{grid-template-columns:1fr}}

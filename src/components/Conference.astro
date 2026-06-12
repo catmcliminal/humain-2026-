@@ -3,6 +3,33 @@ import { TICKET_URL, TICKET_IS_EXTERNAL } from '../config';
 
 const ticketTarget = TICKET_IS_EXTERNAL ? '_blank' : undefined;
 const ticketRel = TICKET_IS_EXTERNAL ? 'noopener noreferrer' : undefined;
+
+const tiers = [
+  {
+    name: 'Conference only',
+    desc: 'Day one only',
+    earlyPrice: '$595',
+    standardPrice: '$745',
+    saving: '$150',
+    featured: false,
+  },
+  {
+    name: 'Conference + Workshop',
+    desc: 'Both days',
+    earlyPrice: '$795',
+    standardPrice: '$995',
+    saving: '$200',
+    featured: true,
+  },
+  {
+    name: 'Workshop only',
+    desc: 'Day two only',
+    earlyPrice: '$475',
+    standardPrice: '$595',
+    saving: '$120',
+    featured: false,
+  },
+];
 ---
 
 <section id="conference">
@@ -23,37 +50,64 @@ const ticketRel = TICKET_IS_EXTERNAL ? 'noopener noreferrer' : undefined;
           </p>
         </div>
         <div class="conf-right">
-          <div class="tier">
-            <div>
-              <div class="tn">Conference only</div>
-              <div class="td">Day one · early bird $595 + gst</div>
+          {tiers.map((t) => (
+            <div class:list={['tier', { feat: t.featured }]}>
+              <div>
+                <div class="tn">{t.name}</div>
+                <div class="td">{t.desc}</div>
+              </div>
+              <div class="tier-pricing">
+                <div class="tp">{t.earlyPrice} <span class="tp-gst">+ gst</span></div>
+                <div class="tp-save">Save {t.saving} · Early bird</div>
+                <div class="tp-standard">Standard {t.standardPrice} + gst</div>
+              </div>
+              <a
+                href={TICKET_URL}
+                class="btn tier-btn"
+                target={ticketTarget}
+                rel={ticketRel}
+              >Register now →</a>
             </div>
-            <div class="tp">$595</div>
-          </div>
-          <div class="tier feat">
-            <div>
-              <div class="tn">Conference + Workshop</div>
-              <div class="td">Both days · early bird $795 + gst</div>
-            </div>
-            <div class="tp">$795</div>
-          </div>
-          <div class="tier">
-            <div>
-              <div class="tn">Workshop only</div>
-              <div class="td">Day two · early bird $475 + gst</div>
-            </div>
-            <div class="tp">$475</div>
-          </div>
-          <a
-            href={TICKET_URL}
-            class="btn"
-            target={ticketTarget}
-            rel={ticketRel}
-            style="margin-top:8px;justify-content:center;background:var(--yellow);color:var(--ink);border-color:var(--yellow)"
-            >Secure your seat →</a
-          >
+          ))}
         </div>
       </div>
     </div>
   </div>
 </section>
+
+<style>
+  .tier {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto;
+    gap: 4px 12px;
+    align-items: start;
+  }
+  .tier-pricing {
+    text-align: right;
+  }
+  .tp-gst {
+    font-size: 0.7em;
+    opacity: 0.7;
+  }
+  .tp-save {
+    font-size: 0.75em;
+    color: var(--yellow);
+    margin-top: 2px;
+  }
+  .tp-standard {
+    font-size: 0.7em;
+    opacity: 0.5;
+    margin-top: 1px;
+  }
+  .tier-btn {
+    grid-column: 1 / -1;
+    justify-content: center;
+    margin-top: 6px;
+  }
+  .feat .tier-btn {
+    background: var(--yellow);
+    color: var(--ink);
+    border-color: var(--yellow);
+  }
+</style>

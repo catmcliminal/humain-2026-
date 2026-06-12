@@ -22,6 +22,18 @@ const { title = 'humAIn — Pulse' } = Astro.props;
     />
   </head>
   <body>
+    <!-- shared SVG gradient referenced by all pulse-band instances -->
+    <svg aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden">
+      <defs>
+        <linearGradient id="pgrad" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1320" y2="0">
+          <stop offset="0" stop-color="#F0379A" />
+          <stop offset="0.28" stop-color="#F0531F" />
+          <stop offset="0.5" stop-color="#FFC21A" />
+          <stop offset="0.72" stop-color="#3D72F5" />
+          <stop offset="1" stop-color="#19A85B" />
+        </linearGradient>
+      </defs>
+    </svg>
     <slot />
     <script is:inline>
       /* ---- heartbeat / ECG generator ---- */
@@ -65,11 +77,14 @@ const { title = 'humAIn — Pulse' } = Astro.props;
           svg.setAttribute('viewBox', '0 0 ' + w + ' ' + H);
           const d = wavePath(w, H);
           svg.querySelectorAll('path').forEach((p) => p.setAttribute('d', d));
-          const grad = svg.querySelector('#pgrad');
+          /* update shared gradient x2 to match width */
+          const grad = document.getElementById('pgrad');
           if (grad) grad.setAttribute('x2', w);
         });
       }
-      buildPulses();
+      /* double-rAF ensures layout has settled before measuring clientWidth */
+      requestAnimationFrame(() => requestAnimationFrame(buildPulses));
+      addEventListener('load', buildPulses);
       let rt;
       addEventListener('resize', () => {
         clearTimeout(rt);

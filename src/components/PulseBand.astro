@@ -1,34 +1,19 @@
 ---
 /**
- * Animated ECG/heartbeat band. The path geometry is generated client-side
- * by the script in BaseLayout (wavePath/buildPulses), sized from data-h.
- * The hero instance owns the shared #pgrad gradient; other instances
- * reference it document-wide.
+ * Animated ECG/heartbeat band. Path geometry is generated client-side by
+ * buildPulses() in BaseLayout. The shared #pgrad gradient lives in the
+ * top-level hidden SVG in BaseLayout — not here.
  */
 interface Props {
   class?: string;
   h: number;
-  gradient?: boolean;
 }
 
-const { class: className, h, gradient = false } = Astro.props;
+const { class: className, h } = Astro.props;
 ---
 
 <div class:list={['pulse-band', className]} data-h={h}>
   <svg preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-    {
-      gradient && (
-        <defs>
-          <linearGradient id="pgrad" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1320" y2="0">
-            <stop offset="0" stop-color="#F0379A" />
-            <stop offset="0.28" stop-color="#F0531F" />
-            <stop offset="0.5" stop-color="#FFC21A" />
-            <stop offset="0.72" stop-color="#3D72F5" />
-            <stop offset="1" stop-color="#19A85B" />
-          </linearGradient>
-        </defs>
-      )
-    }
     <path class="ecg-base" pathLength="100" d=""></path>
     <path class="ecg-run" pathLength="100" d=""></path>
     <path class="ecg-head" pathLength="100" d=""></path>

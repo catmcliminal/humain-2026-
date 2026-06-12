@@ -58,8 +58,8 @@ h1.hero-h em{font-style:normal;color:var(--pink)}
 .mid-pulse{height:104px}
 
 /* date strip — light inverse bar */
-.strip{border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);overflow:hidden;background:var(--ink);color:var(--paper)}
-.ticker{display:flex;gap:48px;white-space:nowrap;padding:13px 0;animation:scroll 26s linear infinite;font-family:var(--disp);font-weight:700;font-size:16px;letter-spacing:.02em}
+.strip{border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);overflow:hidden;background:var(--ink);color:var(--paper);transform:translateZ(0)}
+.ticker{display:flex;gap:48px;white-space:nowrap;padding:13px 0;animation:scroll 26s linear infinite;font-family:var(--disp);font-weight:700;font-size:16px;letter-spacing:.02em;will-change:transform}
 .ticker span{display:inline-flex;align-items:center;gap:18px}
 .ticker span::after{content:"";width:9px;height:9px;border-radius:50%;background:var(--pink)}
 @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}

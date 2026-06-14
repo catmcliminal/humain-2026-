@@ -246,8 +246,8 @@ image-slot .is-ring{position:absolute;inset:0;pointer-events:none;border:1.5px d
 .page-head .lede{max-width:640px;margin-top:24px;font-size:clamp(16px,1.5vw,19px);line-height:1.55;color:var(--ink-2)}
 /* Optional speaker bio on the full lineup. */
 .voice-bio{margin-top:8px;font-size:13px;line-height:1.5;color:var(--ink-2);opacity:.85}
-/* Keynote speakers — larger cards in a 2-up row above the main lineup grid. */
-.voices-keynotes{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;margin-bottom:48px}
+/* Keynote speakers — same 4-up grid as the main lineup, above it. */
+.voices-keynotes{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:48px}
 .voices-keynotes .vp image-slot{width:100%;height:100%}
 .voice.is-keynote h4{font-size:clamp(22px,2.4vw,30px);margin-top:4px}
 .voice.is-keynote>p{font-size:14.5px}
@@ -315,7 +315,8 @@ image-slot .is-ring{position:absolute;inset:0;pointer-events:none;border:1.5px d
 @media(max-width:900px){.tix-grid{grid-template-columns:1fr}}
 
 /* Speaker role tag */
-.voice-role-tag{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:3px 9px;border-radius:20px;background:var(--yellow);color:var(--ink);font-weight:600;margin-top:6px}
+.voice-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+.voice-role-tag{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:3px 9px;border-radius:20px;background:var(--yellow);color:var(--ink);font-weight:600}
 .voice-role-tag.advisory{background:var(--pink);color:#fff}
 
 /* Contact form */

@@ -1,7 +1,7 @@
 name: Joana Barros
 role: CMO
 photo: /images/speakers/joana-barros/photo.jpeg
-bio: >+
+bio: >-
   Joana Barros is a senior marketing executive who has been building brands and
   driving commercial outcomes across listed and high-growth digital-first
   businesses for more than two decades.
@@ -17,8 +17,7 @@ bio: >+
 
   Joana brings an operator’s perspective on how AI is reshaping marketing drawn
   from leading brands and digital businesses through transformation and scale.
-
-keynote: false
+keynote: true
 advisory: true
 featured: true
 order: 3

@@ -22,7 +22,12 @@ const date = article.data.publishDate.toLocaleDateString('en-AU', {
 });
 ---
 
-<BaseLayout title={`${article.data.title} — humAIn`}>
+<BaseLayout
+  title={`${article.data.title} — humAIn`}
+  description={article.data.description}
+  ogImage={article.data.coverImage ? `https://www.humain.au${article.data.coverImage}` : undefined}
+  publishDate={article.data.publishDate}
+>
   <Nav />
   <main>
     <section class="article-page">

@@ -3,9 +3,44 @@ import '../styles/global.css';
 
 interface Props {
   title?: string;
+  description?: string;
+  /** Absolute URL of the OG image (defaults to /images/og-default.jpg) */
+  ogImage?: string;
+  /** Override canonical URL — defaults to the current page URL */
+  canonical?: string;
+  /** Article publish date for news pages */
+  publishDate?: Date;
 }
 
-const { title = 'humAIn — Pulse' } = Astro.props;
+const SITE = 'https://www.humain.au';
+
+const {
+  title = 'humAIn 2026 — AI for marketing and creative professionals',
+  description = 'humAIn is Australia\'s conference on AI for marketing and creative professionals. 13–14 October 2026, Sydney.',
+  ogImage = `${SITE}/images/og-default.jpg`,
+  canonical = new URL(Astro.url.pathname, SITE).href,
+  publishDate,
+} = Astro.props;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Event',
+  name: 'humAIn 2026',
+  description:
+    'Australia\'s conference on AI for marketing and creative professionals.',
+  startDate: '2026-10-13',
+  endDate: '2026-10-14',
+  eventStatus: 'https://schema.org/EventScheduled',
+  eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+  location: {
+    '@type': 'Place',
+    name: 'Sydney',
+    address: { '@type': 'PostalAddress', addressLocality: 'Sydney', addressCountry: 'AU' },
+  },
+  organizer: { '@type': 'Organization', name: 'humAIn', url: SITE },
+  url: SITE,
+  image: ogImage,
+};
 ---
 
 <!doctype html>
@@ -13,7 +48,40 @@ const { title = 'humAIn — Pulse' } = Astro.props;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Primary -->
     <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content={publishDate ? 'article' : 'website'} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="humAIn" />
+    <meta property="og:locale" content="en_AU" />
+    {publishDate && <meta property="article:published_time" content={publishDate.toISOString()} />}
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- JSON-LD Event schema (homepage only — omit on article pages) -->
+    {!publishDate && (
+      <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    )}
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link

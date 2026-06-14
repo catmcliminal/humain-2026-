@@ -36,10 +36,15 @@ at `_source/humAIn - 06 Pulse.html`).
   Join the advisory panel, Become a commercial partner, Subscribe to newsletter.
   Selected option becomes email subject; submissions go to `admin@humain.au`.
   `WEB3FORMS_ACCESS_KEY` env var required (set in Netlify).
-- [ ] **Phase 7 — SEO + deploy** — Per-page meta via BaseLayout, OG/Twitter
-  tags, `@astrojs/sitemap`, robots.txt, JSON-LD (Event + Person).
-- [ ] **Phase 8 — Handover hardening** — Finalise `CLAUDE.md`, write
-  `EDITING.md` for the owners.
+- [x] **Phase 7 — SEO + deploy** *(2026-06-14)* — `@astrojs/sitemap` installed,
+  `site: 'https://www.humain.au'` set in `astro.config.mjs`. `BaseLayout.astro`
+  updated with canonical, OG/Twitter card meta, JSON-LD Event schema. Article
+  pages pass per-article description/ogImage/publishDate. `public/robots.txt`
+  added. OG default image placeholder at `/images/og-default.jpg` (needs real
+  image uploaded to `public/images/`).
+- [x] **Phase 8 — Handover hardening** *(2026-06-14)* — `EDITING.md` written
+  for the owners: covers Keystatic login, all six collections, deploy cycle,
+  image uploads, draft/active flags, ticketing URL, and troubleshooting.
 - [x] **Phase 9 — Migration to owner's accounts** *(2026-06-12)* — Repo copied
   (mirror push) to `catmcliminal/humain-2026-`. Adapter swapped from
   `@astrojs/vercel` to `@astrojs/netlify` (v7). Keystatic GitHub App
@@ -88,14 +93,13 @@ at `_source/humAIn - 06 Pulse.html`).
 
 ## Open questions
 
-1. **Domain** — final domain for the site not yet confirmed. When known:
-   update Keystatic GitHub App callback URL in github.com/settings/apps/humaincat-keystatic,
-   and update Netlify custom domain settings.
-2. **Paul's Vercel project** — still running at humain-site-seven.vercel.app.
-   Decommission once the Netlify site is confirmed stable.
-3. **Future Claude Code sessions** — should be scoped to `catmcliminal/humain-2026-`,
-   not `rightothen/humain-site`. The current session is locked to Paul's repo;
-   mirror pushes are needed until a new session is started.
+1. **Domain** — domain confirmed as `www.humain.au` (2026-06-14). Still need to:
+   - Add custom domain in Netlify dashboard (Site settings → Domain management → Add domain → `www.humain.au`). Netlify will give you DNS records to add.
+   - Update Keystatic GitHub App callback URL at github.com/settings/apps/humaincat-keystatic from `https://humain2026v2.netlify.app/api/keystatic/github/oauth/callback` to `https://www.humain.au/api/keystatic/github/oauth/callback`.
+   - Upload a real OG share image to `public/images/og-default.jpg` (1200×630px).
+2. **Real speakers** — placeholder entries still in `src/content/speakers/`. Add real speaker YAMLs (or use Keystatic admin once domain is live).
+3. **Real gallery photos** — only a placeholder gallery entry exists. Upload actual event photos.
+4. **Paul's Vercel project** — still running at humain-site-seven.vercel.app. Decommission once the Netlify site is confirmed stable on the real domain.
 
 ## Session notes
 
@@ -106,3 +110,7 @@ at `_source/humAIn - 06 Pulse.html`).
   failed due to OAuth callback timing issues), site live on Netlify.
   Branch for this session: `claude/gracious-feynman-c1oyzc` (Paul's repo).
   Next session should use `catmcliminal/humain-2026-` directly.
+- **2026-06-14** — Domain confirmed `www.humain.au`. Phases 7 and 8 complete.
+  SEO: sitemap, canonical, OG/Twitter meta, JSON-LD Event schema, robots.txt.
+  EDITING.md written. FAQ content added (6 real entries). Real speakers and
+  gallery images still pending — add via Keystatic once domain is connected.

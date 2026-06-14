@@ -4,6 +4,7 @@ import react from '@astrojs/react';
 import markdoc from '@astrojs/markdoc';
 import keystatic from '@keystatic/astro';
 import netlify from '@astrojs/netlify';
+import sitemap from '@astrojs/sitemap';
 
 /*
  * Host-specific code stays confined to this file (see CLAUDE.md): the site is
@@ -11,6 +12,7 @@ import netlify from '@astrojs/netlify';
  * rendered on demand and need a server adapter. Now on Netlify (Phase 9).
  */
 export default defineConfig({
-  integrations: [react(), markdoc(), keystatic()],
+  site: 'https://www.humain.au',
+  integrations: [react(), markdoc(), keystatic(), sitemap()],
   adapter: netlify(),
 });

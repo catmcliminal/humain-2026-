@@ -1,0 +1,19 @@
+[build]
+  publish = "dist"
+  command = "npm run build"
+
+# Route Keystatic admin and API to the SSR function
+[[redirects]]
+  from = "/keystatic"
+  to = "/.netlify/functions/ssr"
+  status = 200
+
+[[redirects]]
+  from = "/keystatic/*"
+  to = "/.netlify/functions/ssr"
+  status = 200
+
+[[redirects]]
+  from = "/api/keystatic/*"
+  to = "/.netlify/functions/ssr"
+  status = 200

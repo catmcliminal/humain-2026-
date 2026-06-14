@@ -13,9 +13,9 @@ bio: >
   reshapes the relationships between agencies, platforms, publishers and brands.
   She spoke at humAIn 2024 on trust, deepfakes and “AI as media’s
   extinction‑level event”, and now serves on the humAIn Advisory Panel.
-keynote: true
-advisory: false
+keynote: false
+advisory: true
 featured: true
-order: 3
+order: 2
 active: true
 year: 2026

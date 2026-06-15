@@ -1,0 +1,134 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import PageHeader from '../components/PageHeader.astro';
+import PulseBand from '../components/PulseBand.astro';
+---
+
+<BaseLayout
+  title="Programme — humAIn 2026"
+  description="The humAIn 2026 programme — two days of main stage sessions, workshops and conversations. Sydney, 13–14 October 2026."
+>
+  <Nav />
+  <main>
+    <PageHeader
+      secNum="— Programme"
+      title="Two days.<br />One question."
+      lede="The full programme for humAIn 2026 — main stage sessions, workshops and conversations across 13–14 October in Sydney."
+    />
+    <PulseBand h={80} />
+    <section>
+      <div class="wrap">
+        <div class="prog-coming rv">
+          <div class="prog-coming-inner">
+            <span class="eyebrow"><span class="tk"></span><span class="mono">Coming soon</span></span>
+            <h2>The programme is being&nbsp;shaped.</h2>
+            <p>
+              We're confirming speakers and sessions now. The full programme — including main stage keynotes, practitioner sessions and hands-on workshops — will be announced shortly.
+            </p>
+            <p>
+              Subscribe to the newsletter to be the first to know when it drops, or get in touch if you'd like to speak or run a workshop.
+            </p>
+            <div class="prog-coming-actions">
+              <a href="/#contact" class="btn">Get in touch →</a>
+              <a href="/voices" class="btn ghost">See the voices →</a>
+            </div>
+          </div>
+          <div class="prog-days">
+            <div class="prog-day rv">
+              <div class="prog-day-label mono">Day 01</div>
+              <div class="prog-day-date">13 October 2026</div>
+              <div class="prog-day-theme">Main stage + workshops</div>
+              <div class="prog-day-tba">Sessions to be announced</div>
+            </div>
+            <div class="prog-day rv">
+              <div class="prog-day-label mono">Day 02</div>
+              <div class="prog-day-date">14 October 2026</div>
+              <div class="prog-day-theme">Main stage + workshops</div>
+              <div class="prog-day-tba">Sessions to be announced</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .prog-coming {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 80px;
+    padding: 64px 0 100px;
+    align-items: start;
+  }
+  .prog-coming h2 {
+    font-family: var(--disp);
+    font-weight: 800;
+    font-size: clamp(32px, 4vw, 54px);
+    line-height: 0.95;
+    letter-spacing: -0.025em;
+    margin: 18px 0 24px;
+    text-wrap: balance;
+  }
+  .prog-coming p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--ink-2);
+    max-width: 52ch;
+    margin-bottom: 16px;
+  }
+  .prog-coming-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 36px;
+  }
+  .prog-days {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .prog-day {
+    background: var(--panel);
+    border: 1px solid var(--line-2);
+    border-radius: 18px;
+    padding: 32px 30px;
+  }
+  .prog-day-label {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    color: var(--pink);
+    margin-bottom: 10px;
+  }
+  .prog-day-date {
+    font-family: var(--disp);
+    font-weight: 700;
+    font-size: 22px;
+    letter-spacing: -0.01em;
+    margin-bottom: 6px;
+  }
+  .prog-day-theme {
+    font-size: 13px;
+    color: var(--ink-2);
+    margin-bottom: 20px;
+  }
+  .prog-day-tba {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--ink-2);
+    opacity: 0.5;
+    text-transform: uppercase;
+    border-top: 1px solid var(--line-2);
+    padding-top: 16px;
+  }
+  @media (max-width: 860px) {
+    .prog-coming {
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+  }
+</style>

@@ -151,6 +151,9 @@ footer{padding:70px 0 50px}
 .foot-col a{display:block;font-size:14.5px;font-weight:500;margin-bottom:9px;opacity:.82;transition:.2s}
 .foot-col a:hover{opacity:1;color:var(--pink)}
 .foot-bot{display:flex;justify-content:space-between;align-items:center;padding-top:26px;font-size:13px;color:var(--ink-2);flex-wrap:wrap;gap:12px}
+.foot-legal{display:flex;gap:20px}
+.foot-legal a{color:var(--ink-2);opacity:.7;transition:.2s}
+.foot-legal a:hover{opacity:1;color:var(--pink)}
 .foot-tag{max-width:34ch;font-size:14px;color:var(--ink-2);margin-top:16px;line-height:1.5}
 .foot-social{display:flex;gap:14px;margin-top:20px}
 .foot-social a{color:var(--ink-2);opacity:.7;transition:.2s;display:flex;align-items:center}

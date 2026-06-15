@@ -1,6 +1,12 @@
 ---
 ---
 
+<!-- MailerLite universal script -->
+<script is:inline>
+  (function(w,d,e,u,f,l,n){w[f]=w[f]||function(){(w[f].q=w[f].q||[]).push(arguments)},l=d.createElement(e),l.async=1,l.src=u,n=d.getElementsByTagName(e)[0],n.parentNode.insertBefore(l,n)})(window,document,'script','https://assets.mailerlite.com/js/universal.js','ml');
+  ml('account', '2388385');
+</script>
+
 <section style="padding-top:0">
   <div class="wrap">
     <div class="news rv">
@@ -10,49 +16,11 @@
           One considered email a fortnight on what AI is doing to creativity, brands and work — and what it can't touch.
         </p>
       </div>
-      <form class="nform" id="nl-form" novalidate>
-        <input type="email" id="nl-email" placeholder="you@studio.com" aria-label="Email" required />
-        <button type="submit" id="nl-btn">Subscribe</button>
-      </form>
-      <p class="nl-result" id="nl-result" aria-live="polite"></p>
+      <div class="nform-wrap">
+        <button class="btn nform-btn ml-onclick-form" onclick="ml('show', 'oxsrey', true)">
+          Subscribe →
+        </button>
+      </div>
     </div>
   </div>
 </section>
-
-<script>
-  const form = document.getElementById('nl-form') as HTMLFormElement | null;
-  const emailInput = document.getElementById('nl-email') as HTMLInputElement | null;
-  const btn = document.getElementById('nl-btn') as HTMLButtonElement | null;
-  const result = document.getElementById('nl-result');
-
-  form?.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    if (!emailInput?.value) return;
-
-    if (btn) { btn.disabled = true; btn.textContent = 'Subscribing…'; }
-
-    try {
-      const body = new FormData();
-      body.append('fields[email]', emailInput.value);
-      body.append('ml-submit', '1');
-      body.append('anticsrf', 'true');
-
-      const res = await fetch(
-        'https://assets.mailerlite.com/jsonp/2388385/forms/190310753948927785/subscribe',
-        { method: 'POST', body }
-      );
-      const json = await res.json();
-
-      if (json.success) {
-        form.reset();
-        if (btn) btn.textContent = 'Subscribed ✓';
-        if (result) result.textContent = 'You\'re in. See you in the next one.';
-      } else {
-        throw new Error('failed');
-      }
-    } catch {
-      if (btn) { btn.disabled = false; btn.textContent = 'Subscribe'; }
-      if (result) result.textContent = 'Something went wrong — try again or email admin@humain.au.';
-    }
-  });
-</script>

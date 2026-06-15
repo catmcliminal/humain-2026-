@@ -140,11 +140,9 @@ section{padding:96px 0}
 .news{background:var(--pink);color:#fff;border-radius:22px;padding:64px 56px;display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center}
 .news h2{font-family:var(--disp);font-weight:800;font-size:clamp(32px,4.4vw,58px);line-height:.94;letter-spacing:-.02em}
 .news p{margin-top:16px;font-size:16px;line-height:1.5;color:#ffe6f3;max-width:40ch}
-.nform{display:flex;gap:10px;background:#fff;padding:8px;border-radius:100px}
-.nform input{flex:1;border:0;background:transparent;padding:0 16px;font-size:15px;font-family:var(--sans);color:#16120e;outline:none}
-.nform button{background:#0b0908;color:#fff;border:0;font-family:var(--sans);font-weight:700;font-size:14px;padding:13px 22px;border-radius:100px;cursor:pointer;transition:.2s}
-.nform button:hover{background:var(--green)}
-.nl-result{font-size:13px;color:#ffe6f3;margin-top:10px;min-height:1em}
+.nform-wrap{display:flex;align-items:center}
+.nform-btn{background:#0b0908;color:#fff;border:0;font-family:var(--sans);font-weight:700;font-size:15px;padding:15px 32px;border-radius:100px;cursor:pointer;transition:.2s;text-decoration:none;display:inline-block}
+.nform-btn:hover{background:var(--green)}
 @media(max-width:760px){.news{grid-template-columns:1fr;padding:44px 30px}}
 
 footer{padding:70px 0 50px}

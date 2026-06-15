@@ -153,6 +153,9 @@ footer{padding:70px 0 50px}
 .foot-col a:hover{opacity:1;color:var(--pink)}
 .foot-bot{display:flex;justify-content:space-between;align-items:center;padding-top:26px;font-size:13px;color:var(--ink-2);flex-wrap:wrap;gap:12px}
 .foot-tag{max-width:34ch;font-size:14px;color:var(--ink-2);margin-top:16px;line-height:1.5}
+.foot-social{display:flex;gap:14px;margin-top:20px}
+.foot-social a{color:var(--ink-2);opacity:.7;transition:.2s;display:flex;align-items:center}
+.foot-social a:hover{opacity:1;color:var(--pink)}
 @media(max-width:760px){.foot-top{grid-template-columns:1fr 1fr}}
 
 /* ---------- audience / who it's for ---------- */

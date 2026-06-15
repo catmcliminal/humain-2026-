@@ -1,9 +1,4 @@
 ---
-/**
- * Form markup only — submission is deliberately not wired up until the
- * final host is confirmed (Netlify Forms don't work on Vercel). See
- * PLAN.md Phase 6 before adding submission handling.
- */
 ---
 
 <section style="padding-top:0">
@@ -15,10 +10,49 @@
           One considered email a fortnight on what AI is doing to creativity, brands and work — and what it can't touch.
         </p>
       </div>
-      <form class="nform" onsubmit="return false">
-        <input type="email" placeholder="you@studio.com" aria-label="Email" />
-        <button type="submit">Subscribe</button>
+      <form class="nform" id="nl-form" novalidate>
+        <input type="email" id="nl-email" placeholder="you@studio.com" aria-label="Email" required />
+        <button type="submit" id="nl-btn">Subscribe</button>
       </form>
+      <p class="nl-result" id="nl-result" aria-live="polite"></p>
     </div>
   </div>
 </section>
+
+<script>
+  const form = document.getElementById('nl-form') as HTMLFormElement | null;
+  const emailInput = document.getElementById('nl-email') as HTMLInputElement | null;
+  const btn = document.getElementById('nl-btn') as HTMLButtonElement | null;
+  const result = document.getElementById('nl-result');
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!emailInput?.value) return;
+
+    if (btn) { btn.disabled = true; btn.textContent = 'Subscribing…'; }
+
+    try {
+      const body = new FormData();
+      body.append('fields[email]', emailInput.value);
+      body.append('ml-submit', '1');
+      body.append('anticsrf', 'true');
+
+      const res = await fetch(
+        'https://assets.mailerlite.com/jsonp/2388385/forms/190310753948927785/subscribe',
+        { method: 'POST', body }
+      );
+      const json = await res.json();
+
+      if (json.success) {
+        form.reset();
+        if (btn) btn.textContent = 'Subscribed ✓';
+        if (result) result.textContent = 'You\'re in. See you in the next one.';
+      } else {
+        throw new Error('failed');
+      }
+    } catch {
+      if (btn) { btn.disabled = false; btn.textContent = 'Subscribe'; }
+      if (result) result.textContent = 'Something went wrong — try again or email admin@humain.au.';
+    }
+  });
+</script>

@@ -144,6 +144,7 @@ section{padding:96px 0}
 .nform input{flex:1;border:0;background:transparent;padding:0 16px;font-size:15px;font-family:var(--sans);color:#16120e;outline:none}
 .nform button{background:#0b0908;color:#fff;border:0;font-family:var(--sans);font-weight:700;font-size:14px;padding:13px 22px;border-radius:100px;cursor:pointer;transition:.2s}
 .nform button:hover{background:var(--green)}
+.nl-result{font-size:13px;color:#ffe6f3;margin-top:10px;min-height:1em}
 @media(max-width:760px){.news{grid-template-columns:1fr;padding:44px 30px}}
 
 footer{padding:70px 0 50px}

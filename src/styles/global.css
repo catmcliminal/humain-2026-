@@ -18,7 +18,7 @@ img{display:block;max-width:100%}
 nav{position:sticky;top:0;z-index:100;background:rgba(11,9,8,.72);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
 .nav-in{display:flex;align-items:center;justify-content:space-between;height:70px}
 .brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit}
-.brand img{height:24px}
+.brand-logo{height:38px;width:auto}
 .brand b{font-family:var(--disp);font-weight:800;font-size:21px;letter-spacing:-.02em}
 .brand b i{font-style:normal;color:var(--pink)}
 .nav-links{display:flex;gap:30px;align-items:center}

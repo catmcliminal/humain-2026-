@@ -49,7 +49,7 @@ const tickets = [
 
     <div class="tix-grid">
       {tickets.map((t) => (
-        <div class:list={['tix-card', 'rv', { 'tix-feat': t.featured }]} style={`--tc:${t.color}`}>
+        <div class:list={['tix-card', 'rv', { 'tix-feat': t.featured }]} style={`--tc:${t.color}`} aria-label={t.featured ? `${t.name} — recommended` : t.name}>
           <div class="tix-top">
             <div class="tix-name">{t.name}</div>
             <div class="tix-days">{t.days}</div>
@@ -67,8 +67,9 @@ const tickets = [
             class="btn tix-btn"
             target={ticketTarget}
             rel={ticketRel}
+            aria-label={`Register for ${t.name} — ${t.earlyPrice} + gst`}
           >
-            Register now →
+            Register now <span aria-hidden="true">→</span>
           </a>
         </div>
       ))}

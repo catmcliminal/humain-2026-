@@ -49,9 +49,9 @@ const tiers = [
             the people making meaning with it.
           </p>
         </div>
-        <div class="conf-right">
+        <div class="conf-right" role="list" aria-label="Ticket options">
           {tiers.map((t) => (
-            <div class:list={['tier', { feat: t.featured }]}>
+            <div class:list={['tier', { feat: t.featured }]} role="listitem" aria-label={t.featured ? `${t.name} — recommended` : t.name}>
               <div>
                 <div class="tn">{t.name}</div>
                 <div class="td">{t.desc}</div>
@@ -66,7 +66,8 @@ const tiers = [
                 class="btn tier-btn"
                 target={ticketTarget}
                 rel={ticketRel}
-              >Register now →</a>
+                aria-label={`Register for ${t.name} — ${t.earlyPrice} + gst`}
+              >Register now <span aria-hidden="true">→</span></a>
             </div>
           ))}
         </div>
@@ -92,12 +93,12 @@ const tiers = [
   }
   .tp-save {
     font-size: 0.75em;
-    color: var(--yellow);
+    color: var(--green);
     margin-top: 2px;
   }
   .tp-standard {
     font-size: 0.7em;
-    opacity: 0.5;
+    opacity: 0.65;
     margin-top: 1px;
   }
   .tier-btn {
@@ -106,8 +107,21 @@ const tiers = [
     margin-top: 6px;
   }
   .feat .tier-btn {
-    background: var(--yellow);
-    color: var(--ink);
-    border-color: var(--yellow);
+    background: #fff;
+    color: #0b0908;
+    border-color: #fff;
+  }
+  .feat .tier-btn:hover {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: #0b0908;
+  }
+  .feat .tp-save {
+    color: #fff;
+    font-weight: 700;
+  }
+  .feat .tp-standard {
+    color: rgba(255,255,255,0.75);
+    opacity: 1;
   }
 </style>

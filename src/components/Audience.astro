@@ -56,5 +56,70 @@
         </div>
       </div>
     </div>
+
+    <div class="prev-attendees rv">
+      <div class="prev-attendees-label">Previous attendees</div>
+      <div class="prev-attendees-grid">
+        {[
+          ['Adobe','adobe.com'],['Afterpay / Block','afterpay.com'],['ALDI','aldi.com.au'],
+          ['ANZ','anz.com.au'],['Arriba Group','arribagroup.com.au'],['Asahi Beverages','asahibeverages.com'],
+          ['ABC','abc.net.au'],['ACAM','acam.ai'],
+          ['Australian Radio Network','arn.com.au'],['Auto & General','autogeneral.com.au'],
+          ['Bank of Queensland','boq.com.au'],['Big W','bigw.com.au'],
+          ['Budget Direct','budgetdirect.com.au'],['Cancer Council','cancercouncil.com.au'],
+          ['Canva','canva.com'],['Capgemini','capgemini.com'],['Coles','coles.com.au'],
+          ['dentsu','dentsu.com'],['Doohly','doohly.com'],['Envato','envato.com'],
+          ['Finder','finder.com.au'],['Foxtel','foxtel.com.au'],['FutureBrand','futurebrand.com'],
+          ['Kayo Sport','kayosports.com.au'],['KPMG Australia','kpmg.com.au'],
+          ['Leonardo.Ai','leonardo.ai'],['Lion','lionco.com'],['Microsoft','microsoft.com'],
+          ['Nine','nine.com.au'],['oOh!media','oohmedia.com.au'],['Optus','optus.com.au'],
+          ['Samsung','samsung.com'],['SBS','sbs.com.au'],['Scentre Group','scentregroup.com'],
+          ['Southern Cross Austereo','southerncrossaustereo.com.au'],['Springboards','springboards.ai'],
+          ['TBWA Melbourne','tbwa.com'],['Thinkerbell','thinkerbell.com'],
+          ['Virgin Australia','virginaustralia.com'],['Weatherzone','weatherzone.com.au'],
+        ].map(([name, domain]) => (
+          <div class="pa-logo" title={name}>
+            <img
+              src={`https://www.google.com/s2/favicons?domain=${domain}&sz=64`}
+              alt={name}
+              width="32"
+              height="32"
+              loading="lazy"
+            />
+          </div>
+        ))}
+      </div>
+    </div>
   </div>
 </section>
+
+<style>
+  .prev-attendees { margin-top: 40px; }
+  .prev-attendees-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+    margin-bottom: 20px;
+  }
+  .prev-attendees-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+  }
+  .pa-logo {
+    width: 52px;
+    height: 52px;
+    border-radius: 10px;
+    background: #fff;
+    border: 1px solid rgba(250,247,241,.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+  .pa-logo img { display: block; }
+</style>

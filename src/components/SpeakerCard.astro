@@ -14,7 +14,7 @@ const s = speaker.data;
 
 <div class={`voice rv${keynote ? ' is-keynote' : ''}`}>
   <div class="vp">
-    {keynote && <span class="voice-badge mono">Keynote</span>}
+    {keynote && <span class="voice-badge mono">Speaker</span>}
     {
       s.photo ? (
         <img src={s.photo} alt={s.name} loading="lazy" />
@@ -27,7 +27,7 @@ const s = speaker.data;
   <p set:html={s.role} />
   {showBio && s.bio && <p class="voice-bio">{s.bio}</p>}
   <div class="voice-tags">
-    <span class="voice-role-tag">Speaker</span>
+    {!s.advisory && <span class="voice-role-tag">Speaker</span>}
     {s.advisory && <span class="voice-role-tag advisory">Advisory panel</span>}
   </div>
 </div>

@@ -69,26 +69,26 @@
       <div class="prev-attendees-label">Previous attendees</div>
       <div class="prev-attendees-grid">
         {[
-          ['Adobe','adobe.com'],['Afterpay / Block','afterpay.com'],['ALDI','aldi.com.au'],
-          ['ANZ','anz.com.au'],['Arriba Group','arribagroup.com.au'],['Asahi Beverages','asahibeverages.com'],
-          ['ABC','abc.net.au'],['ACAM','acam.ai'],
-          ['Australian Radio Network','arn.com.au'],['Auto & General','autogeneral.com.au'],
-          ['Bank of Queensland','boq.com.au'],['Big W','bigw.com.au'],
-          ['Budget Direct','budgetdirect.com.au'],['Cancer Council','cancercouncil.com.au'],
-          ['Canva','canva.com'],['Capgemini','capgemini.com'],['Coles','coles.com.au'],
-          ['dentsu','dentsu.com'],['Doohly','doohly.com'],['Envato','envato.com'],
-          ['Finder','finder.com.au'],['Foxtel','foxtel.com.au'],['FutureBrand','futurebrand.com'],
-          ['Kayo Sport','kayosports.com.au'],['KPMG Australia','kpmg.com.au'],
-          ['Leonardo.Ai','leonardo.ai'],['Lion','lionco.com'],['Microsoft','microsoft.com'],
-          ['Nine','nine.com.au'],['oOh!media','oohmedia.com.au'],['Optus','optus.com.au'],
-          ['Samsung','samsung.com'],['SBS','sbs.com.au'],['Scentre Group','scentregroup.com'],
-          ['Southern Cross Austereo','southerncrossaustereo.com.au'],['Springboards','springboards.ai'],
-          ['TBWA Melbourne','tbwa.com'],['Thinkerbell','thinkerbell.com'],
-          ['Virgin Australia','virginaustralia.com'],['Weatherzone','weatherzone.com.au'],
-        ].map(([name, domain]) => (
+          ['Adobe','Adobe'],['Afterpay / Block','Afterpay_Block'],['ALDI','ALDI'],
+          ['ANZ','ANZ'],['Arriba Group','Arriba_Group'],['Asahi Beverages','Asahi_Beverages'],
+          ['ABC','Australian_Broadcasting_Corporation'],['ACAM','Australian_Centre_for_AI_in_Marketing'],
+          ['Australian Radio Network','Australian_Radio_Network'],['Auto & General','Auto_and_General'],
+          ['Bank of Queensland','Bank_of_Queensland_Group'],['Big W','Big_W'],
+          ['Budget Direct','Budget_Direct'],['Cancer Council','Cancer_Council'],
+          ['Canva','Canva'],['Capgemini','Capgemini'],['Coles','Coles'],
+          ['dentsu','dentsu'],['Doohly','Doohly'],['Envato','Envato'],
+          ['Finder','Finder'],['Foxtel','FOXTEL'],['FutureBrand','FutureBrand'],
+          ['Kayo Sport','Kayo_Sport'],['KPMG Australia','KPMG_Australia'],
+          ['Leonardo.Ai','Leonardo_Ai'],['Lion','Lion'],['Microsoft','Microsoft'],
+          ['Nine','Nine'],['oOh!media','Ooh_media'],['Optus','Optus'],
+          ['Samsung','Samsung'],['SBS','SBS'],['Westfield','Westfield'],
+          ['Southern Cross Austereo','Southern_Cross_Austereo'],['Springboards','Springboards'],
+          ['TBWA Melbourne','TBWA_Melbourne'],['Thinkerbell','Thinkerbell'],
+          ['Virgin Australia','Virgin_Australia_Velocity'],['Weatherzone','Weatherzone'],
+        ].map(([name, file]) => (
           <div class="pa-logo" title={name}>
             <img
-              src={`https://www.google.com/s2/favicons?domain=${domain}&sz=64`}
+              src={`/images/logos/${file}.png`}
               alt={name}
               width="32"
               height="32"

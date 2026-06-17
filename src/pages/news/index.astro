@@ -5,6 +5,8 @@ import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
 import PageHeader from '../../components/PageHeader.astro';
 
+const accessKey = import.meta.env.WEB3FORMS_ACCESS_KEY ?? '';
+
 const articles = (await getCollection('news'))
   .filter((a) => !a.data.draft)
   .sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
@@ -61,6 +63,128 @@ function patternSvg(index: number, key: string): string {
         </div>
       </div>
     </section>
+
+    <!-- PODCAST COMING SOON -->
+    <section id="podcast" class="podcast-section">
+      <div class="wrap">
+        <div class="podcast-inner rv">
+          <div class="podcast-left">
+            <span class="mono" style="color:var(--pink);font-size:11px;letter-spacing:.12em">COMING SOON</span>
+            <h2>The humAIn Podcast.</h2>
+            <p>
+              Long-form conversations with the builders, thinkers and creative leaders navigating the AI shift.
+              Real talk — no hype, no panic.
+            </p>
+            <p class="podcast-sub">
+              Want to be notified when we launch? Leave your details below.
+            </p>
+          </div>
+          <div class="podcast-right">
+            <form class="podcast-form" id="podcast-form">
+              <input type="hidden" name="access_key" value={accessKey} />
+              <input type="hidden" name="subject" value="Podcast launch interest" />
+              <input type="hidden" name="redirect" value="false" />
+              <input type="checkbox" name="botcheck" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" aria-hidden="true" tabindex="-1" />
+              <div class="cf-row">
+                <div class="cf-field">
+                  <label for="pod-name">Name</label>
+                  <input id="pod-name" type="text" name="name" placeholder="Your name" required />
+                </div>
+                <div class="cf-field">
+                  <label for="pod-email">Email</label>
+                  <input id="pod-email" type="email" name="email" placeholder="your@email.com" required />
+                </div>
+              </div>
+              <div class="cf-field">
+                <label for="pod-message">Topics, guests or questions? <span class="cf-opt">(optional)</span></label>
+                <textarea id="pod-message" name="message" rows="3" placeholder="Anything you'd like us to explore…"></textarea>
+              </div>
+              <div class="cf-footer">
+                <button type="submit" class="btn cf-submit">Notify me →</button>
+                <p class="cf-result" id="pod-result" aria-live="polite"></p>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
   <Footer />
 </BaseLayout>
+
+<style>
+  .podcast-section {
+    margin-top: 80px;
+    padding: 80px 0;
+    border-top: 1px solid var(--line);
+  }
+  .podcast-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: start;
+  }
+  .podcast-left h2 {
+    font-family: var(--disp);
+    font-weight: 800;
+    font-size: clamp(28px, 4vw, 48px);
+    letter-spacing: -.02em;
+    margin: 12px 0 20px;
+    line-height: 1;
+  }
+  .podcast-left p { font-size: 16px; line-height: 1.6; color: var(--ink-2); max-width: 44ch; }
+  .podcast-sub { font-size: 14px !important; margin-top: 8px; }
+  .podcast-form {
+    background: var(--panel);
+    border: 1px solid var(--line-2);
+    border-radius: 16px;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  @media (max-width: 760px) {
+    .podcast-inner { grid-template-columns: 1fr; gap: 40px; }
+  }
+</style>
+
+<script>
+  const form = document.getElementById('podcast-form') as HTMLFormElement | null;
+  const result = document.getElementById('pod-result');
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+    if (result) result.textContent = '';
+
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 10000);
+
+    try {
+      const data = new FormData(form);
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST', body: data, signal: controller.signal,
+      });
+      clearTimeout(timeout);
+      if (!res.ok) throw new Error(`Server error (${res.status})`);
+      const json = await res.json();
+      if (json.success) {
+        form.reset();
+        btn.textContent = "You're on the list ✓";
+        if (result) result.textContent = "We'll let you know when we launch.";
+      } else {
+        throw new Error(json.message ?? 'Submission rejected');
+      }
+    } catch (err: unknown) {
+      clearTimeout(timeout);
+      btn.disabled = false;
+      btn.textContent = 'Notify me →';
+      const msg = err instanceof Error && err.name === 'AbortError'
+        ? 'Request timed out — please try again.'
+        : 'Something went wrong. Please email hello@humain.au directly.';
+      if (result) result.textContent = msg;
+    }
+  });
+</script>

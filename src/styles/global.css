@@ -31,7 +31,6 @@ nav{position:sticky;top:0;z-index:100;background:rgba(11,9,8,.72);backdrop-filte
 .btn .dot{width:7px;height:7px;border-radius:50%;background:var(--yellow)}
 .btn.ghost{background:transparent;color:var(--ink);border-color:var(--line-2)}
 .btn.ghost:hover{background:var(--ink);color:#0b0908;border-color:var(--ink)}
-@media(max-width:860px){.nav-links a:not(.btn){display:none}}
 
 /* ---------- hero ---------- */
 .hero{padding:70px 0 0;position:relative}

@@ -27,6 +27,7 @@ export default config({
   storage: {
     kind: 'github',
     repo: 'catmcliminal/humain-2026-',
+    branchPrefix: 'keystatic/',
   },
   ui: {
     brand: { name: 'humAIn' },

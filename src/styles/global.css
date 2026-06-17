@@ -321,8 +321,8 @@ image-slot .is-ring{position:absolute;inset:0;pointer-events:none;border:1.5px d
 
 /* Speaker role tag */
 .voice-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
-.voice-role-tag{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:3px 9px;border-radius:20px;background:var(--yellow);color:var(--ink);font-weight:600}
-.voice-role-tag.advisory{background:var(--pink);color:#fff}
+.voice-role-tag{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:3px 9px;border-radius:20px;background:var(--pink);color:#fff;font-weight:600}
+.voice-role-tag.advisory{background:var(--yellow);color:var(--ink)}
 
 /* Contact form */
 #contact{padding-top:80px;padding-bottom:80px}

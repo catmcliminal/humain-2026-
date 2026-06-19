@@ -1,0 +1,40 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import { TICKET_URL, TICKET_IS_EXTERNAL } from '../config';
+
+const ticketTarget = TICKET_IS_EXTERNAL ? '_blank' : undefined;
+const ticketRel = TICKET_IS_EXTERNAL ? 'noopener noreferrer' : undefined;
+---
+
+<BaseLayout
+  title="humAIn 2026 | Sydney AI, Marketing & Creativity Conference"
+  description="humAIn is a curated AI conference, media platform and community in Sydney, 13 October 2026. For the people exploring what stays human as AI reshapes work."
+>
+  <Nav />
+  <main>
+    <div class="legal-page">
+      <div class="wrap">
+        <div class="legal-head">
+          <span class="mono legal-eyebrow">Sydney · 13 October 2026</span>
+          <h1>humAIn 2026</h1>
+        </div>
+        <div class="legal-body">
+          <h2>Sydney's curated AI, marketing and creativity conference. 13 October 2026.</h2>
+          <p>
+            humAIn is an independent AI conference, media platform and community built for senior marketers, founders
+            and creative leaders. Every October in Sydney, around 250 of them gather to work through one question:
+            what stays human when AI takes the cognitive load? No hype, no vendor theatre. Just the people deciding
+            what the next decade of work, brand and culture actually looks like.
+          </p>
+          <p>
+            <a href={TICKET_URL} class="btn" target={ticketTarget} rel={ticketRel}>Get tickets — 13 + 14 October · Sydney '26</a>
+            &nbsp;&nbsp;<a href="/">Visit the homepage →</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>

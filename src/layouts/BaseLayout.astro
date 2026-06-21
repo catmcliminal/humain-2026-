@@ -13,6 +13,8 @@ interface Props {
   canonical?: string;
   /** Article publish date for news pages */
   publishDate?: Date;
+  /** Set true on pages that shouldn't be indexed (e.g. 404) */
+  noindex?: boolean;
 }
 
 const SITE = 'https://www.humain.au';
@@ -23,6 +25,7 @@ const {
   ogImage = `${SITE}/images/og-default.jpg`,
   canonical = new URL(Astro.url.pathname, SITE).href,
   publishDate,
+  noindex = false,
 } = Astro.props;
 
 const keynotes = currentEdition(await getCollection('speakers')).filter((s) => s.data.keynote);
@@ -71,6 +74,7 @@ const jsonLd = {
     <!-- Primary -->
     <title>{title}</title>
     <meta name="description" content={description} />
+    <meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow'} />
     <link rel="canonical" href={canonical} />
 
     <!-- Open Graph -->

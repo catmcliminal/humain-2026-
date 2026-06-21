@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<BaseLayout
+  title="Page not found — humAIn 2026"
+  description="The page you're looking for doesn't exist or has moved."
+  noindex
+>
+  <Nav />
+  <main>
+    <div class="legal-page">
+      <div class="wrap">
+        <div class="legal-head">
+          <span class="mono legal-eyebrow">404</span>
+          <h1>Page not found.</h1>
+        </div>
+        <div class="legal-body">
+          <p class="legal-intro">
+            That page doesn't exist or has moved. Try the homepage, or one of the links below.
+          </p>
+          <p>
+            <a href="/" class="btn">Back to homepage →</a>
+          </p>
+          <p>
+            <a href="/programme">Programme</a> · <a href="/voices">Speakers</a> · <a href="/news">Media</a> ·
+            <a href="/gallery">Gallery</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>

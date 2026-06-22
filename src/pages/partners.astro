@@ -1,0 +1,145 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import PageHeader from '../components/PageHeader.astro';
+
+const partners = [
+  {
+    role: 'Ecosystem Partner',
+    name: 'Stone & Chalk',
+    logo: '/images/logos/Stone_and_Chalk.png',
+    accent: 'var(--pink)',
+    copy: `Stone & Chalk is the largest innovation community in Australia. Operating the Tech Central Innovation Hub in Sydney, with further hubs in Melbourne and Adelaide, it brings together founders, corporates and government to connect emerging tech companies with the people, capital and knowledge they need to grow.
+
+As humAIn's ecosystem partner, Stone & Chalk hosts the 2026 flagship event within Tech Central's Collider space — placing its resident and alumni founder community in front of the senior marketing and creative leaders actively evaluating and buying AI tools. The partnership extends beyond the two-day conference into a regular programme of boardroom sessions at Tech Central, pairing founders building AI products with the marketers and creatives deploying them.
+
+Together, humAIn and Stone & Chalk are building a direct line between the people building Australia's AI economy and the people putting it to work — ideating, innovating and creating impact with the country's emerging tech founders.`,
+  },
+  {
+    role: 'Media Partner',
+    name: 'B&T',
+    logo: '/images/logos/BandT.png',
+    accent: 'var(--orange)',
+    copy: `B&T is Australia's leading news publisher and magazine for the advertising, marketing, media and PR industries. Founded in 1950 — originally standing for Broadcast & Television — and headquartered in Surry Hills, NSW, B&T has spent over seven decades as the industry's daily read.
+
+It provides daily intelligence, expert analysis and career updates across the entire media landscape, covering everything from campaign launches and agency moves to the technology reshaping how brands reach audiences. For senior marketing, media and creative leaders, B&T is where the industry goes to understand what's happening and why it matters.
+
+As humAIn's media partner, B&T brings that reach and credibility to the conversation happening on stage — covering the flagship event, amplifying the speakers and ideas, and connecting humAIn's programming with the wider industry audience that reads B&T every day. It's a natural fit: two independent voices, both built on editorial trust, both focused on what's actually changing in marketing, media and creative work.`,
+  },
+];
+---
+
+<BaseLayout
+  title="Partners — humAIn"
+  description="The organisations partnering with humAIn 2026 — Sydney's conference for marketing and creative leaders navigating AI."
+>
+  <Nav />
+  <main>
+    <PageHeader
+      secNum="— Partners"
+      title="Reach the room shaping&nbsp;AI in marketing and&nbsp;creativity."
+      lede="The organisations standing behind humAIn 2026."
+    />
+    <section style="padding-top:48px;padding-bottom:96px">
+      <div class="wrap">
+        <div class="partners-list">
+          {partners.map((p) => (
+            <div class="partner-card rv" style={`--ac:${p.accent}`}>
+              <div class="partner-logo">
+                <img src={p.logo} alt={`${p.name} logo`} loading="lazy" />
+              </div>
+              <div class="partner-body">
+                <span class="partner-role">{p.role}</span>
+                <h2>{p.name}</h2>
+                {p.copy.split('\n\n').map((para) => <p>{para}</p>)}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .partners-list {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+  .partner-card {
+    position: relative;
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 36px;
+    background: var(--panel);
+    border: 1px solid var(--line-2);
+    border-radius: 16px;
+    padding: 40px;
+    overflow: hidden;
+  }
+  .partner-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--ac);
+  }
+  .partner-logo {
+    width: 200px;
+    height: 200px;
+    border-radius: 14px;
+    background: #fff;
+    border: 1px solid rgba(250, 247, 241, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+  .partner-logo img {
+    width: 78%;
+    height: 78%;
+    object-fit: contain;
+  }
+  .partner-role {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ac);
+    margin-bottom: 8px;
+  }
+  .partner-body h2 {
+    font-family: var(--disp);
+    font-weight: 800;
+    font-size: 32px;
+    letter-spacing: -0.01em;
+    margin: 0 0 16px;
+  }
+  .partner-body p {
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--ink-2);
+    margin: 0 0 14px;
+  }
+  .partner-body p:last-child {
+    margin-bottom: 0;
+  }
+
+  @media (max-width: 760px) {
+    .partner-card {
+      grid-template-columns: 1fr;
+      padding: 28px;
+    }
+    .partner-logo {
+      width: 120px;
+      height: 120px;
+    }
+  }
+</style>

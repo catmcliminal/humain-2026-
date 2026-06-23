@@ -1,0 +1,83 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import PageHeader from '../components/PageHeader.astro';
+import ImageSlot from '../components/ImageSlot.astro';
+
+const founders = [
+  { name: 'Cat McGinn', role: 'Founder, journalist, strategist and AI practitioner' },
+  { name: 'Belinda Cusack', role: 'Marketing Operations Director' },
+];
+
+const copy = [
+  `humAIn Media is an independent media platform covering the impact of artificial intelligence on media, marketing and creativity.`,
+  `Founded by journalist, strategist and AI practitioner Cat McGinn, alongside marketing operations leader Belinda Cusack, humAIn Media exists to help Australia's media and marketing industries navigate one of the most significant technological shifts of our careers, if not our lives.`,
+  `Together, we bring decades of experience across journalism, publishing, events, marketing, operations and industry leadership.`,
+  `We created humAIn Media because we believe one of the biggest challenges facing our industry isn't access to AI tools. It's the lack of a shared understanding of how those tools are being used, where they're creating value, what risks they introduce, and how organisations can respond.`,
+  `Through original reporting, analysis, commentary, research, events and a regular newsletter, we cover the people, ideas and developments shaping AI adoption across Australia's media, marketing and creative sectors.`,
+  `Our focus is practical rather than theoretical. We are interested in what people are actually building, testing, learning and changing inside organisations today.`,
+  `Our objective is simple: to create a trusted source of insight and a shared industry conversation at a time when both are needed more than ever.`,
+];
+---
+
+<BaseLayout
+  title="About — humAIn"
+  description="What is humAIn Media? An independent media platform covering the impact of artificial intelligence on media, marketing and creativity."
+>
+  <Nav />
+  <main>
+    <PageHeader
+      secNum="— About"
+      title="What is humAIn&nbsp;Media?"
+      lede={copy[0]}
+    />
+    <section style="padding-top:48px">
+      <div class="wrap">
+        <div class="about-copy rv">
+          {copy.slice(1).map((para) => <p>{para}</p>)}
+        </div>
+
+        <div class="founders rv">
+          {founders.map((f) => (
+            <div class="voice">
+              <div class="vp">
+                <ImageSlot placeholder={f.name} />
+              </div>
+              <h4>{f.name}</h4>
+              <p>{f.role}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .about-copy {
+    max-width: 720px;
+    margin: 0 0 64px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .about-copy p {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--ink-2);
+    margin: 0;
+  }
+  .founders {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+    max-width: 520px;
+  }
+  @media (max-width: 600px) {
+    .founders {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+</style>

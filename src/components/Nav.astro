@@ -3,6 +3,33 @@ import { TICKET_URL, TICKET_IS_EXTERNAL } from '../config';
 
 const ticketTarget = TICKET_IS_EXTERNAL ? '_blank' : undefined;
 const ticketRel = TICKET_IS_EXTERNAL ? 'noopener noreferrer' : undefined;
+
+// Top-level nav groups, mirrored in Footer.astro's Event/Media/Community
+// columns so header and footer present the same site structure.
+const groups = [
+  { label: 'About', href: '/about' },
+  {
+    label: 'Event',
+    href: '/#conference',
+    children: [
+      { label: 'Conference', href: '/#conference' },
+      { label: 'Themes', href: '/#themes' },
+      { label: 'Speakers', href: '/voices' },
+      { label: 'Programme', href: '/programme' },
+      { label: 'Gallery', href: '/gallery' },
+    ],
+  },
+  {
+    label: 'Media',
+    href: '/news',
+    children: [
+      { label: 'Articles', href: '/news' },
+      { label: 'Newsletter', href: '/#newsletter' },
+    ],
+  },
+  { label: 'Partners', href: '/partners' },
+  { label: 'Community', href: '/#community' },
+];
 ---
 
 <nav>
@@ -11,14 +38,23 @@ const ticketRel = TICKET_IS_EXTERNAL ? 'noopener noreferrer' : undefined;
       <img src="/images/humAIn-transparent-logo.png" alt="humAIn" class="brand-logo" />
     </a>
     <div class="nav-links" id="nav-links">
-      <a href="/about">About</a>
-      <a href="/#conference">Conference</a>
-      <a href="/#themes">Themes</a>
-      <a href="/#articles">Media</a>
-      <a href="/#voices">Voices</a>
-      <a href="/#gallery">Gallery</a>
-      <a href="/#community">Community</a>
-      <a href="/partners">Partners</a>
+      {groups.map((g) => (
+        g.children ? (
+          <div class="nav-group">
+            <a href={g.href} class="nav-trigger">
+              {g.label}
+              <svg class="nav-chevron" width="10" height="6" viewBox="0 0 10 6" fill="none">
+                <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </a>
+            <div class="nav-dropdown">
+              {g.children.map((c) => <a href={c.href}>{c.label}</a>)}
+            </div>
+          </div>
+        ) : (
+          <a href={g.href}>{g.label}</a>
+        )
+      ))}
       <a href={TICKET_URL} class="btn" target={ticketTarget} rel={ticketRel}><span class="dot"></span>Get tickets</a>
     </div>
     <button class="nav-burger" id="nav-burger" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">
@@ -28,6 +64,53 @@ const ticketRel = TICKET_IS_EXTERNAL ? 'noopener noreferrer' : undefined;
 </nav>
 
 <style>
+  .nav-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  .nav-trigger {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .nav-chevron {
+    transition: transform 0.2s;
+    opacity: 0.7;
+  }
+  .nav-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin-top: 14px;
+    min-width: 180px;
+    background: var(--panel);
+    border: 1px solid var(--line-2);
+    border-radius: 12px;
+    padding: 8px;
+    flex-direction: column;
+    gap: 2px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+  }
+  .nav-dropdown a {
+    padding: 9px 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    opacity: 0.85;
+  }
+  .nav-dropdown a:hover {
+    background: var(--panel-2);
+    opacity: 1;
+  }
+  .nav-group:hover .nav-dropdown,
+  .nav-group:focus-within .nav-dropdown {
+    display: flex;
+  }
+  .nav-group:hover .nav-chevron {
+    transform: rotate(180deg);
+  }
+
   .nav-burger {
     display: none;
     flex-direction: column;
@@ -67,6 +150,8 @@ const ticketRel = TICKET_IS_EXTERNAL ? 'noopener noreferrer' : undefined;
       border-bottom: 1px solid var(--line);
       padding: 16px 24px 24px;
       z-index: 99;
+      max-height: calc(100vh - 70px);
+      overflow-y: auto;
     }
     #nav-links.open { display: flex; }
     #nav-links a:not(.btn) {
@@ -81,6 +166,32 @@ const ticketRel = TICKET_IS_EXTERNAL ? 'noopener noreferrer' : undefined;
       margin-top: 16px;
       width: 100%;
       justify-content: center;
+    }
+
+    .nav-group {
+      flex-direction: column;
+      align-items: stretch;
+      width: 100%;
+    }
+    .nav-trigger {
+      width: 100%;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .nav-dropdown {
+      display: flex;
+      position: static;
+      margin: 0 0 4px;
+      border: none;
+      background: none;
+      box-shadow: none;
+      padding: 0 0 0 14px;
+    }
+    .nav-dropdown a {
+      border-bottom: none;
+      padding: 9px 0;
+      font-size: 15px;
     }
   }
 </style>

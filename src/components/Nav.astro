@@ -48,7 +48,9 @@ const groups = [
               </svg>
             </a>
             <div class="nav-dropdown">
-              {g.children.map((c) => <a href={c.href}>{c.label}</a>)}
+              <div class="nav-dropdown-inner">
+                {g.children.map((c) => <a href={c.href}>{c.label}</a>)}
+              </div>
             </div>
           </div>
         ) : (
@@ -83,14 +85,18 @@ const groups = [
     position: absolute;
     top: 100%;
     left: 0;
-    margin-top: 14px;
+    padding-top: 14px;
     min-width: 180px;
+    flex-direction: column;
+  }
+  .nav-dropdown-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
     background: var(--panel);
     border: 1px solid var(--line-2);
     border-radius: 12px;
     padding: 8px;
-    flex-direction: column;
-    gap: 2px;
     box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
   }
   .nav-dropdown a {
@@ -182,11 +188,13 @@ const groups = [
     .nav-dropdown {
       display: flex;
       position: static;
-      margin: 0 0 4px;
+      padding: 0 0 4px 14px;
+    }
+    .nav-dropdown-inner {
       border: none;
       background: none;
       box-shadow: none;
-      padding: 0 0 0 14px;
+      padding: 0;
     }
     .nav-dropdown a {
       border-bottom: none;

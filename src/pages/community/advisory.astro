@@ -1,0 +1,137 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import ImageSlot from '../../components/ImageSlot.astro';
+
+const all = await getCollection('speakers');
+const panel = all
+  .filter((s) => s.data.advisory && s.data.active)
+  .sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99));
+---
+
+<BaseLayout
+  title="Advisory Panel — humAIn"
+  description="The practitioners, founders and industry leaders who guide the humAIn programme and community."
+>
+  <Nav />
+  <main>
+    <PageHeader
+      secNum="— Advisory Panel"
+      title="The people behind the programme."
+      lede="The humAIn Advisory Panel is made up of practitioners, founders and industry leaders who shape our programming, open doors and keep us honest about what's actually happening on the ground."
+    />
+    <section style="padding-top:48px;padding-bottom:96px">
+      <div class="wrap">
+        <div class="panel-grid">
+          {panel.map((s) => {
+            const p = s.data;
+            return (
+              <div class="panel-card rv">
+                <div class="panel-photo">
+                  {p.photo
+                    ? <img src={p.photo} alt={p.name} loading="lazy" />
+                    : <ImageSlot placeholder={p.name} />
+                  }
+                </div>
+                <div class="panel-body">
+                  <h3>{p.name}</h3>
+                  <p class="panel-role" set:html={p.role} />
+                  {p.bio && (
+                    <div class="panel-bio">
+                      {p.bio.split('\n\n').map((para: string) => <p>{para}</p>)}
+                    </div>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .panel-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  .panel-card {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 36px;
+    background: var(--panel);
+    border: 1px solid var(--line-2);
+    border-radius: 16px;
+    padding: 36px;
+  }
+
+  .panel-photo {
+    width: 180px;
+    height: 180px;
+    border-radius: 12px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .panel-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+  }
+
+  .panel-body {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .panel-body h3 {
+    font-family: var(--disp);
+    font-weight: 800;
+    font-size: 24px;
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+
+  .panel-role {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--pink);
+    margin: 0 0 10px;
+  }
+
+  .panel-bio {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .panel-bio p {
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--ink-2);
+    margin: 0;
+  }
+
+  @media (max-width: 700px) {
+    .panel-card {
+      grid-template-columns: 1fr;
+      padding: 24px;
+    }
+
+    .panel-photo {
+      width: 120px;
+      height: 120px;
+    }
+  }
+</style>

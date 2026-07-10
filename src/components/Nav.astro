@@ -28,7 +28,14 @@ const groups = [
     ],
   },
   { label: 'Partners', href: '/partners' },
-  { label: 'Community', href: '/#community' },
+  {
+    label: 'Community',
+    href: '/#community',
+    children: [
+      { label: 'Community', href: '/#community' },
+      { label: 'Advisory Panel', href: '/community/advisory' },
+    ],
+  },
 ];
 ---
 

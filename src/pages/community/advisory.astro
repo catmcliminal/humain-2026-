@@ -9,7 +9,7 @@ import ImageSlot from '../../components/ImageSlot.astro';
 const all = await getCollection('speakers');
 const panel = all
   .filter((s) => s.data.advisory && s.data.active)
-  .sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99));
+  .sort((a, b) => a.data.name.localeCompare(b.data.name));
 ---
 
 <BaseLayout

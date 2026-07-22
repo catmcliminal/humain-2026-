@@ -6,6 +6,10 @@ import Footer from '../components/Footer.astro';
 import PageHeader from '../components/PageHeader.astro';
 import SpeakerCard from '../components/SpeakerCard.astro';
 import { currentEdition } from '../utils/edition';
+import { breadcrumbJsonLd } from '../utils/breadcrumbs';
+import { SITE } from '../config';
+
+const crumbs = breadcrumbJsonLd([{ name: 'Voices', url: `${SITE}/voices/` }]);
 
 // Keynotes lead the lineup (shown larger, above the rest), with the remaining
 // speakers below. Both groups keep their own `order`.
@@ -19,6 +23,7 @@ const rest = all.filter((s) => !s.data.keynote);
 <BaseLayout
   title="The full lineup — humAIn"
   description="Meet the speakers at humAIn 2026 — builders, founders, leaders and critics taking the stage in Sydney, 13–14 October 2026."
+  extraJsonLd={[crumbs]}
 >
   <Nav />
   <main>

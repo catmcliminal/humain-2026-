@@ -9,6 +9,9 @@
  */
 export const TICKET_URL = 'https://events.humanitix.com/humain/tickets';
 
+/** Canonical site origin — used for canonical tags, structured data and OG URLs. */
+export const SITE = 'https://www.humain.au';
+
 /** True when TICKET_URL is an external link (so we add target/rel). */
 export const TICKET_IS_EXTERNAL = /^https?:\/\//.test(TICKET_URL);
 

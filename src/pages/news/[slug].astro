@@ -1,8 +1,12 @@
 ---
 import { getCollection, render } from 'astro:content';
+import { readFileSync } from 'node:fs';
+import { imageSize } from 'image-size';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
+import { breadcrumbJsonLd } from '../../utils/breadcrumbs';
+import { SITE } from '../../config';
 
 export async function getStaticPaths() {
   const articles = await getCollection('news', ({ data }) => !data.draft);
@@ -20,6 +24,49 @@ const date = article.data.publishDate.toLocaleDateString('en-AU', {
   month: 'long',
   year: 'numeric',
 });
+
+// Real dimensions (read at build time) so the cover image reserves the
+// correct space and doesn't shift the layout as it loads.
+let coverDims: { width: number; height: number } | null = null;
+if (article.data.coverImage) {
+  try {
+    const buf = readFileSync(`public${article.data.coverImage}`);
+    const { width, height } = imageSize(buf);
+    coverDims = { width, height };
+  } catch {
+    coverDims = null;
+  }
+}
+
+const articleUrl = `${SITE}/news/${article.id}/`;
+const articleImage = article.data.coverImage
+  ? `${SITE}${article.data.coverImage}`
+  : `${SITE}/images/og-default.jpg`;
+
+const newsArticleJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'NewsArticle',
+  headline: article.data.title,
+  description: article.data.description,
+  image: [articleImage],
+  datePublished: article.data.publishDate.toISOString(),
+  dateModified: article.data.publishDate.toISOString(),
+  author: {
+    '@type': article.data.author === 'the humAIn desk' ? 'Organization' : 'Person',
+    name: article.data.author,
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'humAIn',
+    logo: { '@type': 'ImageObject', url: `${SITE}/images/humAIn-transparent-logo.png` },
+  },
+  mainEntityOfPage: { '@type': 'WebPage', '@id': articleUrl },
+};
+
+const crumbs = breadcrumbJsonLd([
+  { name: 'Media', url: `${SITE}/news/` },
+  { name: article.data.title, url: articleUrl },
+]);
 ---
 
 <BaseLayout
@@ -27,6 +74,7 @@ const date = article.data.publishDate.toLocaleDateString('en-AU', {
   description={article.data.description}
   ogImage={article.data.coverImage ? `https://www.humain.au${article.data.coverImage}` : undefined}
   publishDate={article.data.publishDate}
+  extraJsonLd={[newsArticleJsonLd, crumbs]}
 >
   <Nav />
   <main>
@@ -52,7 +100,12 @@ const date = article.data.publishDate.toLocaleDateString('en-AU', {
           {
             article.data.coverImage && (
               <div class="article-cover">
-                <img src={article.data.coverImage} alt={article.data.title} />
+                <img
+                  src={article.data.coverImage}
+                  alt={article.data.title}
+                  width={coverDims?.width}
+                  height={coverDims?.height}
+                />
               </div>
             )
           }

@@ -17,7 +17,7 @@ const s = speaker.data;
     {keynote && <span class="voice-badge mono">Speaker</span>}
     {
       s.photo ? (
-        <img src={s.photo} alt={s.name} loading="lazy" />
+        <img src={s.photo} alt={s.name} loading="lazy" width="400" height="400" />
       ) : (
         <ImageSlot placeholder="Speaker photo" />
       )

@@ -22,7 +22,7 @@ const images = featuredFirst(all, 7);
         images.map((img, i) => (
           <div class={`gtile ${tileClasses[i % tileClasses.length]}`} role="button" tabindex="0" aria-label={`Enlarge: ${img.data.alt}`} data-lightbox>
             {img.data.caption && <span class="cap">{img.data.caption}</span>}
-            <img src={img.data.image} alt={img.data.alt} loading="lazy" />
+            <img src={img.data.image} alt={img.data.alt} loading="lazy" width="400" height="300" />
           </div>
         ))
       }

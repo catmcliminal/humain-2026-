@@ -2,7 +2,7 @@
 import '../styles/global.css';
 import { getCollection } from 'astro:content';
 import { currentEdition } from '../utils/edition';
-import { TICKET_URL } from '../config';
+import { TICKET_URL, SITE } from '../config';
 
 interface Props {
   title?: string;
@@ -15,9 +15,11 @@ interface Props {
   publishDate?: Date;
   /** Set true on pages that shouldn't be indexed (e.g. 404) */
   noindex?: boolean;
+  /** Render Event + Organization JSON-LD — the principal event page only (homepage). */
+  event?: boolean;
+  /** Additional JSON-LD objects to emit (e.g. NewsArticle, BreadcrumbList). */
+  extraJsonLd?: object[];
 }
-
-const SITE = 'https://www.humain.au';
 
 const {
   title = 'humAIn 2026 | Sydney AI, Marketing & Creativity Conference',
@@ -26,16 +28,20 @@ const {
   canonical = new URL(Astro.url.pathname, SITE).href,
   publishDate,
   noindex = false,
+  event = false,
+  extraJsonLd = [],
 } = Astro.props;
 
-const keynotes = currentEdition(await getCollection('speakers')).filter((s) => s.data.keynote);
+const keynotes = event
+  ? currentEdition(await getCollection('speakers')).filter((s) => s.data.keynote)
+  : [];
 
 const performer =
   keynotes.length > 0
     ? keynotes.map((s) => ({ '@type': 'Person', name: s.data.name, jobTitle: s.data.role }))
     : [{ '@type': 'Organization', name: 'humAIn', url: SITE }];
 
-const jsonLd = {
+const eventJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Event',
   name: 'humAIn 2026',
@@ -47,8 +53,15 @@ const jsonLd = {
   eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
   location: {
     '@type': 'Place',
-    name: 'Sydney',
-    address: { '@type': 'PostalAddress', addressLocality: 'Sydney', addressCountry: 'AU' },
+    name: 'Stone & Chalk (Collider), Tech Central',
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: '477 Pitt St',
+      addressLocality: 'Haymarket',
+      addressRegion: 'NSW',
+      postalCode: '2000',
+      addressCountry: 'AU',
+    },
   },
   organizer: { '@type': 'Organization', name: 'humAIn', url: SITE },
   performer,
@@ -63,6 +76,23 @@ const jsonLd = {
   url: SITE,
   image: ogImage,
 };
+
+const organizationJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'humAIn',
+  url: SITE,
+  logo: `${SITE}/images/humAIn-transparent-logo.png`,
+  description:
+    'humAIn is a curated AI conference, media platform and community in Sydney for marketing and creative professionals.',
+  sameAs: [
+    'https://www.facebook.com/61591295280884/',
+    'https://www.instagram.com/humain_anz/',
+    'https://www.linkedin.com/company/humain-media/',
+  ],
+};
+
+const jsonLdBlocks = [...(event ? [eventJsonLd, organizationJsonLd] : []), ...extraJsonLd];
 ---
 
 <!doctype html>
@@ -95,10 +125,10 @@ const jsonLd = {
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
 
-    <!-- JSON-LD Event schema (homepage only — omit on article pages) -->
-    {!publishDate && (
-      <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
-    )}
+    <!-- JSON-LD structured data -->
+    {jsonLdBlocks.map((block) => (
+      <script type="application/ld+json" set:html={JSON.stringify(block)} />
+    ))}
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="/images/humAIn-transparent-logo.png" />

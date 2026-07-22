@@ -4,17 +4,21 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import PageHeader from '../components/PageHeader.astro';
+import { breadcrumbJsonLd } from '../utils/breadcrumbs';
+import { SITE } from '../config';
 
 // The bento layout repeats every seven tiles, so any number of images tiles
 // cleanly in the same Pulse rhythm.
 const tileClasses = ['g-a', 'g-b', 'g-c', 'g-d', 'g-e', 'g-f', 'g-g'];
 
 const images = (await getCollection('gallery')).sort((a, b) => a.data.order - b.data.order);
+const crumbs = breadcrumbJsonLd([{ name: 'Gallery', url: `${SITE}/gallery/` }]);
 ---
 
 <BaseLayout
   title="Gallery — humAIn"
   description="Photos from humAIn — the conference floor, sessions and community. Sydney's AI conference for marketing and creative professionals."
+  extraJsonLd={[crumbs]}
 >
   <Nav />
   <main>

@@ -3,6 +3,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import PageHeader from '../components/PageHeader.astro';
+import { breadcrumbJsonLd } from '../utils/breadcrumbs';
+import { SITE } from '../config';
+
+const crumbs = breadcrumbJsonLd([{ name: 'Partners', url: `${SITE}/partners/` }]);
 
 const partners = [
   {
@@ -33,6 +37,7 @@ As humAIn's media partner, B&T brings that reach and credibility to the conversa
 <BaseLayout
   title="Partners — humAIn"
   description="The organisations partnering with humAIn 2026 — Sydney's conference for marketing and creative leaders navigating AI."
+  extraJsonLd={[crumbs]}
 >
   <Nav />
   <main>

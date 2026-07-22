@@ -36,7 +36,7 @@ function patternSvg(index: number, key: string): string {
             <div class="ph">
               {
                 a.data.coverImage ? (
-                  <img src={a.data.coverImage} alt={a.data.title} loading="lazy" />
+                  <img src={a.data.coverImage} alt={a.data.title} loading="lazy" width="400" height="170" />
                 ) : (
                   <svg set:html={patternSvg(i, a.id)} />
                 )

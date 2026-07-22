@@ -4,6 +4,10 @@ import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import PageHeader from '../components/PageHeader.astro';
 import ImageSlot from '../components/ImageSlot.astro';
+import { breadcrumbJsonLd } from '../utils/breadcrumbs';
+import { SITE } from '../config';
+
+const crumbs = breadcrumbJsonLd([{ name: 'About', url: `${SITE}/about/` }]);
 
 const founders = [
   { name: 'Cat McGinn', role: 'Founder, journalist, strategist and AI practitioner' },
@@ -24,6 +28,7 @@ const copy = [
 <BaseLayout
   title="About — humAIn"
   description="What is humAIn Media? An independent media platform covering the impact of artificial intelligence on media, marketing and creativity."
+  extraJsonLd={[crumbs]}
 >
   <Nav />
   <main>

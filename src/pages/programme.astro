@@ -7,45 +7,49 @@ import PulseBand from '../components/PulseBand.astro';
 ---
 
 <BaseLayout
-  title="Programme — humAIn 2026"
-  description="The humAIn 2026 programme — two days of main stage sessions, workshops and conversations. Sydney, 13–14 October 2026."
+  title="humAIn 2026 Programme | AI Marketing Conference, Sydney"
+  description="Sydney, 13–14 October 2026. A two-day conference for senior marketing, media and creative leaders on turning AI into measurable growth and distinctive brands."
 >
   <Nav />
   <main>
     <PageHeader
       secNum="— Programme"
-      title="Two days.<br />One question."
-      lede="The full programme for humAIn 2026 — main stage sessions, workshops and conversations across 13–14 October in Sydney."
+      title="humAIn 2026: AI Marketing Conference, Sydney"
+      lede="13–14 October 2026, Sydney"
     />
     <PulseBand h={80} />
-    <section>
+    <section style="padding-top:32px">
       <div class="wrap">
         <div class="prog-coming rv">
           <div class="prog-coming-inner">
-            <span class="eyebrow"><span class="tk"></span><span class="mono">Coming soon</span></span>
-            <h2>The programme is being&nbsp;shaped.</h2>
             <p>
-              We're confirming speakers and sessions now. The full programme — including main stage keynotes, practitioner sessions and hands-on workshops — will be announced shortly.
+              AI is already embedded in marketing teams, workflows and technology stacks. The task now is turning all that activity into measurable growth; knowing where AI creates real advantage, and how human judgement, creativity and trust remain essential to making brands worth choosing.
             </p>
             <p>
-              Subscribe to the newsletter to be the first to know when it drops, or get in touch if you'd like to speak or run a workshop.
+              The humAIn 2026 programme tackles the questions marketing, media and creative industry leaders are confronting in practice. How does brand visibility change when search, shopping and recommendation are mediated by AI, and by agents acting on the customer's behalf? How do you remain distinctive when every competitor can produce more content, faster and cheaper? Which parts of the marketing operation should be automated, augmented or kept deliberately human?
+            </p>
+            <p>
+              The programme also examines what AI means for the economics of agencies, creative production and in-house teams; where judgement, taste and craft still earn their keep; and how the role of the CMO is changing. It takes on the future of work directly: how marketing roles are changing, which skills matter, and how the industry develops the talent it will need in 2030. And it looks at how brands protect credibility as synthetic content and hyperfiction become the norm.
+            </p>
+            <p>
+              humAIn is built for the people making these calls: 250 marketing, media, agency and technology leaders in one room. You'll leave with a clearer view of the choices ahead, the trade-offs involved and how your peers are turning AI into meaningful results.
             </p>
             <div class="prog-coming-actions">
               <a href="/#contact" class="btn">Get in touch →</a>
-              <a href="/voices" class="btn ghost">See the voices →</a>
+              <a href="/voices" class="btn ghost">See the speakers →</a>
             </div>
           </div>
           <div class="prog-days">
             <div class="prog-day rv">
               <div class="prog-day-label mono">Day 01</div>
               <div class="prog-day-date">13 October 2026</div>
-              <div class="prog-day-theme">Main stage + workshops</div>
+              <div class="prog-day-theme">Main stage + round tables</div>
               <div class="prog-day-tba">Sessions to be announced</div>
             </div>
             <div class="prog-day rv">
               <div class="prog-day-label mono">Day 02</div>
               <div class="prog-day-date">14 October 2026</div>
-              <div class="prog-day-theme">Main stage + workshops</div>
+              <div class="prog-day-theme">Workshops and demos</div>
               <div class="prog-day-tba">Sessions to be announced</div>
             </div>
           </div>
@@ -61,7 +65,7 @@ import PulseBand from '../components/PulseBand.astro';
     display: grid;
     grid-template-columns: 1.2fr 0.8fr;
     gap: 80px;
-    padding: 64px 0 100px;
+    padding: 32px 0 100px;
     align-items: start;
   }
   .prog-coming h2 {

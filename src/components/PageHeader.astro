@@ -9,15 +9,17 @@ interface Props {
   secNum: string; // e.g. "05 — Speakers"
   title: string;
   lede: string;
+  h1?: string; // optional page H1; when set, `title` renders as H2 instead
 }
 
-const { secNum, title, lede } = Astro.props;
+const { secNum, title, lede, h1 } = Astro.props;
 ---
 
 <header class="page-head">
   <div class="wrap">
     <span class="eyebrow"><span class="tk"></span><span class="mono">{secNum}</span></span>
-    <h1 class="rv" set:html={title} />
+    {h1 ? <h1 class="rv">{h1}</h1> : null}
+    {h1 ? <h2 class="rv" set:html={title} /> : <h1 class="rv" set:html={title} />}
     <p class="lede rv">{lede}</p>
   </div>
 </header>

@@ -44,7 +44,7 @@ h1.hero-h em{font-style:normal;color:var(--pink)}
 .hero-sub b{font-weight:700;color:#fff}
 .hero-cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
 .hero-mark{align-self:stretch;display:flex;align-items:flex-end;justify-content:flex-end}
-.hero-mark img{width:100%;max-width:420px;filter:drop-shadow(0 0 22px rgba(240,55,154,.35))}
+.hero-mark img{width:100%;max-width:420px;height:auto;filter:drop-shadow(0 0 22px rgba(240,55,154,.35))}
 @media(max-width:860px){.hero-grid{grid-template-columns:1fr}.hero-mark{display:none}}
 
 /* ---------- pulse band (animated heartbeat) ---------- */

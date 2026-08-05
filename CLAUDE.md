@@ -24,11 +24,13 @@ services, no second image store. One repo, one host, one admin.
   framework components). Originally scaffolded on 5.x; upgraded 2026-06-10 for
   security fixes only available in 6.
 - **Astro Content Collections** — schemas in `src/content.config.ts`, entries
-  under `src/content/`. Six collections: `speakers`, `schedule`, `news`,
-  `gallery`, `sponsors`, `faq`. Markdown for body-text collections (news, faq);
-  YAML/JSON data files for structured ones (speakers, schedule, gallery,
-  sponsors). `order` (number) fields control display sequence so editors never
-  touch code.
+  under `src/content/`. Seven collections: `speakers`, `advisory`, `schedule`,
+  `news`, `gallery`, `sponsors`, `faq`. Markdown for body-text collections
+  (news, faq); YAML/JSON data files for structured ones (speakers, advisory,
+  schedule, gallery, sponsors). `order` (number) fields control display
+  sequence so editors never touch code. `speakers` and `advisory` are
+  independent collections — a person who both speaks and advises has a
+  separate entry in each; editing one doesn't touch the other.
 - **Keystatic** — GitHub storage mode (edits commit to this repo and trigger a
   rebuild). Keystatic field schemas must mirror the Zod schemas in
   `src/content.config.ts`; they are two sources of truth kept in sync manually —
@@ -86,7 +88,13 @@ services, no second image store. One repo, one host, one admin.
 
 - `speakers` has: `name`, `role`, `photo`, `bio`, `keynote` (bool),
   `advisory` (bool — pink tag on Voices; non-advisory shows yellow "Speaker"
-  tag), `featured`, `order`, `active`, `year`.
+  tag), `featured`, `order`, `active`, `year`. Powers `/voices` and the
+  homepage lineup only.
+- `advisory` has: `name`, `role`, `photo`, `bio`, `order`, `active`, `year`.
+  Powers `/community/advisory` only — separate collection from `speakers`,
+  with its own image directory (`public/images/advisory/`). A person on both
+  the speaker lineup and the advisory panel needs one entry in each
+  collection.
 - `TICKET_URL` = `https://events.humanitix.com/humain/tickets` — all ticket
   CTAs read from this one constant.
 - `CURRENT_EDITION_YEAR` = 2026 — bump this to roll the site to a new edition.

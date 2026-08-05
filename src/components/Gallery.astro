@@ -1,6 +1,10 @@
 ---
 import { getCollection } from 'astro:content';
 import { featuredFirst } from '../utils/featured';
+import { TICKET_URL, TICKET_IS_EXTERNAL } from '../config';
+
+const ticketTarget = TICKET_IS_EXTERNAL ? '_blank' : undefined;
+const ticketRel = TICKET_IS_EXTERNAL ? 'noopener noreferrer' : undefined;
 
 // The Pulse design is a 7-tile bento grid (g-a … g-g, each a fixed span).
 // Homepage shows seven images — featured first, then by `order` to fill — so it
@@ -27,6 +31,9 @@ const images = featuredFirst(all, 7);
         ))
       }
     </div>
-    <div style="margin-top:26px"><a href="/gallery" class="btn ghost">See the full gallery →</a></div>
+    <div class="sec-cta rv" style="gap:12px;flex-wrap:wrap;margin-top:26px">
+      <a href="/gallery" class="btn ghost">See the full gallery →</a>
+      <a href={TICKET_URL} class="btn" target={ticketTarget} rel={ticketRel}><span class="dot"></span>Get tickets →</a>
+    </div>
   </div>
 </section>

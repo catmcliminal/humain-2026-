@@ -8,5 +8,5 @@ description: >-
   A short summary of the session. What it covers and why it matters. Keep it to
   a sentence or two.
 order: 1
-active: true
+active: false
 year: 2026

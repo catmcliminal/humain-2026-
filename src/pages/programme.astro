@@ -1,13 +1,28 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import PageHeader from '../components/PageHeader.astro';
 import PulseBand from '../components/PulseBand.astro';
 import { breadcrumbJsonLd } from '../utils/breadcrumbs';
+import { currentEdition } from '../utils/edition';
 import { SITE } from '../config';
 
 const crumbs = breadcrumbJsonLd([{ name: 'Programme', url: `${SITE}/programme/` }]);
+
+const sessions = currentEdition(await getCollection('schedule')).sort(
+  (a, b) => a.data.order - b.data.order
+);
+const days = [
+  { date: '2026-10-13', label: 'Day 01', dateLabel: '13 October 2026' },
+  { date: '2026-10-14', label: 'Day 02', dateLabel: '14 October 2026' },
+] as const;
+const sessionsByDay = days.map((d) => ({
+  ...d,
+  sessions: sessions.filter((s) => s.data.day === d.date),
+}));
+const hasAnySessions = sessions.length > 0;
 ---
 
 <BaseLayout
@@ -24,7 +39,73 @@ const crumbs = breadcrumbJsonLd([{ name: 'Programme', url: `${SITE}/programme/` 
       lede="13–14 October 2026, Sydney"
     />
     <PulseBand h={80} />
-    <section style="padding-top:32px">
+
+    <section id="sessions">
+      <div class="wrap">
+        <div class="sec-head">
+          <h2 class="rv">Sessions announced.</h2>
+          <span class="sec-num">— Programme</span>
+        </div>
+        {hasAnySessions ? (
+          <div class="sched-days">
+            {sessionsByDay.map((d) => d.sessions.length > 0 && (
+              <div class="sched-day rv">
+                <div class="sched-day-head">
+                  <span class="sched-day-label mono">{d.label}</span>
+                  <span class="sched-day-date">{d.dateLabel}</span>
+                </div>
+                <div class="sched-list">
+                  {d.sessions.map((s) => (
+                    <div class="sched-item">
+                      <div class="sched-side">
+                        {s.data.photos && s.data.photos.length > 0 && (
+                          <div class="sched-photos">
+                            {s.data.photos.map((photo) => (
+                              <img
+                                class="sched-photo"
+                                src={photo}
+                                alt={s.data.speaker ?? s.data.title}
+                                width="140"
+                                height="140"
+                                loading="lazy"
+                              />
+                            ))}
+                          </div>
+                        )}
+                        {s.data.startTime && (
+                          <div class="sched-time mono">
+                            {s.data.startTime}{s.data.endTime && <>–{s.data.endTime}</>}
+                          </div>
+                        )}
+                      </div>
+                      <div class="sched-body">
+                        <div class="sched-top">
+                          <h3>{s.data.title}</h3>
+                          {s.data.stage && <span class="sched-stage">{s.data.stage}</span>}
+                        </div>
+                        {s.data.speaker && <div class="sched-speaker">{s.data.speaker}</div>}
+                        {s.data.description && (
+                          <div class="sched-desc">
+                            {s.data.description.split('\n\n').map((para) => <p>{para}</p>)}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p class="sched-empty rv">
+            The full session-by-session schedule is still being finalised. See the
+            <a href="/voices">confirmed speakers</a> in the meantime — times and topics will appear here as they're locked in.
+          </p>
+        )}
+      </div>
+    </section>
+
+    <section style="padding-top:0">
       <div class="wrap">
         <div class="prog-coming rv">
           <div class="prog-coming-inner">
@@ -61,13 +142,25 @@ const crumbs = breadcrumbJsonLd([{ name: 'Programme', url: `${SITE}/programme/` 
               <div class="prog-day-label mono">Day 01</div>
               <div class="prog-day-date">13 October 2026</div>
               <div class="prog-day-theme">Main stage + round tables</div>
-              <div class="prog-day-tba">Sessions to be announced</div>
+              {sessionsByDay[0].sessions.length > 0 ? (
+                <a href="#sessions" class="prog-day-tba prog-day-tba-link">
+                  {sessionsByDay[0].sessions.length} session{sessionsByDay[0].sessions.length === 1 ? '' : 's'} announced →
+                </a>
+              ) : (
+                <div class="prog-day-tba">Sessions to be announced</div>
+              )}
             </div>
             <div class="prog-day rv">
               <div class="prog-day-label mono">Day 02</div>
               <div class="prog-day-date">14 October 2026</div>
               <div class="prog-day-theme">Workshops and demos</div>
-              <div class="prog-day-tba">Sessions to be announced</div>
+              {sessionsByDay[1].sessions.length > 0 ? (
+                <a href="#sessions" class="prog-day-tba prog-day-tba-link">
+                  {sessionsByDay[1].sessions.length} session{sessionsByDay[1].sessions.length === 1 ? '' : 's'} announced →
+                </a>
+              ) : (
+                <div class="prog-day-tba">Sessions to be announced</div>
+              )}
             </div>
           </div>
         </div>
@@ -97,7 +190,7 @@ const crumbs = breadcrumbJsonLd([{ name: 'Programme', url: `${SITE}/programme/` 
   .prog-coming p {
     font-size: 16px;
     line-height: 1.6;
-    color: var(--ink-2);
+    color: #fff;
     max-width: 52ch;
     margin-bottom: 16px;
   }
@@ -157,10 +250,136 @@ const crumbs = breadcrumbJsonLd([{ name: 'Programme', url: `${SITE}/programme/` 
     border-top: 1px solid var(--line-2);
     padding-top: 16px;
   }
+  .prog-day-tba-link {
+    display: block;
+    opacity: 1;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .prog-day-tba-link:hover {
+    color: var(--pink);
+  }
   @media (max-width: 860px) {
     .prog-coming {
       grid-template-columns: 1fr;
       gap: 48px;
+    }
+  }
+
+  /* ---------- sessions announced ---------- */
+  .sched-days {
+    display: flex;
+    flex-direction: column;
+    gap: 56px;
+  }
+  .sched-day-head {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 24px;
+  }
+  .sched-day-label {
+    color: var(--pink);
+  }
+  .sched-day-date {
+    font-family: var(--disp);
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: -0.01em;
+  }
+  .sched-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .sched-item {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 24px;
+    background: var(--panel);
+    border: 1px solid var(--line-2);
+    border-radius: 14px;
+    padding: 28px;
+  }
+  .sched-side {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .sched-photos {
+    display: flex;
+    gap: 8px;
+  }
+  .sched-photo {
+    flex: 1;
+    min-width: 0;
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 12px;
+    object-fit: cover;
+    object-position: top;
+    display: block;
+  }
+  .sched-time {
+    color: var(--ink-2);
+    font-size: 12px;
+  }
+  .sched-top {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .sched-body h3 {
+    font-family: var(--disp);
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+  .sched-stage {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--yellow);
+    white-space: nowrap;
+  }
+  .sched-speaker {
+    font-size: 13px;
+    color: var(--ink-2);
+    margin-top: 4px;
+  }
+  .sched-desc {
+    font-size: 14px;
+    line-height: 1.55;
+    color: #fff;
+    margin-top: 10px;
+    max-width: 62ch;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .sched-desc p {
+    margin: 0;
+  }
+  .sched-empty {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--ink-2);
+    max-width: 56ch;
+  }
+  .sched-empty a {
+    color: var(--ink);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  @media (max-width: 640px) {
+    .sched-item {
+      grid-template-columns: 1fr;
+    }
+    .sched-photos {
+      max-width: 200px;
     }
   }
 </style>

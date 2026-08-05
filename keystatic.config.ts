@@ -90,6 +90,44 @@ export default config({
       },
     }),
 
+    advisory: collection({
+      label: 'Advisory Panel',
+      slugField: 'name',
+      path: 'src/content/advisory/*',
+      format: { data: 'yaml' },
+      schema: {
+        name: fields.slug({ name: { label: 'Name' } }),
+        role: fields.text({
+          label: 'Role',
+          description: 'Shown under the name on the Advisory Panel page.',
+          validation: { isRequired: true },
+        }),
+        photo: fields.image({
+          label: 'Photo',
+          directory: 'public/images/advisory',
+          publicPath: '/images/advisory/',
+        }),
+        bio: fields.text({ label: 'Bio', multiline: true }),
+        order: fields.number({
+          label: 'Order',
+          description: 'Lower numbers appear first.',
+          validation: { isRequired: true },
+        }),
+        active: fields.checkbox({
+          label: 'Active',
+          description: 'Untick to retire this entry without deleting it.',
+          defaultValue: true,
+        }),
+        year: fields.number({
+          label: 'Edition year',
+          description:
+            'The site only shows entries for the current edition year.',
+          defaultValue: CURRENT_EDITION_YEAR,
+          validation: { isRequired: true },
+        }),
+      },
+    }),
+
     schedule: collection({
       label: 'Schedule',
       slugField: 'title',
@@ -107,8 +145,7 @@ export default config({
         }),
         startTime: fields.text({
           label: 'Start time',
-          description: '24-hour time, e.g. 09:30',
-          validation: { isRequired: true },
+          description: 'Optional — 24-hour time, e.g. 09:30. Leave blank until confirmed.',
         }),
         endTime: fields.text({
           label: 'End time',
@@ -122,6 +159,18 @@ export default config({
           label: 'Speaker(s)',
           description: 'Free text — name one or more speakers.',
         }),
+        photos: fields.array(
+          fields.image({
+            label: 'Photo',
+            directory: 'public/images/schedule',
+            publicPath: '/images/schedule/',
+          }),
+          {
+            label: 'Speaker photo(s)',
+            description: 'Optional — one photo per speaker on this session.',
+            itemLabel: () => 'Photo',
+          }
+        ),
         description: fields.text({ label: 'Description', multiline: true }),
         order: fields.number({
           label: 'Order',

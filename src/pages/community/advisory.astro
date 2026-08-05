@@ -6,12 +6,12 @@ import Footer from '../../components/Footer.astro';
 import PageHeader from '../../components/PageHeader.astro';
 import ImageSlot from '../../components/ImageSlot.astro';
 import { breadcrumbJsonLd } from '../../utils/breadcrumbs';
+import { currentEdition } from '../../utils/edition';
 import { SITE } from '../../config';
 
-const all = await getCollection('speakers');
-const panel = all
-  .filter((s) => s.data.advisory && s.data.active)
-  .sort((a, b) => a.data.name.localeCompare(b.data.name));
+const panel = currentEdition(await getCollection('advisory')).sort(
+  (a, b) => a.data.order - b.data.order
+);
 const crumbs = breadcrumbJsonLd([
   { name: 'Community', url: `${SITE}/community/advisory/` },
   { name: 'Advisory Panel', url: `${SITE}/community/advisory/` },
@@ -126,7 +126,7 @@ const crumbs = breadcrumbJsonLd([
   .panel-bio p {
     font-size: 15px;
     line-height: 1.65;
-    color: var(--ink-2);
+    color: #fff;
     margin: 0;
   }
 

@@ -90,6 +90,8 @@ at `_source/humAIn - 06 Pulse.html`).
 | 2026-06-12 | Repo copied (mirror push) rather than transferred | Paul not available; copy is lower risk; original stays as backup |
 | 2026-06-12 | `legacy-peer-deps=true` in `.npmrc` | `@astrojs/netlify` v7 peer dep conflict with npm's strict resolver on Netlify CI |
 | 2026-06-12 | `advisory` boolean on speakers (separate from `keynote`) | Owner wants advisory panel members visually distinguished from speakers |
+| 2026-08-05 | New `advisory` content collection, independent of `speakers` | Owner wants Speakers and Advisory Panel edited as fully separate pages/collections, not one shared record with a flag. `/community/advisory` now reads its own `src/content/advisory/*.yaml` files (own Keystatic collection, own `public/images/advisory/` directory). The `advisory` boolean on `speakers` is kept as-is — it only drives the pink/yellow tag on `/voices` and is unrelated to which page's content an editor manages. The 9 people who are both speaking and advising now have two independent entries (one per collection); editing one does not affect the other. |
+| 2026-08-06 | Confirmed 2026 Speakers roster: Pip Bingemann, James Caldwell, Tea Uglow, Marie-Céline Merret, Vinne Schifferstein, Bridget Cleary, Kent Boswell, Marcus Tesoriero | Owner confirmed these 8 as the actual speaker lineup. Set `active: false` on the other 6 speaker entries (Annie Liao, Dave King, Karen Powell, Joana Barros, Jeremy Somers, Sarah Yassien) — they were advisory-panel-only, not speaking. Data kept, not deleted; they remain live on `/community/advisory` via their separate `advisory` collection entries. |
 
 ## Open questions
 
@@ -97,9 +99,8 @@ at `_source/humAIn - 06 Pulse.html`).
    - Add custom domain in Netlify dashboard (Site settings → Domain management → Add domain → `www.humain.au`). Netlify will give you DNS records to add.
    - Update Keystatic GitHub App callback URL at github.com/settings/apps/humaincat-keystatic from `https://humain2026v2.netlify.app/api/keystatic/github/oauth/callback` to `https://www.humain.au/api/keystatic/github/oauth/callback`.
    - Upload a real OG share image to `public/images/og-default.jpg` (1200×630px).
-2. **Real speakers** — placeholder entries still in `src/content/speakers/`. Add real speaker YAMLs (or use Keystatic admin once domain is live).
-3. **Real gallery photos** — only a placeholder gallery entry exists. Upload actual event photos.
-4. **Paul's Vercel project** — still running at humain-site-seven.vercel.app. Decommission once the Netlify site is confirmed stable on the real domain.
+2. **Real gallery photos** — only a placeholder gallery entry exists. Upload actual event photos.
+3. **Paul's Vercel project** — still running at humain-site-seven.vercel.app. Decommission once the Netlify site is confirmed stable on the real domain.
 
 ## Session notes
 

@@ -11,8 +11,8 @@ import { CURRENT_EDITION_YEAR } from './config';
  *
  * Conventions (see CLAUDE.md):
  *  - Markdown (frontmatter + body) for body-text collections: `news`, `faq`.
- *  - YAML data files for structured collections: `speakers`, `schedule`,
- *    `gallery`, `sponsors`.
+ *  - YAML data files for structured collections: `speakers`, `advisory`,
+ *    `schedule`, `gallery`, `sponsors`.
  *  - Every collection has an `order` number so editors control display
  *    sequence without touching code. `news` also sorts by `publishDate`.
  *  - Image fields are repo-relative URL strings under `public/images/...`
@@ -62,19 +62,37 @@ const speakers = defineCollection({
   }),
 });
 
-// Schedule / agenda — structured, YAML, one file per session.
-// (No section in the Pulse design yet; markup arrives with a later phase.)
+// Advisory Panel ("The people behind the programme.") — structured, YAML,
+// one file per member. Independent of `speakers`: a person can be a speaker,
+// an advisory panel member, or both — each collection is edited separately.
+const advisory = defineCollection({
+  loader: glob({ pattern: '**/*.yaml', base: './src/content/advisory' }),
+  schema: z.object({
+    name: z.string(),
+    role: z.string(),
+    photo: imagePath.optional(),
+    bio: z.string().optional(),
+    order: z.number(),
+    ...editionFields,
+  }),
+});
+
+// Schedule / agenda — structured, YAML, one file per session. Powers the
+// "Sessions announced" section on /programme, grouped by `day`.
 const schedule = defineCollection({
   loader: glob({ pattern: '**/*.yaml', base: './src/content/schedule' }),
   schema: z.object({
     title: z.string(),
     // The two conference days: 13–14 Oct 2026, Sydney.
     day: z.enum(['2026-10-13', '2026-10-14']),
-    startTime: z.string(), // "09:30"
+    // Optional until the time slot is confirmed — leave blank rather than guessing.
+    startTime: z.string().optional(), // "09:30"
     endTime: z.string().optional(),
     stage: z.string().optional(), // e.g. "Main stage", "Workshop room"
     // Free-text speaker name(s) for now; can become a reference later.
     speaker: z.string().optional(),
+    // One photo per speaker on the session — supports solo talks and panels alike.
+    photos: z.array(imagePath).optional(),
     description: z.string().optional(),
     order: z.number(),
     ...editionFields,
@@ -139,4 +157,4 @@ const faq = defineCollection({
   }),
 });
 
-export const collections = { speakers, schedule, news, gallery, sponsors, faq };
+export const collections = { speakers, advisory, schedule, news, gallery, sponsors, faq };

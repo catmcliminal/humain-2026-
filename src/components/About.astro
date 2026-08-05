@@ -1,3 +1,10 @@
+---
+import { TICKET_URL, TICKET_IS_EXTERNAL } from '../config';
+
+const ticketTarget = TICKET_IS_EXTERNAL ? '_blank' : undefined;
+const ticketRel = TICKET_IS_EXTERNAL ? 'noopener noreferrer' : undefined;
+---
+
 <section id="about">
   <div class="wrap">
     <div class="sec-head">
@@ -23,5 +30,8 @@
       </div>
     </div>
     <p class="merge rv">Most events pick a lane. humAIn brings them together.</p>
+    <div class="sec-cta rv">
+      <a href={TICKET_URL} class="btn" target={ticketTarget} rel={ticketRel}><span class="dot"></span>Get tickets →</a>
+    </div>
   </div>
 </section>

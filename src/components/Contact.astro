@@ -1,5 +1,9 @@
 ---
+import { TICKET_URL, TICKET_IS_EXTERNAL } from '../config';
+
 const accessKey = import.meta.env.WEB3FORMS_ACCESS_KEY ?? '';
+const ticketTarget = TICKET_IS_EXTERNAL ? '_blank' : undefined;
+const ticketRel = TICKET_IS_EXTERNAL ? 'noopener noreferrer' : undefined;
 ---
 
 <section id="contact">
@@ -54,6 +58,10 @@ const accessKey = import.meta.env.WEB3FORMS_ACCESS_KEY ?? '';
           <p class="cf-result" id="cf-result" aria-live="polite"></p>
         </div>
       </form>
+    </div>
+
+    <div class="sec-cta rv">
+      <a href={TICKET_URL} class="btn" target={ticketTarget} rel={ticketRel}><span class="dot"></span>Get tickets →</a>
     </div>
   </div>
 </section>

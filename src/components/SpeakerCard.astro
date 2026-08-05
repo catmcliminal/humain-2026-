@@ -5,7 +5,7 @@ import ImageSlot from './ImageSlot.astro';
 interface Props {
   speaker: CollectionEntry<'speakers'>;
   showBio?: boolean; // show the bio line (full-lineup page, not the homepage)
-  keynote?: boolean; // larger card + "Keynote" badge
+  keynote?: boolean; // larger card, shown above the rest of the lineup
 }
 
 const { speaker, showBio = false, keynote = false } = Astro.props;
@@ -14,7 +14,6 @@ const s = speaker.data;
 
 <div class={`voice rv${keynote ? ' is-keynote' : ''}`}>
   <div class="vp">
-    {keynote && <span class="voice-badge mono">Speaker</span>}
     {
       s.photo ? (
         <img src={s.photo} alt={s.name} loading="lazy" width="400" height="400" />

@@ -266,7 +266,6 @@ image-slot .is-ring{position:absolute;inset:0;pointer-events:none;border:1.5px d
 .voice.is-keynote h4{font-size:clamp(22px,2.4vw,30px);margin-top:4px}
 .voice.is-keynote>p{font-size:14.5px}
 .voice.is-keynote .voice-bio{font-size:14px}
-.voice-badge{position:absolute;top:12px;left:12px;z-index:2;background:var(--yellow);color:var(--ink);font-size:10px;padding:5px 11px;border-radius:100px}
 @media(max-width:760px){.voices-keynotes{grid-template-columns:1fr}}
 
 /* ---------- news article pages (added Phase 4b; not in the source design,
@@ -330,8 +329,8 @@ image-slot .is-ring{position:absolute;inset:0;pointer-events:none;border:1.5px d
 
 /* Speaker role tag */
 .voice-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
-.voice-role-tag{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:3px 9px;border-radius:20px;background:var(--pink);color:#fff;font-weight:600}
-.voice-role-tag.advisory{background:var(--yellow);color:var(--ink)}
+.voice-role-tag{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:3px 9px;border-radius:20px;background:var(--yellow);color:var(--ink);font-weight:600}
+.voice-role-tag.advisory{background:var(--pink);color:#fff}
 
 /* Contact form */
 #contact{padding-top:80px;padding-bottom:80px}

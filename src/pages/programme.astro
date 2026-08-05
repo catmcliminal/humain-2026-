@@ -7,9 +7,11 @@ import PageHeader from '../components/PageHeader.astro';
 import PulseBand from '../components/PulseBand.astro';
 import { breadcrumbJsonLd } from '../utils/breadcrumbs';
 import { currentEdition } from '../utils/edition';
-import { SITE } from '../config';
+import { SITE, TICKET_URL, TICKET_IS_EXTERNAL } from '../config';
 
 const crumbs = breadcrumbJsonLd([{ name: 'Programme', url: `${SITE}/programme/` }]);
+const ticketTarget = TICKET_IS_EXTERNAL ? '_blank' : undefined;
+const ticketRel = TICKET_IS_EXTERNAL ? 'noopener noreferrer' : undefined;
 
 const sessions = currentEdition(await getCollection('schedule')).sort(
   (a, b) => a.data.order - b.data.order
@@ -163,6 +165,14 @@ const hasAnySessions = sessions.length > 0;
               )}
             </div>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <section style="padding-top:0">
+      <div class="wrap">
+        <div class="sec-cta rv">
+          <a href={TICKET_URL} class="btn" target={ticketTarget} rel={ticketRel}><span class="dot"></span>Get tickets →</a>
         </div>
       </div>
     </section>

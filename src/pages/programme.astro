@@ -314,16 +314,17 @@ const hasAnySessions = sessions.length > 0;
   .sched-list {
     display: flex;
     flex-direction: column;
-    gap: 14px;
   }
   .sched-item {
     display: grid;
     grid-template-columns: 140px 1fr;
     gap: 24px;
-    background: var(--panel);
-    border: 1px solid var(--line-2);
-    border-radius: 14px;
-    padding: 28px;
+    padding: 40px 0;
+    border-top: 1px solid var(--line-2);
+  }
+  .sched-item:first-child {
+    padding-top: 0;
+    border-top: none;
   }
   .sched-side {
     display: flex;

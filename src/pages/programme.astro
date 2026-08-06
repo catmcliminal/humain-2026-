@@ -95,7 +95,12 @@ const hasAnySessions = sessions.length > 0;
                     </div>
                   ))}
                   {d.sessions.some((s) => s.id === 'tara-iwamoto-marketings-fifth-p') && (
-                    <h3 class="agenda-head rv">Agenda:</h3>
+                    <>
+                      <h3 class="agenda-head rv">Agenda:</h3>
+                      <div class="agenda-body rv">
+                        <p>Agenda details coming soon.</p>
+                      </div>
+                    </>
                   )}
                 </div>
               </div>
@@ -191,6 +196,22 @@ const hasAnySessions = sessions.length > 0;
     letter-spacing: -0.02em;
     line-height: 1;
     margin: 56px 0 0;
+  }
+  .agenda-body {
+    margin-top: 24px;
+  }
+  .agenda-body p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #fff;
+    max-width: 62ch;
+    margin: 0 0 16px;
+  }
+  @media (max-width: 640px) {
+    .agenda-body p {
+      font-size: 15px;
+      max-width: none;
+    }
   }
   #sessions {
     padding-bottom: 32px;

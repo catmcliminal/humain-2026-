@@ -1,0 +1,124 @@
+---
+const partners = [
+  {
+    role: 'Ecosystem Partner',
+    name: 'Stone & Chalk',
+    logo: '/images/logos/Stone_and_Chalk.png',
+    accent: 'var(--pink)',
+  },
+  {
+    role: 'Media Partner',
+    name: 'B&T',
+    logo: '/images/logos/BandT.png',
+    accent: 'var(--orange)',
+  },
+];
+---
+
+<section id="partners" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 class="rv">Our partners.</h2>
+      <span class="sec-num">— Partners</span>
+    </div>
+    <div class="partners-strip rv">
+      {
+        partners.map((p) => (
+          <a href="/partners" class="partner-tile" style={`--ac:${p.accent}`}>
+            <div class="partner-tile-logo">
+              <img src={p.logo} alt={`${p.name} logo`} loading="lazy" />
+            </div>
+            <div class="partner-tile-body">
+              <span class="partner-tile-role">{p.role}</span>
+              <span class="partner-tile-name">{p.name}</span>
+            </div>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .partners-strip {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+  }
+
+  .partner-tile {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: var(--panel);
+    border: 1px solid var(--line-2);
+    border-radius: 16px;
+    padding: 24px;
+    overflow: hidden;
+    text-decoration: none;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+  }
+
+  .partner-tile:hover {
+    border-color: var(--ac);
+    transform: translateY(-2px);
+  }
+
+  .partner-tile::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--ac);
+  }
+
+  .partner-tile-logo {
+    width: 84px;
+    height: 84px;
+    border-radius: 12px;
+    background: #fff;
+    border: 1px solid rgba(250, 247, 241, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+
+  .partner-tile-logo img {
+    width: 76%;
+    height: 76%;
+    object-fit: contain;
+  }
+
+  .partner-tile-body {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .partner-tile-role {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ac);
+  }
+
+  .partner-tile-name {
+    font-family: var(--disp);
+    font-weight: 800;
+    font-size: 22px;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+
+  @media (max-width: 700px) {
+    .partners-strip {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

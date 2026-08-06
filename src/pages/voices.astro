@@ -11,13 +11,11 @@ import { SITE } from '../config';
 
 const crumbs = breadcrumbJsonLd([{ name: 'Voices', url: `${SITE}/voices/` }]);
 
-// Keynotes lead the lineup (shown larger, above the rest), with the remaining
-// speakers below. Both groups keep their own `order`.
+// All speakers shown together, alphabetically by first name (`order`
+// reflects that sequence), with the same card treatment throughout.
 const all = currentEdition(await getCollection('speakers')).sort(
   (a, b) => a.data.order - b.data.order
 );
-const keynotes = all.filter((s) => s.data.keynote);
-const rest = all.filter((s) => !s.data.keynote);
 ---
 
 <BaseLayout
@@ -34,17 +32,8 @@ const rest = all.filter((s) => !s.data.keynote);
     />
     <section style="padding-top:48px">
       <div class="wrap">
-        {
-          keynotes.length > 0 && (
-            <div class="voices-keynotes">
-              {keynotes.map((s) => (
-                <SpeakerCard speaker={s} showBio keynote />
-              ))}
-            </div>
-          )
-        }
         <div class="voices">
-          {rest.map((s) => <SpeakerCard speaker={s} showBio />)}
+          {all.map((s) => <SpeakerCard speaker={s} showBio />)}
         </div>
       </div>
     </section>

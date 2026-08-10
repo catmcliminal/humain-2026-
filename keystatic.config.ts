@@ -51,7 +51,12 @@ export default config({
           directory: 'public/images/speakers',
           publicPath: '/images/speakers/',
         }),
-        bio: fields.text({ label: 'Bio', multiline: true }),
+        bio: fields.text({
+          label: 'Bio',
+          multiline: true,
+          description:
+            'To add a link, write it as [the words you want linked](https://the-address.com)',
+        }),
         keynote: fields.checkbox({
           label: 'Keynote',
           description:
@@ -107,7 +112,12 @@ export default config({
           directory: 'public/images/advisory',
           publicPath: '/images/advisory/',
         }),
-        bio: fields.text({ label: 'Bio', multiline: true }),
+        bio: fields.text({
+          label: 'Bio',
+          multiline: true,
+          description:
+            'To add a link, write it as [the words you want linked](https://the-address.com)',
+        }),
         order: fields.number({
           label: 'Order',
           description: 'Lower numbers appear first.',

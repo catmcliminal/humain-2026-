@@ -1,6 +1,7 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import ImageSlot from './ImageSlot.astro';
+import { bioParagraphToHtml } from '../utils/bio';
 
 interface Props {
   speaker: CollectionEntry<'speakers'>;
@@ -24,7 +25,7 @@ const s = speaker.data;
   </div>
   <h4>{s.name}</h4>
   <p set:html={s.role} />
-  {showBio && s.bio && <p class="voice-bio">{s.bio}</p>}
+  {showBio && s.bio && <p class="voice-bio" set:html={bioParagraphToHtml(s.bio)} />}
   <div class="voice-tags">
     {!s.advisory && <span class="voice-role-tag">Speaker</span>}
     {s.advisory && <span class="voice-role-tag advisory">Advisory panel</span>}

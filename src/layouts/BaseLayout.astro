@@ -22,8 +22,8 @@ interface Props {
 }
 
 const {
-  title = 'humAIn 2026 | Sydney AI, Marketing & Creativity Conference',
-  description = 'humAIn is a curated AI conference, media platform and community in Sydney, 13 October 2026. For the people exploring what stays human as AI reshapes work.',
+  title = 'humAIn 2026 | AI, Marketing & Creativity Conference — Sydney, Australia',
+  description = 'humAIn is Australia’s AI, marketing and creativity conference — 13–14 October 2026, Stone & Chalk Tech Central, Sydney. 250 senior marketing and creative leaders in one curated room.',
   ogImage = `${SITE}/images/og-default.jpg`,
   canonical = new URL(Astro.url.pathname, SITE).href,
   publishDate,
@@ -41,19 +41,40 @@ const performer =
     ? keynotes.map((s) => ({ '@type': 'Person', name: s.data.name, jobTitle: s.data.role }))
     : [{ '@type': 'Organization', name: 'humAIn', url: SITE }];
 
+// Early-bird pricing ends 25 August 2026 (per Humanitix); builds after that
+// date automatically emit standard pricing.
+const EARLY_BIRD_ENDS = '2026-08-25';
+const earlyBird = new Date() <= new Date(`${EARLY_BIRD_ENDS}T23:59:59+10:00`);
+
+const ticketOffers = [
+  { name: 'Conference only (Day 1)', early: '595', standard: '745' },
+  { name: 'Conference + Workshop (both days)', early: '795', standard: '995' },
+  { name: 'Workshop only (Day 2)', early: '475', standard: '595' },
+].map((t) => ({
+  '@type': 'Offer',
+  name: earlyBird ? `${t.name} — early bird` : t.name,
+  url: TICKET_URL,
+  price: earlyBird ? t.early : t.standard,
+  priceCurrency: 'AUD',
+  availability: 'https://schema.org/InStock',
+  validFrom: '2026-01-01',
+  ...(earlyBird ? { priceValidUntil: EARLY_BIRD_ENDS } : {}),
+}));
+
 const eventJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Event',
-  name: 'humAIn 2026',
+  '@id': `${SITE}/#event-2026`,
+  name: 'humAIn 2026 — AI, Marketing & Creativity Conference',
   description:
-    'Australia\'s conference on AI for marketing and creative professionals.',
-  startDate: '2026-10-13',
-  endDate: '2026-10-14',
+    'humAIn is Australia’s AI, marketing and creativity conference, held 13–14 October 2026 at Stone & Chalk Tech Central, Sydney. Day one is a conference for 250 senior marketing, agency and creative leaders; day two is hands-on workshops capped at 100. Now independent, after three editions under the Mumbrella/Unmade banner.',
+  startDate: '2026-10-13T09:00:00+11:00',
+  endDate: '2026-10-14T17:00:00+11:00',
   eventStatus: 'https://schema.org/EventScheduled',
   eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
   location: {
     '@type': 'Place',
-    name: 'Stone & Chalk (Collider), Tech Central',
+    name: 'Stone & Chalk Tech Central (The Collider)',
     address: {
       '@type': 'PostalAddress',
       streetAddress: '477 Pitt St',
@@ -63,18 +84,17 @@ const eventJsonLd = {
       addressCountry: 'AU',
     },
   },
-  organizer: { '@type': 'Organization', name: 'humAIn', url: SITE },
+  organizer: { '@type': 'Organization', name: 'humAIn', url: SITE, email: 'admin@humain.au' },
   performer,
-  offers: {
-    '@type': 'Offer',
-    url: TICKET_URL,
-    price: '475',
-    priceCurrency: 'AUD',
-    availability: 'https://schema.org/InStock',
-    validFrom: '2026-01-01',
+  audience: {
+    '@type': 'Audience',
+    audienceType: 'CMOs, marketing leaders, agency executives and creative directors',
   },
+  maximumAttendeeCapacity: 250,
+  isAccessibleForFree: false,
+  offers: ticketOffers,
   url: SITE,
-  image: ogImage,
+  image: [ogImage],
 };
 
 const organizationJsonLd = {

@@ -1,0 +1,161 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import PageHeader from '../components/PageHeader.astro';
+import PulseBand from '../components/PulseBand.astro';
+import { breadcrumbJsonLd } from '../utils/breadcrumbs';
+import { SITE, TICKET_URL, TICKET_IS_EXTERNAL } from '../config';
+
+const crumbs = breadcrumbJsonLd([{ name: 'FAQ', url: `${SITE}/faq/` }]);
+const ticketTarget = TICKET_IS_EXTERNAL ? '_blank' : undefined;
+const ticketRel = TICKET_IS_EXTERNAL ? 'noopener noreferrer' : undefined;
+
+const entries = (await getCollection('faq')).sort((a, b) => a.data.order - b.data.order);
+const rendered = await Promise.all(
+  entries.map(async (e) => ({ entry: e, Content: (await render(e)).Content }))
+);
+
+// Group by category, preserving order of first appearance.
+const groups: { category: string; items: typeof rendered }[] = [];
+for (const item of rendered) {
+  const cat = item.entry.data.category ?? 'General';
+  const g = groups.find((x) => x.category === cat);
+  if (g) g.items.push(item);
+  else groups.push({ category: cat, items: [item] });
+}
+
+// Plain-text answers for FAQPage JSON-LD (strip markdown emphasis/links).
+const plain = (md: string) =>
+  md
+    .replace(/\*\*([^*]+)\*\*/g, '$1')
+    .replace(/\*([^*]+)\*/g, '$1')
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+    .replace(/^[-*]\s+/gm, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: entries.map((e) => ({
+    '@type': 'Question',
+    name: e.data.question,
+    acceptedAnswer: { '@type': 'Answer', text: plain(e.body ?? '') },
+  })),
+};
+---
+
+<BaseLayout
+  title="FAQ — humAIn 2026 | AI Marketing Conference, Sydney, Australia"
+  description="Direct answers about humAIn 2026, Australia's AI, marketing and creativity conference — dates, venue, tickets, who attends, and how it compares to other AI events."
+  extraJsonLd={[crumbs, faqJsonLd]}
+>
+  <Nav />
+  <main>
+    <PageHeader
+      secNum="— FAQ"
+      h1="FAQ"
+      title="humAIn 2026: frequently asked questions"
+      lede="13–14 October 2026 · Stone & Chalk Tech Central, Sydney"
+    />
+    <PulseBand h={80} />
+
+    <section id="faq">
+      <div class="wrap">
+        {groups.map((g) => (
+          <div class="faq-group rv">
+            <h2>{g.category}</h2>
+            <div class="faq-list">
+              {g.items.map(({ entry, Content }) => (
+                <div class="faq-item">
+                  <h3>{entry.data.question}</h3>
+                  <div class="faq-answer"><Content /></div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section style="padding-top:0">
+      <div class="wrap">
+        <div class="sec-cta rv">
+          <a href={TICKET_URL} class="btn" target={ticketTarget} rel={ticketRel}
+            ><span class="dot"></span>Get tickets →</a
+          >
+          <a href="/programme" class="btn ghost">See the programme →</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  #faq {
+    padding-bottom: 40px;
+  }
+  .faq-group + .faq-group {
+    border-top: 1px solid var(--line-2);
+    margin-top: 56px;
+    padding-top: 56px;
+  }
+  .faq-group h2 {
+    font-family: var(--disp);
+    font-weight: 800;
+    font-size: clamp(26px, 3vw, 40px);
+    letter-spacing: -0.02em;
+    margin: 0 0 28px;
+  }
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+  }
+  .faq-item {
+    padding: 28px 0;
+    border-top: 1px solid var(--line-2);
+    max-width: 72ch;
+  }
+  .faq-item:first-child {
+    border-top: none;
+    padding-top: 0;
+  }
+  .faq-item h3 {
+    font-family: var(--disp);
+    font-weight: 700;
+    font-size: 19px;
+    letter-spacing: -0.01em;
+    margin: 0 0 10px;
+  }
+  .faq-answer {
+    font-size: 15px;
+    line-height: 1.6;
+    color: #fff;
+  }
+  .faq-answer :global(p) {
+    margin: 0 0 12px;
+  }
+  .faq-answer :global(p:last-child) {
+    margin-bottom: 0;
+  }
+  .faq-answer :global(ul) {
+    margin: 0 0 12px;
+    padding-left: 20px;
+  }
+  .faq-answer :global(li) {
+    margin-bottom: 6px;
+  }
+  .faq-answer :global(a) {
+    color: var(--ink);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .sec-cta {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+</style>

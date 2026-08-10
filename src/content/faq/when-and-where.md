@@ -4,4 +4,4 @@ category: About
 order: 2
 ---
 
-humAIn 2026 takes place on **13–14 October 2026** in Sydney, Australia. The venue will be announced shortly. Subscribe to the newsletter to be the first to know.
+humAIn 2026 takes place on **13–14 October 2026** at Stone & Chalk, Tech Central Innovation Hub (The Collider, 477 Pitt St, Haymarket), Sydney, Australia. Day one is the conference; day two is the workshop programme.

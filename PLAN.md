@@ -138,3 +138,14 @@ at `_source/humAIn - 06 Pulse.html`).
   from `Dr Pat headshot.png` in the shared assets folder on the assumption that
   "Dr Pat" is him — Cat to confirm, and swap
   `public/images/speakers/patrick-aouad/photo.png` if not.
+- **2026-08-11** — Arum Nixon (Chapter Lead, Ad Net Zero Australia) added to the
+  speakers collection at `order: 1`, renumbering Bridget through Vinne. Active
+  2026 speaker count is now 13. Arum renders first on `/voices` because Annie
+  Liao holds `order: 0` but is `active: false` (advisory-panel-only) — if Annie
+  is ever confirmed as speaking, flip her `active`, don't reorder Arum.
+  Founder photos added to `/about`: the `founders` array in
+  `src/pages/about.astro` now takes an optional `photo`, with the `ImageSlot`
+  empty state as the fallback, and both Cat McGinn and Belinda Cusack have
+  images in `public/images/team/`. Belinda's source is only 346×443, so it is
+  slightly soft on retina in the 249px slot — replace with a larger original
+  when one exists.

@@ -130,3 +130,11 @@ at `_source/humAIn - 06 Pulse.html`).
   Directory submissions need Cat (account/form sign-ups). Pricing note: goal
   brief said standard pricing from 8 Aug, but Humanitix still sells early bird
   to 25 Aug — site matches Humanitix; reconcile if unintended.
+- **2026-08-10 (speakers)** — Roster additions since the 2026-08-06 confirmed
+  eight: Matt Jones (MC), Tara Iwamoto, Julia Vargiu, and Dr Patrick Aouad
+  (Founder & CEO, CU Health). Active 2026 speaker count is now 12. Alphabetical
+  -by-first-name `order` maintained on each insert — adding a speaker mid-list
+  means renumbering everyone after them. **Check:** Patrick's headshot was taken
+  from `Dr Pat headshot.png` in the shared assets folder on the assumption that
+  "Dr Pat" is him — Cat to confirm, and swap
+  `public/images/speakers/patrick-aouad/photo.png` if not.

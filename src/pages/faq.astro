@@ -64,6 +64,19 @@ const faqJsonLd = {
 
     <section id="faq">
       <div class="wrap">
+        <div class="faq-facts rv">
+          <p>
+            humAIn is Australia's conference on AI, marketing and creativity. The 2026
+            edition runs 13–14 October at Stone & Chalk, Tech Central Innovation Hub,
+            Sydney — a conference day capped at 250 delegates, then a workshop day capped
+            at 100. It is built for CMOs, marketing and agency leaders, and creative
+            industry executives: at the last edition, 56% of delegates were marketing
+            leaders and 81% were senior decision-makers. 2026 is the fourth edition and
+            the first as a fully independent event, after three years under the
+            Mumbrella/Unmade banner. Tickets are on
+            <a href={TICKET_URL} target={ticketTarget} rel={ticketRel}>Humanitix</a>.
+          </p>
+        </div>
         {groups.map((g) => (
           <div class="faq-group rv">
             <h2>{g.category}</h2>
@@ -97,6 +110,21 @@ const faqJsonLd = {
 <style>
   #faq {
     padding-bottom: 40px;
+  }
+  .faq-facts {
+    max-width: 72ch;
+    margin-bottom: 56px;
+  }
+  .faq-facts p {
+    font-size: 16px;
+    line-height: 1.65;
+    color: #fff;
+    margin: 0;
+  }
+  .faq-facts a {
+    color: var(--ink);
+    text-decoration: underline;
+    text-underline-offset: 3px;
   }
   .faq-group + .faq-group {
     border-top: 1px solid var(--line-2);

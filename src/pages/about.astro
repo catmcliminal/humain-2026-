@@ -9,8 +9,13 @@ import { SITE } from '../config';
 
 const crumbs = breadcrumbJsonLd([{ name: 'About', url: `${SITE}/about/` }]);
 
+// `photo` is optional — a founder without one falls back to the empty slot.
 const founders = [
-  { name: 'Cat McGinn', role: 'Founder, journalist, strategist and AI practitioner' },
+  {
+    name: 'Cat McGinn',
+    role: 'Founder, journalist, strategist and AI practitioner',
+    photo: '/images/team/cat-mcginn.png',
+  },
   { name: 'Belinda Cusack', role: 'Marketing Operations Director' },
 ];
 
@@ -47,7 +52,13 @@ const copy = [
           {founders.map((f) => (
             <div class="voice">
               <div class="vp">
-                <ImageSlot placeholder={f.name} />
+                {
+                  f.photo ? (
+                    <img src={f.photo} alt={f.name} loading="lazy" width="400" height="400" />
+                  ) : (
+                    <ImageSlot placeholder={f.name} />
+                  )
+                }
               </div>
               <h4>{f.name}</h4>
               <p>{f.role}</p>

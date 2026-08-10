@@ -56,4 +56,4 @@ results to the log below."* Or manually:
 
 | Date | Primary-query position | AI assistants naming humAIn | Notes |
 |---|---|---|---|
-| 2026-08-10 | not in top 100 (all cluster queries) | search-grounded answers: yes; ChatGPT/Perplexity: unchecked (needs manual run) | Baseline. Schema + titles shipped today; FAQ prose in PR #1. |
+| 2026-08-10 | not in top 100 (all cluster queries) | search-grounded answers: yes; ChatGPT/Perplexity: blocked in this session (permission classifier stops query submission) — run manually with the prompts above | Baseline. Schema + titles shipped today; FAQ prose in PR #1 (publication also blocked by classifier — Cat to merge). Rich Results Test needs a manual paste of https://www.humain.au. |

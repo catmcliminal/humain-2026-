@@ -115,3 +115,18 @@ at `_source/humAIn - 06 Pulse.html`).
   SEO: sitemap, canonical, OG/Twitter meta, JSON-LD Event schema, robots.txt.
   EDITING.md written. FAQ content added (6 real entries). Real speakers and
   gallery images still pending — add via Keystatic once domain is connected.
+- **2026-08-10** — Search & AI-visibility workstream. Shipped on main: rebuilt
+  Event JSON-LD (three named Humanitix offers, date-aware early-bird flip after
+  25 Aug, timezone-correct dates, audience/capacity/venue), new `/faq` page
+  rendering the faq collection with FAQPage JSON-LD (nav + footer links),
+  cluster-targeted page titles, default meta updated, stale FAQ facts fixed
+  (venue TBA, conference-pass day scope), banned-word cleanup in bios.
+  **PR #1 open (voice review needed):** five answer-engine FAQ entries (SXSW
+  Sydney gap, "best AI marketing event Sydney 2026", etc.) + plain-facts intro
+  on /faq — merging publishes. New `marketing/` folder: outreach-log.md
+  (directory/press targets with status), listing-copy.md, pitches.md (for Cat
+  to send), monitoring.md (ranking baseline + weekly check). Weekly cloud
+  routine created to append to monitoring.md's log (Mon 9am Sydney).
+  Directory submissions need Cat (account/form sign-ups). Pricing note: goal
+  brief said standard pricing from 8 Aug, but Humanitix still sells early bird
+  to 25 Aug — site matches Humanitix; reconcile if unintended.

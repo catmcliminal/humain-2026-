@@ -50,6 +50,9 @@ const copy = [
       <div class="wrap">
         <div class="about-copy rv">
           {copy.slice(1).map((para) => <p>{para}</p>)}
+          <p class="about-more">
+            <a href="/about/editorial-standards">Read our editorial standards →</a>
+          </p>
         </div>
 
         <div class="founders rv">
@@ -88,6 +91,17 @@ const copy = [
     line-height: 1.7;
     color: #fff;
     margin: 0;
+  }
+  .about-more {
+    margin-top: 8px;
+  }
+  .about-more a {
+    color: var(--pink);
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .about-more a:hover {
+    text-decoration: underline;
   }
   .founders {
     display: grid;

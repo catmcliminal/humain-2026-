@@ -1,0 +1,195 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import { breadcrumbJsonLd } from '../../utils/breadcrumbs';
+import { SITE } from '../../config';
+
+const crumbs = breadcrumbJsonLd([
+  { name: 'About', url: `${SITE}/about/` },
+  { name: 'Editorial Standards', url: `${SITE}/about/editorial-standards/` },
+]);
+---
+
+<BaseLayout
+  title="Editorial Standards | humAIn Media"
+  description="How humAIn Media reports: our editorial test, our use of AI, commercial independence, sourcing and fairness, and how we handle corrections."
+  extraJsonLd={[crumbs]}
+>
+  <Nav />
+  <main>
+    <PageHeader
+      secNum="— About"
+      title="Our editorial standards"
+      lede="humAIn Media exists to help the creative industries adapt to, and lead through disruption."
+    />
+    <div class="ed-page">
+      <div class="wrap">
+        <div class="ed-body rv">
+
+          <p>We publish journalism, analysis, commentary, criticism, research, education and industry intelligence designed to help our audience understand what is changing, why it matters and what to do about it.</p>
+
+          <p class="stmt">Our aim is to inform, inspire and empower.</p>
+
+          <p>We are independent, evidence-led and technology-neutral. We remain fascinated by what technology enables, improves, harms, displaces or concentrates, not in defending a predetermined position for or against it.</p>
+
+          <p class="stmt">We believe optimism and scrutiny belong together.</p>
+
+          <p>We call out harms, risks, failures and abuses of power where they exist. We do so not to manufacture fear or outrage, but because the creative industries are better served by an honest examination of the forces reshaping them.</p>
+
+          <p class="stmt">We encourage thinking out loud and building in public.</p>
+
+          <p>We invite strong opinions, held loosely, and expect ideas to evolve as the evidence improves.</p>
+
+          <p>Our aim is simple: to leave readers better equipped to think, decide, act and thrive.</p>
+
+          <h2>Our editorial test</h2>
+          <p>Before we publish, we ask:</p>
+
+          <div class="ed-test">
+            <div class="ed-q">
+              <h3>Is it supportably true?</h3>
+              <p>Can we substantiate the factual claims, and have we distinguished fact from inference, uncertainty and opinion?</p>
+            </div>
+            <div class="ed-q">
+              <h3>Is it fair?</h3>
+              <p>Have we represented the evidence, people and positions involved accurately and proportionately?</p>
+            </div>
+            <div class="ed-q">
+              <h3>Is it useful?</h3>
+              <p>Will the reader understand something or be able to do something they could not before?</p>
+            </div>
+            <div class="ed-q">
+              <h3>Is it original?</h3>
+              <p>Are we contributing reporting, analysis, experience, synthesis or a genuinely distinctive point of view?</p>
+            </div>
+            <div class="ed-q">
+              <h3>Is it courageous?</h3>
+              <p>Are we saying something worth saying, even when it may be uncomfortable, rather than being provocative for the algo?</p>
+            </div>
+            <div class="ed-q">
+              <h3>Is it generous?</h3>
+              <p>Does it improve the conversation and help the industry move forward (rather than merely scoring points?</p>
+              <p>Does it leave the audience better equipped to think, decide or act?</p>
+            </div>
+          </div>
+
+          <h2>Human authored. Human reviewed. Human accountable.</h2>
+
+          <p>humAIn Media uses AI systems in research, editing, image creation and internal production processes.</p>
+
+          <p>Published writing is human authored. We may use AI for drafting, as a thought partner, research assistant or editing, but the essence and the soul of our work is human.</p>
+
+          <p>Nothing is published without human editorial review, and a human editor remains responsible for every publication decision.</p>
+
+          <p>Some AI systems now embed machine-readable marks in the text and files they produce. Because we use AI in drafting, editing, data synthesis and research, our published work may carry such marks. A machine processing content does not override our human standard.</p>
+
+          <p>We do not treat AI-generated material as verified evidence. Claims, quotations, statistics and sources must be checked independently.</p>
+
+          <p>Where the use of synthetic imagery, audio, video or other AI-generated material is significant to a reader’s understanding, we disclose it. We do not use synthetic media in ways that could mislead readers about real people, events or evidence.</p>
+
+          <h2>Independence and commercial transparency</h2>
+
+          <p>Our editorial decisions are made independently.</p>
+
+          <p>Paid content and commercial partnerships are clearly labelled. Sponsors, partners and advertisers do not receive undisclosed influence over our independent editorial coverage.</p>
+
+          <p>Contributors and team members disclose relevant financial, professional or personal conflicts of interest and consult the editor where the appropriate course is unclear.</p>
+
+          <p>Staff gifts are recorded in a gift register.</p>
+
+          <h2>Sources, fairness and accountability</h2>
+
+          <p>We aim to support material factual claims with credible evidence and to attribute information so readers can understand where it came from to judge for themselves.</p>
+
+          <p>Anonymous sources require editorial approval and must be justified by the circumstances. Anonymity is not granted merely for convenience or to enable an unaccountable attack.</p>
+
+          <p>People and organisations facing serious allegations, disputed facts or materially adverse claims will ordinarily be given a fair opportunity to respond before publication.</p>
+
+          <p>A right of reply is not a right to control, indefinitely delay or prevent publication.</p>
+
+          <h2>If and when we get something wrong</h2>
+
+          <p class="stmt">Accuracy matters more than ego.</p>
+
+          <p>We may correct spelling, grammar, formatting and similarly immaterial errors that do not alter meaning after publication without notifying readers.</p>
+
+          <p>Material factual errors are corrected transparently. Significant additions may carry an update note. Editorial context may be explained through an editor’s note. If the central claim or integrity of a piece cannot be sustained, we will retract it.</p>
+
+          <p>When we get something wrong, we say so, we'll apologise if it’s warranted, and amend the record.</p>
+
+          <div class="ed-sign">
+            <p class="ed-err">To err is humAIn.</p>
+            <p>Thank you for coming along for the ride.</p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .ed-page { padding: 48px 0 100px; }
+  .ed-body { max-width: 740px; }
+  .ed-body p {
+    font-size: 16px;
+    line-height: 1.7;
+    color: #fff;
+    margin: 0 0 18px;
+  }
+  /* The copy alternates short declarative lead-lines with their elaboration;
+     `.stmt` gives those lead-lines the display voice without changing wording. */
+  .ed-body .stmt {
+    font-family: var(--disp);
+    font-weight: 700;
+    font-size: clamp(20px, 2.6vw, 26px);
+    line-height: 1.3;
+    letter-spacing: -.015em;
+    margin: 32px 0 18px;
+  }
+  .ed-body h2 {
+    font-family: var(--disp);
+    font-weight: 800;
+    font-size: clamp(24px, 3.4vw, 34px);
+    line-height: 1.15;
+    letter-spacing: -.02em;
+    margin: 64px 0 18px;
+    padding-top: 32px;
+    border-top: 1px solid var(--line-2);
+  }
+  .ed-test {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin: 28px 0 18px;
+  }
+  .ed-q {
+    border-left: 2px solid var(--pink);
+    padding-left: 18px;
+  }
+  .ed-q h3 {
+    font-family: var(--disp);
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: -.01em;
+    margin: 0 0 8px;
+  }
+  .ed-q p { margin: 0 0 8px; }
+  .ed-q p:last-child { margin-bottom: 0; }
+  .ed-sign {
+    margin-top: 56px;
+    padding-top: 32px;
+    border-top: 1px solid var(--line-2);
+  }
+  .ed-sign .ed-err {
+    font-family: var(--disp);
+    font-weight: 800;
+    font-size: clamp(26px, 4vw, 40px);
+    line-height: 1.1;
+    letter-spacing: -.02em;
+    margin-bottom: 12px;
+  }
+</style>

@@ -7,7 +7,14 @@ const ticketRel = TICKET_IS_EXTERNAL ? 'noopener noreferrer' : undefined;
 // Top-level nav groups, mirrored in Footer.astro's Event/Media/Community
 // columns so header and footer present the same site structure.
 const groups = [
-  { label: 'About', href: '/about' },
+  {
+    label: 'About',
+    href: '/about',
+    children: [
+      { label: 'About', href: '/about' },
+      { label: 'Editorial Standards', href: '/about/editorial-standards' },
+    ],
+  },
   {
     label: 'Event',
     href: '/#conference',

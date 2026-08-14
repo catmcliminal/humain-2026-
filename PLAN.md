@@ -91,6 +91,7 @@ at `_source/humAIn - 06 Pulse.html`).
 | 2026-06-12 | `legacy-peer-deps=true` in `.npmrc` | `@astrojs/netlify` v7 peer dep conflict with npm's strict resolver on Netlify CI |
 | 2026-06-12 | `advisory` boolean on speakers (separate from `keynote`) | Owner wants advisory panel members visually distinguished from speakers |
 | 2026-08-05 | New `advisory` content collection, independent of `speakers` | Owner wants Speakers and Advisory Panel edited as fully separate pages/collections, not one shared record with a flag. `/community/advisory` now reads its own `src/content/advisory/*.yaml` files (own Keystatic collection, own `public/images/advisory/` directory). The `advisory` boolean on `speakers` is kept as-is — it only drives the pink/yellow tag on `/voices` and is unrelated to which page's content an editor manages. The 9 people who are both speaking and advising now have two independent entries (one per collection); editing one does not affect the other. |
+| 2026-08-12 | Editorial standards published as its own page at `/about/editorial-standards`, not a section of `/about` | It's a trust document people link to and arrive at directly (sources, PR contacts, partners), and a discoverable editorial policy is an E-E-A-T signal for a publisher. Nesting under `/about` (following the `/community/advisory` precedent) leaves room for a corrections policy or ownership statement later. Hard-coded like `/privacy` and `/terms` rather than a Keystatic collection — a one-entry collection adds handover clutter for a page that changes rarely. |
 | 2026-08-06 | Confirmed 2026 Speakers roster: Pip Bingemann, James Caldwell, Tea Uglow, Marie-Céline Merret, Vinne Schifferstein, Bridget Cleary, Kent Boswell, Marcus Tesoriero | Owner confirmed these 8 as the actual speaker lineup. Set `active: false` on the other 6 speaker entries (Annie Liao, Dave King, Karen Powell, Joana Barros, Jeremy Somers, Sarah Yassien) — they were advisory-panel-only, not speaking. Data kept, not deleted; they remain live on `/community/advisory` via their separate `advisory` collection entries. |
 
 ## Open questions
@@ -149,3 +150,15 @@ at `_source/humAIn - 06 Pulse.html`).
   images in `public/images/team/`. Belinda's source is only 346×443, so it is
   slightly soft on retina in the 249px slot — replace with a larger original
   when one exists.
+- **2026-08-12** — Editorial standards page added at
+  `/about/editorial-standards` (`src/pages/about/editorial-standards.astro`).
+  Copy supplied by Cat and rendered verbatim — the wording is not to be edited;
+  the page only adds structure (statement lines in the display font, the six
+  editorial-test questions as pink-ruled blocks, section rules, sign-off).
+  Verified token-for-token against the supplied source, including the
+  unclosed parenthesis in "Is it generous?" and the mixed straight/curly
+  apostrophes — fix those only if Cat asks. Supporting changes: About is now a
+  nav group (About / Editorial Standards) in `Nav.astro`, the page is linked in
+  the footer's Company column, `/about` ends with a cross-link, and the
+  Organization JSON-LD in `BaseLayout.astro` now carries
+  `publishingPrinciples` pointing at the new URL.

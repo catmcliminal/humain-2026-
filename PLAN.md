@@ -103,9 +103,6 @@ at `_source/humAIn - 06 Pulse.html`).
    - Upload a real OG share image to `public/images/og-default.jpg` (1200×630px).
 2. **Real gallery photos** — only a placeholder gallery entry exists. Upload actual event photos.
 3. **Paul's Vercel project** — still running at humain-site-seven.vercel.app. Decommission once the Netlify site is confirmed stable on the real domain.
-4. **Stale remote branches** — six merged/superseded branches still on the remote. Deleting them needs to be run by Cat (Claude Code's permission classifier blocks remote branch deletion):
-   `git push origin --delete claude/bold-feynman-r52x11 claude/charming-ride-y4bopq claude/gracious-feynman-c1oyzc claude/kind-volta-cdf749 claude/plan-status-check-up8wdl content/answer-engine-faq`
-   Verified safe first: three were fully merged; `gracious-feynman-c1oyzc` and `plan-status-check-up8wdl` carry only work already on main by other means (netlify v7, `.netlify` ignored, conference pricing) plus superseded PLAN edits; `content/answer-engine-faq` is merged. Restore any with `git push origin <sha>:refs/heads/<branch>` — SHAs a85bbdb, 4ffc37c, 71e2b53, 4380072, c12fd61.
 
 ## Session notes
 

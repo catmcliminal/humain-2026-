@@ -179,8 +179,15 @@ at `_source/humAIn - 06 Pulse.html`).
   The three RGBA PNGs were flattened onto the card background (`#1c1714`);
   none had real transparency (Patrick's alpha was near-opaque editor noise).
   Originals remain in git history and in the shared assets folder.
-  **Not yet done:** the same pass on `public/images/advisory/` (~6MB) and
-  `public/images/team/`.
+  Same pass then run on `public/images/advisory/` (6.1MB → 844KB) and
+  `public/images/team/` (0.9MB → 176KB). Path updates followed in the advisory
+  YAML (dave-king `.png`, joana-barros `.jpeg`) and in `src/pages/about.astro`
+  (cat-mcginn `.png` → `.jpg`). Nofil's advisory photo carried EXIF
+  orientation 8; the rotation is now baked into the pixels, so it no longer
+  depends on the browser honouring EXIF. Belinda's team photo was left
+  untouched — at 346×443 it is already the softest image on the site and
+  re-encoding would cost more than the 18KB saved; replace with a larger
+  original when one exists. **Site image weight overall: 21.6MB → 2.6MB.**
 - **2026-08-12 (answer-engine FAQ merged)** — `content/answer-engine-faq`
   merged to main and deployed. The five entries (orders 4–8: AI marketing
   conference Australia, SXSW Sydney gap, best AI marketing event Sydney 2026,

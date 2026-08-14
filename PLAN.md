@@ -163,6 +163,12 @@ at `_source/humAIn - 06 Pulse.html`).
   the footer's Company column, `/about` ends with a cross-link, and the
   Organization JSON-LD in `BaseLayout.astro` now carries
   `publishingPrinciples` pointing at the new URL.
+- **2026-08-14 (speakers)** — Neil Ackland (Founder, Lokol) added at
+  `order: 13`, renumbering Patrick through Vinne (14–19). Active 2026 speaker
+  count is now 14. Bio supplied by Cat, used verbatim. Headshot from the shared
+  assets folder (`Neil Profile Headshot 2026.png`) — a 1684×1353 PNG at 2.2MB,
+  the largest image on the site; fine visually in the 272px square slot but a
+  candidate for compression if speaker photos ever get a pass.
 - **2026-08-12 (answer-engine FAQ merged)** — `content/answer-engine-faq`
   merged to main and deployed. The five entries (orders 4–8: AI marketing
   conference Australia, SXSW Sydney gap, best AI marketing event Sydney 2026,

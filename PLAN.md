@@ -163,6 +163,10 @@ at `_source/humAIn - 06 Pulse.html`).
   the footer's Company column, `/about` ends with a cross-link, and the
   Organization JSON-LD in `BaseLayout.astro` now carries
   `publishingPrinciples` pointing at the new URL.
+- **2026-08-12 (advisory)** — Nofil Khan (Founder, Avicenna) added to the
+  advisory collection at `order: 7`, renumbering Pip through Tea (8–11). The
+  panel is ordered alphabetically by first name, so inserting mid-list means
+  renumbering everyone after. Advisory panel count is now 12.
 - **2026-08-12 (gift register)** — `/about/gift-register` added, backed by a new
   `gifts` content collection (Zod in `src/content.config.ts`, mirrored in
   `keystatic.config.ts`, documented in `EDITING.md`). Page copy is Cat's,

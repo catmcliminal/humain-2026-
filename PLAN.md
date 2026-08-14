@@ -167,8 +167,20 @@ at `_source/humAIn - 06 Pulse.html`).
   `order: 13`, renumbering Patrick through Vinne (14–19). Active 2026 speaker
   count is now 14. Bio supplied by Cat, used verbatim. Headshot from the shared
   assets folder (`Neil Profile Headshot 2026.png`) — a 1684×1353 PNG at 2.2MB,
-  the largest image on the site; fine visually in the 272px square slot but a
-  candidate for compression if speaker photos ever get a pass.
+  the largest image on the site — since compressed with the rest (below).
+- **2026-08-14 (speaker photo compression)** — All 20 speaker photos resized to
+  a 1000px long edge and re-encoded as progressive JPEG q82:
+  **14.6MB → 1.6MB (89% smaller)**. Cards render at 273px (546px at 2× DPR), so
+  1000px keeps headroom for the single-column keynote layout on mobile. Four
+  PNGs and one `.jpeg` became `.jpg`, so their `photo:` paths were updated in
+  `src/content/speakers/*.yaml` **and** in
+  `src/content/schedule/james-caldwell-keynote.yaml`, which carries its own
+  `photos` array — check that file whenever a speaker image is renamed.
+  The three RGBA PNGs were flattened onto the card background (`#1c1714`);
+  none had real transparency (Patrick's alpha was near-opaque editor noise).
+  Originals remain in git history and in the shared assets folder.
+  **Not yet done:** the same pass on `public/images/advisory/` (~6MB) and
+  `public/images/team/`.
 - **2026-08-12 (answer-engine FAQ merged)** — `content/answer-engine-faq`
   merged to main and deployed. The five entries (orders 4–8: AI marketing
   conference Australia, SXSW Sydney gap, best AI marketing event Sydney 2026,

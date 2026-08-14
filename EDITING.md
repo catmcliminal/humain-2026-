@@ -60,6 +60,23 @@ Questions and answers shown in the FAQ section. Each entry has:
 - **Order** — controls the order they appear in
 - **Body** — the answer, written in Markdown (supports bold, links, lists)
 
+### Gift Register
+The public record at `/about/gift-register`, promised in our editorial standards.
+Add an entry whenever a gift, meal, ticket, trip or other benefit is offered to
+anyone working on humAIn — **including ones you turn down**. Declining something and
+recording that you declined it is the point of the register. Each entry has:
+- **Gift** — what was offered, e.g. `Dinner and drinks`
+- **Date received**
+- **Received by** — the person it was offered to
+- **Offered by** — the person and/or company offering it
+- **Approximate value** — a rough figure is fine, e.g. `approx. $150`. Leave blank if you truly don't know
+- **Outcome** — Retained, Declined, Returned, Donated, or Shared with the team
+- **Notes** — optional context
+- **Published** — untick while you're checking details; the entry stays off the public page until you tick it
+
+Until the first entry is added, the page shows "No gifts or hospitality have been
+recorded yet," which is accurate and fine to leave live.
+
 ### Schedule
 The conference agenda. Each session has:
 - **Title**, **Day** (13 Oct or 14 Oct 2026), **Start time**, **End time**

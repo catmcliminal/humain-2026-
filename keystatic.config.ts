@@ -375,5 +375,63 @@ export default config({
         answer: fields.markdoc({ label: 'Answer', extension: 'md' }),
       },
     }),
+
+    gifts: collection({
+      label: 'Gift Register',
+      slugField: 'gift',
+      path: 'src/content/gifts/*',
+      format: { data: 'yaml' },
+      schema: {
+        gift: fields.slug({
+          name: {
+            label: 'Gift',
+            description:
+              'What was offered, e.g. "Dinner and drinks" or "Conference ticket".',
+          },
+        }),
+        dateReceived: fields.date({
+          label: 'Date received',
+          validation: { isRequired: true },
+        }),
+        recipient: fields.text({
+          label: 'Received by',
+          description: 'Who it was offered to, e.g. "Cat McGinn".',
+          validation: { isRequired: true },
+        }),
+        from: fields.text({
+          label: 'Offered by',
+          description: 'The person and/or organisation who offered it.',
+          validation: { isRequired: true },
+        }),
+        estimatedValue: fields.text({
+          label: 'Approximate value',
+          description:
+            'A rough figure is fine — write it how you would say it, e.g. "approx. $150". Leave blank if you genuinely do not know.',
+        }),
+        outcome: fields.select({
+          label: 'Outcome',
+          description: 'What happened to it.',
+          options: [
+            { label: 'Retained', value: 'Retained' },
+            { label: 'Declined', value: 'Declined' },
+            { label: 'Returned', value: 'Returned' },
+            { label: 'Donated', value: 'Donated' },
+            { label: 'Shared with the team', value: 'Shared with the team' },
+          ],
+          defaultValue: 'Retained',
+        }),
+        notes: fields.text({
+          label: 'Notes',
+          multiline: true,
+          description: 'Optional. Any context a reader would need.',
+        }),
+        published: fields.checkbox({
+          label: 'Published',
+          description:
+            'Untick to keep an entry off the public register while you check the details.',
+          defaultValue: true,
+        }),
+      },
+    }),
   },
 });

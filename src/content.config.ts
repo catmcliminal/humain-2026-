@@ -157,4 +157,32 @@ const faq = defineCollection({
   }),
 });
 
-export const collections = { speakers, advisory, schedule, news, gallery, sponsors, faq };
+/*
+ * Gift register — the public record promised on /about/editorial-standards
+ * ("Staff gifts are recorded in a gift register"). One YAML file per entry.
+ *
+ * No `order` field: a register is chronological, so `dateReceived` drives the
+ * sequence (newest first). Declined and returned offers belong here too — the
+ * point of the record is what was offered, not only what was kept.
+ */
+const gifts = defineCollection({
+  loader: glob({ pattern: '**/*.yaml', base: './src/content/gifts' }),
+  schema: z.object({
+    // What the gift was, e.g. "Dinner and drinks" or "Noise-cancelling headphones".
+    gift: z.string(),
+    dateReceived: z.coerce.date(),
+    // Who it was offered to, e.g. "Cat McGinn".
+    recipient: z.string(),
+    // Who offered it — person and/or organisation.
+    from: z.string(),
+    // Free text, not a number: editors rarely know the exact figure and an
+    // honest "approx. $150" beats a false precision. e.g. "approx. $150".
+    estimatedValue: z.string().optional(),
+    outcome: z.enum(['Retained', 'Declined', 'Returned', 'Donated', 'Shared with the team']),
+    notes: z.string().optional(),
+    // Lets an entry be drafted before it goes on the public record.
+    published: z.boolean().default(true),
+  }),
+});
+
+export const collections = { speakers, advisory, schedule, news, gallery, sponsors, faq, gifts };

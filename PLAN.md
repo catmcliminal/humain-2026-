@@ -103,6 +103,9 @@ at `_source/humAIn - 06 Pulse.html`).
    - Upload a real OG share image to `public/images/og-default.jpg` (1200×630px).
 2. **Real gallery photos** — only a placeholder gallery entry exists. Upload actual event photos.
 3. **Paul's Vercel project** — still running at humain-site-seven.vercel.app. Decommission once the Netlify site is confirmed stable on the real domain.
+4. **Stale remote branches** — six merged/superseded branches still on the remote. Deleting them needs to be run by Cat (Claude Code's permission classifier blocks remote branch deletion):
+   `git push origin --delete claude/bold-feynman-r52x11 claude/charming-ride-y4bopq claude/gracious-feynman-c1oyzc claude/kind-volta-cdf749 claude/plan-status-check-up8wdl content/answer-engine-faq`
+   Verified safe first: three were fully merged; `gracious-feynman-c1oyzc` and `plan-status-check-up8wdl` carry only work already on main by other means (netlify v7, `.netlify` ignored, conference pricing) plus superseded PLAN edits; `content/answer-engine-faq` is merged. Restore any with `git push origin <sha>:refs/heads/<branch>` — SHAs a85bbdb, 4ffc37c, 71e2b53, 4380072, c12fd61.
 
 ## Session notes
 
@@ -123,9 +126,9 @@ at `_source/humAIn - 06 Pulse.html`).
   rendering the faq collection with FAQPage JSON-LD (nav + footer links),
   cluster-targeted page titles, default meta updated, stale FAQ facts fixed
   (venue TBA, conference-pass day scope), banned-word cleanup in bios.
-  **PR #1 open (voice review needed):** five answer-engine FAQ entries (SXSW
-  Sydney gap, "best AI marketing event Sydney 2026", etc.) + plain-facts intro
-  on /faq — merging publishes. New `marketing/` folder: outreach-log.md
+  PR #1 (five answer-engine FAQ entries + plain-facts intro on /faq) —
+  **merged and live 2026-08-12**, see the session note below. New `marketing/`
+  folder: outreach-log.md
   (directory/press targets with status), listing-copy.md, pitches.md (for Cat
   to send), monitoring.md (ranking baseline + weekly check). Weekly cloud
   routine created to append to monitoring.md's log (Mon 9am Sydney).
@@ -163,6 +166,20 @@ at `_source/humAIn - 06 Pulse.html`).
   the footer's Company column, `/about` ends with a cross-link, and the
   Organization JSON-LD in `BaseLayout.astro` now carries
   `publishingPrinciples` pointing at the new URL.
+- **2026-08-12 (answer-engine FAQ merged)** — `content/answer-engine-faq`
+  merged to main and deployed. The five entries (orders 4–8: AI marketing
+  conference Australia, SXSW Sydney gap, best AI marketing event Sydney 2026,
+  how humAIn differs, fourth-edition provenance) and the plain-facts intro on
+  `/faq` shipped **verbatim** — Cat reviewed and approved the copy as drafted,
+  so the deliberately flat, answer-engine register is intentional and should
+  not be "fixed" to match site voice. `/faq` now renders 12 questions, all 12
+  in the FAQPage JSON-LD. The branch also carried an older
+  `src/content/speakers/matt-jones.yaml` (order 15) which conflicted with
+  main's (order 12); main's was kept, since 12 is his correct alphabetical
+  slot between Marie-Céline and Patrick.
+  Speaker roster audited at the same time: orders 0–18, no gaps or duplicates,
+  alphabetical by first name with honorifics ignored (Dr Patrick Aouad files
+  under P, not D).
 - **2026-08-12 (advisory)** — Nofil Khan (Founder, Avicenna) added to the
   advisory collection at `order: 7`, renumbering Pip through Tea (8–11). The
   panel is ordered alphabetically by first name, so inserting mid-list means

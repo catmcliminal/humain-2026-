@@ -406,19 +406,7 @@ export default config({
         estimatedValue: fields.text({
           label: 'Approximate value',
           description:
-            'A rough figure is fine — write it how you would say it, e.g. "approx. $150". Leave blank if you genuinely do not know.',
-        }),
-        outcome: fields.select({
-          label: 'Outcome',
-          description: 'What happened to it.',
-          options: [
-            { label: 'Retained', value: 'Retained' },
-            { label: 'Declined', value: 'Declined' },
-            { label: 'Returned', value: 'Returned' },
-            { label: 'Donated', value: 'Donated' },
-            { label: 'Shared with the team', value: 'Shared with the team' },
-          ],
-          defaultValue: 'Retained',
+            'A rough figure is fine — write it how you would say it, e.g. "RRP $59.99". Anything over $50 goes on the register.',
         }),
         notes: fields.text({
           label: 'Notes',

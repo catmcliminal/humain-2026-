@@ -162,8 +162,8 @@ const faq = defineCollection({
  * ("Staff gifts are recorded in a gift register"). One YAML file per entry.
  *
  * No `order` field: a register is chronological, so `dateReceived` drives the
- * sequence (newest first). Declined and returned offers belong here too — the
- * point of the record is what was offered, not only what was kept.
+ * sequence (newest first). The recording threshold ($50) is stated on the page,
+ * not enforced here — `estimatedValue` is free text by design.
  */
 const gifts = defineCollection({
   loader: glob({ pattern: '**/*.yaml', base: './src/content/gifts' }),
@@ -176,9 +176,8 @@ const gifts = defineCollection({
     // Who offered it — person and/or organisation.
     from: z.string(),
     // Free text, not a number: editors rarely know the exact figure and an
-    // honest "approx. $150" beats a false precision. e.g. "approx. $150".
+    // honest "approx. $150" beats a false precision. e.g. "RRP $59.99".
     estimatedValue: z.string().optional(),
-    outcome: z.enum(['Retained', 'Declined', 'Returned', 'Donated', 'Shared with the team']),
     notes: z.string().optional(),
     // Lets an entry be drafted before it goes on the public record.
     published: z.boolean().default(true),

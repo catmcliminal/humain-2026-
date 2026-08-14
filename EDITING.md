@@ -62,16 +62,15 @@ Questions and answers shown in the FAQ section. Each entry has:
 
 ### Gift Register
 The public record at `/about/gift-register`, promised in our editorial standards.
-Add an entry whenever a gift, meal, ticket, trip or other benefit is offered to
-anyone working on humAIn — **including ones you turn down**. Declining something and
-recording that you declined it is the point of the register. Each entry has:
-- **Gift** — what was offered, e.g. `Dinner and drinks`
+Add an entry whenever a gift, meal, ticket, trip or other benefit **worth more than
+$50** is given to anyone working on humAIn. The $50 threshold is stated on the page
+itself. Each entry has:
+- **Gift** — what it was, e.g. `Dinner and drinks`
 - **Date received**
-- **Received by** — the person it was offered to
-- **Offered by** — the person and/or company offering it
-- **Approximate value** — a rough figure is fine, e.g. `approx. $150`. Leave blank if you truly don't know
-- **Outcome** — Retained, Declined, Returned, Donated, or Shared with the team
-- **Notes** — optional context
+- **Received by** — the person who received it
+- **Offered by** — the person and/or company it came from
+- **Approximate value** — a rough figure is fine, e.g. `RRP $59.99`
+- **Notes** — optional context (e.g. if you declined or returned it, say so here)
 - **Published** — untick while you're checking details; the entry stays off the public page until you tick it
 
 Until the first entry is added, the page shows "No gifts or hospitality have been

@@ -43,6 +43,7 @@ const fmt = new Intl.DateTimeFormat('en-AU', {
         <div class="gift-intro rv">
           <!-- Copy supplied by Cat — verbatim. Links are markup only, no rewording. -->
           <p>Our <a href="/about/editorial-standards">editorial standards</a> commit us to keeping this record.</p>
+          <p>Anything over $50 is recorded.</p>
           <p>
             If you think something is missing from this register, tell us at
             <a href="mailto:admin@humain.au">admin@humain.au</a>.
@@ -64,7 +65,6 @@ const fmt = new Intl.DateTimeFormat('en-AU', {
                     <th>Offered by</th>
                     <th>Received by</th>
                     <th>Approx. value</th>
-                    <th>Outcome</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -78,9 +78,6 @@ const fmt = new Intl.DateTimeFormat('en-AU', {
                       <td data-label="Offered by">{e.data.from}</td>
                       <td data-label="Received by">{e.data.recipient}</td>
                       <td data-label="Approx. value">{e.data.estimatedValue ?? '—'}</td>
-                      <td data-label="Outcome">
-                        <span class="gift-outcome">{e.data.outcome}</span>
-                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -124,7 +121,7 @@ const fmt = new Intl.DateTimeFormat('en-AU', {
     width: 100%;
     border-collapse: collapse;
     font-size: 15px;
-    min-width: 720px;
+    min-width: 620px;
   }
   .gift-table th {
     text-align: left;
@@ -152,15 +149,6 @@ const fmt = new Intl.DateTimeFormat('en-AU', {
     line-height: 1.6;
     color: var(--ink-2);
   }
-  .gift-outcome {
-    display: inline-block;
-    padding: 3px 10px;
-    border: 1px solid var(--line-2);
-    border-radius: 999px;
-    font-size: 12px;
-    white-space: nowrap;
-  }
-
   /* Below the table's minimum width, each row becomes its own labelled card. */
   @media (max-width: 760px) {
     .gift-table, .gift-table tbody, .gift-table tr, .gift-table td { display: block; }

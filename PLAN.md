@@ -97,10 +97,7 @@ at `_source/humAIn - 06 Pulse.html`).
 
 ## Open questions
 
-1. **Domain** — domain confirmed as `www.humain.au` (2026-06-14). Still need to:
-   - Add custom domain in Netlify dashboard (Site settings → Domain management → Add domain → `www.humain.au`). Netlify will give you DNS records to add.
-   - Update Keystatic GitHub App callback URL at github.com/settings/apps/humaincat-keystatic from `https://humain2026v2.netlify.app/api/keystatic/github/oauth/callback` to `https://www.humain.au/api/keystatic/github/oauth/callback`.
-   - Upload a real OG share image to `public/images/og-default.jpg` (1200×630px).
+1. **OG share image** — upload a real one to `public/images/og-default.jpg` (1200×630px). Currently a placeholder, so link previews on LinkedIn/Slack/X are weak.
 2. **Real gallery photos** — only a placeholder gallery entry exists. Upload actual event photos.
 3. **Paul's Vercel project** — still running at humain-site-seven.vercel.app. Decommission once the Netlify site is confirmed stable on the real domain.
 
@@ -163,6 +160,17 @@ at `_source/humAIn - 06 Pulse.html`).
   the footer's Company column, `/about` ends with a cross-link, and the
   Organization JSON-LD in `BaseLayout.astro` now carries
   `publishingPrinciples` pointing at the new URL.
+- **2026-08-14 (domain live)** — `www.humain.au` is connected and serving.
+  Apex `humain.au` A → 75.2.60.5 (Netlify), `www` CNAME →
+  `humain2026v2.netlify.app`; nameservers at GoDaddy (`domaincontrol.com`).
+  Apex 301s to `www`, http 301s to https, SSL valid. No code change was
+  needed — `site` in `astro.config.mjs` and `SITE` in `src/config.ts` were set
+  to the final domain back in June, so canonicals, robots.txt and the sitemap
+  were already correct. The Keystatic GitHub App's redirect URI is updated and
+  verified: `/api/keystatic/github/login` hands off to GitHub with
+  `redirect_uri=https://www.humain.au/api/keystatic/github/oauth/callback`,
+  and `/keystatic` returns 200. Confirmed it is a **GitHub App**, not an OAuth
+  App. The netlify.app URL still serves the same build.
 - **2026-08-14 (speakers)** — Neil Ackland (Founder, Lokol) added at
   `order: 13`, renumbering Patrick through Vinne (14–19). Active 2026 speaker
   count is now 14. Bio supplied by Cat, used verbatim. Headshot from the shared

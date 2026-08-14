@@ -55,19 +55,25 @@ services, no second image store. One repo, one host, one admin.
 
 ## Live URLs
 
-- **Production (Netlify):** https://humain2026v2.netlify.app
+- **Production:** https://www.humain.au — live on the custom domain since
+  2026-08-14. Apex `humain.au` 301s to `www`; http 301s to https.
+- **Netlify default (still serves the same build):** https://humain2026v2.netlify.app
 - **Paul's Vercel (legacy):** humain-site-seven.vercel.app
 
 ## Keystatic GitHub App
 
 - App name: `humainCat-keystatic`
 - Installed on: `catmcliminal/humain-2026-`
-- Callback URL: `https://humain2026v2.netlify.app/api/keystatic/github/oauth/callback`
+- Callback URL: `https://www.humain.au/api/keystatic/github/oauth/callback`
+  (updated 2026-08-14; verified — `/api/keystatic/github/login` hands off to
+  GitHub with a matching `redirect_uri`). The admin lives at
+  `https://www.humain.au/keystatic`.
 - Env vars required (set in Netlify): `KEYSTATIC_GITHUB_CLIENT_ID`,
   `KEYSTATIC_GITHUB_CLIENT_SECRET`, `KEYSTATIC_SECRET`,
   `PUBLIC_KEYSTATIC_GITHUB_APP_SLUG`
-- When the domain is finalised, update the callback URL in the GitHub App
-  settings (github.com/settings/apps/humaincat-keystatic) and update
+- If the domain ever changes again, update the callback URL in the GitHub App
+  settings (github.com/settings/apps/humaincat-keystatic) — it's under
+  "Identifying and authorizing users", labelled Redirect URI — and update
   Netlify's env vars if the slug changes.
 
 ## Project layout

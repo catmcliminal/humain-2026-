@@ -122,17 +122,28 @@ Rebuilt `/programme` from Cat's wireframe and added a page per session.
   BreadcrumbList + Event JSON-LD with `superEvent` pointing at humAIn 2026.
   Session descriptions now live here only, so they aren't duplicated on the index.
 
-**Needs Cat's confirmation before this deploys:**
+**The wireframe's six extra sessions were deliberately not added** (Cat's call,
+2026-08-18): AI Upfronts, Round tables at lunch, Fork This Industry, When the
+budget ceiling disappears (AiCandy), Screen Swap, Build Club. The page ships
+with the five confirmed sessions only. The copy for the six was transcribed
+from the wireframe and briefly committed, so it remains recoverable in this
+branch's history at `f669283` if any of them are confirmed later. This also
+means **Ashlea Vallance no longer needs a `speakers` entry** — Screen Swap was
+the only thing referencing her.
 
-1. **Six sessions were added from the wireframe** and are `active: true`:
-   AI Upfronts, Round tables at lunch, Fork This Industry, When the budget
-   ceiling disappears (AiCandy), Screen Swap, Build Club. Copy is transcribed
-   from the wireframe, not written fresh — but it has not been through Cat.
-2. **Ashlea Vallance (Screen Swap) is not in the `speakers` collection.** Either
-   she needs an entry or the session needs a different lead.
-3. **Venue.** The wireframe says Stone & Chalk Sydney; `/faq` still says venue
+Consequence worth knowing: **"Culture as Training Data" now has no sessions**,
+so it renders on neither the theme cards nor the filter chips on `/programme`.
+That is the `themesInUse` guard working as intended — a filter that matches
+nothing is worse than a missing one — and it will reappear on its own the
+moment a session is tagged `culture`. The homepage `Themes.astro` section still
+shows all four, which is correct: that section describes the programme's
+subject matter, not what has been scheduled.
+
+**Still needs Cat's confirmation:**
+
+1. **Venue.** The wireframe says Stone & Chalk Sydney; `/faq` still says venue
    TBA. One of the two is now wrong.
-4. **Theme 02 naming.** The site calls it "Brand Discovery in the AI Age", the
+2. **Theme 02 naming.** The site calls it "Brand Discovery in the AI Age", the
    wireframe "Brand in the Age of AI Search". The site's name was kept.
 
 **Unrelated problem found:** `.npmrc` is **missing from the repo** — untracked,

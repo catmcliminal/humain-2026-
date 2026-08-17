@@ -113,9 +113,14 @@ Rebuilt `/programme` from Cat's wireframe and added a page per session.
   pricing table and a session page.
 - **`schedule` schema gained `format`, `hook`, `themes`** — mirrored in
   `keystatic.config.ts` (`themes` is a multiselect).
-- **`/programme`** — at-a-glance facts, the four themes as clickable filters,
-  filter chips, day-grouped session rows. Filtering is progressive enhancement:
-  every session is in the HTML and visible with JS off.
+- **`/programme`** — filter chips over day-grouped session rows. Filtering is
+  progressive enhancement: every session is in the HTML and visible with JS off.
+  An at-a-glance stats panel, a themes card grid and a "The running order."
+  heading were built and then **removed at Cat's direction (2026-08-18)** — they
+  were not in her wireframe. They existed only because the programme wireframe
+  artifact could never be fetched (403 on every attempt), so the page was
+  inferred from the session-page wireframe instead. The theme links on session
+  pages therefore point at the homepage `#themes` section, not `/programme`.
 - **`/programme/[slug]`** (new) — a page per session: day/format/theme tags,
   hook as lede, speaker portraits, description, ticket aside priced off the
   session's day, and up to three related sessions sharing a theme. Carries

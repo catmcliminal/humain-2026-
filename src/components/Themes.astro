@@ -18,9 +18,18 @@ const ticketRel = TICKET_IS_EXTERNAL ? 'noopener noreferrer' : undefined;
         <div class="tnum">Theme 01</div>
         <div>
           <h3>AI &amp; Creative Work</h3>
+          <p class="theme-hook">
+            How AI is changing who makes creative work, how it gets made, and what it is worth.
+          </p>
           <p>
-            How AI tools are changing creative production, authorship and originality — and the future of creative
-            roles in marketing and media.
+            AI is altering the economics of agencies, production and in-house teams. Workflows, roles, costs and the
+            relationship between time, output and value are all moving at once. What gets automated, and who takes the
+            benefit when production gets faster and cheaper? And if AI does the work juniors used to do, who becomes
+            senior?
+          </p>
+          <p class="theme-covers">
+            Covers the future of marketing teams and roles, the changing CMO, the skills the industry needs by 2030,
+            and the talent pipeline.
           </p>
         </div>
       </div>
@@ -28,10 +37,17 @@ const ticketRel = TICKET_IS_EXTERNAL ? 'noopener noreferrer' : undefined;
         <div class="arrow">↗</div>
         <div class="tnum">Theme 02</div>
         <div>
-          <h3>Brand in the Age of AI Search</h3>
+          <h3>Brand Discovery in the AI Age</h3>
+          <p class="theme-hook">
+            What happens to visibility and customer choice when machines sit between brands and people?
+          </p>
           <p>
-            As LLMs and chat-based discovery reshape how consumers find and trust brands, what happens to visibility
-            and the customer journey?
+            Search, shopping and recommendation now run through AI. Consumers ask an LLM what to buy, or hand the
+            decision to an agent. What makes a brand more likely to be surfaced, recommended or chosen by a machine?
+            And how does marketing change when the machine is the first thing the customer meets?
+          </p>
+          <p class="theme-covers">
+            Covers AI search, brand visibility, agentic commerce and what it takes to grow a brand today.
           </p>
         </div>
       </div>
@@ -40,9 +56,18 @@ const ticketRel = TICKET_IS_EXTERNAL ? 'noopener noreferrer' : undefined;
         <div class="tnum">Theme 03</div>
         <div>
           <h3>The Taste Gap</h3>
+          <p class="theme-hook">
+            As the cost of making falls, the value of knowing what's worth making rises.
+          </p>
           <p>
-            When AI can generate infinite content, advantage shifts to selection. Creative direction, editorial
-            judgment and decision-making.
+            AI generates competent work at extraordinary scale. The harder problem is choosing: what is distinctive,
+            what deserves attention, what should be rejected, and what carries a point of view rather than an average.
+            The capability at stake is telling the plausible from the meaningful. We ask whether judgement, craft and
+            intention become the real competitive advantage, and how organisations build them deliberately rather than
+            assuming they survive automation.
+          </p>
+          <p class="theme-covers">
+            Covers taste, creative direction, editorial judgement and how creative capability gets developed.
           </p>
         </div>
       </div>
@@ -51,9 +76,18 @@ const ticketRel = TICKET_IS_EXTERNAL ? 'noopener noreferrer' : undefined;
         <div class="tnum">Theme 04</div>
         <div>
           <h3>Culture as Training Data</h3>
+          <p class="theme-hook">
+            AI learned from us. Now it shapes what audiences see, and whether they believe any of it.
+          </p>
           <p>
-            AI is trained on human data. Bias, representation, cultural influence and the responsibility of the
-            organisations deploying it.
+            AI systems are trained on accumulated output, assumptions and bias, and they now sit inside marketing,
+            media and everyday decisions. That makes representation, influence and responsibility hard to separate from
+            performance. Who gets represented when a machine generates at scale, and who is responsible? And the
+            commercial question underneath: how does a brand keep credibility when audiences can no longer assume that
+            what they see, hear or read was made by a person?
+          </p>
+          <p class="theme-covers">
+            Covers bias, representation, provenance, synthetic media, AI influence and the growing backlash.
           </p>
         </div>
       </div>
@@ -65,3 +99,30 @@ const ticketRel = TICKET_IS_EXTERNAL ? 'noopener noreferrer' : undefined;
     </div>
   </div>
 </section>
+
+<style>
+  /* the longer theme copy runs title → hook → body → "Covers …" footnote */
+  .theme p {
+    max-width: 58ch;
+  }
+  .theme-hook {
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.35;
+    margin-bottom: 14px;
+    max-width: 46ch;
+  }
+  .theme-covers {
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    font-size: 13px;
+    line-height: 1.45;
+    color: rgba(255, 255, 255, 0.88);
+  }
+  @media (max-width: 760px) {
+    .theme-hook {
+      font-size: 16px;
+    }
+  }
+</style>

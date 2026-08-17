@@ -65,6 +65,10 @@ export const associations: Partner[] = [
     logo: '/images/logos/IAB_Australia.png',
     url: 'https://www.iabaustralia.com.au/',
     accent: 'var(--yellow)',
-    copy: `Australia's peak digital advertising body. IAB Australia is the peak trade association for digital advertising, supporting diverse and sustainable investment across all platforms in Australia.`,
+    copy: `IAB Australia is the industry body for digital advertising, committed to growing sustainable and diverse investment in digital advertising in Australia.
+
+We comprise industry experts across research and measurement, policy and regulation, technology and standards, and the current economics of the advertising industry. We produce a variety of resources to improve the foundations of digital advertising and strengthen the supply chain for advertisers.
+
+As well as driving local initiatives, we are a part of a network of 46 international IAB organisations setting global standards for digital advertising.`,
   },
 ];

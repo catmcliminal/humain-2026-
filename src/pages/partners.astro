@@ -21,18 +21,22 @@ const crumbs = breadcrumbJsonLd([{ name: 'Partners', url: `${SITE}/partners/` }]
       secNum="— Partners"
       title="Reach the room shaping&nbsp;AI in marketing and&nbsp;creativity."
       lede="humAIn is Australia's curated conference for the marketers, founders, creatives and technologists leading the AI conversation, deciding how AI gets used, and what stays human."
-    />
+    >
+      <a class="btn head-cta rv" href="#become-a-partner">
+        <span class="dot"></span>Become a partner
+      </a>
+    </PageHeader>
     <section style="padding-top:48px;padding-bottom:96px">
       <div class="wrap">
         {[
-          { heading: null, items: partners },
-          { heading: 'Supporting associations.', items: associations },
-        ].map((group) => group.items.length > 0 && (
+          { heading: 'Thanks to our partners.', secNum: null, items: partners },
+          { heading: 'Supporting associations', secNum: '— Associations', items: associations },
+        ].map((group, i) => group.items.length > 0 && (
           <>
             {group.heading && (
-              <div class="sec-head assoc-head">
+              <div class:list={['sec-head', 'group-head', i > 0 && 'group-head-sep']}>
                 <h2 class="rv">{group.heading}</h2>
-                <span class="sec-num">— Associations</span>
+                {group.secNum && <span class="sec-num">{group.secNum}</span>}
               </div>
             )}
             <div class="partners-list">
@@ -98,7 +102,7 @@ const crumbs = breadcrumbJsonLd([{ name: 'Partners', url: `${SITE}/partners/` }]
       </div>
     </section>
 
-    <section style="padding-top:0;padding-bottom:96px">
+    <section id="become-a-partner" style="padding-top:0;padding-bottom:96px">
       <div class="wrap">
         <div class="contact-cta rv">
           <div class="cc-photo">
@@ -152,7 +156,14 @@ const crumbs = breadcrumbJsonLd([{ name: 'Partners', url: `${SITE}/partners/` }]
     flex-direction: column;
     gap: 28px;
   }
-  .assoc-head {
+  .head-cta {
+    margin-top: 28px;
+  }
+  /* Clear the sticky nav so the CTA target isn't tucked underneath it. */
+  #become-a-partner {
+    scroll-margin-top: 90px;
+  }
+  .group-head-sep {
     margin-top: 64px;
   }
   .partner-card {

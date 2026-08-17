@@ -1,0 +1,19 @@
+---
+/**
+ * The early-bird deadline note that sits with every ticket CTA.
+ *
+ * The wording (and whether it shows at all) comes from `EARLY_BIRD_NOTE` in
+ * `src/config.ts` — empty string there removes it from every button.
+ * `class` takes the placement variants defined in global.css / the host
+ * component, e.g. `eb-note--nav`, `eb-note--card`, `eb-note--foot`.
+ */
+import { EARLY_BIRD_NOTE } from '../config';
+
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+{EARLY_BIRD_NOTE && <span class:list={['eb-note', className]}>{EARLY_BIRD_NOTE}</span>}

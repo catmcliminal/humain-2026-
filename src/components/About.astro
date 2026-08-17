@@ -1,4 +1,5 @@
 ---
+import EarlyBirdNote from './EarlyBirdNote.astro';
 import { TICKET_URL, TICKET_IS_EXTERNAL } from '../config';
 
 const ticketTarget = TICKET_IS_EXTERNAL ? '_blank' : undefined;
@@ -32,6 +33,7 @@ const ticketRel = TICKET_IS_EXTERNAL ? 'noopener noreferrer' : undefined;
     <p class="merge rv">Most events pick a lane. humAIn brings them together.</p>
     <div class="sec-cta rv">
       <a href={TICKET_URL} class="btn" target={ticketTarget} rel={ticketRel}><span class="dot"></span>Get tickets →</a>
+      <EarlyBirdNote />
     </div>
   </div>
 </section>

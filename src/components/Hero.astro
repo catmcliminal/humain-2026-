@@ -1,5 +1,6 @@
 ---
 import PulseBand from './PulseBand.astro';
+import EarlyBirdNote from './EarlyBirdNote.astro';
 import { TICKET_URL, TICKET_IS_EXTERNAL } from '../config';
 
 const ticketTarget = TICKET_IS_EXTERNAL ? '_blank' : undefined;
@@ -23,6 +24,7 @@ const ticketRel = TICKET_IS_EXTERNAL ? 'noopener noreferrer' : undefined;
             ><span class="dot"></span>Get tickets — 13 + 14 October · Sydney '26</a
           >
           <a href="#articles" class="btn ghost">Read the media →</a>
+          <EarlyBirdNote />
         </div>
       </div>
       <div class="hero-mark rv">

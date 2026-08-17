@@ -1,4 +1,5 @@
 ---
+import EarlyBirdNote from './EarlyBirdNote.astro';
 import { TICKET_URL, TICKET_IS_EXTERNAL } from '../config';
 
 const ticketTarget = TICKET_IS_EXTERNAL ? '_blank' : undefined;
@@ -62,15 +63,18 @@ const tickets = [
             <div class="tix-save">Save {t.saving} · Early bird</div>
             <div class="tix-standard">Standard price {t.standardPrice} + gst</div>
           </div>
-          <a
-            href={TICKET_URL}
-            class="btn tix-btn"
-            target={ticketTarget}
-            rel={ticketRel}
-            aria-label={`Register for ${t.name} — ${t.earlyPrice} + gst`}
-          >
-            Register now <span aria-hidden="true">→</span>
-          </a>
+          <div class="tix-cta">
+            <a
+              href={TICKET_URL}
+              class="btn tix-btn"
+              target={ticketTarget}
+              rel={ticketRel}
+              aria-label={`Register for ${t.name} — ${t.earlyPrice} + gst`}
+            >
+              Register now <span aria-hidden="true">→</span>
+            </a>
+            <EarlyBirdNote />
+          </div>
         </div>
       ))}
     </div>

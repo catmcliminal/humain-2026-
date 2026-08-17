@@ -9,6 +9,14 @@
  */
 export const TICKET_URL = 'https://events.humanitix.com/humain/tickets';
 
+/**
+ * Deadline note shown beside every ticket CTA on the site (see
+ * `src/components/EarlyBirdNote.astro`). Change the wording here and it updates
+ * everywhere at once; set it to an empty string to drop the note from every
+ * button once early-bird pricing ends.
+ */
+export const EARLY_BIRD_NOTE = 'Early bird closes 25 August';
+
 /** Canonical site origin — used for canonical tags, structured data and OG URLs. */
 export const SITE = 'https://www.humain.au';
 

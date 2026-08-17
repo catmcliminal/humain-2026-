@@ -7,6 +7,7 @@ import PageHeader from '../components/PageHeader.astro';
 import PulseBand from '../components/PulseBand.astro';
 import { breadcrumbJsonLd } from '../utils/breadcrumbs';
 import { currentEdition } from '../utils/edition';
+import EarlyBirdNote from '../components/EarlyBirdNote.astro';
 import { SITE, TICKET_URL, TICKET_IS_EXTERNAL } from '../config';
 
 const crumbs = breadcrumbJsonLd([{ name: 'Programme', url: `${SITE}/programme/` }]);
@@ -176,6 +177,7 @@ const hasAnySessions = sessions.length > 0;
       <div class="wrap">
         <div class="sec-cta rv">
           <a href={TICKET_URL} class="btn" target={ticketTarget} rel={ticketRel}><span class="dot"></span>Get tickets →</a>
+          <EarlyBirdNote />
         </div>
       </div>
     </section>

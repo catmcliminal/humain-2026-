@@ -1,4 +1,5 @@
 ---
+import EarlyBirdNote from './EarlyBirdNote.astro';
 import { TICKET_URL, TICKET_IS_EXTERNAL } from '../config';
 
 const accessKey = import.meta.env.WEB3FORMS_ACCESS_KEY ?? '';
@@ -62,6 +63,7 @@ const ticketRel = TICKET_IS_EXTERNAL ? 'noopener noreferrer' : undefined;
 
     <div class="sec-cta rv">
       <a href={TICKET_URL} class="btn" target={ticketTarget} rel={ticketRel}><span class="dot"></span>Get tickets →</a>
+      <EarlyBirdNote />
     </div>
   </div>
 </section>

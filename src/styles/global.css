@@ -25,11 +25,29 @@ nav{position:sticky;top:0;z-index:100;background:rgba(11,9,8,.72);backdrop-filte
 .nav-links a{font-size:14px;font-weight:600;letter-spacing:-.01em;opacity:.82;transition:.2s}
 .nav-links a:hover{opacity:1;color:var(--pink)}
 .nav-links a.btn:hover{color:#fff}
+.nav-ticket{display:flex;align-items:center;gap:12px}
+/* header note sits to the left of the button, and is dropped when the row gets tight */
+.eb-note--nav{order:-1}
+@media(min-width:861px) and (max-width:1180px){.eb-note--nav{display:none}}
+@media(max-width:860px){.nav-ticket{flex-direction:column;align-items:stretch;width:100%}.eb-note--nav{order:0;justify-content:center;margin-top:10px}}
 .btn{display:inline-flex;align-items:center;gap:9px;background:var(--ink);color:#0b0908;font-weight:700;font-size:14px;padding:12px 20px;border-radius:100px;transition:.2s;border:1px solid var(--ink);cursor:pointer;text-decoration:none}
 .btn:focus-visible{outline:3px solid var(--pink);outline-offset:3px}
 .btn:hover{background:var(--pink);border-color:var(--pink);color:#fff;transform:translateY(-1px)}
 .btn .dot{width:7px;height:7px;border-radius:50%;background:var(--yellow)}
 .btn.ghost{background:transparent;color:var(--ink);border-color:var(--line-2)}
+
+/* ---------- early-bird note (rides along with every ticket CTA) ---------- */
+.eb-note{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);white-space:nowrap}
+.eb-note::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);flex-shrink:0;animation:pulse 1.6s infinite}
+/* in a CTA row the note takes its own line under the buttons */
+.sec-cta .eb-note,.hero-cta .eb-note{flex-basis:100%}
+/* ticket cards / tiers: note sits centred under the full-width button */
+.tix-cta{display:flex;flex-direction:column;align-items:center;gap:10px}
+.tix-cta .btn{width:100%}
+.tier .eb-note{grid-column:1/-1;justify-content:center;margin-top:2px}
+.tier.feat .eb-note{color:#ffe2f1}
+.tier.feat .eb-note::before{background:#fff;box-shadow:0 0 8px rgba(255,255,255,.7)}
+.foot-col .eb-note{font-size:10px;letter-spacing:.06em;margin:-3px 0 11px}
 .btn.ghost:hover{background:var(--ink);color:#0b0908;border-color:var(--ink)}
 
 /* ---------- hero ---------- */
@@ -69,7 +87,7 @@ section{padding:96px 0}
 .sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:24px;margin-bottom:48px;border-bottom:1px solid var(--line);padding-bottom:20px}
 .sec-head h2{font-family:var(--disp);font-weight:700;font-size:clamp(30px,4vw,52px);letter-spacing:-.02em;line-height:1}
 .sec-num{font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--ink-2)}
-.sec-cta{margin-top:32px;display:flex}
+.sec-cta{margin-top:32px;display:flex;flex-wrap:wrap;align-items:center;gap:12px}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line-2);border-radius:16px;overflow:hidden}
 .two>div{padding:42px}
 .two>div:first-child{border-right:1px solid var(--line-2)}
@@ -238,7 +256,7 @@ footer{padding:70px 0 50px}
 /* reveal */
 .pre .rv{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
 .pre .rv.in{opacity:1;transform:none}
-@media(prefers-reduced-motion:reduce){.pre .rv{opacity:1;transform:none}.ticker{animation:none}.eyebrow .tk{animation:none}.pulse-band .ecg-run,.pulse-band .ecg-head{animation:none}.pulse-band .ecg-head{opacity:0}}
+@media(prefers-reduced-motion:reduce){.pre .rv{opacity:1;transform:none}.ticker{animation:none}.eyebrow .tk{animation:none}.eb-note::before,.tix-early-dot{animation:none}.pulse-band .ecg-run,.pulse-band .ecg-head{animation:none}.pulse-band .ecg-head{opacity:0}}
 
 /* ---------- image placeholders ----------
    Static stand-in for the source mockup's interactive <image-slot> element.

@@ -226,3 +226,56 @@ at `_source/humAIn - 06 Pulse.html`).
   page and repeated in `EDITING.md`. Also on Cat's instruction: no `outcome`
   field (declines/returns go in Notes if needed), and no note flagging that a
   giver is also a speaker.
+- **2026-08-17 (ad tracking pixels)** — Meta Pixel and LinkedIn Insight Tag
+  installed via a new `src/components/TrackingPixels.astro`, rendered once at
+  the top of `<body>` by `BaseLayout.astro` (so every page is covered). Both IDs
+  come from env vars — `PUBLIC_META_PIXEL_ID` and `PUBLIC_LINKEDIN_PARTNER_ID`,
+  documented in `.env.example` — rather than being hardcoded like the GA
+  measurement ID, because the ad accounts didn't exist when the code was
+  written. **Neither pixel renders until those vars are set in Netlify**: an
+  unset ID emits no script, no `<noscript>` image and no requests, verified in
+  the build output. Snippets are Meta's and LinkedIn's official ones, unchanged
+  except that LinkedIn's bare `_linkedin_partner_id` global is written as
+  `window._linkedin_partner_id`, because Astro's `define:vars` wraps inline
+  scripts in an IIFE and a bare assignment would have been function-scoped.
+  **`netlify.toml`'s CSP had to be widened** — `script-src` now allows
+  `https://connect.facebook.net` and `https://snap.licdn.com`, and `connect-src`
+  allows `https://www.facebook.com` and `https://px.ads.linkedin.com`. Without
+  this the pixels are blocked in production while still working locally, and
+  they fail *silently* — the only symptom is no data in Events Manager. Any
+  future third-party script needs the same treatment. (Note: `astro dev` serves
+  the netlify.toml headers, so CSP problems are reproducible locally — restart
+  the dev server after editing them.)
+- **2026-08-17 (ticket-click conversions)** — Both pixels report a ticket-click
+  conversion, not just page views. Implemented as **one delegated click listener**
+  in `TrackingPixels.astro` that matches any `<a>` resolving to `TICKET_URL`,
+  rather than tagging the 16–18 individual "Get tickets" CTAs — new ticket CTAs
+  are therefore tracked automatically with no extra code, and there is nothing
+  to keep in sync. Meta fires the standard **`InitiateCheckout`** event (not
+  `Purchase`: the sale completes on Humanitix, which we don't control, so the
+  click-through is the deepest step measurable from this site — true purchase
+  tracking would need the pixel installed inside Humanitix). LinkedIn needs a
+  numeric conversion ID from Campaign Manager, in
+  `PUBLIC_LINKEDIN_TICKET_CONVERSION_ID`; it must be an event-based conversion,
+  not a URL rule, since the destination is off-site. A `fired` flag stops a
+  double-click counting twice. Verified in the browser against the real markup:
+  clicking the nested `<span class="dot">` inside a CTA still fires (the
+  listener uses `closest()`), the second click is ignored, and non-ticket links
+  don't fire. Ticket links open in a new tab, so the page is never unloaded and
+  the beacons always have time to send.
+- **2026-08-17 (privacy policy)** — Section 8 gained a paragraph naming Google
+  Analytics, Meta and LinkedIn as measurement providers, describing what they
+  collect (pages viewed plus the ticket click-through), with opt-out links and a
+  pointer to the overseas-disclosure clause (6.5) — APP 5 needs the providers
+  named once the pixels are live. **This is the one place the legal copy has been
+  changed without Cat supplying the words**; if conversion tracking is ever
+  widened, this paragraph needs widening with it. Dates updated on Cat's
+  instruction: last reviewed **17 August 2026**, in both the eyebrow and the
+  foot of the page. The eyebrow's "Scheduled Review" was 19 May 2026 — already
+  in the past — and has been rolled to 17 August 2027; effective date stays
+  19 May 2025.
+  **No consent banner, by Cat's decision (2026-08-17): the site targets the
+  Australian market only**, where the pixels firing on load with a disclosed
+  policy and browser-level controls is the standard pattern. If humAIn ever
+  advertises into the EU or UK, a consent gate becomes necessary before the
+  pixels may fire.

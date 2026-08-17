@@ -1,0 +1,144 @@
+---
+/**
+ * Advertising conversion pixels — Meta (Facebook/Instagram) and LinkedIn.
+ *
+ * Both IDs come from environment variables so the values live in Netlify, not
+ * in the repo. If an ID is unset (e.g. local dev, or before the ad accounts are
+ * created) that pixel simply isn't rendered — nothing breaks and no requests
+ * are made.
+ *
+ *   PUBLIC_META_PIXEL_ID       — Events Manager → Data sources → your pixel
+ *                                (a 15–16 digit number)
+ *   PUBLIC_LINKEDIN_PARTNER_ID — Campaign Manager → Analyze → Insight Tag
+ *                                (a 6–8 digit number)
+ *   PUBLIC_LINKEDIN_TICKET_CONVERSION_ID
+ *                              — Campaign Manager → Analyze → Conversion
+ *                                tracking → the ticket-click conversion's ID.
+ *                                Optional; without it the LinkedIn page-view
+ *                                tag still works, only the conversion doesn't
+ *                                fire.
+ *
+ * Rendered once, at the top of <body>, by BaseLayout. Each pixel fires its own
+ * page-view on load; no per-page code is needed.
+ *
+ * Ticket-click conversions: rather than tagging each of the ~18 "Get tickets"
+ * links across the site (and having to remember to tag the next one), a single
+ * delegated listener watches for clicks on any link pointing at TICKET_URL and
+ * reports the conversion to whichever pixels are configured. Add ticket CTAs
+ * freely — they are tracked automatically as long as they link to TICKET_URL.
+ */
+import { TICKET_URL, TICKET_IS_EXTERNAL } from '../config';
+
+const metaPixelId = import.meta.env.PUBLIC_META_PIXEL_ID;
+const linkedInPartnerId = import.meta.env.PUBLIC_LINKEDIN_PARTNER_ID;
+const linkedInTicketConversionId = import.meta.env.PUBLIC_LINKEDIN_TICKET_CONVERSION_ID;
+
+/**
+ * Only worth wiring up the click listener when there's a pixel to report to,
+ * and when tickets are actually an off-site link (if TICKET_URL ever reverts to
+ * an on-page anchor like `#conference`, a click on it isn't a conversion).
+ */
+const trackTicketClicks =
+  TICKET_IS_EXTERNAL && Boolean(metaPixelId || (linkedInPartnerId && linkedInTicketConversionId));
+---
+
+{metaPixelId && (
+  <Fragment>
+    {/* Meta Pixel */}
+    <script define:vars={{ metaPixelId }}>
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window,document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', metaPixelId);
+      fbq('track', 'PageView');
+    </script>
+    <noscript>
+      <img
+        height="1"
+        width="1"
+        alt=""
+        style="display:none"
+        src={`https://www.facebook.com/tr?id=${metaPixelId}&ev=PageView&noscript=1`}
+      />
+    </noscript>
+  </Fragment>
+)}
+
+{linkedInPartnerId && (
+  <Fragment>
+    {/* LinkedIn Insight Tag */}
+    <script define:vars={{ linkedInPartnerId }}>
+      window._linkedin_partner_id = linkedInPartnerId;
+      window._linkedin_data_partner_ids = window._linkedin_data_partner_ids || [];
+      window._linkedin_data_partner_ids.push(linkedInPartnerId);
+      (function (l) {
+        if (!l) {
+          window.lintrk = function (a, b) { window.lintrk.q.push([a, b]); };
+          window.lintrk.q = [];
+        }
+        var s = document.getElementsByTagName('script')[0];
+        var b = document.createElement('script');
+        b.type = 'text/javascript';
+        b.async = true;
+        b.src = 'https://snap.licdn.com/li.lms-analytics/insight.min.js';
+        s.parentNode.insertBefore(b, s);
+      })(window.lintrk);
+    </script>
+    <noscript>
+      <img
+        height="1"
+        width="1"
+        alt=""
+        style="display:none"
+        src={`https://px.ads.linkedin.com/collect/?pid=${linkedInPartnerId}&fmt=gif`}
+      />
+    </noscript>
+  </Fragment>
+)}
+
+{trackTicketClicks && (
+  /* Ticket-click conversion — one delegated listener for every ticket CTA. */
+  <script define:vars={{ ticketUrl: TICKET_URL, linkedInTicketConversionId }}>
+    (function () {
+      /* Ticket links open in a new tab, so this page is never unloaded and the
+         beacons always have time to send. */
+      var fired = false;
+
+      document.addEventListener(
+        'click',
+        function (e) {
+          if (fired) return;
+
+          var link = e.target instanceof Element ? e.target.closest('a[href]') : null;
+          if (!link) return;
+
+          /* Compare resolved URLs so a trailing slash or query string still
+             counts, and so a relative href can never accidentally match. */
+          var href = link.href.split('#')[0];
+          if (href !== ticketUrl && href.indexOf(ticketUrl) !== 0) return;
+
+          /* Guard against a double-click counting as two conversions. */
+          fired = true;
+
+          /* InitiateCheckout, not Purchase: the sale completes on Humanitix,
+             which we don't control, so a click through to the ticket page is
+             the deepest step we can see from here. */
+          if (typeof window.fbq === 'function') {
+            window.fbq('track', 'InitiateCheckout');
+          }
+          if (typeof window.lintrk === 'function' && linkedInTicketConversionId) {
+            window.lintrk('track', { conversion_id: Number(linkedInTicketConversionId) });
+          }
+        },
+        /* Capture phase, so the conversion is recorded even if something else
+           stops the event propagating. */
+        true
+      );
+    })();
+  </script>
+)}

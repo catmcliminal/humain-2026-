@@ -57,3 +57,42 @@ results to the log below."* Or manually:
 | Date | Primary-query position | AI assistants naming humAIn | Notes |
 |---|---|---|---|
 | 2026-08-10 | not in top 100 (all cluster queries) | search-grounded answers: yes; ChatGPT/Perplexity: blocked in this session (permission classifier stops query submission) — run manually with the prompts above | Baseline. Schema + titles shipped today; FAQ prose in PR #1 (publication also blocked by classifier — Cat to merge). Rich Results Test needs a manual paste of https://www.humain.au. |
+| 2026-08-17 | unchanged — still not in top 100 (all cluster queries); brand steady at 2 | named **first** for "AI marketing conference Australia 2026", with correct dates/venue/capacity; **not named** for "AI conference Sydney October 2026" | No position movement at all week-on-week (every tracked keyword shows position_difference 0). Two findings below matter more than the numbers: SXSW Sydney is cancelled, and a competing event lands the day after ours. Steps 3 and 4 not run — see gaps. |
+
+### 2026-08-17 notes
+
+**SXSW Sydney is cancelled for 2026 and 2027.** Announced 15 January 2026 after
+Destination NSW withdrew funding ([ACS Information
+Age](https://ia.acs.org.au/article/2026/sxsw-ditches-sydney-after-nsw-govt-pulls-funding.html)).
+This changes the "SXSW Sydney alternative" angle the FAQ targets: a search-grounded
+answer for "alternative to SXSW Sydney October 2026" now replies that the event is
+cancelled and names no substitute at all. The query is still unowned, but the framing
+"alternative to" is wrong — nobody is choosing between the two. The live question is
+what fills the gap left by an event that drew 345,000 people. Worth revisiting the FAQ
+wording.
+
+**New competitor, one day after us: 6D AI Sydney 26.** 15 October 2026 at Hyatt
+Regency, 350+ senior tech/security/business executives, MC'd by Adam Spencer. humAIn
+is 13–14 October. It surfaced in the "AI conference Sydney October 2026" answer where
+humAIn did not. Different audience skew (tech/security rather than marketing/creative),
+but overlapping dates and city.
+
+**Semrush (AU database), positions unchanged.** Brand `humain` still 2 (volume up
+210 → 260/mo). `humain ai` still 6–7, though difficulty rose 55 → 69. None of the
+non-brand cluster terms entered the top 100. Domain totals: 34 organic keywords,
+2 visits/mo estimated, 1 keyword in positions 1–3.
+
+**Two things worth acting on from the keyword data:**
+
+- `human insights conference` — volume 70/mo, difficulty **10**, humain.au already at
+  position 24. Easily the most winnable term in the set; nothing in the cluster comes
+  close on effort-to-reward.
+- The advisory pages are earning name-based visibility on their own: Annie Liao 17,
+  Aura Finelyra 39, Matt Kuperholz 55, Marine Apelian 75 — all pointing at
+  `/community/advisory/`. Speaker and advisor names are a real, unworked channel.
+
+**Gaps in this run:** step 3 (Humanitix referrals) and step 4 (Search Console) both
+need a logged-in session and were not done — Search Console remains the biggest
+measurement gap. The answer-engine checks above ran through a US-geo search tool, not
+an AU one, so they show what a non-Australian searcher sees; the AU-localised versions
+still need a manual run with the prompts in step 2.

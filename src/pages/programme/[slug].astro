@@ -1,0 +1,480 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import PulseBand from '../../components/PulseBand.astro';
+import EarlyBirdNote from '../../components/EarlyBirdNote.astro';
+import { breadcrumbJsonLd } from '../../utils/breadcrumbs';
+import { currentEdition } from '../../utils/edition';
+import { SITE, TICKET_URL, TICKET_IS_EXTERNAL, EARLY_BIRD_NOTE } from '../../config';
+import { themeById } from '../../data/themes';
+import { ticketForDay } from '../../data/tickets';
+
+export async function getStaticPaths() {
+  const sessions = currentEdition(await getCollection('schedule'));
+  return sessions.map((session) => ({
+    params: { slug: session.id },
+    // Siblings are needed for the "more in this theme" row, and only the
+    // current edition's sessions should ever appear there.
+    props: { session, siblings: sessions.filter((s) => s.id !== session.id) },
+  }));
+}
+
+const { session, siblings } = Astro.props;
+const d = session.data;
+
+const ticketTarget = TICKET_IS_EXTERNAL ? '_blank' : undefined;
+const ticketRel = TICKET_IS_EXTERNAL ? 'noopener noreferrer' : undefined;
+
+const dayMeta = {
+  '2026-10-13': { label: 'Day one', date: 'Tuesday 13 October 2026' },
+  '2026-10-14': { label: 'Day two', date: 'Wednesday 14 October 2026' },
+}[d.day];
+
+const themes = (d.themes ?? []).map((t) => themeById(t)).filter((t) => t !== undefined);
+const primary = themes[0];
+const ticket = ticketForDay(d.day);
+
+// Related: sessions sharing any theme, nearest first by running order.
+const related = siblings
+  .filter((s) => (s.data.themes ?? []).some((t) => (d.themes ?? []).includes(t)))
+  .sort((a, b) => a.data.order - b.data.order)
+  .slice(0, 3);
+
+const url = `${SITE}/programme/${session.id}/`;
+const crumbs = breadcrumbJsonLd([
+  { name: 'Programme', url: `${SITE}/programme/` },
+  { name: d.title, url },
+]);
+
+// An Event that is part of the conference — gives each session its own
+// rich-result surface and links it back to the parent event.
+const eventJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Event',
+  name: d.title,
+  description: d.hook ?? d.description ?? undefined,
+  startDate: d.startTime ? `${d.day}T${d.startTime}:00+11:00` : d.day,
+  eventStatus: 'https://schema.org/EventScheduled',
+  eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+  location: { '@type': 'Place', name: 'Sydney, Australia' },
+  superEvent: { '@type': 'Event', name: 'humAIn 2026', url: `${SITE}/` },
+  ...(d.speaker ? { performer: { '@type': 'Person', name: d.speaker } } : {}),
+  url,
+};
+
+const description =
+  d.hook ?? d.description?.split('\n\n')[0] ?? `${d.title} — humAIn 2026, Sydney.`;
+---
+
+<BaseLayout
+  title={`${d.title} | humAIn 2026 Programme`}
+  description={description}
+  extraJsonLd={[crumbs, eventJsonLd]}
+>
+  <Nav />
+  <main>
+    <section class="sp-hero">
+      <div class="wrap">
+        <nav class="sp-crumb" aria-label="Breadcrumb">
+          <a href="/programme">Programme</a>
+          {primary && (
+            <>
+              <span aria-hidden="true">/</span>
+              <a href={`/programme#themes`}>{primary.name}</a>
+            </>
+          )}
+        </nav>
+
+        <div class="sp-grid">
+          <div>
+            <div class="sp-tags">
+              {dayMeta && <span class="sp-tag day mono">{dayMeta.label}</span>}
+              {d.format && <span class="sp-tag fmt mono">{d.format}</span>}
+              {themes.map((t) => <span class="sp-tag theme mono">{t.name}</span>)}
+            </div>
+            <h1>{d.title}</h1>
+            {d.hook && <p class="sp-lede">{d.hook}</p>}
+            {d.speaker && <p class="sp-speaker">{d.speaker}</p>}
+            <div class="sp-acts">
+              <a href={TICKET_URL} class="btn" target={ticketTarget} rel={ticketRel}>
+                <span class="dot"></span>Get tickets from {ticket.earlyPrice} →
+              </a>
+              <a href="/programme" class="btn ghost">See the full programme →</a>
+            </div>
+            <p class="sp-eb">{EARLY_BIRD_NOTE}</p>
+          </div>
+
+          {d.photos && d.photos.length > 0 && (
+            <div class={`sp-portraits${d.photos.length > 1 ? ' pair' : ''}`}>
+              {d.photos.map((photo) => (
+                <img
+                  class="sp-portrait"
+                  src={photo}
+                  alt={d.speaker ?? d.title}
+                  width="340"
+                  height="425"
+                  loading="eager"
+                />
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+
+    <PulseBand h={60} />
+
+    <section class="sp-body">
+      <div class="wrap">
+        <div class="sp-body-grid">
+          <div>
+            {d.description ? (
+              <>
+                <div class="sp-h">About this session</div>
+                <div class="sp-prose">
+                  {d.description.split('\n\n').map((para) => <p>{para}</p>)}
+                </div>
+              </>
+            ) : (
+              <p class="sp-prose">
+                Full session details are still being finalised. See the
+                <a href="/voices"> confirmed speakers</a> in the meantime.
+              </p>
+            )}
+
+            {themes.length > 0 && (
+              <div class="sp-themebar">
+                <div class="sp-h">Explore the themes this sits in</div>
+                <div class="sp-chips">
+                  {themes.map((t) => (
+                    <a class="sp-chip" href="/programme#themes">{t.name}</a>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          <aside class="sp-aside">
+            <div class="sp-h">{ticket.days}</div>
+            <div class="sp-amt">
+              {ticket.earlyPrice} <s>{ticket.standardPrice}</s>
+            </div>
+            <p class="sp-ex">{ticket.name}, early bird, ex GST</p>
+            <a href={TICKET_URL} class="btn" target={ticketTarget} rel={ticketRel}>
+              <span class="dot"></span>Get tickets →
+            </a>
+            <EarlyBirdNote />
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    {related.length > 0 && (
+      <section class="sp-related">
+        <div class="wrap">
+          <div class="sec-head">
+            {/* Not lower-cased: "AI & Creative Work" must keep its capitals. */}
+            <h2 class="rv">{primary ? `More in ${primary.name}.` : 'More sessions.'}</h2>
+            <span class="sec-num">— Related</span>
+          </div>
+          <div class="sp-rel-grid">
+            {related.map((s) => (
+              <a class="sp-rcard rv" href={`/programme/${s.id}`}>
+                <div class="sp-tags">
+                  <span class="sp-tag day mono">
+                    {s.data.day === '2026-10-13' ? 'Day one' : 'Day two'}
+                  </span>
+                  {s.data.format && <span class="sp-tag fmt mono">{s.data.format}</span>}
+                </div>
+                <h3>{s.data.title}</h3>
+                {s.data.hook && <p>{s.data.hook}</p>}
+                {s.data.speaker && <div class="sp-rwho">{s.data.speaker}</div>}
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
+    <section style="padding-top:0">
+      <div class="wrap">
+        <div class="sec-cta rv">
+          <a href={TICKET_URL} class="btn" target={ticketTarget} rel={ticketRel}>
+            <span class="dot"></span>Get tickets →
+          </a>
+          <EarlyBirdNote />
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .sp-hero {
+    padding-bottom: 48px;
+  }
+  .sp-crumb {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+    margin-bottom: 32px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .sp-crumb a {
+    color: var(--ink-2);
+    text-decoration: none;
+  }
+  .sp-crumb a:hover {
+    color: var(--pink);
+  }
+  .sp-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 340px;
+    gap: 64px;
+    align-items: start;
+  }
+  .sp-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+  .sp-tag {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-radius: 100px;
+    padding: 5px 12px;
+    border: 1px solid var(--line-2);
+    white-space: nowrap;
+  }
+  .sp-tag.day {
+    color: var(--ink);
+  }
+  .sp-tag.fmt {
+    color: var(--ink-2);
+  }
+  .sp-tag.theme {
+    color: var(--pink);
+    border-color: var(--pink);
+  }
+  .sp-hero h1 {
+    font-family: var(--disp);
+    font-weight: 800;
+    font-size: clamp(32px, 5vw, 60px);
+    line-height: 0.98;
+    letter-spacing: -0.03em;
+    margin: 0;
+    max-width: 18ch;
+    text-wrap: balance;
+  }
+  .sp-lede {
+    font-size: clamp(17px, 2vw, 21px);
+    line-height: 1.45;
+    color: var(--ink);
+    margin: 22px 0 0;
+    max-width: 46ch;
+  }
+  .sp-speaker {
+    font-size: 14px;
+    color: var(--ink-2);
+    margin: 16px 0 0;
+  }
+  .sp-acts {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 32px;
+  }
+  .sp-eb {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--ink-2);
+    margin: 14px 0 0;
+  }
+  .sp-portraits {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .sp-portraits.pair {
+    grid-template-columns: 1fr 1fr;
+  }
+  .sp-portrait {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: top;
+    border-radius: 18px;
+    border: 1px solid var(--line-2);
+    display: block;
+  }
+  .sp-portraits.pair .sp-portrait {
+    aspect-ratio: 1;
+  }
+
+  /* ---------- body ---------- */
+  .sp-body {
+    padding-top: 56px;
+  }
+  .sp-body-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 320px;
+    gap: 64px;
+    align-items: start;
+  }
+  .sp-h {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+    margin-bottom: 16px;
+  }
+  .sp-prose {
+    font-size: 17px;
+    line-height: 1.65;
+    color: var(--ink);
+    max-width: 62ch;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .sp-prose p {
+    margin: 0;
+  }
+  .sp-prose a {
+    color: var(--ink);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .sp-themebar {
+    margin-top: 44px;
+    padding-top: 28px;
+    border-top: 1px solid var(--line-2);
+  }
+  .sp-chips {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .sp-chip {
+    border: 1px solid var(--line-2);
+    border-radius: 100px;
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+    text-decoration: none;
+    transition: 0.2s;
+  }
+  .sp-chip:hover {
+    border-color: var(--pink);
+    color: var(--pink);
+  }
+  .sp-aside {
+    position: sticky;
+    top: 100px;
+    background: var(--panel);
+    border: 1px solid var(--line-2);
+    border-radius: 18px;
+    padding: 28px 26px;
+  }
+  .sp-amt {
+    font-family: var(--disp);
+    font-weight: 800;
+    font-size: 34px;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+  .sp-amt s {
+    font-family: var(--sans);
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--ink-2);
+    letter-spacing: 0;
+    margin-left: 8px;
+  }
+  .sp-ex {
+    font-size: 13px;
+    color: var(--ink-2);
+    margin: 8px 0 22px;
+  }
+  .sp-aside .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* ---------- related ---------- */
+  .sp-related {
+    padding-top: 80px;
+  }
+  .sp-rel-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .sp-rcard {
+    background: var(--panel);
+    border: 1px solid var(--line-2);
+    border-radius: 18px;
+    padding: 26px 24px;
+    text-decoration: none;
+    color: var(--ink);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: 0.2s;
+  }
+  .sp-rcard:hover {
+    border-color: var(--ink);
+    transform: translateY(-2px);
+  }
+  .sp-rcard h3 {
+    font-family: var(--disp);
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+    margin: 0;
+  }
+  .sp-rcard p {
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--ink-2);
+    margin: 0;
+  }
+  .sp-rwho {
+    margin-top: auto;
+    padding-top: 14px;
+    border-top: 1px solid var(--line);
+    font-size: 12.5px;
+    color: var(--ink-2);
+  }
+
+  @media (max-width: 960px) {
+    .sp-grid,
+    .sp-body-grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    .sp-portraits {
+      max-width: 420px;
+    }
+    .sp-aside {
+      position: static;
+    }
+    .sp-rel-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

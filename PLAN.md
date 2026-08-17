@@ -93,7 +93,56 @@ at `_source/humAIn - 06 Pulse.html`).
 | 2026-08-05 | New `advisory` content collection, independent of `speakers` | Owner wants Speakers and Advisory Panel edited as fully separate pages/collections, not one shared record with a flag. `/community/advisory` now reads its own `src/content/advisory/*.yaml` files (own Keystatic collection, own `public/images/advisory/` directory). The `advisory` boolean on `speakers` is kept as-is — it only drives the pink/yellow tag on `/voices` and is unrelated to which page's content an editor manages. The 9 people who are both speaking and advising now have two independent entries (one per collection); editing one does not affect the other. |
 | 2026-08-12 | Editorial standards published as its own page at `/about/editorial-standards`, not a section of `/about` | It's a trust document people link to and arrive at directly (sources, PR contacts, partners), and a discoverable editorial policy is an E-E-A-T signal for a publisher. Nesting under `/about` (following the `/community/advisory` precedent) leaves room for a corrections policy or ownership statement later. Hard-coded like `/privacy` and `/terms` rather than a Keystatic collection — a one-entry collection adds handover clutter for a page that changes rarely. |
 | 2026-08-12 | Gift register is a Keystatic collection (`gifts`), not a hard-coded page like editorial standards | A register is a living record maintained by whoever receives the gift, so it has to be editable without code — the opposite of the editorial standards page, which is fixed prose. Sorted by `dateReceived` (newest first) with no `order` field, since a register is chronological. Recording threshold is $50, stated on the page. Fields are deliberately minimal (no outcome/status field) — Cat's call. |
+| 2026-08-18 | `/programme` rebuilt to the wireframe; each session gets its own page at `/programme/[slug]` | The programme index was one long list with full descriptions inline, which neither scanned nor gave a session anywhere to be linked to. Traffic from a speaker's own post or an ad lands on one session, cold, with no idea what the event costs — so each session now has a page carrying its own title, hook, portraits, JSON-LD and a price for the day it runs on. Descriptions moved off the index onto those pages so the copy isn't duplicated across two URLs. Rows on the index are links, not expanders. |
+| 2026-08-18 | Themes are a filter over the running order, not a separate track structure | Delegates browse by interest, not by track. Tagging sessions with `themes` and filtering the real running order keeps one source of truth for the schedule, and gives the four themes somewhere to lead to. Filtering is client-side progressive enhancement — all sessions render server-side, so the page is complete with JS off and fully crawlable. |
+| 2026-08-18 | Ticket tiers extracted to `src/data/tickets.ts` | Session pages show the entry price for their day, so the prices existed in two places the moment those pages were built. One module, read by both `Tickets.astro` and `/programme/[slug]`, means a price change lands everywhere at once — same reasoning as `TICKET_URL`. |
 | 2026-08-06 | Confirmed 2026 Speakers roster: Pip Bingemann, James Caldwell, Tea Uglow, Marie-Céline Merret, Vinne Schifferstein, Bridget Cleary, Kent Boswell, Marcus Tesoriero | Owner confirmed these 8 as the actual speaker lineup. Set `active: false` on the other 6 speaker entries (Annie Liao, Dave King, Karen Powell, Joana Barros, Jeremy Somers, Sarah Yassien) — they were advisory-panel-only, not speaking. Data kept, not deleted; they remain live on `/community/advisory` via their separate `advisory` collection entries. |
+
+## Programme rebuild (2026-08-18)
+
+Rebuilt `/programme` from Cat's wireframe and added a page per session.
+
+- **`src/data/themes.ts`** (new) — the four themes as data (`id`, `num`, `name`,
+  `short`, `hook`). Tags sessions and drives the theme filter. The long-form
+  theme copy in `Themes.astro` is deliberately **not** generated from this file
+  (that wording is approved and hand-edited), but the four `name` values and its
+  `<h3>`s must be renamed together.
+- **`src/data/tickets.ts`** (new) — the three tiers, extracted out of
+  `Tickets.astro`, which now renders from it. Session pages call `ticketForDay()`
+  to show the cheapest tier admitting that day, so prices can't drift between the
+  pricing table and a session page.
+- **`schedule` schema gained `format`, `hook`, `themes`** — mirrored in
+  `keystatic.config.ts` (`themes` is a multiselect).
+- **`/programme`** — at-a-glance facts, the four themes as clickable filters,
+  filter chips, day-grouped session rows. Filtering is progressive enhancement:
+  every session is in the HTML and visible with JS off.
+- **`/programme/[slug]`** (new) — a page per session: day/format/theme tags,
+  hook as lede, speaker portraits, description, ticket aside priced off the
+  session's day, and up to three related sessions sharing a theme. Carries
+  BreadcrumbList + Event JSON-LD with `superEvent` pointing at humAIn 2026.
+  Session descriptions now live here only, so they aren't duplicated on the index.
+
+**Needs Cat's confirmation before this deploys:**
+
+1. **Six sessions were added from the wireframe** and are `active: true`:
+   AI Upfronts, Round tables at lunch, Fork This Industry, When the budget
+   ceiling disappears (AiCandy), Screen Swap, Build Club. Copy is transcribed
+   from the wireframe, not written fresh — but it has not been through Cat.
+2. **Ashlea Vallance (Screen Swap) is not in the `speakers` collection.** Either
+   she needs an entry or the session needs a different lead.
+3. **Venue.** The wireframe says Stone & Chalk Sydney; `/faq` still says venue
+   TBA. One of the two is now wrong.
+4. **Theme 02 naming.** The site calls it "Brand Discovery in the AI Age", the
+   wireframe "Brand in the Age of AI Search". The site's name was kept.
+
+**Unrelated problem found:** `.npmrc` is **missing from the repo** — untracked,
+not in `.gitignore`, and absent from git history. CLAUDE.md documents it as
+required at repo root (`legacy-peer-deps=true`) for Netlify's npm install to
+resolve the `@astrojs/netlify` peer-dep conflict. Local `npm install` currently
+succeeds without it, so this may no longer bite, but the documented setup and
+the actual repo disagree. `node_modules` was also corrupted (truncated `shiki`
+and `@rollup/rollup-darwin-arm64` binaries) and had to be reinstalled from the
+lockfile before the build would run; `package-lock.json` was left untouched.
 
 ## Open questions
 

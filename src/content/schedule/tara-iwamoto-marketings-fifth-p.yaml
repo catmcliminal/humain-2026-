@@ -1,6 +1,10 @@
 title: Marketing's Fifth P — Prototype
 day: '2026-10-14'
 stage: Workshop
+format: Workshop, 90 minutes
+hook: "Ninety minutes. You leave with a working prototype, not a slide about one."
+themes:
+  - creative
 speaker: Tara Iwamoto, founder, Vibe Coding Lab
 photos:
   - /images/speakers/tara-iwamoto/photo.jpg
@@ -9,6 +13,6 @@ description: >-
   ideas into working products, apps and websites at speed. In this hands-on
   lab, Tara Iwamoto will introduce delegates to vibe coding, and show them how
   to build and test a prototype without writing a line of code.
-order: 4
+order: 8
 active: true
 year: 2026

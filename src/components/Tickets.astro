@@ -1,39 +1,13 @@
 ---
 import EarlyBirdNote from './EarlyBirdNote.astro';
 import { TICKET_URL, TICKET_IS_EXTERNAL } from '../config';
+import { TICKETS } from '../data/tickets';
 
 const ticketTarget = TICKET_IS_EXTERNAL ? '_blank' : undefined;
 const ticketRel = TICKET_IS_EXTERNAL ? 'noopener noreferrer' : undefined;
 
-const tickets = [
-  {
-    name: 'Conference only',
-    days: 'Day one only',
-    earlyPrice: '$595',
-    standardPrice: '$745',
-    saving: '$150',
-    color: 'var(--blue)',
-    featured: false,
-  },
-  {
-    name: 'Conference + Workshop',
-    days: 'Both days',
-    earlyPrice: '$795',
-    standardPrice: '$995',
-    saving: '$200',
-    color: 'var(--pink)',
-    featured: true,
-  },
-  {
-    name: 'Workshop only',
-    days: 'Day two only',
-    earlyPrice: '$475',
-    standardPrice: '$595',
-    saving: '$120',
-    color: 'var(--orange)',
-    featured: false,
-  },
-];
+// Tiers live in src/data/tickets.ts so the session pages show the same prices.
+const tickets = TICKETS;
 ---
 
 <section id="tickets">

@@ -1,6 +1,11 @@
 title: 'Build a Business AI Can''t Commoditise: What Buyers Will Value in Three Years'
 day: '2026-10-14'
 stage: Workshop
+format: Workshop, 90 minutes
+hook: "When everyone has the same tools, the tools stop being the advantage. What replaces them."
+themes:
+  - taste
+  - search
 speaker: Julia Vargiu, Director Australia, SI Global
 photos:
   - /images/speakers/julia-vargiu/photo.jpg
@@ -16,6 +21,6 @@ description: >-
   buyers, and leave with a clearer view of what to strengthen, redesign or stop
   relying on — and how judgment, trust, creativity, relationships and sector
   expertise can become more valuable as production gets easier.
-order: 5
+order: 10
 active: true
 year: 2026

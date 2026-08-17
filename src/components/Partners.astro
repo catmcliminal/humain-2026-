@@ -1,18 +1,8 @@
 ---
-const partners = [
-  {
-    role: 'Ecosystem Partner',
-    name: 'Stone & Chalk',
-    logo: '/images/logos/Stone_and_Chalk.png',
-    accent: 'var(--pink)',
-  },
-  {
-    role: 'Media Partner',
-    name: 'B&T',
-    logo: '/images/logos/BandT.png',
-    accent: 'var(--orange)',
-  },
-];
+import { partners, associations } from '../utils/partners';
+
+// Partners first, supporting associations after — same order as /partners.
+const tiles = [...partners, ...associations];
 ---
 
 <section id="partners" style="padding-top:0">
@@ -23,7 +13,7 @@ const partners = [
     </div>
     <div class="partners-strip rv">
       {
-        partners.map((p) => (
+        tiles.map((p) => (
           <a href="/partners" class="partner-tile" style={`--ac:${p.accent}`}>
             <div class="partner-tile-logo">
               <img src={p.logo} alt={`${p.name} logo`} loading="lazy" />

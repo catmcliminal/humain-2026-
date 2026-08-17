@@ -5,33 +5,9 @@ import Footer from '../components/Footer.astro';
 import PageHeader from '../components/PageHeader.astro';
 import { breadcrumbJsonLd } from '../utils/breadcrumbs';
 import { SITE } from '../config';
+import { partners, associations } from '../utils/partners';
 
 const crumbs = breadcrumbJsonLd([{ name: 'Partners', url: `${SITE}/partners/` }]);
-
-const partners = [
-  {
-    role: 'Ecosystem Partner',
-    name: 'Stone & Chalk',
-    logo: '/images/logos/Stone_and_Chalk.png',
-    accent: 'var(--pink)',
-    copy: `Stone & Chalk is the largest innovation community in Australia. Operating the Tech Central Innovation Hub in Sydney, with further hubs in Melbourne and Adelaide, it brings together founders, corporates and government to connect emerging tech companies with the people, capital and knowledge they need to grow.
-
-As humAIn's Ecosystem Partner, Stone & Chalk hosts the 2026 flagship event within Tech Central's Collider space — placing its resident and alumni founder community in front of the senior marketing and creative leaders actively evaluating and buying AI tools. The partnership extends beyond the two-day conference into a regular programme of boardroom sessions at Tech Central, pairing founders building AI products with the marketers and creatives deploying them.
-
-Together, humAIn and Stone & Chalk are building a direct line between the people building Australia's AI economy and the people putting it to work — ideating, innovating and creating impact with the country's emerging tech founders.`,
-  },
-  {
-    role: 'Media Partner',
-    name: 'B&T',
-    logo: '/images/logos/BandT.png',
-    accent: 'var(--orange)',
-    copy: `B&T is Australia's leading news publisher and magazine for the advertising, marketing, media and PR industries. Founded in 1950 — originally standing for Broadcast & Television — and headquartered in Surry Hills, NSW, B&T has spent over seven decades as the industry's daily read.
-
-It provides daily intelligence, expert analysis and career updates across the entire media landscape, covering everything from campaign launches and agency moves to the technology reshaping how brands reach audiences. For senior marketing, media and creative leaders, B&T is where the industry goes to understand what's happening and why it matters.
-
-As humAIn's media partner, B&T brings that reach and credibility to the conversation happening on stage — covering the flagship event, amplifying the speakers and ideas, and connecting humAIn's programming with the wider industry audience that reads B&T every day. It's a natural fit: two independent voices, both built on editorial trust, both focused on what's actually changing in marketing, media and creative work.`,
-  },
-];
 ---
 
 <BaseLayout
@@ -48,20 +24,38 @@ As humAIn's media partner, B&T brings that reach and credibility to the conversa
     />
     <section style="padding-top:48px;padding-bottom:96px">
       <div class="wrap">
-        <div class="partners-list">
-          {partners.map((p) => (
-            <div class="partner-card rv" style={`--ac:${p.accent}`}>
-              <div class="partner-logo">
-                <img src={p.logo} alt={`${p.name} logo`} loading="lazy" />
+        {[
+          { heading: null, items: partners },
+          { heading: 'Supporting associations.', items: associations },
+        ].map((group) => group.items.length > 0 && (
+          <>
+            {group.heading && (
+              <div class="sec-head assoc-head">
+                <h2 class="rv">{group.heading}</h2>
+                <span class="sec-num">— Associations</span>
               </div>
-              <div class="partner-body">
-                <span class="partner-role">{p.role}</span>
-                <h2>{p.name}</h2>
-                {p.copy.split('\n\n').map((para) => <p>{para}</p>)}
-              </div>
+            )}
+            <div class="partners-list">
+              {group.items.map((p) => (
+                <div class="partner-card rv" style={`--ac:${p.accent}`}>
+                  <div class="partner-logo">
+                    <img src={p.logo} alt={`${p.name} logo`} loading="lazy" />
+                  </div>
+                  <div class="partner-body">
+                    <span class="partner-role">{p.role}</span>
+                    <h2>{p.name}</h2>
+                    {p.copy.split('\n\n').map((para) => <p>{para}</p>)}
+                    {p.url && (
+                      <a class="partner-link" href={p.url} target="_blank" rel="noopener">
+                        Visit {p.name} →
+                      </a>
+                    )}
+                  </div>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+          </>
+        ))}
       </div>
     </section>
 
@@ -158,6 +152,9 @@ As humAIn's media partner, B&T brings that reach and credibility to the conversa
     flex-direction: column;
     gap: 28px;
   }
+  .assoc-head {
+    margin-top: 64px;
+  }
   .partner-card {
     position: relative;
     display: grid;
@@ -219,6 +216,21 @@ As humAIn's media partner, B&T brings that reach and credibility to the conversa
   }
   .partner-body p:last-child {
     margin-bottom: 0;
+  }
+  .partner-link {
+    display: inline-block;
+    margin-top: 18px;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ac);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s ease;
+  }
+  .partner-link:hover {
+    border-bottom-color: var(--ac);
   }
 
   @media (max-width: 760px) {

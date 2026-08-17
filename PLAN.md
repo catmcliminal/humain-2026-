@@ -110,7 +110,21 @@ Rebuilt `/programme` from Cat's wireframe and added a page per session.
 - **`src/data/tickets.ts`** (new) — the three tiers, extracted out of
   `Tickets.astro`, which now renders from it. Session pages call `ticketForDay()`
   to show the cheapest tier admitting that day, so prices can't drift between the
-  pricing table and a session page.
+  pricing table and a session page. Also carries the per-tier `label`,
+  `dateLabel`, `features`, `cta` and `eyebrow` used by the programme ticket
+  section.
+- **`src/components/TicketsProgramme.astro`** (new) — the ticket section at the
+  foot of `/programme`, built to Cat's wireframe: three cards showing what each
+  tier includes, "Most booked" on the both-days card, and the group-rate and
+  association-code notes. Same data and prices as the homepage `Tickets.astro`,
+  different layout, because someone reading the programme is choosing between
+  the days rather than just learning tickets exist. The generic "Get tickets"
+  button that used to close the page was dropped — each card now has its own CTA.
+  **Note the two different savings:** the card reads "Saves $275", which is
+  against buying both single days at early bird ($595 + $475 − $795), while the
+  tier's `saving` field is $200, against its own standard price ($995). Both are
+  true and answer different questions, so they are kept separate; the $275 is
+  derived by `bothDaysBundleSaving()` rather than hard-coded.
 - **`schedule` schema gained `format`, `hook`, `themes`** — mirrored in
   `keystatic.config.ts` (`themes` is a multiselect).
 - **`/programme`** — filter chips over day-grouped session rows. Filtering is

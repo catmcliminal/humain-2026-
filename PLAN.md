@@ -139,12 +139,20 @@ moment a session is tagged `culture`. The homepage `Themes.astro` section still
 shows all four, which is correct: that section describes the programme's
 subject matter, not what has been scheduled.
 
-**Still needs Cat's confirmation:**
+**Both open questions closed by Cat (2026-08-18):**
 
-1. **Venue.** The wireframe says Stone & Chalk Sydney; `/faq` still says venue
-   TBA. One of the two is now wrong.
-2. **Theme 02 naming.** The site calls it "Brand Discovery in the AI Age", the
-   wireframe "Brand in the Age of AI Search". The site's name was kept.
+1. **Venue** — Stone & Chalk Sydney, 477 Pitt St, is correct. No prose needed
+   changing: the site already stated it correctly everywhere (the FAQ entries,
+   `/faq`, the meta descriptions and the conference JSON-LD). An earlier note in
+   this file recording "venue TBA" as a *fixed* stale fact was misread as the
+   venue still being unknown — it was not.
+   The real gap was in the new per-session `Event` JSON-LD, which carried a
+   generic `Sydney, Australia` Place. The venue is now `src/data/venue.ts`, used
+   by both `BaseLayout.astro` and `/programme/[slug]`, so the two can't drift.
+   Prose mentions are deliberately not generated from it — search for
+   "Stone & Chalk" if the venue ever moves.
+2. **Theme 02 naming** — "Brand Discovery in the AI Age" is correct, which is
+   what the code already used. No change.
 
 **Unrelated problem found:** `.npmrc` is **missing from the repo** — untracked,
 not in `.gitignore`, and absent from git history. CLAUDE.md documents it as

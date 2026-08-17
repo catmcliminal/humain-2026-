@@ -9,6 +9,7 @@ import { breadcrumbJsonLd } from '../../utils/breadcrumbs';
 import { currentEdition } from '../../utils/edition';
 import { SITE, TICKET_URL, TICKET_IS_EXTERNAL, EARLY_BIRD_NOTE } from '../../config';
 import { themeById } from '../../data/themes';
+import { VENUE } from '../../data/venue';
 import { ticketForDay } from '../../data/tickets';
 
 export async function getStaticPaths() {
@@ -58,7 +59,7 @@ const eventJsonLd = {
   startDate: d.startTime ? `${d.day}T${d.startTime}:00+11:00` : d.day,
   eventStatus: 'https://schema.org/EventScheduled',
   eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
-  location: { '@type': 'Place', name: 'Sydney, Australia' },
+  location: VENUE,
   superEvent: { '@type': 'Event', name: 'humAIn 2026', url: `${SITE}/` },
   ...(d.speaker ? { performer: { '@type': 'Person', name: d.speaker } } : {}),
   url,

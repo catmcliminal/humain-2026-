@@ -83,7 +83,7 @@ const description =
           {primary && (
             <>
               <span aria-hidden="true">/</span>
-              <a href="/#themes">{primary.name}</a>
+              <span>{primary.name}</span>
             </>
           )}
         </nav>
@@ -144,7 +144,7 @@ const description =
                 <div class="sp-h">Explore the themes this sits in</div>
                 <div class="sp-chips">
                   {themes.map((t) => (
-                    <a class="sp-chip" href="/#themes">{t.name}</a>
+                    <span class="sp-chip">{t.name}</span>
                   ))}
                 </div>
               </div>
@@ -366,10 +366,6 @@ const description =
     color: var(--ink);
     text-decoration: none;
     transition: 0.2s;
-  }
-  .sp-chip:hover {
-    border-color: var(--pink);
-    color: var(--pink);
   }
   .sp-aside {
     position: sticky;

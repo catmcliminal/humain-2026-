@@ -9,6 +9,7 @@ import { breadcrumbJsonLd } from '../../utils/breadcrumbs';
 import { currentEdition } from '../../utils/edition';
 import { SITE, TICKET_URL, TICKET_IS_EXTERNAL, EARLY_BIRD_NOTE } from '../../config';
 import { themeById } from '../../data/themes';
+import { dayByDate } from '../../data/days';
 import { VENUE } from '../../data/venue';
 import { ticketForDay } from '../../data/tickets';
 
@@ -28,10 +29,7 @@ const d = session.data;
 const ticketTarget = TICKET_IS_EXTERNAL ? '_blank' : undefined;
 const ticketRel = TICKET_IS_EXTERNAL ? 'noopener noreferrer' : undefined;
 
-const dayMeta = {
-  '2026-10-13': { label: 'Day 01', date: '13 October 2026' },
-  '2026-10-14': { label: 'Day 02', date: '14 October 2026' },
-}[d.day];
+const day = dayByDate(d.day);
 
 const themes = (d.themes ?? []).map((t) => themeById(t)).filter((t) => t !== undefined);
 const primary = themes[0];
@@ -91,7 +89,8 @@ const description =
         <div class="sp-grid">
           <div>
             <div class="sp-tags">
-              {dayMeta && <span class="sp-tag day mono">{dayMeta.label}</span>}
+              {day && <span class="sp-tag day mono">{day.label}</span>}
+              {day && <span class="sp-tag day mono">{day.kind}</span>}
               {themes.map((t) => <span class="sp-tag is-theme mono">{t.name}</span>)}
             </div>
             <h1>{d.title}</h1>
@@ -178,7 +177,7 @@ const description =
               <a class="sp-rcard rv" href={`/programme/${s.id}`}>
                 <div class="sp-tags">
                   <span class="sp-tag day mono">
-                    {s.data.day === '2026-10-13' ? 'Day 01' : 'Day 02'}
+                    {dayByDate(s.data.day)?.label}
                   </span>
                 </div>
                 <h3>{s.data.title}</h3>

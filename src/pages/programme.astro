@@ -11,6 +11,7 @@ import { currentEdition } from '../utils/edition';
 import { SITE } from '../config';
 import { themeById } from '../data/themes';
 import { DAYS } from '../data/days';
+import { ROUND_TABLES } from '../data/roundtables';
 
 const crumbs = breadcrumbJsonLd([{ name: 'Programme', url: `${SITE}/programme/` }]);
 
@@ -106,6 +107,24 @@ const hasAnySessions = sessions.length > 0;
             <a href="/voices">confirmed speakers</a> in the meantime — times and topics will appear here as they're locked in.
           </p>
         )}
+      </div>
+    </section>
+
+    <section id="round-tables">
+      <div class="wrap">
+        <div class="sec-head">
+          <h2 class="rv">Round tables, held under the Chatham House Rule.</h2>
+          <span class="sec-num">— Round tables</span>
+        </div>
+        <div class="rt-grid">
+          {ROUND_TABLES.map((t) => (
+            <div class="rt-card rv">
+              <div class="rt-topic mono">{t.topic}</div>
+              <h3>{t.question}</h3>
+              {t.detail.map((para) => <p>{para}</p>)}
+            </div>
+          ))}
+        </div>
       </div>
     </section>
 
@@ -444,6 +463,59 @@ const hasAnySessions = sessions.length > 0;
       flex-direction: row;
       align-items: flex-start;
       flex-wrap: wrap;
+    }
+  }
+
+  /* ---------- round tables ---------- */
+  /* The heading is long enough to wrap, which squeezes the section number
+     into a two-line column beside it. Only worth holding on one line where
+     there is room — on narrow screens that would starve the heading instead. */
+  @media (min-width: 721px) {
+    #round-tables .sec-num {
+      white-space: nowrap;
+    }
+  }
+  .rt-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 16px;
+  }
+  .rt-card {
+    border: 1px solid var(--line-2);
+    border-radius: 18px;
+    padding: 28px 26px 26px;
+    display: flex;
+    flex-direction: column;
+  }
+  .rt-topic {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    color: var(--pink);
+    margin-bottom: 14px;
+  }
+  .rt-card h3 {
+    font-family: var(--disp);
+    font-weight: 800;
+    font-size: 24px;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    margin-bottom: 14px;
+    text-wrap: balance;
+  }
+  .rt-card p {
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--ink-2);
+  }
+  .rt-card p + p {
+    margin-top: 12px;
+  }
+  @media (max-width: 720px) {
+    .rt-card {
+      padding: 24px 22px;
+    }
+    .rt-card h3 {
+      font-size: 21px;
     }
   }
 </style>

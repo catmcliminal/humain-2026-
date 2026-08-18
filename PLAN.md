@@ -364,6 +364,17 @@ lockfile before the build would run; `package-lock.json` was left untouched.
   before the programme rebuild (checked at `bf3bca4`), and the five-section
   prose block lower on `/programme`. If those are also unapproved they need
   pulling too — say so and they go.
+- **2026-08-18 (session hooks supplied by Cat)** — The five hooks removed
+  earlier are replaced with Cat's own wording, pasted per session: Jack of All
+  Prompts, The Illusion of AI, Scale Speed and Soul, Marketing's Fifth P, and
+  Build a Business AI Can't Commoditise. All seven sessions now have a hook.
+  **Set the hook only — never edit the description to match.** The first attempt
+  also lifted each hook's opening out of the `description` to avoid it appearing
+  twice; Cat's instruction is that the descriptions are not to be touched. The
+  supplied hooks therefore repeat the opening of their descriptions, which is
+  intended: on a session page the hook is the lede and the description follows
+  in full. The one exception is "The discipline of friction", where Cat approved
+  the split, so its description starts after the hook.
 - **2026-08-12 (answer-engine FAQ merged)** — `content/answer-engine-faq`
   merged to main and deployed. The five entries (orders 4–8: AI marketing
   conference Australia, SXSW Sydney gap, best AI marketing event Sydney 2026,

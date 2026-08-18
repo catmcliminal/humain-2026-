@@ -8,7 +8,7 @@ bio: >-
   tech, team building and life.
 keynote: false
 advisory: true
-featured: false
-order: 2
+featured: true
+order: 4
 active: true
 year: 2026

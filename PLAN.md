@@ -93,7 +93,94 @@ at `_source/humAIn - 06 Pulse.html`).
 | 2026-08-05 | New `advisory` content collection, independent of `speakers` | Owner wants Speakers and Advisory Panel edited as fully separate pages/collections, not one shared record with a flag. `/community/advisory` now reads its own `src/content/advisory/*.yaml` files (own Keystatic collection, own `public/images/advisory/` directory). The `advisory` boolean on `speakers` is kept as-is — it only drives the pink/yellow tag on `/voices` and is unrelated to which page's content an editor manages. The 9 people who are both speaking and advising now have two independent entries (one per collection); editing one does not affect the other. |
 | 2026-08-12 | Editorial standards published as its own page at `/about/editorial-standards`, not a section of `/about` | It's a trust document people link to and arrive at directly (sources, PR contacts, partners), and a discoverable editorial policy is an E-E-A-T signal for a publisher. Nesting under `/about` (following the `/community/advisory` precedent) leaves room for a corrections policy or ownership statement later. Hard-coded like `/privacy` and `/terms` rather than a Keystatic collection — a one-entry collection adds handover clutter for a page that changes rarely. |
 | 2026-08-12 | Gift register is a Keystatic collection (`gifts`), not a hard-coded page like editorial standards | A register is a living record maintained by whoever receives the gift, so it has to be editable without code — the opposite of the editorial standards page, which is fixed prose. Sorted by `dateReceived` (newest first) with no `order` field, since a register is chronological. Recording threshold is $50, stated on the page. Fields are deliberately minimal (no outcome/status field) — Cat's call. |
+| 2026-08-18 | `/programme` rebuilt to the wireframe; each session gets its own page at `/programme/[slug]` | The programme index was one long list with full descriptions inline, which neither scanned nor gave a session anywhere to be linked to. Traffic from a speaker's own post or an ad lands on one session, cold, with no idea what the event costs — so each session now has a page carrying its own title, hook, portraits, JSON-LD and a price for the day it runs on. Descriptions moved off the index onto those pages so the copy isn't duplicated across two URLs. Rows on the index are links, not expanders. |
+| 2026-08-18 | Themes are a filter over the running order, not a separate track structure | Delegates browse by interest, not by track. Tagging sessions with `themes` and filtering the real running order keeps one source of truth for the schedule, and gives the four themes somewhere to lead to. Filtering is client-side progressive enhancement — all sessions render server-side, so the page is complete with JS off and fully crawlable. |
+| 2026-08-18 | Ticket tiers extracted to `src/data/tickets.ts` | Session pages show the entry price for their day, so the prices existed in two places the moment those pages were built. One module, read by both `Tickets.astro` and `/programme/[slug]`, means a price change lands everywhere at once — same reasoning as `TICKET_URL`. |
 | 2026-08-06 | Confirmed 2026 Speakers roster: Pip Bingemann, James Caldwell, Tea Uglow, Marie-Céline Merret, Vinne Schifferstein, Bridget Cleary, Kent Boswell, Marcus Tesoriero | Owner confirmed these 8 as the actual speaker lineup. Set `active: false` on the other 6 speaker entries (Annie Liao, Dave King, Karen Powell, Joana Barros, Jeremy Somers, Sarah Yassien) — they were advisory-panel-only, not speaking. Data kept, not deleted; they remain live on `/community/advisory` via their separate `advisory` collection entries. |
+
+## Programme rebuild (2026-08-18)
+
+Rebuilt `/programme` from Cat's wireframe and added a page per session.
+
+- **`src/data/themes.ts`** (new) — the four themes as data (`id`, `num`, `name`,
+  `short`, `hook`). Tags sessions and drives the theme filter. The long-form
+  theme copy in `Themes.astro` is deliberately **not** generated from this file
+  (that wording is approved and hand-edited), but the four `name` values and its
+  `<h3>`s must be renamed together.
+- **`src/data/tickets.ts`** (new) — the three tiers, extracted out of
+  `Tickets.astro`, which now renders from it. Session pages call `ticketForDay()`
+  to show the cheapest tier admitting that day, so prices can't drift between the
+  pricing table and a session page. Also carries the per-tier `label`,
+  `dateLabel`, `features`, `cta` and `eyebrow` used by the programme ticket
+  section.
+- **`src/components/TicketsProgramme.astro`** (new) — the ticket section at the
+  foot of `/programme`, built to Cat's wireframe: three cards showing what each
+  tier includes, "Most booked" on the both-days card, and the group-rate and
+  association-code notes. Same data and prices as the homepage `Tickets.astro`,
+  different layout, because someone reading the programme is choosing between
+  the days rather than just learning tickets exist. The generic "Get tickets"
+  button that used to close the page was dropped — each card now has its own CTA.
+  **Note the two different savings:** the card reads "Saves $275", which is
+  against buying both single days at early bird ($595 + $475 − $795), while the
+  tier's `saving` field is $200, against its own standard price ($995). Both are
+  true and answer different questions, so they are kept separate; the $275 is
+  derived by `bothDaysBundleSaving()` rather than hard-coded.
+- **`schedule` schema gained `format`, `hook`, `themes`** — mirrored in
+  `keystatic.config.ts` (`themes` is a multiselect).
+- **`/programme`** — filter chips over day-grouped session rows. Filtering is
+  progressive enhancement: every session is in the HTML and visible with JS off.
+  An at-a-glance stats panel, a themes card grid and a "The running order."
+  heading were built and then **removed at Cat's direction (2026-08-18)** — they
+  were not in her wireframe. They existed only because the programme wireframe
+  artifact could never be fetched (403 on every attempt), so the page was
+  inferred from the session-page wireframe instead. The theme links on session
+  pages therefore point at the homepage `#themes` section, not `/programme`.
+- **`/programme/[slug]`** (new) — a page per session: day/format/theme tags,
+  hook as lede, speaker portraits, description, ticket aside priced off the
+  session's day, and up to three related sessions sharing a theme. Carries
+  BreadcrumbList + Event JSON-LD with `superEvent` pointing at humAIn 2026.
+  Session descriptions now live here only, so they aren't duplicated on the index.
+
+**The wireframe's six extra sessions were deliberately not added** (Cat's call,
+2026-08-18): AI Upfronts, Round tables at lunch, Fork This Industry, When the
+budget ceiling disappears (AiCandy), Screen Swap, Build Club. The page ships
+with the five confirmed sessions only. The copy for the six was transcribed
+from the wireframe and briefly committed, so it remains recoverable in this
+branch's history at `f669283` if any of them are confirmed later. This also
+means **Ashlea Vallance no longer needs a `speakers` entry** — Screen Swap was
+the only thing referencing her.
+
+Consequence worth knowing: **"Culture as Training Data" now has no sessions**,
+so it renders on neither the theme cards nor the filter chips on `/programme`.
+That is the `themesInUse` guard working as intended — a filter that matches
+nothing is worse than a missing one — and it will reappear on its own the
+moment a session is tagged `culture`. The homepage `Themes.astro` section still
+shows all four, which is correct: that section describes the programme's
+subject matter, not what has been scheduled.
+
+**Both open questions closed by Cat (2026-08-18):**
+
+1. **Venue** — Stone & Chalk Sydney, 477 Pitt St, is correct. No prose needed
+   changing: the site already stated it correctly everywhere (the FAQ entries,
+   `/faq`, the meta descriptions and the conference JSON-LD). An earlier note in
+   this file recording "venue TBA" as a *fixed* stale fact was misread as the
+   venue still being unknown — it was not.
+   The real gap was in the new per-session `Event` JSON-LD, which carried a
+   generic `Sydney, Australia` Place. The venue is now `src/data/venue.ts`, used
+   by both `BaseLayout.astro` and `/programme/[slug]`, so the two can't drift.
+   Prose mentions are deliberately not generated from it — search for
+   "Stone & Chalk" if the venue ever moves.
+2. **Theme 02 naming** — "Brand Discovery in the AI Age" is correct, which is
+   what the code already used. No change.
+
+**Unrelated problem found:** `.npmrc` is **missing from the repo** — untracked,
+not in `.gitignore`, and absent from git history. CLAUDE.md documents it as
+required at repo root (`legacy-peer-deps=true`) for Netlify's npm install to
+resolve the `@astrojs/netlify` peer-dep conflict. Local `npm install` currently
+succeeds without it, so this may no longer bite, but the documented setup and
+the actual repo disagree. `node_modules` was also corrupted (truncated `shiki`
+and `@rollup/rollup-darwin-arm64` binaries) and had to be reinstalled from the
+lockfile before the build would run; `package-lock.json` was left untouched.
 
 ## Open questions
 
@@ -196,6 +283,42 @@ at `_source/humAIn - 06 Pulse.html`).
   untouched — at 346×443 it is already the softest image on the site and
   re-encoding would cost more than the 18KB saved; replace with a larger
   original when one exists. **Site image weight overall: 21.6MB → 2.6MB.**
+- **2026-08-18 (Lucinda Barlow + Ben Cooper)** — New opening session added to
+  `/programme` at `order: 0`, "The discipline of friction: Why the best brands
+  refuse the first answer", an in-conversation session between Lucinda Barlow
+  (Head of International Marketing, Uber) and Ben Cooper (Founder, Brainstrust).
+  Both added to the `speakers` collection; headshots from the shared assets
+  folder, resized to a 1000px long edge and re-encoded JPEG q82 like the rest.
+  Alphabetical-by-first-name `order` maintained, so inserting Ben at 2 and
+  Lucinda at 11 renumbered everyone after them (old 2–9 shifted +1, old 10–19
+  shifted +2). Active 2026 speaker count is now 16.
+  **Homepage lineup set to Bridget Cleary, James Caldwell, Lucinda Barlow and
+  Tea Uglow** (Cat's call) — those four carry `featured: true`; Ben is on
+  `/voices` only. The homepage renders featured speakers in `order`, i.e.
+  alphabetically by first name, not in the sequence they were named.
+  **Worth checking:** Lucinda's headshot is landscape (1000x667 after resize,
+  from a file named "low-res"), so it crops hard in the portrait slot on the
+  session page and the square card — a portrait original would sit better. Her
+  bio is ~250 words, the longest on `/voices`, and speaker bios render as a
+  single paragraph there (only advisory bios split on blank lines), so it reads
+  as one block. "entreprenuership" in Ben's supplied bio was corrected to
+  "entrepreneurship", and "honors" set to "honours" for house style; the rest of
+  both bios is verbatim. The session's themes (Taste Gap, AI & Creative Work)
+  were assigned here, not supplied. The claim that YouTube grew to "two billion
+  daily users" is from the supplied bio and is worth confirming — YouTube's
+  published figure is monthly, not daily.
+- **2026-08-18 (Ashlea Vallance)** — Added to the `speakers` collection at
+  `order: 2` (renumbering everyone from Ben Cooper onward by +1; active 2026
+  speaker count is now 17) and **deliberately not featured**, so she appears on
+  `/voices` but not the homepage lineup, which stays Bridget, James, Lucinda and
+  Tea. Her Day two workshop "OI: original intelligence." is the last session on
+  14 October. This closes the earlier open question about Ashlea missing from
+  `speakers` — the wireframe's "Screen Swap" session was dropped with the other
+  five unconfirmed ones, and this is a different, supplied session in its place.
+  **The workshop copy is deliberately lower-case** ("your team lives on screens.
+  slack. zoom. figma. notion.") — that is Cat's styling, not a mistake, and
+  should not be sentence-cased. The title keeps its trailing full stop for the
+  same reason. Its theme (AI & Creative Work) was assigned here, not supplied.
 - **2026-08-12 (answer-engine FAQ merged)** — `content/answer-engine-faq`
   merged to main and deployed. The five entries (orders 4–8: AI marketing
   conference Australia, SXSW Sydney gap, best AI marketing event Sydney 2026,

@@ -5,27 +5,33 @@ import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import PageHeader from '../components/PageHeader.astro';
 import PulseBand from '../components/PulseBand.astro';
+import TicketsProgramme from '../components/TicketsProgramme.astro';
 import { breadcrumbJsonLd } from '../utils/breadcrumbs';
 import { currentEdition } from '../utils/edition';
-import EarlyBirdNote from '../components/EarlyBirdNote.astro';
-import { SITE, TICKET_URL, TICKET_IS_EXTERNAL } from '../config';
+import { SITE } from '../config';
+import { THEMES, themeById } from '../data/themes';
 
 const crumbs = breadcrumbJsonLd([{ name: 'Programme', url: `${SITE}/programme/` }]);
-const ticketTarget = TICKET_IS_EXTERNAL ? '_blank' : undefined;
-const ticketRel = TICKET_IS_EXTERNAL ? 'noopener noreferrer' : undefined;
 
 const sessions = currentEdition(await getCollection('schedule')).sort(
   (a, b) => a.data.order - b.data.order
 );
 const days = [
-  { date: '2026-10-13', label: 'Day 01', dateLabel: '13 October 2026' },
-  { date: '2026-10-14', label: 'Day 02', dateLabel: '14 October 2026' },
+  { date: '2026-10-13', label: 'Day one', dateLabel: 'Tuesday 13 October 2026', sub: 'Main stage, round tables, closing debate' },
+  { date: '2026-10-14', label: 'Day two', dateLabel: 'Wednesday 14 October 2026', sub: 'Workshops, 90 minutes each, capped rooms' },
 ] as const;
 const sessionsByDay = days.map((d) => ({
   ...d,
   sessions: sessions.filter((s) => s.data.day === d.date),
 }));
 const hasAnySessions = sessions.length > 0;
+
+// Only offer a theme as a filter if something is actually tagged with it —
+// an empty filter is worse than a missing one.
+const themesInUse = THEMES.map((t) => ({
+  ...t,
+  count: sessions.filter((s) => s.data.themes?.includes(t.id)).length,
+})).filter((t) => t.count > 0);
 ---
 
 <BaseLayout
@@ -45,63 +51,73 @@ const hasAnySessions = sessions.length > 0;
 
     <section id="sessions">
       <div class="wrap">
-        <div class="sec-head">
-          <h2 class="rv">Sessions announced:</h2>
-          <span class="sec-num">— Programme</span>
-        </div>
         {hasAnySessions ? (
-          <div class="sched-days">
-            {sessionsByDay.map((d) => d.sessions.length > 0 && (
-              <div class="sched-day rv">
-                <div class="sched-day-head">
-                  <span class="sched-day-label mono">{d.label}</span>
-                  <span class="sched-day-date">{d.dateLabel}</span>
-                </div>
-                <div class="sched-list">
-                  {d.sessions.map((s) => (
-                    <div class="sched-item">
-                      <div class="sched-side">
-                        {s.data.photos && s.data.photos.length > 0 && (
-                          <div class="sched-photos">
-                            {s.data.photos.map((photo) => (
-                              <img
-                                class="sched-photo"
-                                src={photo}
-                                alt={s.data.speaker ?? s.data.title}
-                                width="140"
-                                height="140"
-                                loading="lazy"
-                              />
-                            ))}
-                          </div>
-                        )}
-                        {s.data.startTime && (
-                          <div class="sched-time mono">
-                            {s.data.startTime}{s.data.endTime && <>–{s.data.endTime}</>}
-                          </div>
-                        )}
-                      </div>
-                      <div class="sched-body">
-                        <div class="sched-top">
-                          <h3>{s.data.title}</h3>
-                          {s.data.stage && <span class="sched-stage">{s.data.stage}</span>}
-                        </div>
-                        {s.data.speaker && <div class="sched-speaker">{s.data.speaker}</div>}
-                        {s.data.description && (
-                          <div class="sched-desc">
-                            {s.data.description.split('\n\n').map((para) => <p>{para}</p>)}
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  ))}
-                  {d.sessions.some((s) => s.id === 'tara-iwamoto-marketings-fifth-p') && (
-                    <h3 class="agenda-head rv">Agenda:</h3>
-                  )}
-                </div>
+          <>
+            {themesInUse.length > 0 && (
+              <div class="prog-filters rv" id="filters">
+                <button class="chip" type="button" data-theme="" aria-pressed="true">All sessions</button>
+                {themesInUse.map((t) => (
+                  <button class="chip" type="button" data-theme={t.id} aria-pressed="false">{t.name}</button>
+                ))}
+                <span class="chip-count" id="filter-count" aria-live="polite"></span>
               </div>
-            ))}
-          </div>
+            )}
+            <div class="sched-days">
+              {sessionsByDay.map((d) => d.sessions.length > 0 && (
+                <div class="sched-day rv" data-day={d.date}>
+                  <div class="sched-day-head">
+                    <span class="sched-day-label mono">{d.label}</span>
+                    <span class="sched-day-date">{d.dateLabel}</span>
+                    <span class="sched-day-sub">{d.sub}</span>
+                    <span class="sched-day-count mono" data-day-count></span>
+                  </div>
+                  <div class="sched-list">
+                    {d.sessions.map((s) => (
+                      <a class="sched-item" href={`/programme/${s.id}`} data-themes={(s.data.themes ?? []).join(' ')}>
+                        <div class="sched-side">
+                          {s.data.photos && s.data.photos.length > 0 && (
+                            <div class="sched-photos">
+                              {s.data.photos.map((photo) => (
+                                <img
+                                  class="sched-photo"
+                                  src={photo}
+                                  alt={s.data.speaker ?? s.data.title}
+                                  width="140"
+                                  height="140"
+                                  loading="lazy"
+                                />
+                              ))}
+                            </div>
+                          )}
+                          {s.data.format && <span class="sched-fmt mono">{s.data.format}</span>}
+                          {s.data.startTime && (
+                            <div class="sched-time mono">
+                              {s.data.startTime}{s.data.endTime && <>–{s.data.endTime}</>}
+                            </div>
+                          )}
+                        </div>
+                        <div class="sched-body">
+                          <div class="sched-top">
+                            <h3>{s.data.title}</h3>
+                            {s.data.stage && <span class="sched-stage">{s.data.stage}</span>}
+                          </div>
+                          {s.data.hook && <p class="sched-hook">{s.data.hook}</p>}
+                          {s.data.speaker && <div class="sched-speaker">{s.data.speaker}</div>}
+                        </div>
+                        <div class="sched-tags">
+                          {(s.data.themes ?? []).map((t) => (
+                            <span class="sched-theme">{themeById(t)?.short ?? t}</span>
+                          ))}
+                          <span class="sched-more mono">Details →</span>
+                        </div>
+                      </a>
+                    ))}
+                  </div>
+                  <p class="sched-none" hidden>No sessions in this theme on this day.</p>
+                </div>
+              ))}
+            </div>
+          </>
         ) : (
           <p class="sched-empty rv">
             The full session-by-session schedule is still being finalised. See the
@@ -144,76 +160,324 @@ const hasAnySessions = sessions.length > 0;
             </div>
           </div>
           <div class="prog-days">
-            <div class="prog-day rv">
-              <div class="prog-day-label mono">Day 01</div>
-              <div class="prog-day-date">13 October 2026</div>
-              <div class="prog-day-theme">Main stage + round tables</div>
-              {sessionsByDay[0].sessions.length > 0 ? (
-                <a href="#sessions" class="prog-day-tba prog-day-tba-link">
-                  {sessionsByDay[0].sessions.length} session{sessionsByDay[0].sessions.length === 1 ? '' : 's'} announced →
-                </a>
-              ) : (
-                <div class="prog-day-tba">Sessions to be announced</div>
-              )}
-            </div>
-            <div class="prog-day rv">
-              <div class="prog-day-label mono">Day 02</div>
-              <div class="prog-day-date">14 October 2026</div>
-              <div class="prog-day-theme">Workshops and demos</div>
-              {sessionsByDay[1].sessions.length > 0 ? (
-                <a href="#sessions" class="prog-day-tba prog-day-tba-link">
-                  {sessionsByDay[1].sessions.length} session{sessionsByDay[1].sessions.length === 1 ? '' : 's'} announced →
-                </a>
-              ) : (
-                <div class="prog-day-tba">Sessions to be announced</div>
-              )}
-            </div>
+            {sessionsByDay.map((d) => (
+              <div class="prog-day rv">
+                <div class="prog-day-label mono">{d.label}</div>
+                <div class="prog-day-date">{d.dateLabel}</div>
+                <div class="prog-day-theme">{d.sub}</div>
+                {d.sessions.length > 0 ? (
+                  <a href="#sessions" class="prog-day-tba prog-day-tba-link">
+                    {d.sessions.length} session{d.sessions.length === 1 ? '' : 's'} announced →
+                  </a>
+                ) : (
+                  <div class="prog-day-tba">Sessions to be announced</div>
+                )}
+              </div>
+            ))}
           </div>
         </div>
       </div>
     </section>
 
-    <section style="padding-top:0">
-      <div class="wrap">
-        <div class="sec-cta rv">
-          <a href={TICKET_URL} class="btn" target={ticketTarget} rel={ticketRel}><span class="dot"></span>Get tickets →</a>
-          <EarlyBirdNote />
-        </div>
-      </div>
-    </section>
+    {/* Three tiers, each with its own CTA, so the generic "Get tickets" button
+        that used to sit here would only repeat what the cards already offer. */}
+    <TicketsProgramme />
   </main>
   <Footer />
 </BaseLayout>
 
+<script>
+  // Theme filter. Progressive enhancement only: every session is rendered and
+  // visible in the HTML, and this script just hides the ones that don't match.
+  // With JS off the page is the full programme, which is the correct fallback.
+  const rows = Array.from(document.querySelectorAll<HTMLElement>('.sched-item'));
+  const controls = Array.from(document.querySelectorAll<HTMLElement>('[data-theme]'));
+  const countEl = document.getElementById('filter-count');
+
+  if (rows.length && controls.length) {
+    let active: string | null = null;
+
+    const apply = () => {
+      for (const row of rows) {
+        const themes = (row.dataset.themes ?? '').split(' ').filter(Boolean);
+        row.hidden = active !== null && !themes.includes(active);
+      }
+
+      // Per-day counts, and the "no sessions in this theme" line for a day
+      // that the active theme empties out entirely.
+      for (const day of document.querySelectorAll<HTMLElement>('.sched-day')) {
+        const shown = day.querySelectorAll('.sched-item:not([hidden])').length;
+        const none = day.querySelector<HTMLElement>('.sched-none');
+        if (none) none.hidden = shown > 0;
+        const count = day.querySelector<HTMLElement>('[data-day-count]');
+        if (count) count.textContent = `${shown} session${shown === 1 ? '' : 's'}`;
+      }
+
+      const total = document.querySelectorAll('.sched-item:not([hidden])').length;
+      if (countEl) {
+        countEl.textContent = active ? `Showing ${total} of ${rows.length}` : '';
+      }
+
+      for (const el of controls) {
+        el.setAttribute('aria-pressed', String((el.dataset.theme || null) === active));
+      }
+    };
+
+    for (const el of controls) {
+      el.addEventListener('click', () => {
+        const value = el.dataset.theme || null;
+        // Clicking the active theme again clears the filter.
+        active = value && value === active ? null : value;
+        apply();
+      });
+    }
+
+    apply();
+  }
+</script>
+
 <style>
-  .agenda-head {
+  /* `hidden` has to beat the grid/flex display rules below, or filtered-out
+     rows stay on screen. */
+  [hidden] {
+    display: none !important;
+  }
+
+
+
+  /* ---------- filter chips ---------- */
+  .prog-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 40px;
+  }
+  .chip {
+    background: transparent;
+    border: 1px solid var(--line-2);
+    color: var(--ink);
+    border-radius: 100px;
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+  .chip:hover {
+    border-color: var(--ink);
+  }
+  .chip[aria-pressed='true'] {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: #0b0908;
+  }
+  .chip:focus-visible {
+    outline: 3px solid var(--pink);
+    outline-offset: 3px;
+  }
+  .chip-count {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--ink-2);
+    margin-left: 6px;
+  }
+
+  /* ---------- sessions ---------- */
+  .sched-days {
+    display: flex;
+    flex-direction: column;
+    gap: 56px;
+  }
+  .sched-day + .sched-day {
+    border-top: 1px solid var(--line-2);
+    padding-top: 56px;
+  }
+  .sched-day-head {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--line-2);
+  }
+  .sched-day-label {
+    color: var(--pink);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+  }
+  .sched-day-date {
     font-family: var(--disp);
     font-weight: 700;
-    font-size: clamp(30px, 4vw, 52px);
-    letter-spacing: -0.02em;
-    line-height: 1;
+    font-size: 20px;
+    letter-spacing: -0.01em;
+  }
+  .sched-day-sub {
+    font-size: 13px;
+    color: var(--ink-2);
+  }
+  .sched-day-count {
+    margin-left: auto;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--ink-2);
+  }
+  .sched-list {
+    display: flex;
+    flex-direction: column;
+  }
+  .sched-item {
+    display: grid;
+    grid-template-columns: 140px minmax(0, 1fr) 150px;
+    gap: 24px;
+    padding: 32px 0;
+    border-top: 1px solid var(--line);
+    text-decoration: none;
+    color: var(--ink);
+    transition: 0.2s;
+  }
+  .sched-item:first-child {
+    padding-top: 0;
+    border-top: none;
+  }
+  .sched-item:hover h3 {
+    color: var(--pink);
+  }
+  .sched-item:hover .sched-more {
+    color: var(--pink);
+  }
+  .sched-item:focus-visible {
+    outline: 3px solid var(--pink);
+    outline-offset: 4px;
+  }
+  .sched-side {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .sched-photos {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+    /* Without this the flex default (stretch) sets the images' height to the
+       line height and overrides `aspect-ratio: 1`, so a two-speaker session
+       renders tall slivers with the faces cropped off. */
+    align-items: flex-start;
+  }
+  .sched-photo {
+    flex: 1;
+    min-width: 0;
+    width: 100%;
+    /* The width/height="140" attributes (kept so the box is reserved before the
+       image loads) map to CSS height, and an explicit height beats
+       `aspect-ratio`. Without `height: auto` a two-speaker session renders
+       66x140 slivers instead of squares. */
+    height: auto;
+    aspect-ratio: 1;
+    border-radius: 12px;
+    object-fit: cover;
+    object-position: top;
+    display: block;
+  }
+  .sched-fmt {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+    border: 1px solid var(--line-2);
+    border-radius: 100px;
+    padding: 4px 10px;
+  }
+  .sched-time {
+    color: var(--ink-2);
+    font-size: 12px;
+  }
+  .sched-top {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .sched-body h3 {
+    font-family: var(--disp);
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
     margin: 0;
-    padding-top: 56px;
-    border-top: 1px solid var(--line-2);
   }
-  #sessions {
-    padding-bottom: 32px;
+  .sched-stage {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--yellow);
+    white-space: nowrap;
   }
+  .sched-hook {
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--ink);
+    margin: 10px 0 0;
+    max-width: 58ch;
+  }
+  .sched-speaker {
+    font-size: 13px;
+    color: var(--ink-2);
+    margin-top: 8px;
+  }
+  .sched-more {
+    margin-top: 6px;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--ink-2);
+    white-space: nowrap;
+    transition: 0.2s;
+  }
+  .sched-tags {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+  }
+  .sched-theme {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--pink);
+    border: 1px solid var(--line-2);
+    border-radius: 100px;
+    padding: 4px 10px;
+    white-space: nowrap;
+  }
+  .sched-none {
+    font-size: 14px;
+    color: var(--ink-2);
+    padding-top: 20px;
+  }
+  .sched-empty {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--ink-2);
+    max-width: 56ch;
+  }
+  .sched-empty a {
+    color: var(--ink);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  /* ---------- long-form programme copy ---------- */
   .prog-coming {
     display: grid;
     grid-template-columns: 1.2fr 0.8fr;
     gap: 80px;
     padding: 32px 0 100px;
     align-items: start;
-  }
-  .prog-coming h2 {
-    font-family: var(--disp);
-    font-weight: 800;
-    font-size: clamp(32px, 4vw, 54px);
-    line-height: 0.95;
-    letter-spacing: -0.025em;
-    margin: 18px 0 24px;
-    text-wrap: balance;
   }
   .prog-coming p {
     font-size: 16px;
@@ -293,125 +557,24 @@ const hasAnySessions = sessions.length > 0;
       gap: 48px;
     }
   }
-
-  /* ---------- sessions announced ---------- */
-  .sched-days {
-    display: flex;
-    flex-direction: column;
-    gap: 56px;
-  }
-  .sched-day + .sched-day {
-    border-top: 1px solid var(--line-2);
-    padding-top: 56px;
-  }
-  .sched-day-head {
-    display: flex;
-    align-items: baseline;
-    gap: 14px;
-    margin-bottom: 24px;
-  }
-  .sched-day-label {
-    color: var(--pink);
-  }
-  .sched-day-date {
-    font-family: var(--disp);
-    font-weight: 700;
-    font-size: 20px;
-    letter-spacing: -0.01em;
-  }
-  .sched-list {
-    display: flex;
-    flex-direction: column;
-  }
-  .sched-item {
-    display: grid;
-    grid-template-columns: 140px 1fr;
-    gap: 24px;
-    padding: 40px 0;
-    border-top: 1px solid var(--line-2);
-  }
-  .sched-item:first-child {
-    padding-top: 0;
-    border-top: none;
-  }
-  .sched-side {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  .sched-photos {
-    display: flex;
-    gap: 8px;
-  }
-  .sched-photo {
-    flex: 1;
-    min-width: 0;
-    width: 100%;
-    aspect-ratio: 1;
-    border-radius: 12px;
-    object-fit: cover;
-    object-position: top;
-    display: block;
-  }
-  .sched-time {
-    color: var(--ink-2);
-    font-size: 12px;
-  }
-  .sched-top {
-    display: flex;
-    align-items: baseline;
-    gap: 12px;
-    flex-wrap: wrap;
-  }
-  .sched-body h3 {
-    font-family: var(--disp);
-    font-weight: 700;
-    font-size: 18px;
-    letter-spacing: -0.01em;
-    margin: 0;
-  }
-  .sched-stage {
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--yellow);
-    white-space: nowrap;
-  }
-  .sched-speaker {
-    font-size: 13px;
-    color: var(--ink-2);
-    margin-top: 4px;
-  }
-  .sched-desc {
-    font-size: 14px;
-    line-height: 1.55;
-    color: #fff;
-    margin-top: 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-  .sched-desc p {
-    margin: 0;
-  }
-  .sched-empty {
-    font-size: 15px;
-    line-height: 1.6;
-    color: var(--ink-2);
-    max-width: 56ch;
-  }
-  .sched-empty a {
-    color: var(--ink);
-    text-decoration: underline;
-    text-underline-offset: 3px;
-  }
-  @media (max-width: 640px) {
+  @media (max-width: 720px) {
     .sched-item {
       grid-template-columns: 1fr;
+      gap: 14px;
+    }
+    .sched-side {
+      flex-direction: row;
+      align-items: center;
+      gap: 12px;
     }
     .sched-photos {
-      max-width: 200px;
+      width: auto;
+      max-width: 160px;
+    }
+    .sched-tags {
+      flex-direction: row;
+      align-items: flex-start;
+      flex-wrap: wrap;
     }
   }
 </style>

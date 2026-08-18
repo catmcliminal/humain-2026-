@@ -1,0 +1,206 @@
+---
+/**
+ * The ticket section on /programme.
+ *
+ * Same three tiers as `Tickets.astro` on the homepage and the same prices —
+ * both render from `src/data/tickets.ts` — but a different layout: this one
+ * carries what each tier includes, because someone reading the programme is
+ * choosing between the days, not just seeing that tickets exist.
+ */
+import { TICKET_URL, TICKET_IS_EXTERNAL, EARLY_BIRD_NOTE } from '../config';
+import { TICKETS, bothDaysBundleSaving } from '../data/tickets';
+
+const ticketTarget = TICKET_IS_EXTERNAL ? '_blank' : undefined;
+const ticketRel = TICKET_IS_EXTERNAL ? 'noopener noreferrer' : undefined;
+
+const bundleSaving = bothDaysBundleSaving();
+---
+
+<section id="tickets">
+  <div class="wrap">
+    <div class="tix-head rv">
+      <h2>Tickets</h2>
+      <p>{EARLY_BIRD_NOTE}. All prices exclude GST.</p>
+    </div>
+
+    <div class="tix-grid">
+      {TICKETS.map((t) => (
+        <div class:list={['tix-card', 'rv', { feat: t.featured }]}>
+          {t.eyebrow && <div class="tix-eyebrow mono">{t.eyebrow}</div>}
+          <h3>{t.label}</h3>
+          <div class="tix-date">{t.dateLabel}</div>
+
+          <div class="tix-price">
+            <span class="tix-amt">{t.earlyPrice}</span>
+            <s>{t.standardPrice}</s>
+          </div>
+          <div class="tix-ex">
+            Early bird, ex GST{t.featured && bundleSaving ? `. Saves ${bundleSaving}` : ''}
+          </div>
+
+          <ul class="tix-feats">
+            {t.features.map((f) => <li>{f}</li>)}
+          </ul>
+
+          <a
+            href={TICKET_URL}
+            class:list={['btn', 'tix-btn', { ghost: !t.featured }]}
+            target={ticketTarget}
+            rel={ticketRel}
+            aria-label={`${t.cta} — ${t.label}, ${t.earlyPrice} ex GST`}
+          >
+            {t.featured && <span class="dot"></span>}{t.cta}
+          </a>
+        </div>
+      ))}
+    </div>
+
+    <div class="tix-notes rv">
+      <p><strong>Bringing a team?</strong> Discounted group rates apply from three tickets.</p>
+      <p><strong>Member of ACA, IAB or ACAM?</strong> Your association code applies at checkout.</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .tix-head {
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+  }
+  .tix-head h2 {
+    font-family: var(--disp);
+    font-weight: 700;
+    font-size: clamp(30px, 4vw, 52px);
+    letter-spacing: -0.02em;
+    line-height: 1;
+    margin: 0;
+  }
+  .tix-head p {
+    font-size: 15px;
+    color: var(--ink-2);
+    margin: 0;
+  }
+
+  .tix-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    align-items: stretch;
+  }
+  .tix-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--panel);
+    border: 1px solid var(--line-2);
+    border-radius: 18px;
+    padding: 32px 30px;
+  }
+  .tix-card.feat {
+    border-color: var(--pink);
+    box-shadow: inset 0 0 0 1px var(--pink);
+  }
+  .tix-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--pink);
+    margin-bottom: 12px;
+  }
+  .tix-card h3 {
+    font-family: var(--disp);
+    font-weight: 800;
+    font-size: 22px;
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+    margin: 0;
+  }
+  .tix-date {
+    font-size: 13px;
+    color: var(--ink-2);
+    margin-top: 6px;
+  }
+  .tix-price {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-top: 26px;
+  }
+  .tix-amt {
+    font-family: var(--disp);
+    font-weight: 800;
+    font-size: 44px;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+  .tix-price s {
+    font-size: 18px;
+    color: var(--ink-2);
+  }
+  .tix-ex {
+    font-size: 13px;
+    color: var(--ink-2);
+    margin-top: 8px;
+  }
+
+  .tix-feats {
+    list-style: none;
+    /* Bottom margin here rather than a `.tix-feats + .tix-btn` rule, which
+       would out-specify the button's `margin-top: auto` and stop the buttons
+       lining up across cards of different height. */
+    margin: 26px 0 32px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .tix-feats li {
+    position: relative;
+    padding-left: 22px;
+    font-size: 14px;
+    line-height: 1.45;
+  }
+  /* The wireframe marks each line with a short rule rather than a bullet. */
+  .tix-feats li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.62em;
+    width: 11px;
+    height: 2px;
+    background: var(--pink);
+  }
+
+  .tix-btn {
+    /* Pushes every button to the same baseline regardless of list length. */
+    margin-top: auto;
+    justify-content: center;
+    width: 100%;
+  }
+  .tix-notes {
+    margin-top: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .tix-notes p {
+    font-size: 14px;
+    color: var(--ink-2);
+    margin: 0;
+  }
+  .tix-notes strong {
+    color: var(--ink);
+    font-weight: 700;
+  }
+
+  @media (max-width: 900px) {
+    .tix-grid {
+      grid-template-columns: 1fr;
+    }
+    .tix-feats {
+      margin-bottom: 28px;
+    }
+  }
+</style>

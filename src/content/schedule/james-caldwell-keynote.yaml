@@ -1,5 +1,9 @@
 title: 'Scale, Speed, and Soul: AI Infrastructure for Human-Centred Experiences'
 day: '2026-10-13'
+format: Keynote
+hook: "From inside the machine: what the feed rewards, and what that does to the work that gets seen."
+themes:
+  - search
 speaker: James Caldwell, BytePlus
 photos:
   - /images/speakers/james-caldwell/photo.jpg
@@ -18,6 +22,6 @@ description: >-
   makes the case from inside the machine: scale and speed are now table
   stakes, and judgment, taste and soul become the competitive edge for
   brands, creators and platforms.
-order: 1
+order: 4
 active: true
 year: 2026

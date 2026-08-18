@@ -3,6 +3,7 @@ import '../styles/global.css';
 import { getCollection } from 'astro:content';
 import { currentEdition } from '../utils/edition';
 import { TICKET_URL, SITE } from '../config';
+import { VENUE } from '../data/venue';
 import TrackingPixels from '../components/TrackingPixels.astro';
 
 interface Props {
@@ -73,18 +74,7 @@ const eventJsonLd = {
   endDate: '2026-10-14T17:00:00+11:00',
   eventStatus: 'https://schema.org/EventScheduled',
   eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
-  location: {
-    '@type': 'Place',
-    name: 'Stone & Chalk Tech Central (The Collider)',
-    address: {
-      '@type': 'PostalAddress',
-      streetAddress: '477 Pitt St',
-      addressLocality: 'Haymarket',
-      addressRegion: 'NSW',
-      postalCode: '2000',
-      addressCountry: 'AU',
-    },
-  },
+  location: VENUE,
   organizer: { '@type': 'Organization', name: 'humAIn', url: SITE, email: 'admin@humain.au' },
   performer,
   audience: {

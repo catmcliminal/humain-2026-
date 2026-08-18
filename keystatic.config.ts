@@ -165,6 +165,28 @@ export default config({
           label: 'Stage / room',
           description: 'e.g. "Main stage", "Workshop room"',
         }),
+        format: fields.text({
+          label: 'Format',
+          description:
+            'What kind of session this is — e.g. "Keynote", "Presentation", "Workshop, 90 minutes". Shows as a tag on the Programme page.',
+        }),
+        hook: fields.text({
+          label: 'One-line hook',
+          description:
+            'One sentence, shown under the title on the Programme page. This is the line that makes someone click, so keep it short — the Description below carries the detail.',
+          multiline: true,
+        }),
+        themes: fields.multiselect({
+          label: 'Themes',
+          description:
+            'Which of the four programme themes this session sits in. Used by the theme filter on the Programme page. A session can sit in more than one; leave blank if none apply.',
+          options: [
+            { label: 'AI & Creative Work', value: 'creative' },
+            { label: 'Brand Discovery in the AI Age', value: 'search' },
+            { label: 'The Taste Gap', value: 'taste' },
+            { label: 'Culture as Training Data', value: 'culture' },
+          ],
+        }),
         speaker: fields.text({
           label: 'Speaker(s)',
           description: 'Free text — name one or more speakers.',

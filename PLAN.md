@@ -94,8 +94,12 @@ at `_source/humAIn - 06 Pulse.html`).
 | 2026-08-12 | Editorial standards published as its own page at `/about/editorial-standards`, not a section of `/about` | It's a trust document people link to and arrive at directly (sources, PR contacts, partners), and a discoverable editorial policy is an E-E-A-T signal for a publisher. Nesting under `/about` (following the `/community/advisory` precedent) leaves room for a corrections policy or ownership statement later. Hard-coded like `/privacy` and `/terms` rather than a Keystatic collection — a one-entry collection adds handover clutter for a page that changes rarely. |
 | 2026-08-12 | Gift register is a Keystatic collection (`gifts`), not a hard-coded page like editorial standards | A register is a living record maintained by whoever receives the gift, so it has to be editable without code — the opposite of the editorial standards page, which is fixed prose. Sorted by `dateReceived` (newest first) with no `order` field, since a register is chronological. Recording threshold is $50, stated on the page. Fields are deliberately minimal (no outcome/status field) — Cat's call. |
 | 2026-08-18 | `/programme` rebuilt to the wireframe; each session gets its own page at `/programme/[slug]` | The programme index was one long list with full descriptions inline, which neither scanned nor gave a session anywhere to be linked to. Traffic from a speaker's own post or an ad lands on one session, cold, with no idea what the event costs — so each session now has a page carrying its own title, hook, portraits, JSON-LD and a price for the day it runs on. Descriptions moved off the index onto those pages so the copy isn't duplicated across two URLs. Rows on the index are links, not expanders. |
-| 2026-08-18 | Themes are a filter over the running order, not a separate track structure | Delegates browse by interest, not by track. Tagging sessions with `themes` and filtering the real running order keeps one source of truth for the schedule, and gives the four themes somewhere to lead to. Filtering is client-side progressive enhancement — all sessions render server-side, so the page is complete with JS off and fully crawlable. |
+| 2026-08-18 | Themes tag sessions; they are not a filter or a track structure | Sessions carry a `themes` array and show the theme names as tags on the row and the session page. A client-side filter over the running order was built first and **removed the same day** with the themes card grid — neither was in Cat's wireframe. Tagging is what survived: one source of truth for the schedule, no JS needed, and nothing on the page that Cat did not ask for. |
 | 2026-08-18 | Ticket tiers extracted to `src/data/tickets.ts` | Session pages show the entry price for their day, so the prices existed in two places the moment those pages were built. One module, read by both `Tickets.astro` and `/programme/[slug]`, means a price change lands everywhere at once — same reasoning as `TICKET_URL`. |
+| 2026-08-18 | **Never invent copy for this site.** Where a layout needs words that were not supplied, render nothing and report the word count | Cat writes the copy. Invented text reads as approved once it is on the page, and on a live site it becomes a claim the business must stand behind. 56 words of invented copy reached production in this rebuild and had to be pulled. Also saved to Claude Code's memory so it survives future sessions. |
+| 2026-08-18 | `humain-session-page.html` is a draft, not a source of approved copy | Session hooks taken from that wireframe were pulled from the live site twice. Anything sourced from a wireframe must be flagged as draft and confirmed before it ships, even though the file came from Cat. |
+| 2026-08-18 | Session `hook` is set from Cat's supplied text; `description` is never edited to accommodate it | The first attempt lifted each hook's opening sentence out of the description so it would not appear twice. Cat's instruction is that descriptions are untouched, so the hook repeats its description's opening by design — on a session page the hook is the lede and the full description follows. "The discipline of friction" is the one approved exception. |
+| 2026-08-18 | `stage` and `format` removed from the schedule collection entirely | There is only one stage, so "Main stage" said nothing. `format` ("Keynote", "Presentation") was added during the rebuild without sign-off. With both unrendered, leaving them in Keystatic would have meant fields that do nothing — handover clutter. |
 | 2026-08-06 | Confirmed 2026 Speakers roster: Pip Bingemann, James Caldwell, Tea Uglow, Marie-Céline Merret, Vinne Schifferstein, Bridget Cleary, Kent Boswell, Marcus Tesoriero | Owner confirmed these 8 as the actual speaker lineup. Set `active: false` on the other 6 speaker entries (Annie Liao, Dave King, Karen Powell, Joana Barros, Jeremy Somers, Sarah Yassien) — they were advisory-panel-only, not speaking. Data kept, not deleted; they remain live on `/community/advisory` via their separate `advisory` collection entries. |
 
 ## Programme rebuild (2026-08-18)
@@ -103,7 +107,9 @@ at `_source/humAIn - 06 Pulse.html`).
 Rebuilt `/programme` from Cat's wireframe and added a page per session.
 
 - **`src/data/themes.ts`** (new) — the four themes as data (`id`, `num`, `name`,
-  `short`, `hook`). Tags sessions and drives the theme filter. The long-form
+  `hook`). Tags sessions; the theme names show as tags on the row and the
+  session page. A `short` abbreviation field existed for the filter's dense rows
+  and was removed with the filter. The long-form
   theme copy in `Themes.astro` is deliberately **not** generated from this file
   (that wording is approved and hand-edited), but the four `name` values and its
   `<h3>`s must be renamed together.
@@ -125,21 +131,28 @@ Rebuilt `/programme` from Cat's wireframe and added a page per session.
   tier's `saving` field is $200, against its own standard price ($995). Both are
   true and answer different questions, so they are kept separate; the $275 is
   derived by `bothDaysBundleSaving()` rather than hard-coded.
-- **`schedule` schema gained `format`, `hook`, `themes`** — mirrored in
-  `keystatic.config.ts` (`themes` is a multiselect).
-- **`/programme`** — filter chips over day-grouped session rows. Filtering is
-  progressive enhancement: every session is in the HTML and visible with JS off.
-  An at-a-glance stats panel, a themes card grid and a "The running order."
-  heading were built and then **removed at Cat's direction (2026-08-18)** — they
-  were not in her wireframe. They existed only because the programme wireframe
-  artifact could never be fetched (403 on every attempt), so the page was
-  inferred from the session-page wireframe instead. The theme links on session
-  pages therefore point at the homepage `#themes` section, not `/programme`.
-- **`/programme/[slug]`** (new) — a page per session: day/format/theme tags,
-  hook as lede, speaker portraits, description, ticket aside priced off the
-  session's day, and up to three related sessions sharing a theme. Carries
-  BreadcrumbList + Event JSON-LD with `superEvent` pointing at humAIn 2026.
-  Session descriptions now live here only, so they aren't duplicated on the index.
+- **`schedule` schema gained `hook` and `themes`** — mirrored in
+  `keystatic.config.ts` (`themes` is a multiselect). A `format` field was added
+  at the same time and **later removed entirely**, along with the pre-existing
+  `stage`, on Cat's instruction (see the 2026-08-18 note below).
+- **`/programme`** — day-grouped session rows under the original
+  "Sessions announced:" heading. Each row is a link to the session page and
+  carries a `FULL SESSION →` button; the button is a `<span>`, not a nested
+  anchor, so there is one link per row.
+  An at-a-glance stats panel, a themes card grid, a theme filter and a
+  "The running order." heading were built and then **all removed at Cat's
+  direction (2026-08-18)** — none were in her wireframe. They existed only
+  because the programme wireframe artifact could never be fetched (403 on every
+  attempt), so the page was inferred from the session-page wireframe instead.
+  **That inference is the root cause of every copy problem in this rebuild.**
+- **`/programme/[slug]`** (new) — a page per session: day and theme tags, hook
+  as lede, speaker portraits, description, ticket aside priced off the session's
+  day, and up to three related sessions sharing a theme. Carries BreadcrumbList
+  + Event JSON-LD with `superEvent` pointing at humAIn 2026 and the real venue
+  from `src/data/venue.ts`. Session descriptions live here only, not on the index.
+  The theme labels — breadcrumb and the chips under "Explore the themes this
+  sits in" — are **plain labels, not links** (Cat, 2026-08-18). The only links on
+  a session page are the programme, the ticket CTAs and the related sessions.
 
 **The wireframe's six extra sessions were deliberately not added** (Cat's call,
 2026-08-18): AI Upfronts, Round tables at lunch, Fork This Industry, When the
@@ -150,13 +163,13 @@ branch's history at `f669283` if any of them are confirmed later. This also
 means **Ashlea Vallance no longer needs a `speakers` entry** — Screen Swap was
 the only thing referencing her.
 
-Consequence worth knowing: **"Culture as Training Data" now has no sessions**,
-so it renders on neither the theme cards nor the filter chips on `/programme`.
-That is the `themesInUse` guard working as intended — a filter that matches
-nothing is worse than a missing one — and it will reappear on its own the
-moment a session is tagged `culture`. The homepage `Themes.astro` section still
-shows all four, which is correct: that section describes the programme's
-subject matter, not what has been scheduled.
+Consequence at the time: **"Culture as Training Data" had no sessions left**, so
+it dropped off the theme cards and filter chips on `/programme`. Both of those
+are since gone, so this no longer has any effect — themes now only ever appear
+as tags on the sessions carrying them, and a theme with no sessions simply is
+not shown anywhere on `/programme`. The homepage `Themes.astro` section still
+shows all four, which is correct: it describes the programme's subject matter,
+not what has been scheduled.
 
 **Both open questions closed by Cat (2026-08-18):**
 
@@ -187,6 +200,13 @@ lockfile before the build would run; `package-lock.json` was left untouched.
 1. **OG share image** — upload a real one to `public/images/og-default.jpg` (1200×630px). Currently a placeholder, so link previews on LinkedIn/Slack/X are weak.
 2. **Real gallery photos** — only a placeholder gallery entry exists. Upload actual event photos.
 3. **Paul's Vercel project** — still running at humain-site-seven.vercel.app. Decommission once the Netlify site is confirmed stable on the real domain.
+4. **The five-section prose block on `/programme`** ("Turning AI adoption into real marketing advantage" and the four headings after it) predates the rebuild but its author is unconfirmed. Every other block on the page has been traced to Cat; this one has not. Confirm or replace.
+5. **"Explore the themes this sits in"** on session pages is now a non-interactive restatement of the theme tags already in the hero, since the chips no longer link. Keep as labels, point somewhere, or remove.
+6. **Two live ticket claims need to be true at the Humanitix end** — group rates from three tickets, and ACA/IAB/ACAM association codes at checkout. Both came from Cat's ticket wireframe and are on the live page.
+7. **Day headers have no descriptor.** The invented ones were removed; if a line is wanted under `Day 01 / 13 October 2026` it is 6 words per day.
+8. **Lucinda Barlow's headshot is landscape** (1000x667, from a file named "low-res") and crops hard in the portrait slots. A portrait original would fix it. Her bio is ~250 words, the longest on `/voices`, and speaker bios render as a single paragraph there.
+9. **"two billion daily users"** in Lucinda's bio is YouTube's monthly figure, not daily. It is a public claim about a third party on a live page.
+10. **`.npmrc` is missing from the repo** — untracked, not gitignored, absent from git history, though CLAUDE.md documents it as required for Netlify (`legacy-peer-deps=true`). Builds currently succeed without it, so either the docs are stale or the file needs restoring.
 
 ## Session notes
 
@@ -359,11 +379,13 @@ lockfile before the build would run; `package-lock.json` was left untouched.
   The only hooks left are the two from copy Cat supplied directly in
   conversation: "The discipline of friction" and "OI: original intelligence.".
   Session rows for the other five now show title, speaker and theme tags only.
-  **Still live and predating this work, so unverified rather than removed:** the
-  `description` bodies on the five original sessions, which were in the repo
-  before the programme rebuild (checked at `bf3bca4`), and the five-section
-  prose block lower on `/programme`. If those are also unapproved they need
-  pulling too — say so and they go.
+  **Resolved the same day:** the `description` bodies on the five original
+  sessions were flagged as unverified — they predated the rebuild (checked at
+  `bf3bca4`) but their author was unknown. They are Cat's. Every hook she then
+  supplied is *verbatim* the opening sentence of its own description, so she was
+  reading them off those bodies. The flag is dropped. The five-section prose
+  block lower on `/programme` has the same pre-rebuild provenance but no such
+  overlap, so its authorship is still unconfirmed — see Open questions.
 - **2026-08-18 (session hooks supplied by Cat)** — The five hooks removed
   earlier are replaced with Cat's own wording, pasted per session: Jack of All
   Prompts, The Illusion of AI, Scale Speed and Soul, Marketing's Fifth P, and
@@ -375,6 +397,13 @@ lockfile before the build would run; `package-lock.json` was left untouched.
   intended: on a session page the hook is the lede and the description follows
   in full. The one exception is "The discipline of friction", where Cat approved
   the split, so its description starts after the hook.
+- **2026-08-18 (FULL SESSION button + theme labels unlinked)** — Each programme
+  row gained an explicit `FULL SESSION →` button, Cat's wording. It is a
+  `<span>`, not an anchor: the row itself is already the link, and an `<a>`
+  inside an `<a>` is invalid markup that would also make a screen reader
+  announce each session twice. On session pages the breadcrumb theme and the
+  chips under "Explore the themes this sits in" no longer link to the homepage
+  `#themes` block, and the link-style hover went with them.
 - **2026-08-12 (answer-engine FAQ merged)** — `content/answer-engine-faq`
   merged to main and deployed. The five entries (orders 4–8: AI marketing
   conference Australia, SXSW Sydney gap, best AI marketing event Sydney 2026,

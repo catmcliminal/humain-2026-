@@ -307,6 +307,18 @@ lockfile before the build would run; `package-lock.json` was left untouched.
   were assigned here, not supplied. The claim that YouTube grew to "two billion
   daily users" is from the supplied bio and is worth confirming — YouTube's
   published figure is monthly, not daily.
+- **2026-08-18 (Ashlea Vallance)** — Added to the `speakers` collection at
+  `order: 2` (renumbering everyone from Ben Cooper onward by +1; active 2026
+  speaker count is now 17) and **deliberately not featured**, so she appears on
+  `/voices` but not the homepage lineup, which stays Bridget, James, Lucinda and
+  Tea. Her Day two workshop "OI: original intelligence." is the last session on
+  14 October. This closes the earlier open question about Ashlea missing from
+  `speakers` — the wireframe's "Screen Swap" session was dropped with the other
+  five unconfirmed ones, and this is a different, supplied session in its place.
+  **The workshop copy is deliberately lower-case** ("your team lives on screens.
+  slack. zoom. figma. notion.") — that is Cat's styling, not a mistake, and
+  should not be sentence-cased. The title keeps its trailing full stop for the
+  same reason. Its theme (AI & Creative Work) was assigned here, not supplied.
 - **2026-08-12 (answer-engine FAQ merged)** — `content/answer-engine-faq`
   merged to main and deployed. The five entries (orders 4–8: AI marketing
   conference Australia, SXSW Sydney gap, best AI marketing event Sydney 2026,

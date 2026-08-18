@@ -319,6 +319,23 @@ lockfile before the build would run; `package-lock.json` was left untouched.
   slack. zoom. figma. notion.") — that is Cat's styling, not a mistake, and
   should not be sentence-cased. The title keeps its trailing full stop for the
   same reason. Its theme (AI & Creative Work) was assigned here, not supplied.
+- **2026-08-18 (invented copy removed)** — Cat's standing instruction: **never
+  invent copy for this site.** Fifty-six words of copy on `/programme` and the
+  session pages had been written rather than supplied, and went live with PR #3.
+  All of it is now removed: the two day-header subtitles, "Day one"/"Day two"
+  and the weekday prefixes (restored to the repo's `Day 01` / `13 October 2026`),
+  the theme filter and every label in it ("All sessions", "Showing N of N",
+  "No sessions in this theme on this day."), the "Details →" row affordance, the
+  missing-description fallback sentence on session pages, and the abbreviated
+  theme labels in `src/data/themes.ts`. The original section heading
+  "Sessions announced:" is restored. Session-row theme tags now use Cat's full
+  theme names. The related-sessions heading uses the wireframe's exact wording,
+  "More in this theme".
+  Removing the filter also removed `themesInUse`, the filter script and its CSS.
+  **Every string now on `/programme` traces to a source:** the repo before the
+  rebuild, Cat's wireframes, or content she supplied. Where a layout needs a
+  string that was never supplied, nothing is rendered — the gap is left and
+  flagged rather than filled.
 - **2026-08-12 (answer-engine FAQ merged)** — `content/answer-engine-faq`
   merged to main and deployed. The five entries (orders 4–8: AI marketing
   conference Australia, SXSW Sydney gap, best AI marketing event Sydney 2026,

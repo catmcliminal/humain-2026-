@@ -29,8 +29,8 @@ const ticketTarget = TICKET_IS_EXTERNAL ? '_blank' : undefined;
 const ticketRel = TICKET_IS_EXTERNAL ? 'noopener noreferrer' : undefined;
 
 const dayMeta = {
-  '2026-10-13': { label: 'Day one', date: 'Tuesday 13 October 2026' },
-  '2026-10-14': { label: 'Day two', date: 'Wednesday 14 October 2026' },
+  '2026-10-13': { label: 'Day 01', date: '13 October 2026' },
+  '2026-10-14': { label: 'Day 02', date: '14 October 2026' },
 }[d.day];
 
 const themes = (d.themes ?? []).map((t) => themeById(t)).filter((t) => t !== undefined);
@@ -131,18 +131,13 @@ const description =
       <div class="wrap">
         <div class="sp-body-grid">
           <div>
-            {d.description ? (
+            {d.description && (
               <>
                 <div class="sp-h">About this session</div>
                 <div class="sp-prose">
                   {d.description.split('\n\n').map((para) => <p>{para}</p>)}
                 </div>
               </>
-            ) : (
-              <p class="sp-prose">
-                Full session details are still being finalised. See the
-                <a href="/voices"> confirmed speakers</a> in the meantime.
-              </p>
             )}
 
             {themes.length > 0 && (
@@ -176,8 +171,7 @@ const description =
       <section class="sp-related">
         <div class="wrap">
           <div class="sec-head">
-            {/* Not lower-cased: "AI & Creative Work" must keep its capitals. */}
-            <h2 class="rv">{primary ? `More in ${primary.name}.` : 'More sessions.'}</h2>
+            <h2 class="rv">More in this theme</h2>
             <span class="sec-num">— Related</span>
           </div>
           <div class="sp-rel-grid">
@@ -185,7 +179,7 @@ const description =
               <a class="sp-rcard rv" href={`/programme/${s.id}`}>
                 <div class="sp-tags">
                   <span class="sp-tag day mono">
-                    {s.data.day === '2026-10-13' ? 'Day one' : 'Day two'}
+                    {s.data.day === '2026-10-13' ? 'Day 01' : 'Day 02'}
                   </span>
                   {s.data.format && <span class="sp-tag fmt mono">{s.data.format}</span>}
                 </div>

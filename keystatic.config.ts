@@ -161,15 +161,6 @@ export default config({
           label: 'End time',
           description: 'Optional — 24-hour time, e.g. 10:15',
         }),
-        stage: fields.text({
-          label: 'Stage / room',
-          description: 'e.g. "Main stage", "Workshop room"',
-        }),
-        format: fields.text({
-          label: 'Format',
-          description:
-            'What kind of session this is — e.g. "Keynote", "Presentation", "Workshop, 90 minutes". Shows as a tag on the Programme page.',
-        }),
         hook: fields.text({
           label: 'One-line hook',
           description:
@@ -179,7 +170,7 @@ export default config({
         themes: fields.multiselect({
           label: 'Themes',
           description:
-            'Which of the four programme themes this session sits in. Used by the theme filter on the Programme page. A session can sit in more than one; leave blank if none apply.',
+            'Which of the four programme themes this session sits in. Shown as tags on the Programme page. A session can sit in more than one; leave blank if none apply.',
           options: [
             { label: 'AI & Creative Work', value: 'creative' },
             { label: 'Brand Discovery in the AI Age', value: 'search' },

@@ -2,8 +2,7 @@
  * The four programme themes.
  *
  * These are the canonical ids and names used to tag sessions (the `themes`
- * field on the `schedule` collection) and to drive the theme filter on
- * /programme.
+ * field on the `schedule` collection) and shown as tags on /programme.
  *
  * The long-form theme copy lives in `src/components/Themes.astro`, which is
  * the homepage section and is deliberately NOT generated from this file — that

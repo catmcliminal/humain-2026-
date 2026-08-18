@@ -50,7 +50,9 @@ const hasAnySessions = sessions.length > 0;
         {hasAnySessions ? (
           <>
             <div class="sched-days">
-              {sessionsByDay.map((d) => d.sessions.length > 0 && (
+              {sessionsByDay.map((d) => (
+                <>
+                {d.sessions.length > 0 && (
                 <div class="sched-day rv">
                   <div class="sched-day-head">
                     <span class="sched-day-label mono">{d.label}</span>
@@ -98,6 +100,26 @@ const hasAnySessions = sessions.length > 0;
                     ))}
                   </div>
                 </div>
+                )}
+                {/* The round tables run at lunch on day one, so they belong
+                    between the conference day and the workshop day — not after
+                    both. Tied to the day rather than to a fixed position so a
+                    day with no sessions yet doesn't take them down with it. */}
+                {d.date === '2026-10-13' && (
+                  <div class="rt-block rv" id="round-tables">
+                    <h4 class="rt-title">Round tables, held under the Chatham House Rule.</h4>
+                    <div class="rt-grid">
+                      {ROUND_TABLES.map((t) => (
+                        <div class="rt-card">
+                          <div class="rt-topic mono">{t.topic}</div>
+                          <h5>{t.question}</h5>
+                          {t.detail.map((para) => <p>{para}</p>)}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                </>
               ))}
             </div>
           </>
@@ -107,24 +129,6 @@ const hasAnySessions = sessions.length > 0;
             <a href="/voices">confirmed speakers</a> in the meantime — times and topics will appear here as they're locked in.
           </p>
         )}
-      </div>
-    </section>
-
-    <section id="round-tables">
-      <div class="wrap">
-        <div class="sec-head">
-          <h2 class="rv">Round tables, held under the Chatham House Rule.</h2>
-          <span class="sec-num">— Round tables</span>
-        </div>
-        <div class="rt-grid">
-          {ROUND_TABLES.map((t) => (
-            <div class="rt-card rv">
-              <div class="rt-topic mono">{t.topic}</div>
-              <h3>{t.question}</h3>
-              {t.detail.map((para) => <p>{para}</p>)}
-            </div>
-          ))}
-        </div>
       </div>
     </section>
 
@@ -201,7 +205,9 @@ const hasAnySessions = sessions.length > 0;
     flex-direction: column;
     gap: 56px;
   }
-  .sched-day + .sched-day {
+  /* Applies to whatever follows — the round tables sit between the two days,
+     so day-to-day adjacency is no longer what draws the separator. */
+  .sched-days > * + * {
     border-top: 1px solid var(--line-2);
     padding-top: 56px;
   }
@@ -467,13 +473,14 @@ const hasAnySessions = sessions.length > 0;
   }
 
   /* ---------- round tables ---------- */
-  /* The heading is long enough to wrap, which squeezes the section number
-     into a two-line column beside it. Only worth holding on one line where
-     there is room — on narrow screens that would starve the heading instead. */
-  @media (min-width: 721px) {
-    #round-tables .sec-num {
-      white-space: nowrap;
-    }
+  .rt-title {
+    font-family: var(--disp);
+    font-weight: 800;
+    font-size: clamp(22px, 2.6vw, 28px);
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    margin-bottom: 24px;
+    text-wrap: balance;
   }
   .rt-grid {
     display: grid;
@@ -493,7 +500,7 @@ const hasAnySessions = sessions.length > 0;
     color: var(--pink);
     margin-bottom: 14px;
   }
-  .rt-card h3 {
+  .rt-card h5 {
     font-family: var(--disp);
     font-weight: 800;
     font-size: 24px;
@@ -514,7 +521,7 @@ const hasAnySessions = sessions.length > 0;
     .rt-card {
       padding: 24px 22px;
     }
-    .rt-card h3 {
+    .rt-card h5 {
       font-size: 21px;
     }
   }

@@ -10,16 +10,14 @@ import { breadcrumbJsonLd } from '../utils/breadcrumbs';
 import { currentEdition } from '../utils/edition';
 import { SITE } from '../config';
 import { themeById } from '../data/themes';
+import { DAYS } from '../data/days';
 
 const crumbs = breadcrumbJsonLd([{ name: 'Programme', url: `${SITE}/programme/` }]);
 
 const sessions = currentEdition(await getCollection('schedule')).sort(
   (a, b) => a.data.order - b.data.order
 );
-const days = [
-  { date: '2026-10-13', label: 'Day 01', dateLabel: '13 October 2026' },
-  { date: '2026-10-14', label: 'Day 02', dateLabel: '14 October 2026' },
-] as const;
+const days = DAYS;
 const sessionsByDay = days.map((d) => ({
   ...d,
   sessions: sessions.filter((s) => s.data.day === d.date),
@@ -56,6 +54,7 @@ const hasAnySessions = sessions.length > 0;
                   <div class="sched-day-head">
                     <span class="sched-day-label mono">{d.label}</span>
                     <span class="sched-day-date">{d.dateLabel}</span>
+                    <span class="sched-day-kind mono">{d.kind}</span>
                   </div>
                   <div class="sched-list">
                     {d.sessions.map((s) => (
@@ -206,6 +205,15 @@ const hasAnySessions = sessions.length > 0;
     font-weight: 700;
     font-size: 20px;
     letter-spacing: -0.01em;
+  }
+  /* "Conference" / "Workshops" — what the day is, next to its date. */
+  .sched-day-kind {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    color: var(--ink-2);
+    border: 1px solid var(--line-2);
+    border-radius: 100px;
+    padding: 4px 11px;
   }
   .sched-list {
     display: flex;

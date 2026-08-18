@@ -92,6 +92,7 @@ const hasAnySessions = sessions.length > 0;
                           {(s.data.themes ?? []).map((t) => (
                             <span class="sched-theme">{themeById(t)?.name ?? t}</span>
                           ))}
+                          <span class="sched-cta mono">FULL SESSION →</span>
                         </div>
                       </a>
                     ))}
@@ -296,6 +297,22 @@ const hasAnySessions = sessions.length > 0;
     flex-direction: column;
     align-items: flex-end;
     gap: 6px;
+  }
+  .sched-cta {
+    margin-top: 10px;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--ink);
+    border: 1px solid var(--line-2);
+    border-radius: 100px;
+    padding: 7px 14px;
+    white-space: nowrap;
+    transition: 0.2s;
+  }
+  .sched-item:hover .sched-cta {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: #0b0908;
   }
   .sched-theme {
     font-family: var(--mono);

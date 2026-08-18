@@ -10,7 +10,7 @@ bio: >
   technologies to deliver measurably better customer experiences.
 keynote: true
 advisory: false
-featured: false
-order: 4
+featured: true
+order: 5
 active: true
 year: 2026

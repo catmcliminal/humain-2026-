@@ -283,6 +283,30 @@ lockfile before the build would run; `package-lock.json` was left untouched.
   untouched — at 346×443 it is already the softest image on the site and
   re-encoding would cost more than the 18KB saved; replace with a larger
   original when one exists. **Site image weight overall: 21.6MB → 2.6MB.**
+- **2026-08-18 (Lucinda Barlow + Ben Cooper)** — New opening session added to
+  `/programme` at `order: 0`, "The discipline of friction: Why the best brands
+  refuse the first answer", an in-conversation session between Lucinda Barlow
+  (Head of International Marketing, Uber) and Ben Cooper (Founder, Brainstrust).
+  Both added to the `speakers` collection; headshots from the shared assets
+  folder, resized to a 1000px long edge and re-encoded JPEG q82 like the rest.
+  Alphabetical-by-first-name `order` maintained, so inserting Ben at 2 and
+  Lucinda at 11 renumbered everyone after them (old 2–9 shifted +1, old 10–19
+  shifted +2). Active 2026 speaker count is now 16.
+  **Homepage lineup set to Bridget Cleary, James Caldwell, Lucinda Barlow and
+  Tea Uglow** (Cat's call) — those four carry `featured: true`; Ben is on
+  `/voices` only. The homepage renders featured speakers in `order`, i.e.
+  alphabetically by first name, not in the sequence they were named.
+  **Worth checking:** Lucinda's headshot is landscape (1000x667 after resize,
+  from a file named "low-res"), so it crops hard in the portrait slot on the
+  session page and the square card — a portrait original would sit better. Her
+  bio is ~250 words, the longest on `/voices`, and speaker bios render as a
+  single paragraph there (only advisory bios split on blank lines), so it reads
+  as one block. "entreprenuership" in Ben's supplied bio was corrected to
+  "entrepreneurship", and "honors" set to "honours" for house style; the rest of
+  both bios is verbatim. The session's themes (Taste Gap, AI & Creative Work)
+  were assigned here, not supplied. The claim that YouTube grew to "two billion
+  daily users" is from the supplied bio and is worth confirming — YouTube's
+  published figure is monthly, not daily.
 - **2026-08-12 (answer-engine FAQ merged)** — `content/answer-engine-faq`
   merged to main and deployed. The five entries (orders 4–8: AI marketing
   conference Australia, SXSW Sydney gap, best AI marketing event Sydney 2026,

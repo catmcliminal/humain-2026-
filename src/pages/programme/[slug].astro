@@ -92,7 +92,7 @@ const description =
           <div>
             <div class="sp-tags">
               {dayMeta && <span class="sp-tag day mono">{dayMeta.label}</span>}
-              {themes.map((t) => <span class="sp-tag theme mono">{t.name}</span>)}
+              {themes.map((t) => <span class="sp-tag is-theme mono">{t.name}</span>)}
             </div>
             <h1>{d.title}</h1>
             {d.hook && <p class="sp-lede">{d.hook}</p>}
@@ -251,7 +251,7 @@ const description =
   .sp-tag.day {
     color: var(--ink);
   }
-  .sp-tag.theme {
+  .sp-tag.is-theme {
     color: var(--pink);
     border-color: var(--pink);
   }

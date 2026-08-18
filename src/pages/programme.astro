@@ -9,7 +9,7 @@ import TicketsProgramme from '../components/TicketsProgramme.astro';
 import { breadcrumbJsonLd } from '../utils/breadcrumbs';
 import { currentEdition } from '../utils/edition';
 import { SITE } from '../config';
-import { THEMES, themeById } from '../data/themes';
+import { themeById } from '../data/themes';
 
 const crumbs = breadcrumbJsonLd([{ name: 'Programme', url: `${SITE}/programme/` }]);
 
@@ -17,21 +17,14 @@ const sessions = currentEdition(await getCollection('schedule')).sort(
   (a, b) => a.data.order - b.data.order
 );
 const days = [
-  { date: '2026-10-13', label: 'Day one', dateLabel: 'Tuesday 13 October 2026', sub: 'Main stage, round tables, closing debate' },
-  { date: '2026-10-14', label: 'Day two', dateLabel: 'Wednesday 14 October 2026', sub: 'Workshops, 90 minutes each, capped rooms' },
+  { date: '2026-10-13', label: 'Day 01', dateLabel: '13 October 2026' },
+  { date: '2026-10-14', label: 'Day 02', dateLabel: '14 October 2026' },
 ] as const;
 const sessionsByDay = days.map((d) => ({
   ...d,
   sessions: sessions.filter((s) => s.data.day === d.date),
 }));
 const hasAnySessions = sessions.length > 0;
-
-// Only offer a theme as a filter if something is actually tagged with it —
-// an empty filter is worse than a missing one.
-const themesInUse = THEMES.map((t) => ({
-  ...t,
-  count: sessions.filter((s) => s.data.themes?.includes(t.id)).length,
-})).filter((t) => t.count > 0);
 ---
 
 <BaseLayout
@@ -51,29 +44,22 @@ const themesInUse = THEMES.map((t) => ({
 
     <section id="sessions">
       <div class="wrap">
+        <div class="sec-head">
+          <h2 class="rv">Sessions announced:</h2>
+          <span class="sec-num">— Programme</span>
+        </div>
         {hasAnySessions ? (
           <>
-            {themesInUse.length > 0 && (
-              <div class="prog-filters rv" id="filters">
-                <button class="chip" type="button" data-theme="" aria-pressed="true">All sessions</button>
-                {themesInUse.map((t) => (
-                  <button class="chip" type="button" data-theme={t.id} aria-pressed="false">{t.name}</button>
-                ))}
-                <span class="chip-count" id="filter-count" aria-live="polite"></span>
-              </div>
-            )}
             <div class="sched-days">
               {sessionsByDay.map((d) => d.sessions.length > 0 && (
-                <div class="sched-day rv" data-day={d.date}>
+                <div class="sched-day rv">
                   <div class="sched-day-head">
                     <span class="sched-day-label mono">{d.label}</span>
                     <span class="sched-day-date">{d.dateLabel}</span>
-                    <span class="sched-day-sub">{d.sub}</span>
-                    <span class="sched-day-count mono" data-day-count></span>
                   </div>
                   <div class="sched-list">
                     {d.sessions.map((s) => (
-                      <a class="sched-item" href={`/programme/${s.id}`} data-themes={(s.data.themes ?? []).join(' ')}>
+                      <a class="sched-item" href={`/programme/${s.id}`}>
                         <div class="sched-side">
                           {s.data.photos && s.data.photos.length > 0 && (
                             <div class="sched-photos">
@@ -106,14 +92,12 @@ const themesInUse = THEMES.map((t) => ({
                         </div>
                         <div class="sched-tags">
                           {(s.data.themes ?? []).map((t) => (
-                            <span class="sched-theme">{themeById(t)?.short ?? t}</span>
+                            <span class="sched-theme">{themeById(t)?.name ?? t}</span>
                           ))}
-                          <span class="sched-more mono">Details →</span>
                         </div>
                       </a>
                     ))}
                   </div>
-                  <p class="sched-none" hidden>No sessions in this theme on this day.</p>
                 </div>
               ))}
             </div>
@@ -186,103 +170,14 @@ const themesInUse = THEMES.map((t) => ({
   <Footer />
 </BaseLayout>
 
-<script>
-  // Theme filter. Progressive enhancement only: every session is rendered and
-  // visible in the HTML, and this script just hides the ones that don't match.
-  // With JS off the page is the full programme, which is the correct fallback.
-  const rows = Array.from(document.querySelectorAll<HTMLElement>('.sched-item'));
-  const controls = Array.from(document.querySelectorAll<HTMLElement>('[data-theme]'));
-  const countEl = document.getElementById('filter-count');
-
-  if (rows.length && controls.length) {
-    let active: string | null = null;
-
-    const apply = () => {
-      for (const row of rows) {
-        const themes = (row.dataset.themes ?? '').split(' ').filter(Boolean);
-        row.hidden = active !== null && !themes.includes(active);
-      }
-
-      // Per-day counts, and the "no sessions in this theme" line for a day
-      // that the active theme empties out entirely.
-      for (const day of document.querySelectorAll<HTMLElement>('.sched-day')) {
-        const shown = day.querySelectorAll('.sched-item:not([hidden])').length;
-        const none = day.querySelector<HTMLElement>('.sched-none');
-        if (none) none.hidden = shown > 0;
-        const count = day.querySelector<HTMLElement>('[data-day-count]');
-        if (count) count.textContent = `${shown} session${shown === 1 ? '' : 's'}`;
-      }
-
-      const total = document.querySelectorAll('.sched-item:not([hidden])').length;
-      if (countEl) {
-        countEl.textContent = active ? `Showing ${total} of ${rows.length}` : '';
-      }
-
-      for (const el of controls) {
-        el.setAttribute('aria-pressed', String((el.dataset.theme || null) === active));
-      }
-    };
-
-    for (const el of controls) {
-      el.addEventListener('click', () => {
-        const value = el.dataset.theme || null;
-        // Clicking the active theme again clears the filter.
-        active = value && value === active ? null : value;
-        apply();
-      });
-    }
-
-    apply();
-  }
-</script>
 
 <style>
   /* `hidden` has to beat the grid/flex display rules below, or filtered-out
      rows stay on screen. */
-  [hidden] {
-    display: none !important;
-  }
 
 
 
   /* ---------- filter chips ---------- */
-  .prog-filters {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    align-items: center;
-    margin-bottom: 40px;
-  }
-  .chip {
-    background: transparent;
-    border: 1px solid var(--line-2);
-    color: var(--ink);
-    border-radius: 100px;
-    padding: 8px 16px;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.2s;
-  }
-  .chip:hover {
-    border-color: var(--ink);
-  }
-  .chip[aria-pressed='true'] {
-    background: var(--ink);
-    border-color: var(--ink);
-    color: #0b0908;
-  }
-  .chip:focus-visible {
-    outline: 3px solid var(--pink);
-    outline-offset: 3px;
-  }
-  .chip-count {
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 0.1em;
-    color: var(--ink-2);
-    margin-left: 6px;
-  }
 
   /* ---------- sessions ---------- */
   .sched-days {
@@ -314,16 +209,6 @@ const themesInUse = THEMES.map((t) => ({
     font-size: 20px;
     letter-spacing: -0.01em;
   }
-  .sched-day-sub {
-    font-size: 13px;
-    color: var(--ink-2);
-  }
-  .sched-day-count {
-    margin-left: auto;
-    font-size: 11px;
-    letter-spacing: 0.1em;
-    color: var(--ink-2);
-  }
   .sched-list {
     display: flex;
     flex-direction: column;
@@ -343,9 +228,6 @@ const themesInUse = THEMES.map((t) => ({
     border-top: none;
   }
   .sched-item:hover h3 {
-    color: var(--pink);
-  }
-  .sched-item:hover .sched-more {
     color: var(--pink);
   }
   .sched-item:focus-visible {
@@ -429,14 +311,6 @@ const themesInUse = THEMES.map((t) => ({
     color: var(--ink-2);
     margin-top: 8px;
   }
-  .sched-more {
-    margin-top: 6px;
-    font-size: 11px;
-    letter-spacing: 0.08em;
-    color: var(--ink-2);
-    white-space: nowrap;
-    transition: 0.2s;
-  }
   .sched-tags {
     display: flex;
     flex-direction: column;
@@ -453,11 +327,6 @@ const themesInUse = THEMES.map((t) => ({
     border-radius: 100px;
     padding: 4px 10px;
     white-space: nowrap;
-  }
-  .sched-none {
-    font-size: 14px;
-    color: var(--ink-2);
-    padding-top: 20px;
   }
   .sched-empty {
     font-size: 15px;

@@ -75,7 +75,6 @@ const hasAnySessions = sessions.length > 0;
                               ))}
                             </div>
                           )}
-                          {s.data.format && <span class="sched-fmt mono">{s.data.format}</span>}
                           {s.data.startTime && (
                             <div class="sched-time mono">
                               {s.data.startTime}{s.data.endTime && <>–{s.data.endTime}</>}
@@ -85,7 +84,6 @@ const hasAnySessions = sessions.length > 0;
                         <div class="sched-body">
                           <div class="sched-top">
                             <h3>{s.data.title}</h3>
-                            {s.data.stage && <span class="sched-stage">{s.data.stage}</span>}
                           </div>
                           {s.data.hook && <p class="sched-hook">{s.data.hook}</p>}
                           {s.data.speaker && <div class="sched-speaker">{s.data.speaker}</div>}
@@ -148,7 +146,6 @@ const hasAnySessions = sessions.length > 0;
               <div class="prog-day rv">
                 <div class="prog-day-label mono">{d.label}</div>
                 <div class="prog-day-date">{d.dateLabel}</div>
-                <div class="prog-day-theme">{d.sub}</div>
                 {d.sessions.length > 0 ? (
                   <a href="#sessions" class="prog-day-tba prog-day-tba-link">
                     {d.sessions.length} session{d.sessions.length === 1 ? '' : 's'} announced →
@@ -264,15 +261,6 @@ const hasAnySessions = sessions.length > 0;
     object-position: top;
     display: block;
   }
-  .sched-fmt {
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--ink-2);
-    border: 1px solid var(--line-2);
-    border-radius: 100px;
-    padding: 4px 10px;
-  }
   .sched-time {
     color: var(--ink-2);
     font-size: 12px;
@@ -290,14 +278,6 @@ const hasAnySessions = sessions.length > 0;
     letter-spacing: -0.01em;
     line-height: 1.2;
     margin: 0;
-  }
-  .sched-stage {
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--yellow);
-    white-space: nowrap;
   }
   .sched-hook {
     font-size: 16px;
@@ -395,11 +375,6 @@ const hasAnySessions = sessions.length > 0;
     font-size: 22px;
     letter-spacing: -0.01em;
     margin-bottom: 6px;
-  }
-  .prog-day-theme {
-    font-size: 13px;
-    color: var(--ink-2);
-    margin-bottom: 20px;
   }
   .prog-day-tba {
     font-family: var(--mono);

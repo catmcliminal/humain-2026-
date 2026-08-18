@@ -92,7 +92,6 @@ const description =
           <div>
             <div class="sp-tags">
               {dayMeta && <span class="sp-tag day mono">{dayMeta.label}</span>}
-              {d.format && <span class="sp-tag fmt mono">{d.format}</span>}
               {themes.map((t) => <span class="sp-tag theme mono">{t.name}</span>)}
             </div>
             <h1>{d.title}</h1>
@@ -181,7 +180,6 @@ const description =
                   <span class="sp-tag day mono">
                     {s.data.day === '2026-10-13' ? 'Day 01' : 'Day 02'}
                   </span>
-                  {s.data.format && <span class="sp-tag fmt mono">{s.data.format}</span>}
                 </div>
                 <h3>{s.data.title}</h3>
                 {s.data.hook && <p>{s.data.hook}</p>}
@@ -252,9 +250,6 @@ const description =
   }
   .sp-tag.day {
     color: var(--ink);
-  }
-  .sp-tag.fmt {
-    color: var(--ink-2);
   }
   .sp-tag.theme {
     color: var(--pink);

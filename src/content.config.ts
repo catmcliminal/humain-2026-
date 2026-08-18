@@ -89,18 +89,13 @@ const schedule = defineCollection({
     // Optional until the time slot is confirmed — leave blank rather than guessing.
     startTime: z.string().optional(), // "09:30"
     endTime: z.string().optional(),
-    stage: z.string().optional(), // e.g. "Main stage", "Workshop room"
-    // What kind of session this is — e.g. "Keynote", "Workshop, 90 minutes".
-    // Shown as a tag on each row of /programme.
-    format: z.string().optional(),
     // One-sentence hook, shown under the title on /programme. This is the line
     // that has to earn the click, so keep it short — `description` carries the
     // detail.
     hook: z.string().optional(),
     // Which of the four programme themes this session sits in (see
-    // src/data/themes.ts). Drives the theme filter on /programme; a session can
-    // sit in more than one. Untagged sessions still list, they just never match
-    // a filter.
+    // src/data/themes.ts). Shown as tags on the session row and page; a session
+    // can sit in more than one.
     themes: z.array(z.enum(THEME_IDS)).optional(),
     // Free-text speaker name(s) for now; can become a reference later.
     speaker: z.string().optional(),

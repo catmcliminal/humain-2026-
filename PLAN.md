@@ -336,6 +336,34 @@ lockfile before the build would run; `package-lock.json` was left untouched.
   rebuild, Cat's wireframes, or content she supplied. Where a layout needs a
   string that was never supplied, nothing is rendered — the gap is left and
   flagged rather than filled.
+- **2026-08-18 (stage + format labels removed)** — Cat: there is only one stage,
+  so "Main stage" is meaningless, and the "Keynote" / "Presentation" /
+  "Workshop, 90 minutes" format labels are not wanted. Both fields are gone from
+  the schedule collection entirely — Zod, Keystatic and every YAML entry — and
+  from the session rows, the session pages and the related-session cards.
+  `format` was added during the programme rebuild and never had Cat's sign-off;
+  `stage` predated it but rendered nowhere once "Main stage" went, so leaving it
+  in Keystatic would have been a field that did nothing. The day cards in the
+  lower block also lost their descriptor line: it referenced the removed `sub`
+  field (so was rendering empty) and its original wording was
+  "Main stage + round tables". Session rows now carry title, hook, speaker and
+  theme tags only. Schema comments that described the removed theme filter were
+  corrected at the same time.
+- **2026-08-18 (all wireframe hooks removed)** — Cat: the sub-copy under the
+  session titles was still fake. All five `hook` lines that came from
+  `humain-session-page.html` are removed (82 words): Jack of All Prompts (21),
+  Scale Speed and Soul (18), The Illusion of AI (15), Build a Business AI Can't
+  Commoditise (15), Marketing's Fifth P (13). **The session-page wireframe is
+  not a source of approved copy** — it has now twice produced text that had to
+  be pulled from the live site. Treat anything from it as draft.
+  The only hooks left are the two from copy Cat supplied directly in
+  conversation: "The discipline of friction" and "OI: original intelligence.".
+  Session rows for the other five now show title, speaker and theme tags only.
+  **Still live and predating this work, so unverified rather than removed:** the
+  `description` bodies on the five original sessions, which were in the repo
+  before the programme rebuild (checked at `bf3bca4`), and the five-section
+  prose block lower on `/programme`. If those are also unapproved they need
+  pulling too — say so and they go.
 - **2026-08-12 (answer-engine FAQ merged)** — `content/answer-engine-faq`
   merged to main and deployed. The five entries (orders 4–8: AI marketing
   conference Australia, SXSW Sydney gap, best AI marketing event Sydney 2026,

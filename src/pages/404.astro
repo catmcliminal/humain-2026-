@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
+import PulseBand from '../components/PulseBand.astro';
 ---
 
 <BaseLayout
@@ -11,26 +12,80 @@ import Footer from '../components/Footer.astro';
 >
   <Nav />
   <main>
-    <div class="legal-page">
+    <section class="nf">
       <div class="wrap">
-        <div class="legal-head">
-          <span class="mono legal-eyebrow">404</span>
-          <h1>Page not found.</h1>
-        </div>
-        <div class="legal-body">
-          <p class="legal-intro">
-            That page doesn't exist or has moved. Try the homepage, or one of the links below.
-          </p>
-          <p>
-            <a href="/" class="btn">Back to homepage →</a>
-          </p>
-          <p>
-            <a href="/programme">Programme</a> · <a href="/voices">Speakers</a> · <a href="/news">Media</a> ·
-            <a href="/gallery">Gallery</a>
-          </p>
+        <span class="mono nf-eyebrow">404</span>
+        <h1>You've landed in the wrong place.</h1>
+        <p class="nf-lede">To err is humAIn.</p>
+        <div class="nf-acts">
+          <a href="/programme" class="btn"><span class="dot"></span>Try the programme →</a>
+          <a href="/" class="btn ghost">Back to homepage →</a>
         </div>
       </div>
-    </div>
+    </section>
+
+    {/* The site's heartbeat runs flat here, with one beat in the middle —
+        the only page where the pulse has nothing to report. */}
+    <PulseBand h={150} flat />
+
+    <section class="nf-links">
+      <div class="wrap">
+        <p>
+          <a href="/programme">Programme</a> · <a href="/voices">Speakers</a> ·
+          <a href="/news">Media</a> · <a href="/gallery">Gallery</a>
+        </p>
+      </div>
+    </section>
   </main>
   <Footer />
 </BaseLayout>
+
+<style>
+  /* This page previously reused the .legal-page classes, but those are scoped
+     to privacy.astro, so none of them ever applied here and the markup
+     rendered unstyled. Its styles now live with it. */
+  .nf {
+    padding: 96px 0 56px;
+  }
+  .nf-eyebrow {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--ink-2);
+    margin-bottom: 20px;
+  }
+  .nf h1 {
+    font-family: var(--disp);
+    font-weight: 800;
+    font-size: clamp(38px, 7vw, 84px);
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    max-width: 14ch;
+    text-wrap: balance;
+  }
+  .nf-lede {
+    font-family: var(--disp);
+    font-weight: 700;
+    font-size: clamp(20px, 2.6vw, 30px);
+    letter-spacing: -0.015em;
+    color: var(--pink);
+    margin-top: 22px;
+  }
+  .nf-acts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 34px;
+  }
+  .nf-links {
+    padding: 40px 0 110px;
+  }
+  .nf-links p {
+    font-size: 14px;
+    color: var(--ink-2);
+  }
+  .nf-links a {
+    color: var(--pink);
+    text-decoration: underline;
+  }
+</style>

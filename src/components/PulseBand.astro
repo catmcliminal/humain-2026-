@@ -3,16 +3,20 @@
  * Animated ECG/heartbeat band. Path geometry is generated client-side by
  * buildPulses() in BaseLayout. The shared #pgrad gradient lives in the
  * top-level hidden SVG in BaseLayout — not here.
+ *
+ * `flat` swaps the repeating waveform for a flat trace with a single beat in
+ * the middle. Used on the 404 page.
  */
 interface Props {
   class?: string;
   h: number;
+  flat?: boolean;
 }
 
-const { class: className, h } = Astro.props;
+const { class: className, h, flat } = Astro.props;
 ---
 
-<div class:list={['pulse-band', className]} data-h={h}>
+<div class:list={['pulse-band', className]} data-h={h} data-flat={flat ? '' : undefined}>
   <svg preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
     <path class="ecg-base" pathLength="100" d=""></path>
     <path class="ecg-run" pathLength="100" d=""></path>

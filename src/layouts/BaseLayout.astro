@@ -180,24 +180,26 @@ const jsonLdBlocks = [...(event ? [eventJsonLd, organizationJsonLd] : []), ...ex
     <slot />
     <script is:inline>
       /* ---- heartbeat / ECG generator ---- */
+      // logo silhouette: shoulder → subtle notch → tall W (peak, deep V, peak) → elevated plateau → descend
+      const ECG_PAT = [
+        [0, 0],
+        [0.13, -0.2],
+        [0.18, -0.12],
+        [0.225, -0.24],
+        [0.3, -1.0],
+        [0.39, 0.28],
+        [0.48, -1.0],
+        [0.57, -0.08],
+        [0.64, -0.5],
+        [0.86, -0.56],
+        [1, 0],
+      ];
+      const ECG_U = 340;
       function wavePath(w, H) {
-        const U = 340,
+        const U = ECG_U,
           b = H * 0.55,
           a = H * 0.4;
-        // logo silhouette: shoulder → subtle notch → tall W (peak, deep V, peak) → elevated plateau → descend
-        const pat = [
-          [0, 0],
-          [0.13, -0.2],
-          [0.18, -0.12],
-          [0.225, -0.24],
-          [0.3, -1.0],
-          [0.39, 0.28],
-          [0.48, -1.0],
-          [0.57, -0.08],
-          [0.64, -0.5],
-          [0.86, -0.56],
-          [1, 0],
-        ];
+        const pat = ECG_PAT;
         let d = '',
           first = true;
         for (let x0 = -U * 0.2; x0 < w + U; x0 += U) {
@@ -212,13 +214,31 @@ const jsonLdBlocks = [...(event ? [eventJsonLd, organizationJsonLd] : []), ...ex
         }
         return d;
       }
+      /* A single beat on an otherwise flat trace — the 404 page's band, where
+         the site's heartbeat has nothing to show. Same pattern, same width
+         unit, so the one pulse is identical to the ones everywhere else. */
+      function flatPath(w, H) {
+        const U = ECG_U,
+          b = H * 0.55,
+          a = H * 0.4;
+        const x0 = (w - U) / 2;
+        let d = 'M0 ' + b.toFixed(1) + 'L' + x0.toFixed(1) + ' ' + b.toFixed(1);
+        for (let i = 0; i < ECG_PAT.length; i++) {
+          d +=
+            'L' +
+            (x0 + ECG_PAT[i][0] * U).toFixed(1) +
+            ' ' +
+            (b + ECG_PAT[i][1] * a).toFixed(1);
+        }
+        return d + 'L' + w.toFixed(1) + ' ' + b.toFixed(1);
+      }
       function buildPulses() {
         document.querySelectorAll('.pulse-band').forEach((band) => {
           const svg = band.querySelector('svg');
           const w = Math.max(band.clientWidth, 320);
           const H = +band.dataset.h || 120;
           svg.setAttribute('viewBox', '0 0 ' + w + ' ' + H);
-          const d = wavePath(w, H);
+          const d = band.hasAttribute('data-flat') ? flatPath(w, H) : wavePath(w, H);
           svg.querySelectorAll('path').forEach((p) => p.setAttribute('d', d));
           /* update shared gradient x2 to match width */
           const grad = document.getElementById('pgrad');

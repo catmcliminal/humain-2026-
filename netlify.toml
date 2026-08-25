@@ -63,6 +63,18 @@
   to = "/programme/return-of-big-ideas"
   status = 301
 
+# The AWARD panel was retitled "Bridging the Missing Rung", and the file name
+# is the URL, so the old path keeps working.
+[[redirects]]
+  from = "/programme/award-human-direction"
+  to = "/programme/bridging-the-missing-rung"
+  status = 301
+
+[[redirects]]
+  from = "/programme/award-human-direction/*"
+  to = "/programme/bridging-the-missing-rung"
+  status = 301
+
 # Route Keystatic admin and API to the SSR function
 [[redirects]]
   from = "/keystatic"

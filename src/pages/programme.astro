@@ -12,6 +12,7 @@ import { SITE } from '../config';
 import { themeById } from '../data/themes';
 import { DAYS } from '../data/days';
 import { ROUND_TABLES } from '../data/roundtables';
+import { VENUE_LINE } from '../data/venue';
 
 const crumbs = breadcrumbJsonLd([{ name: 'Programme', url: `${SITE}/programme/` }]);
 
@@ -38,7 +39,9 @@ const hasAnySessions = sessions.length > 0;
       h1="Programme"
       title="humAIn 2026: AI Marketing and Creativity Conference, Sydney"
       lede="13–14 October 2026, Sydney"
-    />
+    >
+      <p class="prog-venue mono">{VENUE_LINE}</p>
+    </PageHeader>
     <PulseBand h={80} />
 
     <section id="sessions">
@@ -475,6 +478,12 @@ const hasAnySessions = sessions.length > 0;
   }
 
   /* ---------- round tables ---------- */
+  .prog-venue {
+    margin-top: 14px;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    color: var(--ink-2);
+  }
   .rt-title {
     font-family: var(--disp);
     font-weight: 800;

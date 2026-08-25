@@ -1,6 +1,7 @@
 ---
 import EarlyBirdNote from './EarlyBirdNote.astro';
 import { TICKET_URL, TICKET_IS_EXTERNAL } from '../config';
+import { VENUE_LINE } from '../data/venue';
 
 const ticketTarget = TICKET_IS_EXTERNAL ? '_blank' : undefined;
 const ticketRel = TICKET_IS_EXTERNAL ? 'noopener noreferrer' : undefined;
@@ -16,6 +17,7 @@ const ticketRel = TICKET_IS_EXTERNAL ? 'noopener noreferrer' : undefined;
         <p class="foot-tag">
           An AI media platform, conference and community for the people exploring what stays human
         </p>
+        <p class="foot-venue">{VENUE_LINE}</p>
         <div class="foot-social">
           <a href="https://www.facebook.com/61591295280884/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
@@ -59,3 +61,14 @@ const ticketRel = TICKET_IS_EXTERNAL ? 'noopener noreferrer' : undefined;
     </div>
   </div>
 </footer>
+
+<style>
+  /* The where-line, sitting under the tagline so every page carries it. */
+  .foot-venue {
+    max-width: 34ch;
+    margin-top: 12px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--ink-2);
+  }
+</style>

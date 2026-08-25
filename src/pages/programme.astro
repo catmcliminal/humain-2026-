@@ -107,7 +107,7 @@ const hasAnySessions = sessions.length > 0;
                     day with no sessions yet doesn't take them down with it. */}
                 {d.date === '2026-10-13' && (
                   <div class="rt-block rv" id="round-tables">
-                    <h4 class="rt-title">Round tables, held under the Chatham House Rule.</h4>
+                    <h4 class="rt-title">Day One: Round tables, held under the Chatham House Rule.</h4>
                     <div class="rt-grid">
                       {ROUND_TABLES.map((t) => (
                         <div class="rt-card">
@@ -482,10 +482,38 @@ const hasAnySessions = sessions.length > 0;
     margin-bottom: 24px;
     text-wrap: balance;
   }
+  /* Six tracks rather than fixed columns, so the last row can widen to fill
+     itself. Five cards at three per row would otherwise leave a hole in row
+     two; instead the last two take three tracks each and the row closes up.
+     Written mobile-first so each breakpoint sets the span outright rather
+     than fighting the one above it. The :has() guard means any other number
+     of tables falls back to an even layout rather than an odd one. */
   .rt-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(6, minmax(0, 1fr));
     gap: 16px;
+  }
+  .rt-card {
+    grid-column: span 6;
+  }
+  /* Two per row, with a lone last card taking the full width. */
+  @media (min-width: 721px) {
+    .rt-card {
+      grid-column: span 3;
+    }
+    .rt-grid > .rt-card:nth-child(odd):last-child {
+      grid-column: span 6;
+    }
+  }
+  /* Three per row; with exactly five, the last two share row two. */
+  @media (min-width: 1081px) {
+    .rt-card,
+    .rt-grid > .rt-card:nth-child(odd):last-child {
+      grid-column: span 2;
+    }
+    .rt-grid:has(> :nth-child(5):last-child) > .rt-card:nth-child(n + 4) {
+      grid-column: span 3;
+    }
   }
   .rt-card {
     border: 1px solid var(--line-2);

@@ -271,17 +271,19 @@ const hasAnySessions = sessions.length > 0;
     align-items: flex-start;
     gap: 10px;
   }
+  /* A grid rather than a row, because a panel can have more than two faces:
+     four across a 140px column would be 30px slivers, so they wrap two-up
+     instead — one photo fills the column, any more sit in pairs. */
   .sched-photos {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr;
     gap: 8px;
     width: 100%;
-    /* Without this the flex default (stretch) sets the images' height to the
-       line height and overrides `aspect-ratio: 1`, so a two-speaker session
-       renders tall slivers with the faces cropped off. */
-    align-items: flex-start;
+  }
+  .sched-photos:has(> :nth-child(2)) {
+    grid-template-columns: 1fr 1fr;
   }
   .sched-photo {
-    flex: 1;
     min-width: 0;
     width: 100%;
     /* The width/height="140" attributes (kept so the box is reserved before the

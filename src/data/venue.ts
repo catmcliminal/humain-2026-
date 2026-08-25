@@ -9,7 +9,12 @@
  * the partners copy) are deliberately NOT generated from this — they are
  * written sentences, not data — but they do need updating by hand if the venue
  * moves. Search for "Stone & Chalk" to find them.
+ *
+ * `VENUE_LINE` is the one exception: the short where-line shown in the footer
+ * and on /programme. It is a label rather than a sentence, so it is worth
+ * having in one place.
  */
+export const VENUE_LINE = 'The Collider and Stone & Chalk, 477 Pitt Street, Sydney';
 export const VENUE = {
   '@type': 'Place',
   name: 'Stone & Chalk Tech Central (The Collider)',

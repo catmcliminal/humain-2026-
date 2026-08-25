@@ -51,6 +51,18 @@
   to = "/"
   status = 301
 
+# The AiCandy session was renamed "The Return of Big Ideas", and the file name
+# is the URL, so the old path keeps working.
+[[redirects]]
+  from = "/programme/aicandy-when-anything-is-possible"
+  to = "/programme/return-of-big-ideas"
+  status = 301
+
+[[redirects]]
+  from = "/programme/aicandy-when-anything-is-possible/*"
+  to = "/programme/return-of-big-ideas"
+  status = 301
+
 # Route Keystatic admin and API to the SSR function
 [[redirects]]
   from = "/keystatic"

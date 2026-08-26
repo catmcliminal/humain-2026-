@@ -7,7 +7,7 @@ import PulseBand from '../../components/PulseBand.astro';
 import EarlyBirdNote from '../../components/EarlyBirdNote.astro';
 import { breadcrumbJsonLd } from '../../utils/breadcrumbs';
 import { currentEdition } from '../../utils/edition';
-import { SITE, TICKET_URL, TICKET_IS_EXTERNAL, EARLY_BIRD_NOTE } from '../../config';
+import { SITE, TICKET_URL, TICKET_IS_EXTERNAL } from '../../config';
 import { themeById } from '../../data/themes';
 import { dayByDate } from '../../data/days';
 import { VENUE } from '../../data/venue';
@@ -102,7 +102,6 @@ const description =
               </a>
               <a href="/programme" class="btn ghost">See the full programme →</a>
             </div>
-            <p class="sp-eb">{EARLY_BIRD_NOTE}</p>
           </div>
 
           {d.photos && d.photos.length > 0 && (
@@ -155,7 +154,7 @@ const description =
             <div class="sp-amt">
               {ticket.earlyPrice} <s>{ticket.standardPrice}</s>
             </div>
-            <p class="sp-ex">{ticket.name}, early bird, ex GST</p>
+            <p class="sp-ex">{ticket.name}, ex GST</p>
             <a href={TICKET_URL} class="btn" target={ticketTarget} rel={ticketRel}>
               <span class="dot"></span>Get tickets →
             </a>

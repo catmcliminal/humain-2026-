@@ -7,7 +7,7 @@
  * carries what each tier includes, because someone reading the programme is
  * choosing between the days, not just seeing that tickets exist.
  */
-import { TICKET_URL, TICKET_IS_EXTERNAL, EARLY_BIRD_NOTE } from '../config';
+import { TICKET_URL, TICKET_IS_EXTERNAL } from '../config';
 import { TICKETS, bothDaysBundleSaving } from '../data/tickets';
 
 const ticketTarget = TICKET_IS_EXTERNAL ? '_blank' : undefined;
@@ -20,7 +20,7 @@ const bundleSaving = bothDaysBundleSaving();
   <div class="wrap">
     <div class="tix-head rv">
       <h2>Tickets</h2>
-      <p>{EARLY_BIRD_NOTE}. All prices exclude GST.</p>
+      <p>All prices exclude GST.</p>
     </div>
 
     <div class="tix-grid">
@@ -35,7 +35,7 @@ const bundleSaving = bothDaysBundleSaving();
             <s>{t.standardPrice}</s>
           </div>
           <div class="tix-ex">
-            Early bird, ex GST{t.featured && bundleSaving ? `. Saves ${bundleSaving}` : ''}
+            Ex GST{t.featured && bundleSaving ? `. Saves ${bundleSaving}` : ''}
           </div>
 
           <ul class="tix-feats">

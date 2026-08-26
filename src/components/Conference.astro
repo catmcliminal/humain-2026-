@@ -1,36 +1,13 @@
 ---
 import EarlyBirdNote from './EarlyBirdNote.astro';
 import { TICKET_URL, TICKET_IS_EXTERNAL } from '../config';
+import { TICKETS } from '../data/tickets';
 
 const ticketTarget = TICKET_IS_EXTERNAL ? '_blank' : undefined;
 const ticketRel = TICKET_IS_EXTERNAL ? 'noopener noreferrer' : undefined;
 
-const tiers = [
-  {
-    name: 'Conference only',
-    desc: 'Day one only',
-    earlyPrice: '$595',
-    standardPrice: '$745',
-    saving: '$150',
-    featured: false,
-  },
-  {
-    name: 'Conference + Workshop',
-    desc: 'Both days',
-    earlyPrice: '$795',
-    standardPrice: '$995',
-    saving: '$200',
-    featured: true,
-  },
-  {
-    name: 'Workshop only',
-    desc: 'Day two only',
-    earlyPrice: '$475',
-    standardPrice: '$595',
-    saving: '$120',
-    featured: false,
-  },
-];
+// Prices and tier names come from the shared list, not a second copy.
+const tiers = TICKETS;
 ---
 
 <section id="conference">
@@ -56,19 +33,17 @@ const tiers = [
             <div class:list={['tier', { feat: t.featured }]} role="listitem" aria-label={t.featured ? `${t.name} — recommended` : t.name}>
               <div>
                 <div class="tn">{t.name}</div>
-                <div class="td">{t.desc}</div>
+                <div class="td">{t.days}</div>
               </div>
               <div class="tier-pricing">
-                <div class="tp">{t.earlyPrice} <span class="tp-gst">+ gst</span></div>
-                <div class="tp-save">Save {t.saving} · Early bird</div>
-                <div class="tp-standard">Standard {t.standardPrice} + gst</div>
+                <div class="tp">{t.price} <span class="tp-gst">+ gst</span></div>
               </div>
               <a
                 href={TICKET_URL}
                 class="btn tier-btn"
                 target={ticketTarget}
                 rel={ticketRel}
-                aria-label={`Register for ${t.name} — ${t.earlyPrice} + gst`}
+                aria-label={`Register for ${t.name} — ${t.price} + gst`}
               >Register now <span aria-hidden="true">→</span></a>
               <EarlyBirdNote />
             </div>
@@ -94,16 +69,6 @@ const tiers = [
     font-size: 0.7em;
     opacity: 0.7;
   }
-  .tp-save {
-    font-size: 0.75em;
-    color: var(--green);
-    margin-top: 2px;
-  }
-  .tp-standard {
-    font-size: 0.7em;
-    opacity: 0.65;
-    margin-top: 1px;
-  }
   .tier-btn {
     grid-column: 1 / -1;
     justify-content: center;
@@ -118,13 +83,5 @@ const tiers = [
     background: var(--ink);
     border-color: var(--ink);
     color: #0b0908;
-  }
-  .feat .tp-save {
-    color: #fff;
-    font-weight: 700;
-  }
-  .feat .tp-standard {
-    color: rgba(255,255,255,0.75);
-    opacity: 1;
   }
 </style>

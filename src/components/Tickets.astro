@@ -31,11 +31,9 @@ const tickets = TICKETS;
           </div>
           <div class="tix-pricing">
             <div class="tix-price">
-              <span class="tix-amount">{t.earlyPrice}</span>
+              <span class="tix-amount">{t.price}</span>
               <span class="tix-gst">+ gst</span>
             </div>
-            <div class="tix-save">Save {t.saving} · Early bird</div>
-            <div class="tix-standard">Standard price {t.standardPrice} + gst</div>
           </div>
           <div class="tix-cta">
             <a
@@ -43,7 +41,7 @@ const tickets = TICKETS;
               class="btn tix-btn"
               target={ticketTarget}
               rel={ticketRel}
-              aria-label={`Register for ${t.name} — ${t.earlyPrice} + gst`}
+              aria-label={`Register for ${t.name} — ${t.price} + gst`}
             >
               Register now <span aria-hidden="true">→</span>
             </a>

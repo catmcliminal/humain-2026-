@@ -110,7 +110,11 @@ const hasAnySessions = sessions.length > 0;
                     into the main-stage list. */}
                 {d.date === '2026-10-13' && (
                   <div class="rt-block rv" id="ai-upfronts">
-                    <h4 class="rt-title">Day One: AI Upfronts.</h4>
+                    <div class="sched-day-head">
+                      <span class="sched-day-label mono">{d.label}</span>
+                      <span class="sched-day-date">{d.dateLabel}</span>
+                      <span class="sched-day-kind mono">AI Upfronts</span>
+                    </div>
                     <div class="rt-grid">
                       {UPFRONTS.map((u) => (
                         <div class="rt-card">
@@ -134,7 +138,12 @@ const hasAnySessions = sessions.length > 0;
                     day with no sessions yet doesn't take them down with it. */}
                 {d.date === '2026-10-13' && (
                   <div class="rt-block rv" id="round-tables">
-                    <h4 class="rt-title">Day One: Round tables, held under the Chatham House Rule.</h4>
+                    <div class="sched-day-head">
+                      <span class="sched-day-label mono">{d.label}</span>
+                      <span class="sched-day-date">{d.dateLabel}</span>
+                      <span class="sched-day-kind mono">Round tables</span>
+                    </div>
+                    <p class="rt-note">Held under the Chatham House Rule.</p>
                     <div class="rt-grid">
                       {ROUND_TABLES.map((t) => (
                         <div class="rt-card">
@@ -520,14 +529,10 @@ const hasAnySessions = sessions.length > 0;
     letter-spacing: 0.04em;
     color: var(--ink-2);
   }
-  .rt-title {
-    font-family: var(--disp);
-    font-weight: 800;
-    font-size: clamp(22px, 2.6vw, 28px);
-    line-height: 1.1;
-    letter-spacing: -0.01em;
-    margin-bottom: 24px;
-    text-wrap: balance;
+  .rt-note {
+    margin: -8px 0 24px;
+    font-size: 14px;
+    color: var(--ink-2);
   }
   /* Six tracks rather than fixed columns, so the last row can widen to fill
      itself. Five cards at three per row would otherwise leave a hole in row

@@ -5,7 +5,7 @@ import Footer from '../components/Footer.astro';
 import PageHeader from '../components/PageHeader.astro';
 import { breadcrumbJsonLd } from '../utils/breadcrumbs';
 import { SITE } from '../config';
-import { partners, associations } from '../utils/partners';
+import { partners, associations, supporters } from '../utils/partners';
 
 const crumbs = breadcrumbJsonLd([{ name: 'Partners', url: `${SITE}/partners/` }]);
 ---
@@ -31,6 +31,7 @@ const crumbs = breadcrumbJsonLd([{ name: 'Partners', url: `${SITE}/partners/` }]
         {[
           { heading: 'Thanks to our partners.', secNum: null, items: partners },
           { heading: 'Supporting associations', secNum: '— Associations', items: associations },
+          { heading: 'Supporters', secNum: '— Supporters', items: supporters },
         ].map((group, i) => group.items.length > 0 && (
           <>
             {group.heading && (
@@ -41,14 +42,16 @@ const crumbs = breadcrumbJsonLd([{ name: 'Partners', url: `${SITE}/partners/` }]
             )}
             <div class="partners-list">
               {group.items.map((p) => (
-                <div class="partner-card rv" style={`--ac:${p.accent}`}>
-                  <div class="partner-logo">
-                    <img src={p.logo} alt={`${p.name} logo`} loading="lazy" />
-                  </div>
+                <div class:list={['partner-card', 'rv', !p.logo && 'no-logo']} style={`--ac:${p.accent}`}>
+                  {p.logo && (
+                    <div class="partner-logo">
+                      <img src={p.logo} alt={`${p.name} logo`} loading="lazy" />
+                    </div>
+                  )}
                   <div class="partner-body">
                     <span class="partner-role">{p.role}</span>
                     <h2>{p.name}</h2>
-                    {p.copy.split('\n\n').map((para) => <p>{para}</p>)}
+                    {p.copy?.split('\n\n').map((para) => <p>{para}</p>)}
                     {p.url && (
                       <a class="partner-link" href={p.url} target="_blank" rel="noopener">
                         Visit {p.name} →
@@ -176,6 +179,10 @@ const crumbs = breadcrumbJsonLd([{ name: 'Partners', url: `${SITE}/partners/` }]
     border-radius: 16px;
     padding: 40px;
     overflow: hidden;
+  }
+  /* No logo yet: the body takes the whole card rather than leaving a 200px hole. */
+  .partner-card.no-logo {
+    grid-template-columns: 1fr;
   }
   .partner-card::before {
     content: '';

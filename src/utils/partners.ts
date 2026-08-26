@@ -8,14 +8,20 @@
  * `accent` must be one of the palette variables in src/styles/global.css
  * (--pink, --orange, --blue, --green, --yellow). `url` is optional — when set,
  * the /partners page card shows a "Visit …" link.
+ *
+ * `logo` and `copy` are optional so a listing can go up as soon as it is
+ * confirmed, before the logo file and the write-up arrive. The card drops the
+ * logo panel and the paragraphs rather than rendering a broken image or an
+ * empty space. The homepage strip is logos only, so it lists just the entries
+ * that have one.
  */
 export type Partner = {
   role: string;
   name: string;
-  logo: string;
+  logo?: string;
   url?: string;
   accent: string;
-  copy: string;
+  copy?: string;
 };
 
 export const partners: Partner[] = [
@@ -61,6 +67,17 @@ As humAIn's media partner, B&T brings that reach and credibility to the conversa
 export const associations: Partner[] = [
   {
     role: 'Supporting Association',
+    name: 'ACAM — Australian Centre for AI in Marketing',
+    logo: '/images/logos/Australian_Centre_for_AI_in_Marketing.png',
+    accent: 'var(--green)',
+    copy: `The Australian Centre for AI in Marketing (ACAM) helps marketers and organisations turn AI ambition into practical action.
+
+Through research, benchmarking, executive education and transformation programs, ACAM builds the insight, capability and confidence needed to adopt AI responsibly and create measurable value.
+
+ACAM connects leading marketers, technology partners, researchers and practitioners to help shape the future of AI in marketing.`,
+  },
+  {
+    role: 'Supporting Association',
     name: 'IAB Australia',
     logo: '/images/logos/IAB_Australia.png',
     url: 'https://www.iabaustralia.com.au/',
@@ -70,5 +87,28 @@ export const associations: Partner[] = [
 We comprise industry experts across research and measurement, policy and regulation, technology and standards, and the current economics of the advertising industry. We produce a variety of resources to improve the foundations of digital advertising and strengthen the supply chain for advertisers.
 
 As well as driving local initiatives, we are a part of a network of 46 international IAB organisations setting global standards for digital advertising.`,
+  },
+];
+
+/**
+ * Supporters render as their own group below the associations. These three are
+ * confirmed but have no logo file or write-up yet, so their cards show the name
+ * alone; add `logo` and `copy` when they arrive and the card fills out.
+ */
+export const supporters: Partner[] = [
+  {
+    role: 'Supporter',
+    name: 'Man of Many',
+    accent: 'var(--blue)',
+  },
+  {
+    role: 'Supporter',
+    name: 'Trinity P3',
+    accent: 'var(--orange)',
+  },
+  {
+    role: 'Supporter',
+    name: 'Creative Natives',
+    accent: 'var(--pink)',
   },
 ];

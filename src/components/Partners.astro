@@ -1,8 +1,9 @@
 ---
-import { partners, associations } from '../utils/partners';
+import { partners, associations, supporters } from '../utils/partners';
 
 // Partners first, supporting associations after — same order as /partners.
-const tiles = [...partners, ...associations];
+// Logo-only tiles, so anything still waiting on its logo file sits this out.
+const tiles = [...partners, ...associations, ...supporters].filter((p) => p.logo);
 ---
 
 <section id="partners" style="padding-top:0">

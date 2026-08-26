@@ -338,8 +338,6 @@ image-slot .is-ring{position:absolute;inset:0;pointer-events:none;border:1.5px d
 .tix-price{display:flex;align-items:baseline;gap:4px}
 .tix-amount{font-family:var(--disp);font-weight:800;font-size:40px;letter-spacing:-.03em;line-height:1;color:var(--tc)}
 .tix-gst{font-size:13px;color:#b8b0a5}
-.tix-save{font-size:13px;font-weight:600;color:var(--green)}
-.tix-standard{font-size:13px;color:#b8b0a5;text-decoration:line-through;opacity:1}
 .tix-btn{justify-content:center;border-color:var(--tc);color:var(--tc)}
 .tix-feat .tix-btn{background:var(--tc);border-color:var(--tc);color:#fff}
 .tix-btn:hover{background:var(--tc)!important;border-color:var(--tc)!important;color:#fff!important}

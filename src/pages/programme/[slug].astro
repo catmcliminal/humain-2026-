@@ -98,7 +98,7 @@ const description =
             {d.speaker && <p class="sp-speaker">{d.speaker}</p>}
             <div class="sp-acts">
               <a href={TICKET_URL} class="btn" target={ticketTarget} rel={ticketRel}>
-                <span class="dot"></span>Get tickets from {ticket.earlyPrice} →
+                <span class="dot"></span>Get tickets from {ticket.price} →
               </a>
               <a href="/programme" class="btn ghost">See the full programme →</a>
             </div>
@@ -152,7 +152,7 @@ const description =
           <aside class="sp-aside">
             <div class="sp-h">{ticket.days}</div>
             <div class="sp-amt">
-              {ticket.earlyPrice} <s>{ticket.standardPrice}</s>
+              {ticket.price}
             </div>
             <p class="sp-ex">{ticket.name}, ex GST</p>
             <a href={TICKET_URL} class="btn" target={ticketTarget} rel={ticketRel}>
@@ -379,14 +379,6 @@ const description =
     font-size: 34px;
     letter-spacing: -0.03em;
     line-height: 1;
-  }
-  .sp-amt s {
-    font-family: var(--sans);
-    font-size: 16px;
-    font-weight: 400;
-    color: var(--ink-2);
-    letter-spacing: 0;
-    margin-left: 8px;
   }
   .sp-ex {
     font-size: 13px;

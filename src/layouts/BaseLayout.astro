@@ -4,6 +4,7 @@ import { getCollection } from 'astro:content';
 import { currentEdition } from '../utils/edition';
 import { TICKET_URL, SITE } from '../config';
 import { VENUE } from '../data/venue';
+import { TICKETS } from '../data/tickets';
 import TrackingPixels from '../components/TrackingPixels.astro';
 
 interface Props {
@@ -43,24 +44,23 @@ const performer =
     ? keynotes.map((s) => ({ '@type': 'Person', name: s.data.name, jobTitle: s.data.role }))
     : [{ '@type': 'Organization', name: 'humAIn', url: SITE }];
 
-// Early-bird pricing ends 25 August 2026 (per Humanitix); builds after that
-// date automatically emit standard pricing.
-const EARLY_BIRD_ENDS = '2026-08-25';
-const earlyBird = new Date() <= new Date(`${EARLY_BIRD_ENDS}T23:59:59+10:00`);
+// Offer prices come from the shared ticket list so the structured data cannot
+// drift away from what the page shows.
+const priceFor = (tier: string) =>
+  TICKETS.find((t) => t.name === tier)?.price.replace(/[^0-9.]/g, '') ?? '';
 
 const ticketOffers = [
-  { name: 'Conference only (Day 1)', early: '595', standard: '745' },
-  { name: 'Conference + Workshop (both days)', early: '795', standard: '995' },
-  { name: 'Workshop only (Day 2)', early: '475', standard: '595' },
+  { name: 'Conference only (Day 1)', tier: 'Conference only' },
+  { name: 'Conference + Workshop (both days)', tier: 'Conference + Workshop' },
+  { name: 'Workshop only (Day 2)', tier: 'Workshop only' },
 ].map((t) => ({
   '@type': 'Offer',
-  name: earlyBird ? `${t.name} — early bird` : t.name,
+  name: t.name,
   url: TICKET_URL,
-  price: earlyBird ? t.early : t.standard,
+  price: priceFor(t.tier),
   priceCurrency: 'AUD',
   availability: 'https://schema.org/InStock',
   validFrom: '2026-01-01',
-  ...(earlyBird ? { priceValidUntil: EARLY_BIRD_ENDS } : {}),
 }));
 
 const eventJsonLd = {

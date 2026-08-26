@@ -4,8 +4,7 @@
  * Single source of truth: `src/components/Tickets.astro` renders the full
  * pricing table from this, and the session pages (`/programme/[slug]`) read the
  * tier that covers the day a session runs on, so a price change lands in both
- * places at once. Prices exclude GST; `TICKET_URL` and `EARLY_BIRD_NOTE` live in
- * `src/config.ts`.
+ * places at once. Prices exclude GST; `TICKET_URL` lives in `src/config.ts`.
  *
  * `day` is which conference day the tier admits you to — used to pick the right
  * tier to show alongside a session. The both-days tier covers both.
@@ -13,10 +12,7 @@
 export interface Ticket {
   name: string;
   days: string;
-  earlyPrice: string;
-  standardPrice: string;
-  /** Saving against this tier's own standard price (standard − early bird). */
-  saving: string;
+  price: string;
   color: string;
   featured: boolean;
   /** Conference day(s) this tier admits you to. */
@@ -39,9 +35,7 @@ export const TICKETS: Ticket[] = [
   {
     name: 'Conference only',
     days: 'Day one only',
-    earlyPrice: '$595',
-    standardPrice: '$745',
-    saving: '$150',
+    price: '$745',
     color: 'var(--blue)',
     featured: false,
     covers: ['2026-10-13'],
@@ -58,9 +52,7 @@ export const TICKETS: Ticket[] = [
   {
     name: 'Conference + Workshop',
     days: 'Both days',
-    earlyPrice: '$795',
-    standardPrice: '$995',
-    saving: '$200',
+    price: '$995',
     color: 'var(--pink)',
     featured: true,
     covers: ['2026-10-13', '2026-10-14'],
@@ -78,9 +70,7 @@ export const TICKETS: Ticket[] = [
   {
     name: 'Workshop only',
     days: 'Day two only',
-    earlyPrice: '$475',
-    standardPrice: '$595',
-    saving: '$120',
+    price: '$595',
     color: 'var(--orange)',
     featured: false,
     covers: ['2026-10-14'],
@@ -100,19 +90,15 @@ const dollars = (s: string) => Number(s.replace(/[^0-9.]/g, ''));
 
 /**
  * What the both-days tier saves against buying the two single days separately
- * at early-bird prices ($595 + $475 − $795 = $275).
- *
- * Deliberately NOT the same number as that tier's `saving` field, which is
- * $200 — the discount against its own standard price ($995). Both are true and
- * they answer different questions, so they are kept apart rather than reconciled.
- * Derived rather than hard-coded so it follows any price change.
+ * ($745 + $595 − $995 = $345). Derived rather than hard-coded so it follows any
+ * price change.
  */
 export const bothDaysBundleSaving = (): string | null => {
   const both = TICKETS.find((t) => t.covers.length === 2);
   const singles = TICKETS.filter((t) => t.covers.length === 1);
   if (!both || singles.length !== 2) return null;
   const diff =
-    singles.reduce((sum, t) => sum + dollars(t.earlyPrice), 0) - dollars(both.earlyPrice);
+    singles.reduce((sum, t) => sum + dollars(t.price), 0) - dollars(both.price);
   return diff > 0 ? `$${diff}` : null;
 };
 
@@ -122,5 +108,5 @@ export const bothDaysBundleSaving = (): string | null => {
  */
 export const ticketForDay = (day: string): Ticket =>
   TICKETS.filter((t) => t.covers.includes(day as Ticket['covers'][number])).sort(
-    (a, b) => Number(a.earlyPrice.slice(1)) - Number(b.earlyPrice.slice(1))
+    (a, b) => dollars(a.price) - dollars(b.price)
   )[0] ?? TICKETS[0];

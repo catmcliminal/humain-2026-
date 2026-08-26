@@ -31,8 +31,7 @@ const bundleSaving = bothDaysBundleSaving();
           <div class="tix-date">{t.dateLabel}</div>
 
           <div class="tix-price">
-            <span class="tix-amt">{t.earlyPrice}</span>
-            <s>{t.standardPrice}</s>
+            <span class="tix-amt">{t.price}</span>
           </div>
           <div class="tix-ex">
             Ex GST{t.featured && bundleSaving ? `. Saves ${bundleSaving}` : ''}
@@ -47,7 +46,7 @@ const bundleSaving = bothDaysBundleSaving();
             class:list={['btn', 'tix-btn', { ghost: !t.featured }]}
             target={ticketTarget}
             rel={ticketRel}
-            aria-label={`${t.cta} — ${t.label}, ${t.earlyPrice} ex GST`}
+            aria-label={`${t.cta} — ${t.label}, ${t.price} ex GST`}
           >
             {t.featured && <span class="dot"></span>}{t.cta}
           </a>
@@ -56,7 +55,6 @@ const bundleSaving = bothDaysBundleSaving();
     </div>
 
     <div class="tix-notes rv">
-      <p><strong>Bringing a team?</strong> Discounted group rates apply from three tickets.</p>
       <p><strong>Member of ACA, IAB or ACAM?</strong> Your association code applies at checkout.</p>
     </div>
   </div>
@@ -135,10 +133,6 @@ const bundleSaving = bothDaysBundleSaving();
     letter-spacing: -0.03em;
     line-height: 1;
   }
-  .tix-price s {
-    font-size: 18px;
-    color: var(--ink-2);
-  }
   .tix-ex {
     font-size: 13px;
     color: var(--ink-2);
@@ -186,7 +180,7 @@ const bundleSaving = bothDaysBundleSaving();
     gap: 8px;
   }
   .tix-notes p {
-    font-size: 14px;
+    font-size: 16px;
     color: var(--ink-2);
     margin: 0;
   }

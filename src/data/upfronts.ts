@@ -15,6 +15,8 @@ export interface Upfront {
   speaker: string;
   /** Optional link to the product. */
   url?: string;
+  /** Optional logo, shown on a light chip since the card sits on dark. */
+  logo?: string;
   /** The write-up. One entry per paragraph. */
   detail: string[];
 }
@@ -24,6 +26,7 @@ export const UPFRONTS: Upfront[] = [
     company: 'AdLab',
     title: 'AdLab: How AI is Transforming Audio Production',
     speaker: 'Lauren Joyce, Founder of Gun For Hire',
+    logo: '/images/logos/Abes_Audio.png',
     detail: [
       'AdLab (by Abe’s Audio) is transforming commercial audio production by combining the power of AI with human creativity.',
       'This interactive session will show agencies, marketers, and media platforms how they can create commercial scripts and audio demos in minutes; accelerating client approvals, supercharging speed to market, reducing production costs, and unlocking new revenue.',
@@ -43,6 +46,7 @@ export const UPFRONTS: Upfront[] = [
     company: 'lokol',
     title: 'lokol',
     speaker: 'Neil Ackland, CEO and Co-founder, lokol',
+    logo: '/images/logos/lokol.png',
     detail: [
       'We identify authentic product recommendations from trusted creators and publishers, verify and attribute them, then surface them wherever people buy products online, helping retailers increase conversion while ensuring the people behind trusted recommendations share in the value they create.',
       'Commerce has a new front door. As product discovery shifts from search and social to AI assistants, trust becomes the scarce resource. Search indexed pages. Social indexed people. AI will index trust. Lokol is building the infrastructure that makes trusted human recommendations attributable, measurable and valuable in the AI era.',

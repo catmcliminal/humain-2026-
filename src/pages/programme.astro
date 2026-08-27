@@ -118,6 +118,11 @@ const hasAnySessions = sessions.length > 0;
                     <div class="rt-grid">
                       {UPFRONTS.map((u) => (
                         <div class="rt-card">
+                          {u.logo && (
+                            <div class="uf-logo">
+                              <img src={u.logo} alt={`${u.company} logo`} loading="lazy" />
+                            </div>
+                          )}
                           <div class="rt-topic mono">{u.company}</div>
                           <h5>{u.title}</h5>
                           {u.detail.map((para) => <p>{para}</p>)}
@@ -511,6 +516,31 @@ const hasAnySessions = sessions.length > 0;
   }
 
   /* ---------- round tables ---------- */
+  /* The cards sit on dark, and these logos are drawn for light backgrounds,
+     so each gets its own light chip rather than being recoloured. */
+  .uf-logo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    border-radius: 10px;
+    padding: 10px 16px;
+    margin-bottom: 14px;
+    /* Fixed box: the logos load lazily, and without a reserved size the chip
+       collapses to nothing and the card jumps when they arrive. */
+    height: 62px;
+    min-width: 130px;
+  }
+  /* Capped by height, not width, so logos of different proportions sit at the
+     same optical weight rather than the same measure. */
+  .uf-logo img {
+    display: block;
+    max-height: 40px;
+    max-width: 158px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+  }
   .uf-speaker {
     margin-top: 12px;
     font-weight: 600;

@@ -91,24 +91,26 @@ As well as driving local initiatives, we are a part of a network of 46 internati
 ];
 
 /**
- * Supporters render as their own group below the associations. These three are
- * confirmed but have no logo file or write-up yet, so their cards show the name
- * alone; add `logo` and `copy` when they arrive and the card fills out.
+ * Supporters render as their own group below the associations. No write-ups
+ * yet, so their cards are logo and name only; add `copy` when it arrives.
  */
 export const supporters: Partner[] = [
   {
     role: 'Supporter',
     name: 'Man of Many',
+    logo: '/images/logos/Man_of_Many.png',
     accent: 'var(--blue)',
   },
   {
     role: 'Supporter',
     name: 'Trinity P3',
+    logo: '/images/logos/TrinityP3.png',
     accent: 'var(--orange)',
   },
   {
     role: 'Supporter',
     name: 'Creative Natives',
+    logo: '/images/logos/Creative_Natives.png',
     accent: 'var(--pink)',
   },
 ];

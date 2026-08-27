@@ -67,6 +67,16 @@ As humAIn's media partner, B&T brings that reach and credibility to the conversa
 export const associations: Partner[] = [
   {
     role: 'Supporting Association',
+    name: 'ACA — Advertising Council Australia',
+    accent: 'var(--blue)',
+    copy: `Advertising Council Australia is the peak body representing Australia's leading advertising agencies. Our purpose is to foster the long-term prosperity, diversity and impact of our industry.
+
+As technology and new channels reshape how brands connect with people and culture, ACA helps the industry navigate what's next. We develop the next generation of agency leaders through world-class professional development, champion bold creativity, craft and advertising effectiveness, and create opportunities to experiment, learn and take smart risks.
+
+Our focus is on ensuring human ingenuity remains a powerful source of creative and commercial advantage in a rapidly changing world.`,
+  },
+  {
+    role: 'Supporting Association',
     name: 'ACAM — Australian Centre for AI in Marketing',
     logo: '/images/logos/Australian_Centre_for_AI_in_Marketing.png',
     accent: 'var(--green)',
@@ -91,8 +101,9 @@ As well as driving local initiatives, we are a part of a network of 46 internati
 ];
 
 /**
- * Supporters render as their own group below the associations. No write-ups
- * yet, so their cards are logo and name only; add `copy` when it arrives.
+ * Supporters render as their own group below the associations. Creative
+ * Natives has no write-up yet, so its card is logo and name only until one
+ * arrives.
  */
 export const supporters: Partner[] = [
   {
@@ -100,12 +111,14 @@ export const supporters: Partner[] = [
     name: 'Man of Many',
     logo: '/images/logos/Man_of_Many.png',
     accent: 'var(--blue)',
+    copy: `Man of Many is one of Australia's leading independent digital news platforms and the 2025 Media Brand of the Year. Founded in 2012.`,
   },
   {
     role: 'Supporter',
     name: 'Trinity P3',
     logo: '/images/logos/TrinityP3.png',
     accent: 'var(--orange)',
+    copy: `Expert marketing consultancy to 300+ companies globally working with marketers, agencies & procurement. We solve complex marketing problems.`,
   },
   {
     role: 'Supporter',

@@ -3,6 +3,8 @@ day: '2026-10-13'
 hook: >-
   So many AI talks focus on what the technology can do, but ignore what
   organisations need to do to make it work.
+themes:
+  - creative
 speaker: Lou Compagnone, Director of AI, Datacom
 photos:
   - /images/speakers/lou-compagnone/photo.jpg

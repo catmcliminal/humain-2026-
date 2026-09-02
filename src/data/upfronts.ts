@@ -44,7 +44,7 @@ export const UPFRONTS: Upfront[] = [
   },
   {
     company: 'lokol',
-    title: 'lokol',
+    title: 'Commerce has a new front door.',
     speaker: 'Neil Ackland, CEO and Co-founder, lokol',
     logo: '/images/logos/lokol.png',
     detail: [

@@ -487,3 +487,16 @@ lockfile before the build would run; `package-lock.json` was left untouched.
   policy and browser-level controls is the standard pattern. If humAIn ever
   advertises into the EU or UK, a consent gate becomes necessary before the
   pixels may fire.
+- **2026-08-27 (ACA logo)** — The ACA listing in `src/utils/partners.ts` was
+  added without a logo file; it now has one, so it renders a logo panel on
+  `/partners` and appears in the homepage "Our partners." strip (the strip
+  filters to entries with a `logo`). Source was `ACA.png` from Cat's Drive
+  folder — the full lockup (mark plus "Advertising Council Australia"
+  wordmark), black, on a 2000×2000 canvas that was mostly empty space, which
+  would have rendered tiny inside the 200px white logo panel. It was trimmed to
+  the artwork and white converted to transparent alpha, matching the other
+  files in `public/images/logos/` (all RGBA), and saved as
+  `Advertising_Council_Australia.png` (800×467, 47KB). The Drive folder also
+  holds abbreviation-only and reversed/white variants; the black full lockup is
+  the right one while the logo panel is white. The listing still has no `url`,
+  so its card shows no "Visit …" link.

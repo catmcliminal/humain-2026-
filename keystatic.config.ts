@@ -178,6 +178,23 @@ export default config({
             { label: 'Culture as Training Data', value: 'culture' },
           ],
         }),
+        partner: fields.text({
+          label: 'Partner badge',
+          description:
+            'Optional — shown as a tag beside the session title, e.g. "Content Partner". Leave blank unless a partner brought this session.',
+        }),
+        sessionType: fields.text({
+          label: 'Session type',
+          description:
+            'Optional — shown as a tag beside the session title, e.g. "International keynote". Leave blank for an ordinary talk.',
+        }),
+        partnerLogo: fields.image({
+          label: 'Partner logo',
+          description:
+            'Optional — shown beside the partner badge on the session page. Only used when the badge above is filled in.',
+          directory: 'public/images/logos',
+          publicPath: '/images/logos/',
+        }),
         speaker: fields.text({
           label: 'Speaker(s)',
           description: 'Free text — name one or more speakers.',

@@ -68,6 +68,7 @@ export const associations: Partner[] = [
   {
     role: 'Supporting Association',
     name: 'ACA — Advertising Council Australia',
+    logo: '/images/logos/Advertising_Council_Australia.png',
     accent: 'var(--blue)',
     copy: `Advertising Council Australia is the peak body representing Australia's leading advertising agencies. Our purpose is to foster the long-term prosperity, diversity and impact of our industry.
 

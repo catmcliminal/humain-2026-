@@ -9,12 +9,12 @@ import { TICKET_URL, TICKET_IS_EXTERNAL } from '../config';
 const ticketTarget = TICKET_IS_EXTERNAL ? '_blank' : undefined;
 const ticketRel = TICKET_IS_EXTERNAL ? 'noopener noreferrer' : undefined;
 
-// Homepage shows up to four speakers — featured first, then by `order` to fill.
+// Homepage shows up to six speakers — featured first, then by `order` to fill.
 // The full lineup (with keynotes pulled to the top) lives at /voices.
 const all = currentEdition(await getCollection('speakers')).sort(
   (a, b) => a.data.order - b.data.order
 );
-const speakers = featuredFirst(all, 4);
+const speakers = featuredFirst(all, 6);
 ---
 
 <section id="voices" style="padding-top:0">
@@ -23,7 +23,7 @@ const speakers = featuredFirst(all, 4);
       <h2 class="rv">The voices.</h2>
       <span class="sec-num">05 — Speakers</span>
     </div>
-    <div class="voices">
+    <div class="voices home-voices">
       {speakers.map((s) => <SpeakerCard speaker={s} />)}
     </div>
     <div style="margin-top:30px;display:flex;gap:12px;align-items:center;flex-wrap:wrap">
@@ -37,3 +37,13 @@ const speakers = featuredFirst(all, 4);
     </div>
   </div>
 </section>
+
+<style>
+  /* Six on the homepage sit as two rows of three; the shared `.voices` grid is
+     four across, which would leave a two-card orphan on the second row. */
+  @media (min-width: 861px) {
+    .home-voices {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

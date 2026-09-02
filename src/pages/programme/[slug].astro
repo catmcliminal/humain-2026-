@@ -91,6 +91,13 @@ const description =
             <div class="sp-tags">
               {day && <span class="sp-tag day mono">{day.label}</span>}
               {day && <span class="sp-tag day mono">{day.kind}</span>}
+              {d.sessionType && <span class="sp-tag is-kind mono">{d.sessionType}</span>}
+              {d.partner && <span class="sp-tag is-partner mono">{d.partner}</span>}
+              {d.partner && d.partnerLogo && (
+                <span class="sp-partner-logo">
+                  <img src={d.partnerLogo} alt={`${d.partner} logo`} loading="eager" />
+                </span>
+              )}
               {themes.map((t) => <span class="sp-tag is-theme mono">{t.name}</span>)}
             </div>
             <h1>{d.title}</h1>
@@ -252,6 +259,32 @@ const description =
   .sp-tag.is-theme {
     color: var(--pink);
     border-color: var(--pink);
+  }
+  .sp-tag.is-kind {
+    color: var(--yellow);
+    border-color: var(--yellow);
+  }
+  .sp-tag.is-partner {
+    color: var(--blue);
+    border-color: var(--blue);
+  }
+  /* The mark is drawn for light backgrounds, so it sits on its own white chip
+     rather than being recoloured — same treatment as the AI Upfronts cards. */
+  .sp-partner-logo {
+    display: inline-flex;
+    align-items: center;
+    background: #fff;
+    border-radius: 7px;
+    padding: 6px 11px;
+    height: 28px;
+  }
+  .sp-partner-logo img {
+    display: block;
+    max-height: 18px;
+    max-width: 84px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
   }
   .sp-hero h1 {
     font-family: var(--disp);

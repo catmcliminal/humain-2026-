@@ -90,6 +90,17 @@ const hasAnySessions = sessions.length > 0;
                         <div class="sched-body">
                           <div class="sched-top">
                             <h3>{s.data.title}</h3>
+                            {s.data.sessionType && (
+                              <span class="sched-kind mono">{s.data.sessionType}</span>
+                            )}
+                            {s.data.partner && (
+                              <span class="sched-partner mono">{s.data.partner}</span>
+                            )}
+                            {s.data.partner && s.data.partnerLogo && (
+                              <span class="sched-partner-logo">
+                                <img src={s.data.partnerLogo} alt={`${s.data.partner} logo`} loading="lazy" />
+                              </span>
+                            )}
                           </div>
                           {s.data.hook && <p class="sched-hook">{s.data.hook}</p>}
                           {s.data.speaker && <div class="sched-speaker">{s.data.speaker}</div>}
@@ -389,6 +400,46 @@ const hasAnySessions = sessions.length > 0;
     background: var(--ink);
     border-color: var(--ink);
     color: #0b0908;
+  }
+  /* Sits beside the title rather than in the theme column: it says who
+     brought the session, which isn't the same kind of label as a theme. */
+  .sched-partner {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--blue);
+    border: 1px solid var(--blue);
+    border-radius: 100px;
+    padding: 4px 10px;
+    white-space: nowrap;
+  }
+  .sched-kind {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--yellow);
+    border: 1px solid var(--yellow);
+    border-radius: 100px;
+    padding: 4px 10px;
+    white-space: nowrap;
+  }
+  /* Same white chip the AI Upfronts logos get: these marks are drawn for
+     light backgrounds and would disappear straight onto the dark page. */
+  .sched-partner-logo {
+    display: inline-flex;
+    align-items: center;
+    background: #fff;
+    border-radius: 6px;
+    padding: 5px 9px;
+    height: 26px;
+  }
+  .sched-partner-logo img {
+    display: block;
+    max-height: 16px;
+    max-width: 70px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
   }
   .sched-theme {
     font-family: var(--mono);

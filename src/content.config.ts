@@ -97,6 +97,16 @@ const schedule = defineCollection({
     // src/data/themes.ts). Shown as tags on the session row and page; a session
     // can sit in more than one.
     themes: z.array(z.enum(THEME_IDS)).optional(),
+    // Badge shown beside the session title, e.g. "Content Partner" — the
+    // partner role that brought the session, not a theme. Left blank on the
+    // sessions that aren't partner-led, which is most of them.
+    // What kind of session this is when it's worth saying, e.g. "International
+    // keynote". Sits as a pill beside the title; blank on the ordinary talks.
+    sessionType: z.string().optional(),
+    partner: z.string().optional(),
+    // Optional logo for that partner, shown beside the badge. Drawn for light
+    // backgrounds, so the page puts it on its own white chip.
+    partnerLogo: imagePath.optional(),
     // Free-text speaker name(s) for now; can become a reference later.
     speaker: z.string().optional(),
     // One photo per speaker on the session — supports solo talks and panels alike.

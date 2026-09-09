@@ -47,10 +47,6 @@ const hasAnySessions = sessions.length > 0;
 
     <section id="sessions">
       <div class="wrap">
-        <div class="sec-head">
-          <h2 class="rv">Sessions announced:</h2>
-          <span class="sec-num">— Programme</span>
-        </div>
         {hasAnySessions ? (
           <>
             <div class="sched-days">
@@ -252,6 +248,11 @@ const hasAnySessions = sessions.length > 0;
   /* ---------- filter chips ---------- */
 
   /* ---------- sessions ---------- */
+  /* Tighter than the global 96px: the section head that used to sit under the
+     pulse band is gone, so Day 01 follows the band directly. */
+  #sessions {
+    padding-top: 40px;
+  }
   .sched-days {
     display: flex;
     flex-direction: column;

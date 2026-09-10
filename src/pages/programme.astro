@@ -61,7 +61,7 @@ const hasAnySessions = sessions.length > 0;
                   </div>
                   <div class="sched-list">
                     {d.sessions.map((s) => (
-                      <a class="sched-item" href={`/programme/${s.id}`}>
+                      <div class="sched-item">
                         <div class="sched-side">
                           {s.data.photos && s.data.photos.length > 0 && (
                             <div class="sched-photos">
@@ -85,7 +85,9 @@ const hasAnySessions = sessions.length > 0;
                         </div>
                         <div class="sched-body">
                           <div class="sched-top">
-                            <h3>{s.data.title}</h3>
+                            <h3>
+                              <a class="sched-link" href={`/programme/${s.id}`}>{s.data.title}</a>
+                            </h3>
                             {s.data.sessionType && (
                               <span class="sched-kind mono">{s.data.sessionType}</span>
                             )}
@@ -105,9 +107,11 @@ const hasAnySessions = sessions.length > 0;
                           {(s.data.themes ?? []).map((t) => (
                             <span class="sched-theme">{themeById(t)?.name ?? t}</span>
                           ))}
-                          <span class="sched-cta mono">FULL SESSION →</span>
+                          <a class="sched-cta mono" href={`/programme/${s.id}`}>
+                            FULL SESSION →
+                          </a>
                         </div>
-                      </a>
+                      </div>
                     ))}
                   </div>
                 </div>
@@ -311,10 +315,18 @@ const hasAnySessions = sessions.length > 0;
     padding-top: 0;
     border-top: none;
   }
-  .sched-item:hover h3 {
+  /* The row used to be one big <a>, which made its text impossible to select
+     (dragging inside a link drags the link). The title and the CTA carry the
+     link instead, so the copy stays selectable. */
+  .sched-link {
+    color: inherit;
+    text-decoration: none;
+  }
+  .sched-item:hover .sched-link {
     color: var(--pink);
   }
-  .sched-item:focus-visible {
+  .sched-link:focus-visible,
+  .sched-cta:focus-visible {
     outline: 3px solid var(--pink);
     outline-offset: 4px;
   }
@@ -387,6 +399,7 @@ const hasAnySessions = sessions.length > 0;
     gap: 6px;
   }
   .sched-cta {
+    text-decoration: none;
     margin-top: 10px;
     font-size: 10px;
     letter-spacing: 0.1em;

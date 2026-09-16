@@ -112,7 +112,7 @@ const description =
           </div>
 
           {d.photos && d.photos.length > 0 && (
-            <div class={`sp-portraits${d.photos.length > 1 ? ' pair' : ''}`}>
+            <div class={`sp-portraits${d.photos.length > 1 && d.photos.length !== 3 ? ' pair' : ''}${d.photos.length === 3 ? ' trio' : ''}`}>
               {d.photos.map((photo) => (
                 <img
                   class="sp-portrait"
@@ -329,6 +329,12 @@ const description =
   .sp-portraits.pair {
     grid-template-columns: 1fr 1fr;
   }
+  /* A three-hander gets its own row of three: the two-column layout would
+     leave the third portrait orphaned on a line of its own. */
+  .sp-portraits.trio {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
   .sp-portrait {
     width: 100%;
     height: auto;
@@ -339,8 +345,12 @@ const description =
     border: 1px solid var(--line-2);
     display: block;
   }
-  .sp-portraits.pair .sp-portrait {
+  .sp-portraits.pair .sp-portrait,
+  .sp-portraits.trio .sp-portrait {
     aspect-ratio: 1;
+  }
+  .sp-portraits.trio .sp-portrait {
+    border-radius: 12px;
   }
 
   /* ---------- body ---------- */

@@ -101,6 +101,9 @@ at `_source/humAIn - 06 Pulse.html`).
 | 2026-08-18 | Session `hook` is set from Cat's supplied text; `description` is never edited to accommodate it | The first attempt lifted each hook's opening sentence out of the description so it would not appear twice. Cat's instruction is that descriptions are untouched, so the hook repeats its description's opening by design — on a session page the hook is the lede and the full description follows. "The discipline of friction" is the one approved exception. |
 | 2026-08-18 | `stage` and `format` removed from the schedule collection entirely | There is only one stage, so "Main stage" said nothing. `format` ("Keynote", "Presentation") was added during the rebuild without sign-off. With both unrendered, leaving them in Keystatic would have meant fields that do nothing — handover clutter. |
 | 2026-08-06 | Confirmed 2026 Speakers roster: Pip Bingemann, James Caldwell, Tea Uglow, Marie-Céline Merret, Vinne Schifferstein, Bridget Cleary, Kent Boswell, Marcus Tesoriero | Owner confirmed these 8 as the actual speaker lineup. Set `active: false` on the other 6 speaker entries (Annie Liao, Dave King, Karen Powell, Joana Barros, Jeremy Somers, Sarah Yassien) — they were advisory-panel-only, not speaking. Data kept, not deleted; they remain live on `/community/advisory` via their separate `advisory` collection entries. |
+| 2026-09-17 | Hero carries a day-by-day split; the existing "Two days…" sentence stays above it | Cat supplied separate Day one / Day two copy plus a date line for each. The sentence already on the page covers both days at once, and her instruction was to put the new block *under* it, so the general line now leads and the two days expand it. The date lines are paired one-to-one with the days as mono meta labels — 13 October over Day one, 14 October over Day two — which is a layout decision, not copy. Day one takes a pink left rule and day two grey, so the conference day reads as primary. |
+| 2026-09-17 | Hero and About CTAs point at `/programme`, not `TICKET_URL` | The hero's two buttons are now "Get tickets" and "Explore the programme" ("Read the media" dropped); About's single CTA changed from tickets to the programme on Cat's instruction. Every other section on the homepage still ends in a ticket button, so the page was asking for the sale nine times before it had shown anyone the programme. About also lost its `EarlyBirdNote` — that note only makes sense beside a ticket CTA — and its now-unused `TICKET_URL` / `EarlyBirdNote` imports. |
+| 2026-09-17 | The About prose block runs the **full width** of the wrap: left-aligned, no max-width | Three passes in one session. Built centred (auto margin, centred subhead), which left the column floating in a gutter, out of line with the section `h2` and its CTA. Left-aligned next, but a 62ch cap was kept for line length — that put the block at 55% of the row with all the leftover space pooled on the right, which reads as a hole rather than as margin. The cap is now gone and the text flows edge to edge in the wrap; each paragraph is two lines instead of four. Cat's call, made twice and explicitly. Measured line lengths: 76 characters capped, 128 at a 1024px window, 168 at the full 1320px wrap. The 45–75 character convention was cited against this and was presented more firmly than the evidence supports — the research is mixed (longer measures have tested *faster*; comprehension peaks around 55) and line length bites hardest in sustained reading, not in a four-paragraph block on a landing page. **Default for prose blocks added to a section: left-aligned, full width, no cap.** |
 
 ## Programme rebuild (2026-08-18)
 
@@ -207,6 +210,7 @@ lockfile before the build would run; `package-lock.json` was left untouched.
 8. **Lucinda Barlow's headshot is landscape** (1000x667, from a file named "low-res") and crops hard in the portrait slots. A portrait original would fix it. Her bio is ~250 words, the longest on `/voices`, and speaker bios render as a single paragraph there.
 9. **"two billion daily users"** in Lucinda's bio is YouTube's monthly figure, not daily. It is a public claim about a third party on a live page.
 10. **`.npmrc` is missing from the repo** — untracked, not gitignored, absent from git history, though CLAUDE.md documents it as required for Netlify (`legacy-peer-deps=true`). Builds currently succeed without it, so either the docs are stale or the file needs restoring.
+11. **"One room" appears twice in the About section** — the section `h2` is "Two conversations, one room." and the new subhead is "One room. A shared frame of reference." Both are Cat's words and both are live; flagged on PR #50 and not changed. Confirm or reword one.
 
 ## Session notes
 
@@ -500,3 +504,19 @@ lockfile before the build would run; `package-lock.json` was left untouched.
   holds abbreviation-only and reversed/white variants; the black full lockup is
   the right one while the logo panel is white. The listing still has no `url`,
   so its card shows no "Visit …" link.
+- **2026-09-17 (homepage copy run)** — Two blocks of Cat's copy added to the
+  homepage, shipped as PRs #50 and #51 and live on www.humain.au the same day.
+  **Hero** (`src/components/Hero.astro`): a `.hero-days` block under the
+  existing "Two days…" sentence, one entry per day, each with its date line
+  ("13 October · Single-stream conference", "14 October · Select your
+  workshops") as a mono label above the description. The two hero buttons
+  became "Get tickets" and "Explore the programme →". **About**
+  (`src/components/About.astro`): "One room. A shared frame of reference." as a
+  subhead plus four paragraphs under the "Most events pick a lane" line, and
+  the section CTA swapped to "Explore the programme →". The closing line was
+  revised by Cat mid-session to "…when we share an altitude", which ties back
+  to "different altitudes" in the block's first paragraph. All copy supplied by
+  Cat and used verbatim; the only judgement calls were layout (date-to-day
+  pairing, subhead vs body, alignment). The About block's first version was
+  centred; it was left-aligned, then had its width cap dropped so the text
+  flows the full width of the wrap (PRs #51 and #52) — see the decision log.

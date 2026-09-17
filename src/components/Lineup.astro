@@ -1,0 +1,69 @@
+---
+/**
+ * The speaker lineup on the homepage: intro copy plus a short set of cards,
+ * sitting above the partners strip.
+ *
+ * Four cards fill exactly one row of the shared `.voices` grid. The full
+ * lineup lives at `/voices`; this section replaced the longer six-card
+ * "The voices." section that used to sit lower down the page.
+ */
+import { getCollection } from 'astro:content';
+import SpeakerCard from './SpeakerCard.astro';
+import { featuredFirst } from '../utils/featured';
+import { currentEdition } from '../utils/edition';
+
+const all = currentEdition(await getCollection('speakers')).sort(
+  (a, b) => a.data.order - b.data.order
+);
+const speakers = featuredFirst(all, 4);
+---
+
+<section id="lineup">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 class="rv">Meet the people leading AI adoption</h2>
+      <span class="sec-num">— The lineup</span>
+    </div>
+    <div class="lineup-body rv">
+      <p>
+        Hear from leaders, creatives and technologists working through AI’s possibilities, limitations and
+        consequences. Their learnings, Their definitions of value. What they protect and what they automate.
+      </p>
+      <p>
+        Bring your questions to the people building the technology, applying it in business and examining its impact
+        on our lives.
+      </p>
+    </div>
+    <div class="voices lineup-voices">
+      {speakers.map((s) => <SpeakerCard speaker={s} />)}
+    </div>
+    <div class="lineup-cta">
+      <a href="/voices" class="btn ghost">See the full lineup →</a>
+      <span class="mono lineup-more">+ 36 more being announced</span>
+    </div>
+  </div>
+</section>
+
+<style>
+  .lineup-body p {
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--ink);
+  }
+  .lineup-body p + p {
+    margin-top: 14px;
+  }
+  .lineup-voices {
+    margin-top: 34px;
+  }
+  .lineup-cta {
+    margin-top: 30px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .lineup-more {
+    color: var(--ink-2);
+  }
+</style>

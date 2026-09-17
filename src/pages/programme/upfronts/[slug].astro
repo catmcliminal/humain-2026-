@@ -1,0 +1,187 @@
+---
+/**
+ * A single AI Upfront pitch.
+ *
+ * The Upfronts are a day-one format of their own: they sit behind a single
+ * "AI Upfronts" row on /programme rather than one row each, so their pages are
+ * generated from `src/data/upfronts.ts` instead of the `schedule` collection.
+ * That keeps four (soon five) eight-minute pitches out of the main running
+ * order while still giving each one a page to link to and share.
+ */
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Nav from '../../../components/Nav.astro';
+import Footer from '../../../components/Footer.astro';
+import PulseBand from '../../../components/PulseBand.astro';
+import EarlyBirdNote from '../../../components/EarlyBirdNote.astro';
+import { breadcrumbJsonLd } from '../../../utils/breadcrumbs';
+import { SITE, TICKET_URL, TICKET_IS_EXTERNAL } from '../../../config';
+import { dayByDate } from '../../../data/days';
+import { VENUE } from '../../../data/venue';
+import { ticketForDay } from '../../../data/tickets';
+import { UPFRONTS } from '../../../data/upfronts';
+import '../../../styles/session-page.css';
+
+const UPFRONT_DAY = '2026-10-13';
+
+export async function getStaticPaths() {
+  return UPFRONTS.map((upfront) => ({
+    params: { slug: upfront.slug },
+    props: { upfront, siblings: UPFRONTS.filter((u) => u.slug !== upfront.slug) },
+  }));
+}
+
+const { upfront, siblings } = Astro.props;
+
+const ticketTarget = TICKET_IS_EXTERNAL ? '_blank' : undefined;
+const ticketRel = TICKET_IS_EXTERNAL ? 'noopener noreferrer' : undefined;
+
+const day = dayByDate(UPFRONT_DAY);
+const ticket = ticketForDay(UPFRONT_DAY);
+
+const url = `${SITE}/programme/upfronts/${upfront.slug}/`;
+const crumbs = breadcrumbJsonLd([
+  { name: 'Programme', url: `${SITE}/programme/` },
+  { name: 'AI Upfronts', url: `${SITE}/programme/ai-upfronts/` },
+  { name: upfront.title, url },
+]);
+
+const eventJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Event',
+  name: upfront.title,
+  description: upfront.detail[0],
+  startDate: UPFRONT_DAY,
+  eventStatus: 'https://schema.org/EventScheduled',
+  eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+  location: VENUE,
+  superEvent: { '@type': 'Event', name: 'humAIn 2026', url: `${SITE}/` },
+  ...(upfront.speaker ? { performer: { '@type': 'Person', name: upfront.speaker } } : {}),
+  url,
+};
+---
+
+<BaseLayout
+  title={`${upfront.company} — AI Upfronts | humAIn 2026`}
+  description={upfront.detail[0]}
+  extraJsonLd={[crumbs, eventJsonLd]}
+>
+  <Nav />
+  <main>
+    <section class="sp-hero">
+      <div class="wrap">
+        <nav class="sp-crumb" aria-label="Breadcrumb">
+          <a href="/programme">Programme</a>
+          <span aria-hidden="true">/</span>
+          <a href="/programme/ai-upfronts">AI Upfronts</a>
+        </nav>
+
+        <div class="sp-grid">
+          <div>
+            <div class="sp-tags">
+              {day && <span class="sp-tag day mono">{day.label}</span>}
+              <span class="sp-tag is-kind mono">AI Upfront</span>
+            </div>
+
+            <h1>{upfront.title}</h1>
+            <div class="uf-eyebrow mono">{upfront.company}</div>
+            {upfront.speaker && <p class="sp-speaker">{upfront.speaker}</p>}
+
+            <div class="sp-acts">
+              <a href={TICKET_URL} class="btn" target={ticketTarget} rel={ticketRel}>
+                <span class="dot"></span>Get tickets{ticket ? ` from ${ticket.price}` : ''} →
+              </a>
+              <a href="/programme/ai-upfronts" class="btn ghost">All AI Upfronts →</a>
+            </div>
+          </div>
+
+          {upfront.logo && (
+            <div class="uf-hero-logo">
+              <img src={upfront.logo} alt={`${upfront.company} logo`} loading="eager" />
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+
+    <PulseBand h={60} />
+
+    <section class="sp-body">
+      <div class="wrap">
+        <div class="sp-body-grid">
+          <div>
+            <div class="sp-h">About this pitch</div>
+            <div class="sp-prose">
+              {upfront.detail.map((para) => <p>{para}</p>)}
+            </div>
+
+            {upfront.url && (
+              <p class="uf-link-row">
+                <a class="uf-link" href={upfront.url} target="_blank" rel="noopener noreferrer">
+                  Visit {upfront.company} →
+                </a>
+              </p>
+            )}
+
+            <div class="uf-siblings">
+              <div class="sp-h">The other pitches</div>
+              <ul class="sp-upfront-list">
+                {siblings.map((s) => (
+                  <li>
+                    <a href={`/programme/upfronts/${s.slug}`}>{s.company}</a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          {ticket && (
+            <aside class="sp-aside">
+              <div class="sp-h">{ticket.days}</div>
+              <div class="sp-amt">{ticket.price}</div>
+              <p class="sp-ex">{ticket.name}, ex GST</p>
+              <a href={TICKET_URL} class="btn" target={ticketTarget} rel={ticketRel}>
+                <span class="dot"></span>Get tickets →
+              </a>
+              <EarlyBirdNote />
+            </aside>
+          )}
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .uf-eyebrow {
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+    margin-top: 10px;
+  }
+  .uf-hero-logo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    border-radius: 14px;
+    padding: 16px 22px;
+    height: 88px;
+    min-width: 180px;
+    align-self: start;
+  }
+  .uf-hero-logo img {
+    display: block;
+    max-height: 56px;
+    max-width: 220px;
+    width: auto;
+    height: auto;
+  }
+  .uf-link-row {
+    margin-top: 22px;
+  }
+  .uf-siblings {
+    margin-top: 48px;
+  }
+</style>

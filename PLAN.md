@@ -212,8 +212,9 @@ lockfile before the build would run; `package-lock.json` was left untouched.
 9. **"two billion daily users"** in Lucinda's bio is YouTube's monthly figure, not daily. It is a public claim about a third party on a live page.
 10. **`.npmrc` is missing from the repo** — untracked, not gitignored, absent from git history, though CLAUDE.md documents it as required for Netlify (`legacy-peer-deps=true`). Builds currently succeed without it, so either the docs are stale or the file needs restoring.
 11. **"One room" appears twice in the About section** — the section `h2` is "Two conversations, one room." and the new subhead is "One room. A shared frame of reference." Both are Cat's words and both are live; flagged on PR #50 and not changed. Confirm or reword one.
-12. **Homepage section numbering has a gap** — removing `05 — Speakers` leaves the page reading 01, 02, 03, 04, 06, 07, 08. The new lineup section is deliberately unnumbered (like `— Partners` and `— Contact`). Renumber Gallery/Praise/Community down one, or leave it.
-13. **"Their learnings, Their definitions of value."** on the homepage lineup section has a capital T mid-sentence after a comma. Rendered exactly as Cat supplied it and queried twice without an answer; still live as written.
+12. **The homepage cards render Lucinda, Robin, Tea, Kate** — Cat listed Kate third. Within the featured group cards keep their `order` value (Tea 33, Kate 35), so matching her sequence means editing `order`, which also moves them on `/voices`. Left as-is pending her call.
+13. **Homepage section numbering has a gap** — removing `05 — Speakers` leaves the page reading 01, 02, 03, 04, 06, 07, 08. The new lineup section is deliberately unnumbered (like `— Partners` and `— Contact`). Renumber Gallery/Praise/Community down one, or leave it.
+14. **"Their learnings, Their definitions of value."** on the homepage lineup section has a capital T mid-sentence after a comma. Rendered exactly as Cat supplied it and queried twice without an answer; still live as written.
 
 ## Session notes
 
@@ -527,8 +528,14 @@ lockfile before the build would run; `package-lock.json` was left untouched.
   leading AI adoption" plus two paragraphs and four speaker cards, placed
   between the mid-page pulse band and the partners strip. It replaced the
   six-card "The voices." section, which came off the homepage with its
-  component deleted. Four PRs shipped to production in the session: #50, #51,
-  #52, #53. The **"+ 36 more being announced"** note beside the lineup link was
+  component deleted. **Featured four** (PR #55) — Cat picked Lucinda Barlow,
+  Robin Forbes, Tea Uglow and Kate Westgate for the cards. Set through the
+  `featured` flag on the speaker entries rather than by naming anyone in
+  `Lineup.astro`, so the homepage four stay changeable from Keystatic without a
+  code edit. Kate Westgate gained the flag; Bridget Cleary, James Caldwell and
+  Marie Conley lost it and dropped back into `/voices`, which is otherwise
+  unaffected. Five PRs shipped to production in the session: #50, #51, #52,
+  #53, #55 (plus #54, docs). The **"+ 36 more being announced"** note beside the lineup link was
   queried (four cards now show, and `/voices` renders 23, so the arithmetic is
   not obvious) and **confirmed by Cat on 2026-09-17** — it stays as written,
   with no change to the figure.

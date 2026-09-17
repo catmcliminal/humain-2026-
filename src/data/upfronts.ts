@@ -11,8 +11,8 @@ export interface Upfront {
   company: string;
   /** The showcase headline. */
   title: string;
-  /** Who presents it, with their role. */
-  speaker: string;
+  /** Who presents it, with their role. Omitted until the presenter is confirmed. */
+  speaker?: string;
   /** Optional link to the product. */
   url?: string;
   /** Optional logo, shown on a light chip since the card sits on dark. */
@@ -50,6 +50,15 @@ export const UPFRONTS: Upfront[] = [
     detail: [
       'We identify authentic product recommendations from trusted creators and publishers, verify and attribute them, then surface them wherever people buy products online, helping retailers increase conversion while ensuring the people behind trusted recommendations share in the value they create.',
       'Commerce has a new front door. As product discovery shifts from search and social to AI assistants, trust becomes the scarce resource. Search indexed pages. Social indexed people. AI will index trust. Lokol is building the infrastructure that makes trusted human recommendations attributable, measurable and valuable in the AI era.',
+    ],
+  },
+  {
+    company: 'Mutinex',
+    title:
+      'MAITE makes everyone in your business an analyst. Ask what drives growth and get the answer in minutes.',
+    logo: '/images/logos/Mutinex.svg',
+    detail: [
+      'Prove business impact in minutes. Budget questions used to wait days for a team to build and compare the scenarios. Now MAITE, the agent inside Mutinex’s GrowthOS, forecasts your investment decisions on your own measurement model and has the recommendation ready for the investment meeting. What drives incremental growth, and where does the next dollar return most? Answered in minutes. An agent that moves at the speed of your business.',
     ],
   },
 ];

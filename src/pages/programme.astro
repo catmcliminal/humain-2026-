@@ -63,9 +63,9 @@ const hasAnySessions = sessions.length > 0;
                     {d.sessions.map((s) => (
                       <div class="sched-item">
                         <div class="sched-side">
-                          {s.data.photos && s.data.photos.length > 0 && (
+                          {[...(s.data.photos ?? []), ...(s.data.moderatorPhoto ? [s.data.moderatorPhoto] : [])].length > 0 && (
                             <div class="sched-photos">
-                              {s.data.photos.map((photo) => (
+                              {[...(s.data.photos ?? []), ...(s.data.moderatorPhoto ? [s.data.moderatorPhoto] : [])].map((photo) => (
                                 <img
                                   class="sched-photo"
                                   src={photo}

@@ -111,6 +111,11 @@ const schedule = defineCollection({
     speaker: z.string().optional(),
     // One photo per speaker on the session — supports solo talks and panels alike.
     photos: z.array(imagePath).optional(),
+    // A moderator is not a panellist, so they get their own field rather than
+    // another entry in `photos`: their portrait is tagged "Moderator" so the
+    // line-up doesn't read as one more speaker. Name is used for the alt text.
+    moderator: z.string().optional(),
+    moderatorPhoto: imagePath.optional(),
     description: z.string().optional(),
     order: z.number(),
     ...editionFields,

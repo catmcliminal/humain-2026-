@@ -211,6 +211,18 @@ export default config({
             itemLabel: () => 'Photo',
           }
         ),
+        moderator: fields.text({
+          label: 'Moderator',
+          description:
+            'Optional — the name of the session moderator, if it has one.',
+        }),
+        moderatorPhoto: fields.image({
+          label: 'Moderator photo',
+          description:
+            'Optional — shown beside the speaker photos, tagged "Moderator".',
+          directory: 'public/images/schedule',
+          publicPath: '/images/schedule/',
+        }),
         description: fields.text({ label: 'Description', multiline: true }),
         order: fields.number({
           label: 'Order',

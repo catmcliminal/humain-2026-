@@ -33,6 +33,13 @@ const ticketRel = TICKET_IS_EXTERNAL ? 'noopener noreferrer' : undefined;
 
 const day = dayByDate(d.day);
 
+// Speakers first, then the moderator if there is one — the grid sizes itself
+// on the total, and only the moderator's portrait carries a label.
+const portraits = [
+  ...(d.photos ?? []).map((src) => ({ src, label: undefined as string | undefined })),
+  ...(d.moderatorPhoto ? [{ src: d.moderatorPhoto, label: 'Moderator' }] : []),
+];
+
 const themes = (d.themes ?? []).map((t) => themeById(t)).filter((t) => t !== undefined);
 const primary = themes[0];
 const ticket = ticketForDay(d.day);
@@ -113,17 +120,20 @@ const description =
             </div>
           </div>
 
-          {d.photos && d.photos.length > 0 && (
-            <div class={`sp-portraits${d.photos.length > 1 && d.photos.length !== 3 ? ' pair' : ''}${d.photos.length === 3 ? ' trio' : ''}`}>
-              {d.photos.map((photo) => (
-                <img
-                  class="sp-portrait"
-                  src={photo}
-                  alt={d.speaker ?? d.title}
-                  width="340"
-                  height="425"
-                  loading="eager"
-                />
+          {portraits.length > 0 && (
+            <div class={`sp-portraits${portraits.length > 1 && portraits.length !== 3 ? ' pair' : ''}${portraits.length === 3 ? ' trio' : ''}`}>
+              {portraits.map((p) => (
+                <figure class="sp-figure">
+                  <img
+                    class="sp-portrait"
+                    src={p.src}
+                    alt={p.label === 'Moderator' ? (d.moderator ?? 'Moderator') : (d.speaker ?? d.title)}
+                    width="340"
+                    height="425"
+                    loading="eager"
+                  />
+                  {p.label && <figcaption class="sp-figcap mono">{p.label}</figcaption>}
+                </figure>
               ))}
             </div>
           )}

@@ -7,6 +7,8 @@
  * supplied and approved — edit it here, not in the page.
  */
 export interface Upfront {
+  /** URL segment for this pitch's own page, /programme/upfronts/<slug>. */
+  slug: string;
   /** The company presenting, shown as the eyebrow above the title. */
   company: string;
   /** The showcase headline. */
@@ -23,6 +25,7 @@ export interface Upfront {
 
 export const UPFRONTS: Upfront[] = [
   {
+    slug: 'adlab',
     company: 'AdLab',
     title: 'AdLab: How AI is Transforming Audio Production',
     speaker: 'Lauren Joyce, Founder of Gun For Hire',
@@ -34,6 +37,7 @@ export const UPFRONTS: Upfront[] = [
     ],
   },
   {
+    slug: 'gust-pr',
     company: 'Gust PR',
     title: 'Gust PR',
     speaker: 'Marie Dowling, Founder, Gust PR',
@@ -43,6 +47,7 @@ export const UPFRONTS: Upfront[] = [
     ],
   },
   {
+    slug: 'lokol',
     company: 'lokol',
     title: 'Commerce has a new front door.',
     speaker: 'Neil Ackland, CEO and Co-founder, lokol',
@@ -53,6 +58,7 @@ export const UPFRONTS: Upfront[] = [
     ],
   },
   {
+    slug: 'mutinex',
     company: 'Mutinex',
     title:
       'MAITE makes everyone in your business an analyst. Ask what drives growth and get the answer in minutes.',

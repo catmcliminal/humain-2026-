@@ -1,0 +1,319 @@
+/*
+ * Shared chrome for the session pages: the programme's `[slug].astro` and the
+ * AI Upfront pitch pages under `programme/upfronts/`. Extracted from the former
+ * so both render identically — every selector here is `.sp-`-prefixed, so it
+ * stays out of the way of global.css.
+ */
+  .sp-hero {
+    padding-bottom: 48px;
+  }
+  .sp-crumb {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+    margin-bottom: 32px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .sp-crumb a {
+    color: var(--ink-2);
+    text-decoration: none;
+  }
+  .sp-crumb a:hover {
+    color: var(--pink);
+  }
+  .sp-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 340px;
+    gap: 64px;
+    align-items: start;
+  }
+  .sp-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+  .sp-tag {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-radius: 100px;
+    padding: 5px 12px;
+    border: 1px solid var(--line-2);
+    white-space: nowrap;
+  }
+  .sp-tag.day {
+    color: var(--ink);
+  }
+  .sp-tag.is-theme {
+    color: var(--pink);
+    border-color: var(--pink);
+  }
+  .sp-tag.is-kind {
+    color: var(--yellow);
+    border-color: var(--yellow);
+  }
+  .sp-tag.is-partner {
+    color: var(--blue);
+    border-color: var(--blue);
+  }
+  /* The mark is drawn for light backgrounds, so it sits on its own white chip
+     rather than being recoloured — same treatment as the AI Upfronts cards. */
+  .sp-partner-logo {
+    display: inline-flex;
+    align-items: center;
+    background: #fff;
+    border-radius: 7px;
+    padding: 6px 11px;
+    height: 28px;
+  }
+  .sp-partner-logo img {
+    display: block;
+    max-height: 18px;
+    max-width: 84px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+  }
+  .sp-hero h1 {
+    font-family: var(--disp);
+    font-weight: 800;
+    font-size: clamp(32px, 5vw, 60px);
+    line-height: 0.98;
+    letter-spacing: -0.03em;
+    margin: 0;
+    max-width: 18ch;
+    text-wrap: balance;
+  }
+  .sp-lede {
+    font-size: clamp(17px, 2vw, 21px);
+    line-height: 1.45;
+    color: var(--ink);
+    margin: 22px 0 0;
+    max-width: 46ch;
+  }
+  .sp-speaker {
+    font-size: 14px;
+    color: var(--ink-2);
+    margin: 16px 0 0;
+  }
+  .sp-acts {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 32px;
+  }
+  .sp-eb {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--ink-2);
+    margin: 14px 0 0;
+  }
+  .sp-portraits {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .sp-portraits.pair {
+    grid-template-columns: 1fr 1fr;
+  }
+  /* A three-hander gets its own row of three: the two-column layout would
+     leave the third portrait orphaned on a line of its own. */
+  .sp-portraits.trio {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  .sp-portrait {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: top;
+    border-radius: 18px;
+    border: 1px solid var(--line-2);
+    display: block;
+  }
+  .sp-portraits.pair .sp-portrait,
+  .sp-portraits.trio .sp-portrait {
+    aspect-ratio: 1;
+  }
+  .sp-portraits.trio .sp-portrait {
+    border-radius: 12px;
+  }
+
+  /* ---------- body ---------- */
+  .sp-body {
+    padding-top: 56px;
+  }
+  .sp-body-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 320px;
+    gap: 64px;
+    align-items: start;
+  }
+  .sp-h {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+    margin-bottom: 16px;
+  }
+  .sp-prose {
+    font-size: 17px;
+    line-height: 1.65;
+    color: var(--ink);
+    max-width: 62ch;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .sp-upfronts {
+    margin-top: 40px;
+  }
+  .sp-upfront-list {
+    margin: 0;
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .sp-upfront-list a {
+    color: var(--ink);
+  }
+  .sp-list {
+    margin: 0;
+    padding-left: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .sp-list li {
+    font-size: 17px;
+    line-height: 1.65;
+    color: var(--ink);
+  }
+  .sp-list li::marker {
+    color: var(--ink-2);
+  }
+  .sp-prose p {
+    margin: 0;
+  }
+  .sp-prose a {
+    color: var(--ink);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .sp-themebar {
+    margin-top: 44px;
+    padding-top: 28px;
+    border-top: 1px solid var(--line-2);
+  }
+  .sp-chips {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .sp-chip {
+    border: 1px solid var(--line-2);
+    border-radius: 100px;
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+    text-decoration: none;
+    transition: 0.2s;
+  }
+  .sp-aside {
+    position: sticky;
+    top: 100px;
+    background: var(--panel);
+    border: 1px solid var(--line-2);
+    border-radius: 18px;
+    padding: 28px 26px;
+  }
+  .sp-amt {
+    font-family: var(--disp);
+    font-weight: 800;
+    font-size: 34px;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+  .sp-ex {
+    font-size: 13px;
+    color: var(--ink-2);
+    margin: 8px 0 22px;
+  }
+  .sp-aside .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* ---------- related ---------- */
+  .sp-related {
+    padding-top: 80px;
+  }
+  .sp-rel-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .sp-rcard {
+    background: var(--panel);
+    border: 1px solid var(--line-2);
+    border-radius: 18px;
+    padding: 26px 24px;
+    text-decoration: none;
+    color: var(--ink);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: 0.2s;
+  }
+  .sp-rcard:hover {
+    border-color: var(--ink);
+    transform: translateY(-2px);
+  }
+  .sp-rcard h3 {
+    font-family: var(--disp);
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+    margin: 0;
+  }
+  .sp-rcard p {
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--ink-2);
+    margin: 0;
+  }
+  .sp-rwho {
+    margin-top: auto;
+    padding-top: 14px;
+    border-top: 1px solid var(--line);
+    font-size: 12.5px;
+    color: var(--ink-2);
+  }
+
+  @media (max-width: 960px) {
+    .sp-grid,
+    .sp-body-grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    .sp-portraits {
+      max-width: 420px;
+    }
+    .sp-aside {
+      position: static;
+    }
+    .sp-rel-grid {
+      grid-template-columns: 1fr;
+    }
+  }

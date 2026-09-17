@@ -139,7 +139,21 @@ const description =
               <>
                 <div class="sp-h">About this session</div>
                 <div class="sp-prose">
-                  {d.description.split('\n\n').map((para) => <p>{para}</p>)}
+                  {d.description.split('\n\n').map((para) => {
+                    // A block whose every line starts with "- " becomes a real
+                    // bulleted list. Needs a literal YAML block (`|-`) in the
+                    // entry, since a folded one (`>-`) collapses the newlines.
+                    const lines = para.split('\n').filter((l) => l.trim());
+                    const isList =
+                      lines.length > 0 && lines.every((l) => l.trim().startsWith('- '));
+                    return isList ? (
+                      <ul class="sp-list">
+                        {lines.map((l) => <li>{l.trim().slice(2)}</li>)}
+                      </ul>
+                    ) : (
+                      <p>{para}</p>
+                    );
+                  })}
                 </div>
               </>
             )}
@@ -379,6 +393,21 @@ const description =
     display: flex;
     flex-direction: column;
     gap: 18px;
+  }
+  .sp-list {
+    margin: 0;
+    padding-left: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .sp-list li {
+    font-size: 17px;
+    line-height: 1.65;
+    color: var(--ink);
+  }
+  .sp-list li::marker {
+    color: var(--ink-2);
   }
   .sp-prose p {
     margin: 0;

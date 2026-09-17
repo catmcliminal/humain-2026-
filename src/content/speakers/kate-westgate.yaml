@@ -12,7 +12,7 @@ bio: >-
   consumer and business impact.
 keynote: false
 advisory: false
-featured: false
+featured: true
 order: 35
 active: true
 year: 2026

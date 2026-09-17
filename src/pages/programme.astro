@@ -348,6 +348,12 @@ const hasAnySessions = sessions.length > 0;
   .sched-photos:has(> :nth-child(2)) {
     grid-template-columns: 1fr 1fr;
   }
+  /* A lone portrait would otherwise fill the full column — twice the size of
+     each photo in a multi-speaker row, pushing that row taller than its own
+     text. Hold it to the size one photo gets inside a pair. */
+  .sched-photos:not(:has(> :nth-child(2))) .sched-photo {
+    width: calc(50% - 4px);
+  }
   .sched-photo {
     min-width: 0;
     width: 100%;

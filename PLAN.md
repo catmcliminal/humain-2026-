@@ -104,6 +104,7 @@ at `_source/humAIn - 06 Pulse.html`).
 | 2026-09-17 | Hero carries a day-by-day split; the existing "Two days…" sentence stays above it | Cat supplied separate Day one / Day two copy plus a date line for each. The sentence already on the page covers both days at once, and her instruction was to put the new block *under* it, so the general line now leads and the two days expand it. The date lines are paired one-to-one with the days as mono meta labels — 13 October over Day one, 14 October over Day two — which is a layout decision, not copy. Day one takes a pink left rule and day two grey, so the conference day reads as primary. |
 | 2026-09-17 | Hero and About CTAs point at `/programme`, not `TICKET_URL` | The hero's two buttons are now "Get tickets" and "Explore the programme" ("Read the media" dropped); About's single CTA changed from tickets to the programme on Cat's instruction. Every other section on the homepage still ends in a ticket button, so the page was asking for the sale nine times before it had shown anyone the programme. About also lost its `EarlyBirdNote` — that note only makes sense beside a ticket CTA — and its now-unused `TICKET_URL` / `EarlyBirdNote` imports. |
 | 2026-09-17 | The About prose block runs the **full width** of the wrap: left-aligned, no max-width | Three passes in one session. Built centred (auto margin, centred subhead), which left the column floating in a gutter, out of line with the section `h2` and its CTA. Left-aligned next, but a 62ch cap was kept for line length — that put the block at 55% of the row with all the leftover space pooled on the right, which reads as a hole rather than as margin. The cap is now gone and the text flows edge to edge in the wrap; each paragraph is two lines instead of four. Cat's call, made twice and explicitly. Measured line lengths: 76 characters capped, 128 at a 1024px window, 168 at the full 1320px wrap. The 45–75 character convention was cited against this and was presented more firmly than the evidence supports — the research is mixed (longer measures have tested *faster*; comprehension peaks around 55) and line length bites hardest in sustained reading, not in a four-paragraph block on a landing page. **Default for prose blocks added to a section: left-aligned, full width, no cap.** |
+| 2026-09-17 | The homepage speaker presence moved above Partners and shrank to four cards; the old "The voices." section is gone | Cat's "Meet the people leading AI adoption" copy needed a home, and she placed it above the partners strip — well up the page from where the speakers used to sit. Rather than run cards in two places, the six-card `05 — Speakers` section was removed from the homepage and `Voices.astro` deleted; the new `Lineup.astro` carries the copy plus four cards (featured first, then by `order`), which fills exactly one row of the shared four-column `.voices` grid with no orphans. `/voices` is untouched and still lists everyone. The `— The lineup` corner label was invented during the build, flagged as invented, and then confirmed by Cat — it is her wording now, not a leftover. |
 
 ## Programme rebuild (2026-08-18)
 
@@ -211,6 +212,8 @@ lockfile before the build would run; `package-lock.json` was left untouched.
 9. **"two billion daily users"** in Lucinda's bio is YouTube's monthly figure, not daily. It is a public claim about a third party on a live page.
 10. **`.npmrc` is missing from the repo** — untracked, not gitignored, absent from git history, though CLAUDE.md documents it as required for Netlify (`legacy-peer-deps=true`). Builds currently succeed without it, so either the docs are stale or the file needs restoring.
 11. **"One room" appears twice in the About section** — the section `h2` is "Two conversations, one room." and the new subhead is "One room. A shared frame of reference." Both are Cat's words and both are live; flagged on PR #50 and not changed. Confirm or reword one.
+12. **Homepage section numbering has a gap** — removing `05 — Speakers` leaves the page reading 01, 02, 03, 04, 06, 07, 08. The new lineup section is deliberately unnumbered (like `— Partners` and `— Contact`). Renumber Gallery/Praise/Community down one, or leave it.
+13. **"Their learnings, Their definitions of value."** on the homepage lineup section has a capital T mid-sentence after a comma. Rendered exactly as Cat supplied it and queried twice without an answer; still live as written.
 
 ## Session notes
 
@@ -520,3 +523,12 @@ lockfile before the build would run; `package-lock.json` was left untouched.
   pairing, subhead vs body, alignment). The About block's first version was
   centred; it was left-aligned, then had its width cap dropped so the text
   flows the full width of the wrap (PRs #51 and #52) — see the decision log.
+  **Lineup section** (`src/components/Lineup.astro`, PR #53) — "Meet the people
+  leading AI adoption" plus two paragraphs and four speaker cards, placed
+  between the mid-page pulse band and the partners strip. It replaced the
+  six-card "The voices." section, which came off the homepage with its
+  component deleted. Four PRs shipped to production in the session: #50, #51,
+  #52, #53. The **"+ 36 more being announced"** note beside the lineup link was
+  queried (four cards now show, and `/voices` renders 23, so the arithmetic is
+  not obvious) and **confirmed by Cat on 2026-09-17** — it stays as written,
+  with no change to the figure.

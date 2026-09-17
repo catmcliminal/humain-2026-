@@ -1,9 +1,4 @@
 ---
-import EarlyBirdNote from './EarlyBirdNote.astro';
-import { TICKET_URL, TICKET_IS_EXTERNAL } from '../config';
-
-const ticketTarget = TICKET_IS_EXTERNAL ? '_blank' : undefined;
-const ticketRel = TICKET_IS_EXTERNAL ? 'noopener noreferrer' : undefined;
 ---
 
 <section id="about">
@@ -31,9 +26,52 @@ const ticketRel = TICKET_IS_EXTERNAL ? 'noopener noreferrer' : undefined;
       </div>
     </div>
     <p class="merge rv">Most events pick a lane. humAIn brings them together.</p>
+    <div class="frame rv">
+      <h3>One room. A shared frame of reference.</h3>
+      <p>
+        AI conversations often happen at different altitudes. Technical possibility, creative ambition and business
+        reality can feel like separate discussions.
+      </p>
+      <p>
+        humAIn brings them together. Our single-stream conference gives everyone a shared foundation: the same talks,
+        different perspectives and the opportunity to question assumptions together.
+      </p>
+      <p>
+        We build a common language for what the technology can do, what it means for our work and where human judgement
+        matters. That understanding carries into the roundtables, the conversations between sessions and the decisions
+        we make afterwards.
+      </p>
+      <p>
+        We don’t need to agree on everything. But we make more progress when we share an altitude.
+      </p>
+    </div>
     <div class="sec-cta rv">
-      <a href={TICKET_URL} class="btn" target={ticketTarget} rel={ticketRel}><span class="dot"></span>Get tickets →</a>
-      <EarlyBirdNote />
+      <a href="/programme" class="btn"><span class="dot"></span>Explore the programme →</a>
     </div>
   </div>
 </section>
+
+
+<style>
+  .frame {
+    max-width: 62ch;
+    margin: 28px auto 0;
+  }
+  .frame h3 {
+    font-family: var(--disp);
+    font-weight: 800;
+    font-size: clamp(20px, 2vw, 26px);
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+    text-align: center;
+    margin-bottom: 18px;
+  }
+  .frame p {
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--ink);
+  }
+  .frame p + p {
+    margin-top: 14px;
+  }
+</style>

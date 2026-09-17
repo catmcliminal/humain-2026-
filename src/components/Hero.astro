@@ -22,11 +22,25 @@ const ticketRel = TICKET_IS_EXTERNAL ? 'noopener noreferrer' : undefined;
           Two days for marketing, media and creative leaders to build practical AI skills, sharpen their
           judgement, and make informed decisions about brands, teams and growth.
         </p>
+        <div class="hero-days">
+          <div class="hero-day">
+            <div class="hero-day-meta mono">13 October · Single-stream conference</div>
+            <p>
+              <b>Day one:</b> Case studies, demos, debate, and round tables for marketing, media and creative leaders
+              to sharpen their judgement, exchange knowledge with peers, and make more informed decisions about brands,
+              teams and growth.
+            </p>
+          </div>
+          <div class="hero-day">
+            <div class="hero-day-meta mono">14 October · Select your workshops</div>
+            <p><b>Day two:</b> Build practical AI skills through masterclasses and workshops (limited places).</p>
+          </div>
+        </div>
         <div class="hero-cta">
           <a href={TICKET_URL} class="btn" target={ticketTarget} rel={ticketRel}
-            ><span class="dot"></span>Get tickets — 13 + 14 October · Sydney '26</a
+            ><span class="dot"></span>Get tickets</a
           >
-          <a href="#articles" class="btn ghost">Read the media →</a>
+          <a href="/programme" class="btn ghost">Explore the programme →</a>
           <EarlyBirdNote />
         </div>
       </div>
@@ -47,3 +61,31 @@ const ticketRel = TICKET_IS_EXTERNAL ? 'noopener noreferrer' : undefined;
     </div>
   </div>
 </header>
+
+<style>
+  .hero-days {
+    max-width: 46ch;
+    margin-top: 26px;
+    display: grid;
+    gap: 18px;
+  }
+  .hero-day {
+    border-left: 2px solid var(--line-2);
+    padding-left: 14px;
+  }
+  .hero-day:first-child {
+    border-left-color: var(--pink);
+  }
+  .hero-day-meta {
+    color: var(--ink-2);
+    margin-bottom: 6px;
+  }
+  .hero-day p {
+    font-size: 17px;
+    line-height: 1.5;
+    color: #fff;
+  }
+  .hero-day b {
+    font-weight: 700;
+  }
+</style>

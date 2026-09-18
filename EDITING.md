@@ -18,14 +18,14 @@ You do not need to touch code. Everything is edited through the **Keystatic admi
 
 ### Speakers
 Add or update speaker profiles. Each speaker has:
-- **Name** — also becomes the URL slug (e.g. `/voices/jane-doe`)
+- **Name** — shown on the card. Speakers don't have their own pages; everyone appears on the Voices page together.
 - **Role** — shown under the name, e.g. `Chief Marketing Officer, Acme Co`
 - **Photo** — upload a square or portrait image (JPG/PNG, at least 600×600px)
 - **Bio** — 2–4 sentences. Can be left blank if not confirmed yet.
 - **Keynote** — tick if this person is a keynote speaker (shown larger, at the top of the lineup)
 - **Advisory panel** — tick to show a pink "Advisory panel" tag on their speaker card instead of the yellow "Speaker" tag. This is just a label — it doesn't add them to the Advisory Panel page below.
-- **Featured** — tick to show on the homepage; untick to keep them on the full Voices page only
-- **Order** — lower number = shown first. Use gaps (10, 20, 30) so you can insert someone in between later.
+- **Featured** — tick to show on the homepage lineup. Four featured speakers fit there; if more are ticked, the first four by Order are the ones shown. Untick to keep someone on the full Voices page only.
+- **Order** — sets which featured speakers appear on the homepage and in what sequence (lower number first). It does **not** affect the Voices page, which always lists everyone alphabetically by first name — a new speaker slots into place there on their own.
 - **Active / Year** — leave both as-is for 2026 speakers. Untick Active to hide someone without deleting them.
 
 ### Advisory Panel

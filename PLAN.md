@@ -536,6 +536,10 @@ lockfile before the build would run; `package-lock.json` was left untouched.
   Marie Conley lost it and dropped back into `/voices`, which is otherwise
   unaffected. Five PRs shipped to production in the session: #50, #51, #52,
   #53, #55 (plus #54, docs). The **"+ 36 more being announced"** note beside the lineup link was
-  queried (four cards now show, and `/voices` renders 23, so the arithmetic is
-  not obvious) and **confirmed by Cat on 2026-09-17** — it stays as written,
-  with no change to the figure.
+  queried and **confirmed by Cat on 2026-09-17** — it stays as written, with no
+  change to the figure. **Correction (2026-09-18):** the query cited "/voices
+  renders 23", which was wrong — a bad grep undercounted. `/voices` carried 36
+  active speakers at the time (37 once Adam Krass was added), so the note was
+  not as inconsistent as it was made to sound. Count speakers with the rendered
+  `.voice` elements or the active-and-current-year entry count, not a grep on
+  the class attribute.

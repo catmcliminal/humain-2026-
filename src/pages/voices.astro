@@ -11,10 +11,21 @@ import { SITE } from '../config';
 
 const crumbs = breadcrumbJsonLd([{ name: 'Voices', url: `${SITE}/voices/` }]);
 
-// All speakers shown together, alphabetically by first name (`order`
-// reflects that sequence), with the same card treatment throughout.
-const all = currentEdition(await getCollection('speakers')).sort(
-  (a, b) => a.data.order - b.data.order
+// All speakers shown together, alphabetically by first name, with the same
+// card treatment throughout.
+//
+// Sorted on the name itself, not on `order`. `order` was meant to encode this
+// sequence, but every speaker added since was appended at the end, so the page
+// ran A–V and then eight more out of order. Sorting here means a new entry
+// lands in the right place with no renumbering. `order` still sets the
+// sequence of the featured four on the homepage.
+// A leading title is ignored when sorting, so "Dr Patrick Aouad" files under
+// P with the other Patricks while still displaying in full.
+const HONORIFIC = /^(?:dr|prof|professor|mr|mrs|ms|mx)\.?\s+/i;
+const sortKey = (name: string) => name.replace(HONORIFIC, '');
+
+const all = currentEdition(await getCollection('speakers')).sort((a, b) =>
+  sortKey(a.data.name).localeCompare(sortKey(b.data.name), 'en', { sensitivity: 'base' })
 );
 ---
 

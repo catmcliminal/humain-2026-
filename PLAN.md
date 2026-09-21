@@ -105,7 +105,43 @@ at `_source/humAIn - 06 Pulse.html`).
 | 2026-09-17 | Hero and About CTAs point at `/programme`, not `TICKET_URL` | The hero's two buttons are now "Get tickets" and "Explore the programme" ("Read the media" dropped); About's single CTA changed from tickets to the programme on Cat's instruction. Every other section on the homepage still ends in a ticket button, so the page was asking for the sale nine times before it had shown anyone the programme. About also lost its `EarlyBirdNote` — that note only makes sense beside a ticket CTA — and its now-unused `TICKET_URL` / `EarlyBirdNote` imports. |
 | 2026-09-17 | The About prose block runs the **full width** of the wrap: left-aligned, no max-width | Three passes in one session. Built centred (auto margin, centred subhead), which left the column floating in a gutter, out of line with the section `h2` and its CTA. Left-aligned next, but a 62ch cap was kept for line length — that put the block at 55% of the row with all the leftover space pooled on the right, which reads as a hole rather than as margin. The cap is now gone and the text flows edge to edge in the wrap; each paragraph is two lines instead of four. Cat's call, made twice and explicitly. Measured line lengths: 76 characters capped, 128 at a 1024px window, 168 at the full 1320px wrap. The 45–75 character convention was cited against this and was presented more firmly than the evidence supports — the research is mixed (longer measures have tested *faster*; comprehension peaks around 55) and line length bites hardest in sustained reading, not in a four-paragraph block on a landing page. **Default for prose blocks added to a section: left-aligned, full width, no cap.** |
 | 2026-09-17 | The homepage speaker presence moved above Partners and shrank to four cards; the old "The voices." section is gone | Cat's "Meet the people leading AI adoption" copy needed a home, and she placed it above the partners strip — well up the page from where the speakers used to sit. Rather than run cards in two places, the six-card `05 — Speakers` section was removed from the homepage and `Voices.astro` deleted; the new `Lineup.astro` carries the copy plus four cards (featured first, then by `order`), which fills exactly one row of the shared four-column `.voices` grid with no orphans. `/voices` is untouched and still lists everyone. The `— The lineup` corner label was invented during the build, flagged as invented, and then confirmed by Cat — it is her wording now, not a leftover. |
+| 2026-09-21 | Day one carries a timed running order; the breaks and the Creative Megathread heading are rows from `src/data/markers.ts`, not schedule entries | Cat supplied a full day-one running order with times, which is the first time the programme has had a shape rather than a list. Sessions took their `startTime` and a renumbered `order`; the rows between them — morning tea, lunch, the afternoon break, networking drinks, and the "Creative Megathread" heading over its four sessions — are not sessions, so giving them collection entries would hand each one a page at `/programme/[slug]`, a speaker field and a portrait grid it has no use for, and put "Morning tea" in Keystatic's session list beside the talks. They live in a data module and share one `order` scale with the collection, which is the same call already made for `roundtables.ts`, `days.ts` and `upfronts.ts`. The session time also moved above the portraits in the row: with a time on every row it now reads as a gutter down the day, which it could not do sitting under portraits of varying height. |
 | 2026-09-18 | `/voices` sorts on the speaker's name, not on `order` | `order` was meant to encode alphabetical-by-first-name and the page's comment said so, but every speaker added since was appended at the end — the page ran A–V and then eight more out of sequence. Sorting on the name itself means a new entry lands correctly with nobody renumbering, which suits a collection a non-technical editor maintains. A leading title is stripped from the sort key, so "Dr Patrick Aouad" files under P while still displaying in full (covers Dr, Prof, Mr, Mrs, Ms, Mx). `order` now does one job only: the sequence of the featured four on the homepage. |
+
+## Day one running order (2026-09-21)
+
+Times and sequence set from Cat's supplied running order. Two items in it had
+no entry yet and were created with only what she supplied — title, time,
+speaker where given, and nothing else:
+
+- `acknowledgement-and-opening-address.yaml` — 09:00, Cat McGinn, curator.
+- `fork-this-industry.yaml` — 16:25.
+
+Both render as bare rows and have thin session pages until copy is supplied.
+No hook or description was written for either (see the "never invent copy"
+decision of 2026-08-18).
+
+**Creative Megathread (2026-09-21):** the four sessions and their sequence are
+confirmed. Two changes came out of that confirmation:
+
+- The debate's moderator moved out of the free-text `speaker` line into the
+  `moderator` / `moderatorPhoto` fields, pointing at `/images/team/cat-mcginn.jpg`,
+  so Cat gets a labelled portrait like Aleisha McCall does on The Human Dividend.
+- `The Return of Big Ideas.` became `The Return of Big Ideas: Making the
+  Impossible with AI` — one title rather than a title plus a hook carrying the
+  subtitle. Its `hook` was deleted rather than rewritten: it held those same
+  words, so keeping it would print the subtitle twice in a row. **That session
+  page now has no lede line** until Cat supplies one. The file name, and so the
+  URL `/programme/return-of-big-ideas`, is unchanged.
+- No "Debate:" prefix on `When Anyone Can Make Anything…` — Cat's call.
+
+**Not on the page:** the 14:15 slot Cat has reserved for a topical session. It
+is a hold in the internal running order, not something to publish, so it leaves
+a gap between the AI Upfronts (13:25) and Bridging the Missing Rung (14:40).
+
+**Open:** the four Creative Megathread sessions have no individual start times —
+only the 09:40–10:40 block does. End times were not supplied for anything and
+none were inferred.
 
 ## Programme rebuild (2026-08-18)
 

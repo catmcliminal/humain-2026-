@@ -13,6 +13,7 @@ import { themeById } from '../data/themes';
 import { DAYS } from '../data/days';
 import { ROUND_TABLES } from '../data/roundtables';
 import { UPFRONTS } from '../data/upfronts';
+import { markersForDay, type ScheduleMarker } from '../data/markers';
 import { VENUE_LINE } from '../data/venue';
 
 const crumbs = breadcrumbJsonLd([{ name: 'Programme', url: `${SITE}/programme/` }]);
@@ -21,9 +22,30 @@ const sessions = currentEdition(await getCollection('schedule')).sort(
   (a, b) => a.data.order - b.data.order
 );
 const days = DAYS;
+
+/*
+ * The running order is sessions *and* the rows between them — the breaks, and
+ * the heading over the Creative Megathread block. Markers live in
+ * `src/data/markers.ts` (not the schedule collection) and share one `order`
+ * scale with it, so the two merge into a single ordered list per day.
+ */
+type Session = (typeof sessions)[number];
+type Row =
+  | { kind: 'session'; order: number; session: Session }
+  | { kind: 'marker'; order: number; marker: ScheduleMarker };
+
+const rowsForDay = (date: string): Row[] =>
+  [
+    ...sessions
+      .filter((s) => s.data.day === date)
+      .map((s): Row => ({ kind: 'session', order: s.data.order, session: s })),
+    ...markersForDay(date).map((m): Row => ({ kind: 'marker', order: m.order, marker: m })),
+  ].sort((a, b) => a.order - b.order);
+
 const sessionsByDay = days.map((d) => ({
   ...d,
   sessions: sessions.filter((s) => s.data.day === d.date),
+  rows: rowsForDay(d.date),
 }));
 const hasAnySessions = sessions.length > 0;
 ---
@@ -60,9 +82,36 @@ const hasAnySessions = sessions.length > 0;
                     <span class="sched-day-kind mono">{d.kind}</span>
                   </div>
                   <div class="sched-list">
-                    {d.sessions.map((s) => (
+                    {d.rows.map((row) => {
+                      /* A break or a block heading — not a session, so no
+                         title link, no themes and no page to go to. */
+                      if (row.kind === 'marker') {
+                        const m = row.marker;
+                        return (
+                          <div class={`sched-marker is-${m.type}`}>
+                            <div class="sched-side">
+                              {m.startTime && <div class="sched-time mono">{m.startTime}</div>}
+                            </div>
+                            <div class="sched-marker-body">
+                              <span class="sched-marker-label">{m.label}</span>
+                              {m.note && (m.href ? (
+                                <a class="sched-marker-note" href={m.href}>{m.note} →</a>
+                              ) : (
+                                <span class="sched-marker-note">{m.note}</span>
+                              ))}
+                            </div>
+                          </div>
+                        );
+                      }
+                      const s = row.session;
+                      return (
                       <div class="sched-item">
                         <div class="sched-side">
+                          {s.data.startTime && (
+                            <div class="sched-time mono">
+                              {s.data.startTime}{s.data.endTime && <>–{s.data.endTime}</>}
+                            </div>
+                          )}
                           {[...(s.data.photos ?? []), ...(s.data.moderatorPhoto ? [s.data.moderatorPhoto] : [])].length > 0 && (
                             <div class="sched-photos">
                               {[...(s.data.photos ?? []), ...(s.data.moderatorPhoto ? [s.data.moderatorPhoto] : [])].map((photo) => (
@@ -75,11 +124,6 @@ const hasAnySessions = sessions.length > 0;
                                   loading="lazy"
                                 />
                               ))}
-                            </div>
-                          )}
-                          {s.data.startTime && (
-                            <div class="sched-time mono">
-                              {s.data.startTime}{s.data.endTime && <>–{s.data.endTime}</>}
                             </div>
                           )}
                         </div>
@@ -124,7 +168,8 @@ const hasAnySessions = sessions.length > 0;
                           </a>
                         </div>
                       </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </div>
                 )}
@@ -470,6 +515,57 @@ const hasAnySessions = sessions.length > 0;
     padding: 4px 10px;
     white-space: nowrap;
   }
+  /* ---------- breaks and block headings ---------- */
+  /* Same three-column grid as a session row so the times line up down the
+     page; the row itself is slim, because nothing happens on it. */
+  .sched-marker {
+    display: grid;
+    grid-template-columns: 140px minmax(0, 1fr) 150px;
+    gap: 24px;
+    padding: 18px 0;
+    border-top: 1px solid var(--line);
+  }
+  .sched-marker-body {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .sched-marker.is-break .sched-marker-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+  }
+  /* A heading over the sessions that follow it, so it carries the weight of
+     one rather than receding like a break. */
+  .sched-marker.is-group {
+    padding: 28px 0 14px;
+  }
+  .sched-marker.is-group .sched-marker-label {
+    font-family: var(--disp);
+    font-weight: 800;
+    font-size: 20px;
+    letter-spacing: -0.01em;
+    color: var(--pink);
+  }
+  .sched-marker-note {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+  }
+  a.sched-marker-note {
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px solid var(--line-2);
+    padding-bottom: 1px;
+  }
+  a.sched-marker-note:hover {
+    color: var(--pink);
+  }
   .sched-empty {
     font-size: 15px;
     line-height: 1.6;
@@ -564,7 +660,8 @@ const hasAnySessions = sessions.length > 0;
     }
   }
   @media (max-width: 720px) {
-    .sched-item {
+    .sched-item,
+    .sched-marker {
       grid-template-columns: 1fr;
       gap: 14px;
     }

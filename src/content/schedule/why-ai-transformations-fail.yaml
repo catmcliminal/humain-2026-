@@ -1,5 +1,6 @@
 title: Why AI Transformations Fail
 day: '2026-10-13'
+startTime: '11:25'
 hook: >-
   So many AI talks focus on what the technology can do, but ignore what
   organisations need to do to make it work.
@@ -30,6 +31,6 @@ description: >-
   many of the same questions, Lou will share what she has learned from the
   deployments that worked, the ones that didn’t, and what leaders are wrestling
   with behind closed doors.
-order: 2
+order: 10
 active: true
 year: 2026

@@ -6,6 +6,10 @@ hook: >-
 themes:
   - search
 speaker: Matt Plant, Head of Behavioural Science and Ai, Thinkerbell
+speakers:
+  - name: Matt Plant
+    title: Head of Behavioural Science and Ai
+    company: Thinkerbell
 photos:
   - /images/speakers/matt-plant/photo.jpg
 description: >-

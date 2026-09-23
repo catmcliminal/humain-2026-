@@ -5,6 +5,19 @@ speaker: >-
   Celia Harding, founder, LEOPRD; with Oren Fixler, External Channels & Media,
   Telstra; Stu Wragg, Chief Strategy Officer, Herd MSL; and Megan Ormsby, Head of
   Communications, Devices & Services at Amazon
+speakers:
+  - name: Celia Harding
+    title: Founder
+    company: LEOPRD
+  - name: Oren Fixler
+    title: External Channels & Media
+    company: Telstra
+  - name: Stu Wragg
+    title: Chief Strategy Officer
+    company: Herd MSL
+  - name: Megan Ormsby
+    title: Head of Communications, Devices & Services
+    company: Amazon
 photos:
   - /images/speakers/celia-harding/photo.jpg
   - /images/speakers/oren-fixler/photo.jpg

@@ -8,6 +8,13 @@ themes:
   - taste
   - creative
 speaker: Lucinda Barlow, Head of International Marketing, Uber, with Ben Cooper, founder, Brainstrust
+speakers:
+  - name: Lucinda Barlow
+    title: Head of International Marketing
+    company: Uber
+  - name: Ben Cooper
+    title: Founder
+    company: Brainstrust
 photos:
   - /images/speakers/lucinda-barlow/photo.jpg
   - /images/speakers/ben-cooper/photo.jpg

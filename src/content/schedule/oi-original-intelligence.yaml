@@ -4,6 +4,10 @@ hook: touch grass. make something.
 themes:
   - creative
 speaker: Ashlea Vallance, Founder, Screen Swap by The Screenery
+speakers:
+  - name: Ashlea Vallance
+    title: Founder
+    company: Screen Swap by The Screenery
 photos:
   - /images/speakers/ashlea-vallance/photo.jpg
 description: >-

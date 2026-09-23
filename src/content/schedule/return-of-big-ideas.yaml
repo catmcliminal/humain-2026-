@@ -4,6 +4,13 @@ themes:
   - creative
   - taste
 speaker: Kent Boswell and Marcus Tesoriero, co-founders, AiCandy
+speakers:
+  - name: Kent Boswell
+    title: Co-Founder, Head of Production
+    company: AiCandy
+  - name: Marcus Tesoriero
+    title: Co-Founder, Head of Creative
+    company: AiCandy
 photos:
   - /images/speakers/kent-boswell/photo.jpg
   - /images/speakers/marcus-tesoriero/photo.jpg

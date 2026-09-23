@@ -145,7 +145,19 @@ const hasAnySessions = sessions.length > 0;
                             )}
                           </div>
                           {s.data.hook && <p class="sched-hook">{s.data.hook}</p>}
-                          {s.data.speaker && <div class="sched-speaker">{s.data.speaker}</div>}
+                          {s.data.speakers && s.data.speakers.length > 0 ? (
+                            <ul class="sched-speakers">
+                              {s.data.speakers.map((sp) => (
+                                <li>
+                                  <span class="sched-speaker-name">{sp.name}</span>{(sp.title || sp.company) && (
+                                    <span class="sched-speaker-role">{[sp.title, sp.company].filter(Boolean).join(', ')}</span>
+                                  )}
+                                </li>
+                              ))}
+                            </ul>
+                          ) : (
+                            s.data.speaker && <div class="sched-speaker">{s.data.speaker}</div>
+                          )}
                           {/* The Upfronts are one row rather than one each, so
                               the row itself lists the pitches and links out to
                               their pages. */}
@@ -440,6 +452,35 @@ const hasAnySessions = sessions.length > 0;
     font-size: 13px;
     color: var(--ink-2);
     margin-top: 8px;
+  }
+  .sched-speakers {
+    margin: 8px 0 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .sched-speakers li {
+    font-size: 13px;
+    line-height: 1.4;
+    padding-left: 14px;
+    position: relative;
+  }
+  .sched-speakers li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--ink-2);
+  }
+  .sched-speaker-name {
+    color: var(--ink);
+  }
+  .sched-speaker-role {
+    color: var(--ink-2);
+  }
+  .sched-speaker-role::before {
+    content: ', ';
   }
   .sched-tags {
     display: flex;

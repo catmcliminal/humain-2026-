@@ -7,6 +7,10 @@ hook: >-
 themes:
   - search
 speaker: James Caldwell, BytePlus
+speakers:
+  - name: James Caldwell
+    title: Regional GTM Director
+    company: ByteDance
 photos:
   - /images/speakers/james-caldwell/photo.jpg
 description: >-

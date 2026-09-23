@@ -109,6 +109,19 @@ const schedule = defineCollection({
     partnerLogo: imagePath.optional(),
     // Free-text speaker name(s) for now; can become a reference later.
     speaker: z.string().optional(),
+    // Structured per-speaker breakdown, shown as a bulleted list on the
+    // Programme page. Separate from `speaker` above (kept for the session
+    // page and JSON-LD) rather than replacing it, since the free-text field
+    // sometimes reads more naturally there (e.g. "X, with Y and Z").
+    speakers: z
+      .array(
+        z.object({
+          name: z.string(),
+          title: z.string().optional(),
+          company: z.string().optional(),
+        })
+      )
+      .optional(),
     // One photo per speaker on the session — supports solo talks and panels alike.
     photos: z.array(imagePath).optional(),
     // A moderator is not a panellist, so they get their own field rather than

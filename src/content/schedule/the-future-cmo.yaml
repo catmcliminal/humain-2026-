@@ -10,6 +10,16 @@ speaker: >-
   Louise Cummins, CEO, Global Centre for AI in Marketing/Australian Centre for
   AI in Marketing; Bronwyn Heys, CMO, Zambrero; Aaron Michie, Director, Global
   Marketing Operations & Strategic Programs, DAZN Media
+speakers:
+  - name: Louise Cummins
+    title: CEO and Co-Founder
+    company: Australian Centre for AI in Marketing
+  - name: Bronwyn Heys
+    title: Chief Marketing Officer
+    company: Zambrero
+  - name: Aaron Michie
+    title: Director, Global Marketing Operations & Strategic Programs
+    company: DAZN Media
 photos:
   - /images/speakers/louise-cummins/photo.jpg
   - /images/speakers/bronwyn-heys/photo.jpg

@@ -9,6 +9,19 @@ themes:
   - creative
   - taste
 speaker: Mandie van der Merwe, Hilary Badger, Ross Colebatch and Rhys Delios Callanan
+speakers:
+  - name: Mandie van der Merwe
+    title: Chief Creative Officer
+    company: Saatchi & Saatchi
+  - name: Hilary Badger
+    title: Executive Creative Director
+    company: Leo Burnett Australia
+  - name: Ross Colebatch
+    title: Executive Producer
+    company: Photoplay Photography
+  - name: Rhys Delios Callanan
+    title: Senior Creative
+    company: We The People
 photos:
   - /images/speakers/mandie-van-der-merwe/photo.jpg
   - /images/speakers/hilary-badger/photo.jpg

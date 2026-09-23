@@ -199,6 +199,19 @@ export default config({
           label: 'Speaker(s)',
           description: 'Free text — name one or more speakers.',
         }),
+        speakers: fields.array(
+          fields.object({
+            name: fields.text({ label: 'Name', validation: { isRequired: true } }),
+            title: fields.text({ label: 'Title' }),
+            company: fields.text({ label: 'Company' }),
+          }),
+          {
+            label: 'Speaker breakdown',
+            description:
+              'One entry per speaker — shown as a bulleted list on the Programme page. Optional; leave empty to fall back to the free-text Speaker(s) field above.',
+            itemLabel: (props) => props.fields.name.value || 'Speaker',
+          }
+        ),
         photos: fields.array(
           fields.image({
             label: 'Photo',

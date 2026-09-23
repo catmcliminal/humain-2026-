@@ -9,6 +9,13 @@ sessionType: International keynote
 partner: Content Partner
 partnerLogo: /images/logos/RGA.png
 speaker: Robin Forbes, Global CEO, and Marie Conley, Executive Strategy Director APAC, R/GA
+speakers:
+  - name: Robin Forbes
+    title: Global CEO
+    company: R/GA
+  - name: Marie Conley
+    title: Executive Strategy Director, APAC
+    company: R/GA
 photos:
   - /images/speakers/robin-forbes/photo.jpg
   - /images/speakers/marie-conley/photo.jpg

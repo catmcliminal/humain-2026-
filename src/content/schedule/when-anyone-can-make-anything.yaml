@@ -3,6 +3,16 @@ day: '2026-10-13'
 speaker: >-
   Kent Boswell, AiCandy; Marie-Céline Merret Wirström, MC&V; and Pip Bingemann,
   Springboards; moderated by Cat McGinn, humAIn
+speakers:
+  - name: Kent Boswell
+    title: Co-Founder, Head of Production
+    company: AiCandy
+  - name: Marie-Céline Merret Wirström
+    title: Creative Director
+    company: MC&V
+  - name: Pip Bingemann
+    title: Co-Founder
+    company: Springboards.ai
 photos:
   - /images/speakers/kent-boswell/photo.jpg
   - /images/speakers/marie-celine-merret/photo.jpg

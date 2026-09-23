@@ -6,6 +6,13 @@ themes:
   - creative
   - taste
 speaker: Marie-Céline Merret Wirström & Vinne Schifferstein Vidal, MC&V
+speakers:
+  - name: Marie-Céline Merret Wirström
+    title: Creative Director
+    company: MC&V
+  - name: Vinne Schifferstein Vidal
+    title: Strategy & Partnerships
+    company: MC&V
 photos:
   - /images/speakers/marie-celine-merret/photo.jpg
   - /images/speakers/vinne-schifferstein/photo.jpg

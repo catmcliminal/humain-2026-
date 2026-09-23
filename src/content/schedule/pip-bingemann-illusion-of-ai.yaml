@@ -8,6 +8,10 @@ themes:
   - taste
   - creative
 speaker: Pip Bingemann
+speakers:
+  - name: Pip Bingemann
+    title: Co-Founder
+    company: Springboards.ai
 photos:
   - /images/speakers/pip-bingemann/photo.jpg
 description: >-

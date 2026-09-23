@@ -8,6 +8,10 @@ themes:
   - taste
   - search
 speaker: Julia Vargiu, Director Australia, SI Global
+speakers:
+  - name: Julia Vargiu
+    title: Director, Australia
+    company: SI Global
 photos:
   - /images/speakers/julia-vargiu/photo.jpg
 description: >-

@@ -7,6 +7,13 @@ speaker: >-
   Lou Compagnone, Director of AI, Datacom, and Dr Patrick Aouad, neurologist and
   organisational capability adviser; moderated by Aleisha McCall, founder and
   CEO, Ultimate Edge Communications
+speakers:
+  - name: Lou Compagnone
+    title: Director of AI
+    company: Datacom
+  - name: Dr Patrick Aouad
+    title: Founder & CEO
+    company: CU Health
 photos:
   - /images/speakers/lou-compagnone/photo.jpg
   - /images/speakers/patrick-aouad/photo.jpg

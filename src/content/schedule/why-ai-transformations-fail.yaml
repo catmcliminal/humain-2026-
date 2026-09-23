@@ -7,6 +7,10 @@ hook: >-
 themes:
   - creative
 speaker: Lou Compagnone, Director of AI, Datacom
+speakers:
+  - name: Lou Compagnone
+    title: Director of AI
+    company: Datacom
 photos:
   - /images/speakers/lou-compagnone/photo.jpg
 description: >-

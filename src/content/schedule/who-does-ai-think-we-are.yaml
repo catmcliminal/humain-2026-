@@ -12,6 +12,16 @@ speaker: >-
   Sam Turley, Invention Lead, Mindshare; Kate Westgate, Head of Marketing -
   Homecare, Unilever; and Annie Konieczny, Australia National Chapter Lead -
   Unstereotype Alliance, UN Women
+speakers:
+  - name: Sam Turley
+    title: Invention Lead
+    company: Mindshare
+  - name: Kate Westgate
+    title: Head of Marketing for Home Care
+    company: Unilever ANZ
+  - name: Annie Konieczny
+    title: Australia National Chapter Lead, Unstereotype Alliance
+    company: UN Women
 photos:
   - /images/speakers/sam-turley/photo.jpg
   - /images/speakers/kate-westgate/photo.jpg

@@ -6,6 +6,10 @@ hook: >-
 themes:
   - creative
 speaker: Tara Iwamoto, founder, Vibe Coding Lab
+speakers:
+  - name: Tara Iwamoto
+    title: Co-founder
+    company: Vibe Coding Lab
 photos:
   - /images/speakers/tara-iwamoto/photo.jpg
 description: >-

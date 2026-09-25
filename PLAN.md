@@ -107,6 +107,10 @@ at `_source/humAIn - 06 Pulse.html`).
 | 2026-09-17 | The homepage speaker presence moved above Partners and shrank to four cards; the old "The voices." section is gone | Cat's "Meet the people leading AI adoption" copy needed a home, and she placed it above the partners strip — well up the page from where the speakers used to sit. Rather than run cards in two places, the six-card `05 — Speakers` section was removed from the homepage and `Voices.astro` deleted; the new `Lineup.astro` carries the copy plus four cards (featured first, then by `order`), which fills exactly one row of the shared four-column `.voices` grid with no orphans. `/voices` is untouched and still lists everyone. The `— The lineup` corner label was invented during the build, flagged as invented, and then confirmed by Cat — it is her wording now, not a leftover. |
 | 2026-09-21 | Day one carries a timed running order; the breaks and the Creative Megathread heading are rows from `src/data/markers.ts`, not schedule entries | Cat supplied a full day-one running order with times, which is the first time the programme has had a shape rather than a list. Sessions took their `startTime` and a renumbered `order`; the rows between them — morning tea, lunch, the afternoon break, networking drinks, and the "Creative Megathread" heading over its four sessions — are not sessions, so giving them collection entries would hand each one a page at `/programme/[slug]`, a speaker field and a portrait grid it has no use for, and put "Morning tea" in Keystatic's session list beside the talks. They live in a data module and share one `order` scale with the collection, which is the same call already made for `roundtables.ts`, `days.ts` and `upfronts.ts`. The session time also moved above the portraits in the row: with a time on every row it now reads as a gutter down the day, which it could not do sitting under portraits of varying height. |
 | 2026-09-18 | `/voices` sorts on the speaker's name, not on `order` | `order` was meant to encode alphabetical-by-first-name and the page's comment said so, but every speaker added since was appended at the end — the page ran A–V and then eight more out of sequence. Sorting on the name itself means a new entry lands correctly with nobody renumbering, which suits a collection a non-technical editor maintains. A leading title is stripped from the sort key, so "Dr Patrick Aouad" files under P while still displaying in full (covers Dr, Prof, Mr, Mrs, Ms, Mx). `order` now does one job only: the sequence of the featured four on the homepage. |
+| 2026-09-25 | New "Featured speakers from" logo band added to the Hero, between the pulse waveform and the topic ticker | Cat asked for a company-logo strip in that exact position to signal calibre early, before the fold ends. Kept inside `Hero.astro` (not a new top-level section component) since it sits between two elements — `PulseBand` and the `.ticker` strip — that already live inside the hero `<header>`, the same way the ticker itself does. Chips are white, matching the existing `.partner-tile-logo` convention in `Partners.astro`, since the site is dark-themed and none of the source logo files are designed for a dark background. |
+| 2026-09-25 | AiCandy's chip in the featured-speakers band is dark, not white | Its only source file (`AiCandy.png`) is white-only artwork on a transparent background — confirmed by test-rendering it on black — so it would be invisible on the white chip every other logo uses. Given a `dark: true` flag in the `featuredSpeakerCompanies` array in `Hero.astro` and an `.is-dark` chip modifier (`--panel-2` background) rather than sourcing a different-coloured AiCandy file, since none exists in the shared assets folder. |
+| 2026-09-25 | ACAM gets its own cropped logo file (`ACAM-mark.png`), separate from the shared `Australian_Centre_for_AI_in_Marketing.png` | The shared square PNG has ~100px of transparent padding above and below the actual mark (256×256 canvas, artwork only 244×53), so at the featured-speakers band's shared chip height it rendered far smaller than the other logos, which are closer to full-bleed. Traced the artwork's bounding box, trimmed to it and re-padded evenly (10px), giving a 264×73 file that fills the chip like its neighbours. The original square file is untouched and still used as-is by `/partners` and the `Audience.astro` "Previous attendees" logo cloud, both of which size it as a fixed square and would distort a wide crop. |
+| 2026-09-25 | Emma Barbato's workshop uses The Bruce Ryder Show promotional image as its session portrait, not her headshot | Cat's explicit instruction: "use the Bruce Ryder show image for the workshop, Emma headshot for speaker listing." The `photos` field on a schedule entry is documented as "one photo per speaker on the session" and every other use of it is a headshot, but the field just takes an image path — nothing stops it carrying session artwork instead when that's what's wanted. Her own `speakers` collection entry (which drives `/voices` and the homepage lineup) keeps her actual headshot. |
 
 ## Day one running order (2026-09-21)
 
@@ -253,6 +257,7 @@ lockfile before the build would run; `package-lock.json` was left untouched.
 13. **The homepage cards render Lucinda, Robin, Tea, Kate** — Cat listed Kate third. Within the featured group cards keep their `order` value (Tea 33, Kate 35), so matching her sequence means editing `order`, which also moves them on `/voices`. Left as-is pending her call.
 14. **Homepage section numbering has a gap** — removing `05 — Speakers` leaves the page reading 01, 02, 03, 04, 06, 07, 08. The new lineup section is deliberately unnumbered (like `— Partners` and `— Contact`). Renumber Gallery/Praise/Community down one, or leave it.
 15. **"Their learnings, Their definitions of value."** on the homepage lineup section has a capital T mid-sentence after a comma. Rendered exactly as Cat supplied it and queried twice without an answer; still live as written.
+16. **AI Upfronts' hook still says "a panel of VCs gives live feedback"**, but none of the three panellists added so far are VCs: Stela Solar (CEO, Stone & Chalk — an innovation community), Annie Liao (Founder & CEO, Build Club / Solaris) and Sam Garven (early-stage advisor/consultant) are operators and advisors, not investors. Confirm the panel's actual composition and reword the hook/description if "VCs" is no longer accurate, or leave as-is if more confirmed panellists will be VCs.
 
 ## Session notes
 
@@ -464,6 +469,40 @@ lockfile before the build would run; `package-lock.json` was left untouched.
   Speaker roster audited at the same time: orders 0–18, no gaps or duplicates,
   alphabetical by first name with honorifics ignored (Dr Patrick Aouad files
   under P, not D).
+- **2026-09-25 (speakers + AI Upfronts panel)** — Three speakers added, each
+  with bio verbatim from Cat and a headshot centre-cropped to a square from
+  the shared assets folder: **Stela Solar** (CEO, Stone & Chalk; `order: 45`),
+  **Emma Barbato** (Creative Director, Hyperfiction Magazine; `order: 46`),
+  and **Sam Garven** (Founder, Hello Canopy; `order: 47`; a typo in the
+  supplied bio, "building ins the", was corrected to "building in the").
+  `ai-upfronts.yaml` gained a `speakers` array for the first time — Stela
+  Solar, **Annie Liao** (Founder & CEO, Build Club / Solaris) and Sam Garven
+  now list on the panel on `/programme`. See the 2026-09-25 decision-log entry
+  on the panel's "VCs" hook and Open question 16.
+  A new day-two workshop, **"Build Your First Interactive World"**
+  (`build-your-first-interactive-world.yaml`, `order: 20`), was added for
+  Emma Barbato — hook and description are Cat's supplied text verbatim, split
+  at the first sentence per the existing hook/description convention. Its
+  session portrait is The Bruce Ryder Show artwork, not Emma's headshot — see
+  the decision log. Separately, **"Build an Agent You Can Trust: Time Under
+  Tension"** (`order: 7`), an already-finished workshop that had been sitting
+  untracked in the repo from an earlier session, was committed as-is.
+  **Kate Westgate's photo was checked, not changed**: Cat asked for the
+  colour headshot to replace what was live, but
+  `public/images/speakers/kate-westgate/photo.jpg` was already byte-identical
+  to the colour file in the assets folder (confirmed by md5) and nothing in
+  the codebase references the black-and-white version she also has on hand —
+  likely a stale cache on her end rather than a real gap.
+- **2026-09-25 (featured speakers logo band)** — New section in `Hero.astro`
+  between the pulse waveform and the topic ticker: white logo chips reading
+  "Featured speakers from", built out over three requests in the same
+  session. Final set of twelve: Unilever, Amazon, Uber, Mutinex, Zambrero,
+  RGA, WPP, UN Women, AiCandy, Datacom, ACAM, Telstra. Logo files sourced from
+  Cat's shared assets `logos/` folder except Mutinex and RGA, which already
+  existed in `public/images/logos/`. See the three 2026-09-25 decision-log
+  entries for why the band lives inside `Hero.astro` rather than its own
+  component, why AiCandy's chip is dark, and why ACAM has its own cropped
+  file (`ACAM-mark.png`).
 - **2026-08-12 (advisory)** — Nofil Khan (Founder, Avicenna) added to the
   advisory collection at `order: 7`, renumbering Pip through Tea (8–11). The
   panel is ordered alphabetically by first name, so inserting mid-list means

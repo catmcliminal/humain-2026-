@@ -21,6 +21,8 @@ export type Partner = {
   logo?: string;
   /** Set when the logo file is light/white artwork that needs a dark tile instead of the usual white one. */
   logoDark?: boolean;
+  /** Set when a wide/short logo reads small in the fixed square panel and needs to sit larger within it. */
+  logoLarge?: boolean;
   url?: string;
   accent: string;
   copy?: string;
@@ -79,6 +81,7 @@ export const associations: Partner[] = [
     role: 'Supporting Association',
     name: 'ACA — Advertising Council Australia',
     logo: '/images/logos/Advertising_Council_Australia.png',
+    logoLarge: true,
     accent: 'var(--blue)',
     copy: `Advertising Council Australia is the peak body representing Australia's leading advertising agencies. Our purpose is to foster the long-term prosperity, diversity and impact of our industry.
 

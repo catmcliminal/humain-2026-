@@ -1,9 +1,27 @@
 ---
 import { partners, associations, supporters } from '../utils/partners';
 
-// Partners first, supporting associations after — same order as /partners.
-// Logo-only tiles, so anything still waiting on its logo file sits this out.
-const tiles = [...partners, ...associations, ...supporters].filter((p) => p.logo);
+// Full tiles for the named partners — logo, role and name. Logo-only tiles,
+// so anything still waiting on its logo file sits this out.
+const tiles = partners.filter((p) => p.logo);
+
+// Associations and supporters are a longer, lower-tier list, so each group
+// renders as its own small logo strip rather than repeating the same full
+// tile six more times — same reasoning and pattern as the Hero's
+// featured-speakers band.
+// ACAM's source file has a lot of transparent padding baked in (same issue
+// fixed for the Hero band), so at this strip's compact height it renders
+// far smaller than its neighbours — swap in the same tightly-cropped mark
+// used there, for this strip only; /partners and the homepage logo cloud
+// keep the original square file, sized differently, where the padding isn't
+// a problem.
+const miniLogo = (p: (typeof associations)[number]) =>
+  p.name.startsWith('ACAM') ? '/images/logos/ACAM-mark.png' : p.logo;
+
+const miniGroups = [
+  { label: 'Supporting associations', items: associations.filter((p) => p.logo) },
+  { label: 'Supporters', items: supporters.filter((p) => p.logo) },
+].filter((g) => g.items.length > 0);
 ---
 
 <section id="partners" style="padding-top:0">
@@ -27,6 +45,22 @@ const tiles = [...partners, ...associations, ...supporters].filter((p) => p.logo
         ))
       }
     </div>
+    {
+      miniGroups.map((g) => (
+        <div class="partners-mini rv">
+          <span class="partners-mini-label mono">{g.label}</span>
+          <div class="partners-mini-logos">
+            {
+              g.items.map((p) => (
+                <a href="/partners" class:list={['partners-mini-logo', p.logoDark && 'is-dark']} title={p.name}>
+                  <img src={miniLogo(p)} alt={`${p.name} logo`} loading="lazy" />
+                </a>
+              ))
+            }
+          </div>
+        </div>
+      ))
+    }
   </div>
 </section>
 
@@ -116,6 +150,62 @@ const tiles = [...partners, ...associations, ...supporters].filter((p) => p.logo
   @media (max-width: 700px) {
     .partners-strip {
       grid-template-columns: 1fr;
+    }
+  }
+
+  .partners-mini {
+    margin-top: 32px;
+    padding-top: 28px;
+    border-top: 1px solid var(--line);
+  }
+
+  .partners-mini-label {
+    display: block;
+    color: var(--ink-2);
+    margin-bottom: 16px;
+  }
+
+  .partners-mini-logos {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    gap: 14px;
+  }
+
+  .partners-mini-logo {
+    flex: 1 1 0;
+    min-width: 140px;
+    background: #fff;
+    border-radius: 10px;
+    height: 76px;
+    padding: 12px 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease;
+  }
+
+  .partners-mini-logo:hover {
+    transform: translateY(-2px);
+  }
+
+  .partners-mini-logo.is-dark {
+    background: var(--panel-2);
+    border: 1px solid var(--line-2);
+  }
+
+  .partners-mini-logo img {
+    height: 100%;
+    width: 100%;
+    max-width: 100%;
+    object-fit: contain;
+  }
+
+  @media (max-width: 700px) {
+    .partners-mini-logo {
+      height: 56px;
+      min-width: 110px;
+      padding: 10px 16px;
     }
   }
 </style>

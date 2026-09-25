@@ -44,7 +44,7 @@ const crumbs = breadcrumbJsonLd([{ name: 'Partners', url: `${SITE}/partners/` }]
               {group.items.map((p) => (
                 <div class:list={['partner-card', 'rv', !p.logo && 'no-logo']} style={`--ac:${p.accent}`}>
                   {p.logo && (
-                    <div class:list={['partner-logo', p.logoDark && 'is-dark']}>
+                    <div class:list={['partner-logo', p.logoDark && 'is-dark', p.logoLarge && 'is-large']}>
                       <img src={p.logo} alt={`${p.name} logo`} loading="lazy" />
                     </div>
                   )}
@@ -214,6 +214,12 @@ const crumbs = breadcrumbJsonLd([{ name: 'Partners', url: `${SITE}/partners/` }]
     width: 78%;
     height: 78%;
     object-fit: contain;
+  }
+  /* Wide/short logos (like ACA's) read small at 78% since object-fit:contain
+     letterboxes them inside the square panel — give these more room. */
+  .partner-logo.is-large img {
+    width: 94%;
+    height: 94%;
   }
   .partner-role {
     display: inline-block;

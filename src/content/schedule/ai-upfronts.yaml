@@ -16,6 +16,10 @@ description: >-
 
   You're the audience these founders most want in the room: the people who might
   buy their tools, partner with them or invest.
+speakers:
+  - name: Stela Solar
+    title: CEO
+    company: Stone & Chalk
 order: 14
 active: true
 year: 2026

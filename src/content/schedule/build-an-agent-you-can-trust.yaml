@@ -1,0 +1,22 @@
+title: 'Build an Agent You Can Trust: Time Under Tension'
+day: '2026-10-14'
+hook: >-
+  How to design, test and contain an AI agent before it touches your brand,
+  your customers or your budget.
+description: >-
+  Most agent training stops at what you can buy. This session starts where
+  that leaves off. Participants build a working marketing agent, deliberately
+  try to break each other's, and write up the guardrails their own failures
+  reveal. They leave with a prototype and a one-page deployment protocol they
+  can put in front of a client or the C-suite.
+
+
+  Who it is for: Marketers, agency leads and in-house teams who have moved
+  past prompting and are now being asked to put agents into live workflows.
+  Assumes hands-on familiarity with at least one AI platform.
+
+
+  This is the advanced track.
+order: 7
+active: true
+year: 2026

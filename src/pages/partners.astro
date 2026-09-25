@@ -44,7 +44,7 @@ const crumbs = breadcrumbJsonLd([{ name: 'Partners', url: `${SITE}/partners/` }]
               {group.items.map((p) => (
                 <div class:list={['partner-card', 'rv', !p.logo && 'no-logo']} style={`--ac:${p.accent}`}>
                   {p.logo && (
-                    <div class="partner-logo">
+                    <div class:list={['partner-logo', p.logoDark && 'is-dark']}>
                       <img src={p.logo} alt={`${p.name} logo`} loading="lazy" />
                     </div>
                   )}
@@ -204,6 +204,11 @@ const crumbs = breadcrumbJsonLd([{ name: 'Partners', url: `${SITE}/partners/` }]
     justify-content: center;
     flex-shrink: 0;
     overflow: hidden;
+  }
+  /* For logos that are light/white artwork and would disappear on white. */
+  .partner-logo.is-dark {
+    background: var(--panel-2);
+    border-color: var(--line-2);
   }
   .partner-logo img {
     width: 78%;

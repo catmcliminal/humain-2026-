@@ -28,6 +28,11 @@ export interface ScheduleMarker {
   href?: string;
   /** Shown beside the label, e.g. the round tables that run through lunch. */
   note?: string;
+  /** Who brought this break, e.g. the networking drinks' partner. */
+  partner?: string;
+  partnerLogo?: string;
+  /** Set when `partnerLogo` is light/white artwork that needs a dark chip instead of the usual white one. */
+  partnerLogoDark?: boolean;
 }
 
 export const SCHEDULE_MARKERS: ScheduleMarker[] = [
@@ -49,6 +54,9 @@ export const SCHEDULE_MARKERS: ScheduleMarker[] = [
     startTime: '17:05',
     label: 'Networking drinks and human connection',
     type: 'break',
+    partner: 'Networking Partner',
+    partnerLogo: '/images/logos/Obsessd.png',
+    partnerLogoDark: true,
   },
 ];
 

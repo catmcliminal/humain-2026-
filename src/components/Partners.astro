@@ -16,7 +16,7 @@ const tiles = [...partners, ...associations, ...supporters].filter((p) => p.logo
       {
         tiles.map((p) => (
           <a href="/partners" class="partner-tile" style={`--ac:${p.accent}`}>
-            <div class="partner-tile-logo">
+            <div class:list={['partner-tile-logo', p.logoDark && 'is-dark']}>
               <img src={p.logo} alt={`${p.name} logo`} loading="lazy" />
             </div>
             <div class="partner-tile-body">
@@ -77,6 +77,12 @@ const tiles = [...partners, ...associations, ...supporters].filter((p) => p.logo
     justify-content: center;
     flex-shrink: 0;
     overflow: hidden;
+  }
+
+  /* For logos that are light/white artwork and would disappear on white. */
+  .partner-tile-logo.is-dark {
+    background: var(--panel-2);
+    border-color: var(--line-2);
   }
 
   .partner-tile-logo img {

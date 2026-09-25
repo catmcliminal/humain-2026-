@@ -19,6 +19,8 @@ export type Partner = {
   role: string;
   name: string;
   logo?: string;
+  /** Set when the logo file is light/white artwork that needs a dark tile instead of the usual white one. */
+  logoDark?: boolean;
   url?: string;
   accent: string;
   copy?: string;
@@ -56,6 +58,14 @@ Together, humAIn and Stone & Chalk are building a direct line between the people
 It provides daily intelligence, expert analysis and career updates across the entire media landscape, covering everything from campaign launches and agency moves to the technology reshaping how brands reach audiences. For senior marketing, media and creative leaders, B&T is where the industry goes to understand what's happening and why it matters.
 
 As humAIn's media partner, B&T brings that reach and credibility to the conversation happening on stage — covering the flagship event, amplifying the speakers and ideas, and connecting humAIn's programming with the wider industry audience that reads B&T every day. It's a natural fit: two independent voices, both built on editorial trust, both focused on what's actually changing in marketing, media and creative work.`,
+  },
+  {
+    role: 'Networking Partner',
+    name: 'Obsessd',
+    logo: '/images/logos/Obsessd.png',
+    logoDark: true,
+    accent: 'var(--green)',
+    copy: `Obsessd, the AI discoverability consultancy based in Australia, is built for brands that want to lead, not follow. Our locally based team brings 50+ years of combined experience across retail, commerce, media, technology, and AI systems - helping businesses position themselves for the next era of search, recommendation, and agentic commerce.`,
   },
 ];
 

@@ -99,6 +99,14 @@ const hasAnySessions = sessions.length > 0;
                               ) : (
                                 <span class="sched-marker-note">{m.note}</span>
                               ))}
+                              {m.partner && (
+                                <span class="sched-partner mono">{m.partner}</span>
+                              )}
+                              {m.partner && m.partnerLogo && (
+                                <span class:list={['sched-partner-logo', m.partnerLogoDark && 'is-dark']}>
+                                  <img src={m.partnerLogo} alt={`${m.partner} logo`} loading="lazy" />
+                                </span>
+                              )}
                             </div>
                           </div>
                         );
@@ -544,6 +552,11 @@ const hasAnySessions = sessions.length > 0;
     width: auto;
     height: auto;
     object-fit: contain;
+  }
+  /* For logos that are light/white artwork and would disappear on white. */
+  .sched-partner-logo.is-dark {
+    background: var(--panel-2);
+    border: 1px solid var(--line-2);
   }
   .sched-theme {
     font-family: var(--mono);

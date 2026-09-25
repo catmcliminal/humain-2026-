@@ -188,15 +188,40 @@
   .sp-upfronts {
     margin-top: 40px;
   }
-  .sp-upfront-list {
-    margin: 0;
-    padding-left: 20px;
+  .sp-upfront-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .sp-upfront-card {
+    background: var(--panel);
+    border: 1px solid var(--line-2);
+    border-radius: 18px;
+    padding: 24px;
+    text-decoration: none;
+    color: var(--ink);
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
+    transition: 0.2s;
   }
-  .sp-upfront-list a {
-    color: var(--ink);
+  .sp-upfront-card:hover {
+    border-color: var(--ink);
+    transform: translateY(-2px);
+  }
+  .sp-upfront-card h3 {
+    font-family: var(--disp);
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+    margin: 0;
+  }
+  .sp-upfront-card p {
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--ink-2);
+    margin: 0;
   }
   .sp-list {
     margin: 0;
@@ -325,7 +350,8 @@
     .sp-aside {
       position: static;
     }
-    .sp-rel-grid {
+    .sp-rel-grid,
+    .sp-upfront-grid {
       grid-template-columns: 1fr;
     }
   }

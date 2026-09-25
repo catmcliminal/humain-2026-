@@ -16,6 +16,9 @@ description: >-
 
   You're the audience these founders most want in the room: the people who might
   buy their tools, partner with them or invest.
+speaker: >-
+  Stela Solar, CEO, Stone & Chalk, with Annie Liao, Founder & CEO, Build Club
+  / Solaris, and Sam Garven, Founder, Hello Canopy
 speakers:
   - name: Stela Solar
     title: CEO
@@ -26,6 +29,10 @@ speakers:
   - name: Sam Garven
     title: Founder
     company: Hello Canopy
+photos:
+  - /images/speakers/stela-solar/photo.jpg
+  - /images/speakers/annie-liao/photo.jpg
+  - /images/speakers/sam-garven/photo.jpg
 order: 14
 active: true
 year: 2026

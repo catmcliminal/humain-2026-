@@ -175,13 +175,15 @@ const description =
             {session.id === 'ai-upfronts' && (
               <div class="sp-upfronts">
                 <div class="sp-h">The pitches</div>
-                <ul class="sp-upfront-list">
+                <div class="sp-upfront-grid">
                   {UPFRONTS.map((u) => (
-                    <li>
-                      <a href={`/programme/upfronts/${u.slug}`}>{u.company}</a>
-                    </li>
+                    <a class="sp-upfront-card" href={`/programme/upfronts/${u.slug}`}>
+                      <h3>{u.company}</h3>
+                      <p>{u.detail[0]}</p>
+                      {u.speaker && <div class="sp-rwho">{u.speaker}</div>}
+                    </a>
                   ))}
-                </ul>
+                </div>
               </div>
             )}
 

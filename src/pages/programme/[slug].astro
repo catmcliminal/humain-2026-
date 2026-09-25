@@ -180,7 +180,14 @@ const description =
                     <a class="sp-upfront-card" href={`/programme/upfronts/${u.slug}`}>
                       <h3>{u.company}</h3>
                       <p>{u.detail[0]}</p>
-                      {u.speaker && <div class="sp-rwho">{u.speaker}</div>}
+                      {u.speaker && (
+                        <div class="sp-rwho sp-upfront-who">
+                          {u.photo && (
+                            <img class="sp-upfront-who-photo" src={u.photo} alt={u.speaker} loading="lazy" />
+                          )}
+                          <span>{u.speaker}</span>
+                        </div>
+                      )}
                     </a>
                   ))}
                 </div>

@@ -15,6 +15,8 @@ export interface Upfront {
   title: string;
   /** Who presents it, with their role. Omitted until the presenter is confirmed. */
   speaker?: string;
+  /** The presenter's headshot, reusing their photo from the speakers collection. */
+  photo?: string;
   /** Optional link to the product. */
   url?: string;
   /** Optional logo, shown on a light chip since the card sits on dark. */
@@ -29,6 +31,7 @@ export const UPFRONTS: Upfront[] = [
     company: 'AdLab',
     title: 'AdLab: How AI is Transforming Audio Production',
     speaker: 'Lauren Joyce, Founder of Gun For Hire',
+    photo: '/images/speakers/lauren-joyce/photo.jpg',
     logo: '/images/logos/Abes_Audio.png',
     detail: [
       'AdLab (by Abe’s Audio) is transforming commercial audio production by combining the power of AI with human creativity.',
@@ -41,6 +44,7 @@ export const UPFRONTS: Upfront[] = [
     company: 'Gust PR',
     title: 'Gust PR',
     speaker: 'Marie Dowling, Founder, Gust PR',
+    photo: '/images/speakers/marie-dowling/photo.jpg',
     url: 'https://www.gustpr.com',
     detail: [
       'Gust PR is an omniscient AI-native operative system for nimble marketers and modern creatives who want more from their PR. By combining media intelligence, Gust PR helps you engineer attention and build lasting media relations by sending fewer, more targeted and newsworthy pitches and building niche performing campaigns at scale. Users have landed more than 350 stories in the AFR, The Guardian, Sydney Morning Herald, Sky News and more.',
@@ -51,6 +55,7 @@ export const UPFRONTS: Upfront[] = [
     company: 'lokol',
     title: 'Commerce has a new front door.',
     speaker: 'Neil Ackland, CEO and Co-founder, lokol',
+    photo: '/images/speakers/neil-ackland/photo.jpg',
     logo: '/images/logos/lokol.png',
     detail: [
       'We identify authentic product recommendations from trusted creators and publishers, verify and attribute them, then surface them wherever people buy products online, helping retailers increase conversion while ensuring the people behind trusted recommendations share in the value they create.',
@@ -62,6 +67,8 @@ export const UPFRONTS: Upfront[] = [
     company: 'Mutinex',
     title:
       'MAITE makes everyone in your business an analyst. Ask what drives growth and get the answer in minutes.',
+    speaker: 'Adam Krass, Product Lead, Mutinex',
+    photo: '/images/speakers/adam-krass/photo.jpg',
     logo: '/images/logos/Mutinex.svg',
     detail: [
       'Prove business impact in minutes. Budget questions used to wait days for a team to build and compare the scenarios. Now MAITE, the agent inside Mutinex’s GrowthOS, forecasts your investment decisions on your own measurement model and has the recommendation ready for the investment meeting. What drives incremental growth, and where does the next dollar return most? Answered in minutes. An agent that moves at the speed of your business.',

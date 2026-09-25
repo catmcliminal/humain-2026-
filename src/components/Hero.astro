@@ -13,6 +13,12 @@ const featuredSpeakerCompanies = [
   { name: 'Mutinex', logo: '/images/logos/Mutinex.svg' },
   { name: 'Zambrero', logo: '/images/logos/Zambrero.png' },
   { name: 'RGA', logo: '/images/logos/RGA.png' },
+  { name: 'WPP', logo: '/images/logos/WPP.svg' },
+  { name: 'UN Women', logo: '/images/logos/UN_Women.png' },
+  // White-only artwork, so it needs a dark chip rather than the usual white one.
+  { name: 'AiCandy', logo: '/images/logos/AiCandy.png', dark: true },
+  { name: 'Datacom', logo: '/images/logos/Datacom.svg' },
+  { name: 'ACAM', logo: '/images/logos/Australian_Centre_for_AI_in_Marketing.png' },
 ];
 ---
 
@@ -65,7 +71,7 @@ const featuredSpeakerCompanies = [
       <div class="featured-speakers-logos">
         {
           featuredSpeakerCompanies.map((c) => (
-            <div class="featured-speakers-logo" title={c.name}>
+            <div class={`featured-speakers-logo${c.dark ? ' is-dark' : ''}`} title={c.name}>
               <img src={c.logo} alt={`${c.name} logo`} loading="lazy" />
             </div>
           ))
@@ -140,6 +146,11 @@ const featuredSpeakerCompanies = [
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  .featured-speakers-logo.is-dark {
+    background: var(--panel-2);
+    border: 1px solid var(--line-2);
   }
 
   .featured-speakers-logo img {

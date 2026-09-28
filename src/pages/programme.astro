@@ -48,6 +48,7 @@ const sessionsByDay = days.map((d) => ({
   rows: rowsForDay(d.date),
 }));
 const hasAnySessions = sessions.length > 0;
+const dayTwo = sessionsByDay.find((d) => d.date === '2026-10-14');
 ---
 
 <BaseLayout
@@ -67,6 +68,23 @@ const hasAnySessions = sessions.length > 0;
     </PageHeader>
     <PulseBand h={80} />
 
+    {/* Day two sits below a full conference day, so it is easy to miss on the
+        way down. Announced here, under the band, with a jump to its block. */}
+    {dayTwo && dayTwo.sessions.length > 0 && (
+      <div class="wrap">
+        <div class="day-jump rv">
+          <div class="day-jump-head">
+            <span class="day-jump-label mono">{dayTwo.label}</span>
+            <span class="day-jump-title">{dayTwo.kind}</span>
+            <span class="day-jump-date mono">14 October</span>
+          </div>
+          <a class="day-jump-cta mono" href={`#${dayTwo.anchor}`}>
+            Jump to Day 02 content →
+          </a>
+        </div>
+      </div>
+    )}
+
     <section id="sessions">
       <div class="wrap">
         {hasAnySessions ? (
@@ -75,7 +93,7 @@ const hasAnySessions = sessions.length > 0;
               {sessionsByDay.map((d) => (
                 <>
                 {d.sessions.length > 0 && (
-                <div class="sched-day rv">
+                <div class="sched-day rv" id={d.anchor}>
                   <div class="sched-day-head">
                     <span class="sched-day-label mono">{d.label}</span>
                     <span class="sched-day-date">{d.dateLabel}</span>
@@ -295,6 +313,68 @@ const hasAnySessions = sessions.length > 0;
 
 
   /* ---------- filter chips ---------- */
+
+  /* ---------- day two jump ---------- */
+  .day-jump {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 32px;
+    padding: 20px 26px;
+    border: 1px solid var(--line-2);
+    border-radius: 18px;
+    background: var(--panel);
+  }
+  .day-jump-head {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .day-jump-label {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    color: var(--pink);
+  }
+  .day-jump-title {
+    font-family: var(--disp);
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: -0.01em;
+  }
+  .day-jump-date {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+  }
+  .day-jump-cta {
+    text-decoration: none;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink);
+    border: 1px solid var(--line-2);
+    border-radius: 100px;
+    padding: 9px 16px;
+    white-space: nowrap;
+    transition: 0.2s;
+  }
+  .day-jump-cta:hover {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: #0b0908;
+  }
+  .day-jump-cta:focus-visible {
+    outline: 3px solid var(--pink);
+    outline-offset: 4px;
+  }
+  /* The nav is sticky, so an anchored day would land under it. */
+  .sched-day {
+    scroll-margin-top: 90px;
+  }
 
   /* ---------- sessions ---------- */
   /* Tighter than the global 96px: the section head that used to sit under the

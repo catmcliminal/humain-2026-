@@ -629,3 +629,20 @@ lockfile before the build would run; `package-lock.json` was left untouched.
   not as inconsistent as it was made to sound. Count speakers with the rendered
   `.voice` elements or the active-and-current-year entry count, not a grep on
   the class attribute.
+- **2026-09-19 (day two workshop)** — **Annie Liao's Build Club session** added
+  to the schedule (PR #60): *What AI-Native Marketing Teams Do Differently: A
+  Working Session in Claude*, `day: 2026-10-14`, `order: 16` (day two runs 8,
+  10, 12, 14, so the spacing continues). All copy is Cat's verbatim; the `hook`
+  reuses the first sentence of the supplied text, as no separate hook line was
+  given. **No `sessionType` pill** — Cat's call, matching Tara Iwamoto's
+  hands-on lab, which also runs without one. `themes` and `partner` left unset;
+  "Build Club" appears only in the speaker line and the description, so if it is
+  a content partner that field is still to be filled. The session reuses the
+  existing `/images/speakers/annie-liao/photo.jpg` rather than adding a second
+  copy of her portrait. Her `speakers` entry was **flipped `active: false` →
+  `true`** so she now appears on `/voices` as well as `/community/advisory`; she
+  carries `advisory: true`, so the card renders the pink **Advisory panel** tag,
+  not the yellow Speaker one. Verified live on 2026-09-21 across the session
+  page, `/programme` and `/voices`. Note when curling the live site: paths
+  without a trailing slash 301, so `curl` needs `-L` or the check reads as a
+  miss on a page that is fine.

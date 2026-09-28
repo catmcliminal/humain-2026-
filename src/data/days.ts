@@ -16,7 +16,10 @@ export interface Day {
   label: string;
   /** Human date shown beside it, e.g. "13 October 2026". */
   dateLabel: string;
-  /** What runs that day — "Conference" or "Masterclasses and Workshops". */
+  /** Day and month alone, e.g. "13 October" — for the jump pills, where the
+   *  year is already established by everything above them. */
+  shortDate: string;
+  /** What runs that day, e.g. "Conference and Round tables". */
   kind: string;
   /** Anchor id for the day's block on /programme, so it can be linked to. */
   anchor: string;
@@ -27,13 +30,15 @@ export const DAYS: Day[] = [
     date: '2026-10-13',
     label: 'Day 01',
     dateLabel: '13 October 2026',
-    kind: 'Conference',
+    shortDate: '13 October',
+    kind: 'Conference and Round tables',
     anchor: 'day-01',
   },
   {
     date: '2026-10-14',
     label: 'Day 02',
     dateLabel: '14 October 2026',
+    shortDate: '14 October',
     kind: 'Masterclasses and Workshops',
     anchor: 'day-02',
   },

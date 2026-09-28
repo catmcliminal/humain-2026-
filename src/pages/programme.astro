@@ -48,7 +48,6 @@ const sessionsByDay = days.map((d) => ({
   rows: rowsForDay(d.date),
 }));
 const hasAnySessions = sessions.length > 0;
-const dayTwo = sessionsByDay.find((d) => d.date === '2026-10-14');
 ---
 
 <BaseLayout
@@ -68,19 +67,26 @@ const dayTwo = sessionsByDay.find((d) => d.date === '2026-10-14');
     </PageHeader>
     <PulseBand h={80} />
 
-    {/* Day two sits below a full conference day, so it is easy to miss on the
-        way down. Announced here, under the band, with a jump to its block. */}
-    {dayTwo && dayTwo.sessions.length > 0 && (
+    {/* What each day is, and a jump to it, before the running order starts —
+        day two in particular sits below a full conference day and is easy to
+        miss on the way down. One pill per day that has sessions. */}
+    {sessionsByDay.some((d) => d.sessions.length > 0) && (
       <div class="wrap">
-        <div class="day-jump rv">
-          <div class="day-jump-head">
-            <span class="day-jump-label mono">{dayTwo.label}</span>
-            <span class="day-jump-title">{dayTwo.kind}</span>
-            <span class="day-jump-date mono">14 October</span>
-          </div>
-          <a class="day-jump-cta mono" href={`#${dayTwo.anchor}`}>
-            Jump to Day 02 content →
-          </a>
+        <div class="day-jumps">
+          {sessionsByDay
+            .filter((d) => d.sessions.length > 0)
+            .map((d) => (
+              <div class="day-jump rv">
+                <div class="day-jump-head">
+                  <span class="day-jump-label mono">{d.label}</span>
+                  <span class="day-jump-title">{d.kind}</span>
+                  <span class="day-jump-date mono">{d.shortDate}</span>
+                </div>
+                <a class="day-jump-cta mono" href={`#${d.anchor}`}>
+                  Jump to {d.label} content →
+                </a>
+              </div>
+            ))}
         </div>
       </div>
     )}
@@ -315,13 +321,18 @@ const dayTwo = sessionsByDay.find((d) => d.date === '2026-10-14');
   /* ---------- filter chips ---------- */
 
   /* ---------- day two jump ---------- */
+  .day-jumps {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 32px;
+  }
   .day-jump {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 20px;
     flex-wrap: wrap;
-    margin-top: 32px;
     padding: 20px 26px;
     border: 1px solid var(--line-2);
     border-radius: 18px;

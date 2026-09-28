@@ -36,22 +36,23 @@ export interface ScheduleMarker {
 }
 
 export const SCHEDULE_MARKERS: ScheduleMarker[] = [
-  { day: '2026-10-13', order: 3, startTime: '09:40', label: 'Creative Megathread', type: 'group' },
-  { day: '2026-10-13', order: 8, startTime: '10:40', label: 'Morning tea', type: 'break' },
+  { day: '2026-10-13', order: 4, startTime: '09:40', label: 'Creative Megathread', type: 'group' },
+  { day: '2026-10-13', order: 9, startTime: '10:40', label: 'Morning tea', type: 'break' },
   {
     day: '2026-10-13',
-    order: 13,
+    order: 14,
     startTime: '12:25',
     label: 'Lunch',
     type: 'break',
     note: 'Round tables',
     href: '#round-tables',
   },
-  { day: '2026-10-13', order: 17, startTime: '15:40', label: 'Afternoon break', type: 'break' },
+  { day: '2026-10-13', order: 18, startTime: '15:40', label: 'Afternoon break', type: 'break' },
+  /* No time of its own: the closing remarks take 17:05 and the drinks follow
+     them. A supplied time goes here if one ever is. */
   {
     day: '2026-10-13',
-    order: 20,
-    startTime: '17:05',
+    order: 22,
     label: 'Networking drinks and human connection',
     type: 'break',
     partner: 'Networking Partner',

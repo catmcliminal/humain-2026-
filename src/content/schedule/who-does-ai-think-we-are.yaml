@@ -10,8 +10,9 @@ themes:
   - culture
 speaker: >-
   Sam Turley, Invention Lead, Mindshare; Kate Westgate, Head of Marketing -
-  Homecare, Unilever; and Annie Konieczny, Australia National Chapter Lead -
-  Unstereotype Alliance, UN Women
+  Homecare, Unilever; Annie Konieczny, Australia National Chapter Lead -
+  Unstereotype Alliance, UN Women; and Sneha Rathod, Head of AI Capabilities &
+  Solutions, SBS
 speakers:
   - name: Sam Turley
     title: Invention Lead
@@ -22,10 +23,14 @@ speakers:
   - name: Annie Konieczny
     title: Australia National Chapter Lead, Unstereotype Alliance
     company: UN Women
+  - name: Sneha Rathod
+    title: Head of AI Capabilities & Solutions
+    company: SBS
 photos:
   - /images/speakers/sam-turley/photo.jpg
   - /images/speakers/kate-westgate/photo.jpg
   - /images/speakers/annie-konieczny/photo.jpg
+  - /images/speakers/sneha-rathod/photo.jpg
 description: >-
   Drawing on Dove's pioneering work, including the localised Whole Body
   campaign that proved inclusive creative drives engagement, and the UN Women

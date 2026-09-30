@@ -629,3 +629,10 @@ lockfile before the build would run; `package-lock.json` was left untouched.
   not as inconsistent as it was made to sound. Count speakers with the rendered
   `.voice` elements or the active-and-current-year entry count, not a grep on
   the class attribute.
+- **2026-09-30 (speakers)** — **Sneha Rathod** (Head of AI Capabilities &
+  Solutions, SBS) added as a speaker and to the *Who Does AI Think We Are?*
+  panel (`speaker`, `speakers` and `photos` on the schedule entry). Bio
+  verbatim from Cat; `featured: false`, `order: 48`. Source photo
+  (`Sneha Profile V2.png`, 864×1184) cropped square from the top-left offset
+  y=190 — which also removes the sparkle mark in its bottom-right corner — and
+  saved as an 800×800 JPEG at 116K. No `sessionType` or `themes` changes.

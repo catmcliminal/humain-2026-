@@ -636,3 +636,12 @@ lockfile before the build would run; `package-lock.json` was left untouched.
   (`Sneha Profile V2.png`, 864×1184) cropped square from the top-left offset
   y=190 — which also removes the sparkle mark in its bottom-right corner — and
   saved as an 800×800 JPEG at 116K. No `sessionType` or `themes` changes.
+- **2026-10-01 (speakers)** — **Jason Ross** (Founder and digital innovation
+  leader, Time Under Tension) added as a speaker and to the workshop *Build an
+  Agent You Can Trust: Time Under Tension* (`speaker`, `speakers`, `photos`).
+  Bio verbatim; `featured: false`, `order: 49`. Photo cropped square from a
+  5760×3840 original and saved as an 800×800 JPEG at 61K. **Not applied:** Cat
+  also pasted a different workshop description ("practical session on building
+  AI agents… approachable") and an "About Time Under Tension" blurb. The
+  existing description ("the advanced track", assumes hands-on AI experience)
+  contradicts it, so it was left untouched pending Cat's call.

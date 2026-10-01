@@ -3,6 +3,13 @@ day: '2026-10-14'
 hook: >-
   How to design, test and contain an AI agent before it touches your brand,
   your customers or your budget.
+speaker: Jason Ross
+speakers:
+  - name: Jason Ross
+    title: Founder and digital innovation leader
+    company: Time Under Tension
+photos:
+  - /images/speakers/jason-ross/photo.jpg
 description: >-
   Most agent training stops at what you can buy. This session starts where
   that leaves off. Participants build a working marketing agent, deliberately

@@ -644,4 +644,5 @@ lockfile before the build would run; `package-lock.json` was left untouched.
   also pasted a different workshop description ("practical session on building
   AI agents… approachable") and an "About Time Under Tension" blurb. The
   existing description ("the advanced track", assumes hands-on AI experience)
-  contradicts it, so it was left untouched pending Cat's call.
+  contradicts it, so it was left untouched. **Decided 2026-10-01:** Cat chose
+  to keep the original description; the pasted one is not used.

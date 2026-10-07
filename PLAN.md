@@ -684,3 +684,15 @@ lockfile before the build would run; `package-lock.json` was left untouched.
   three-paragraph text ("turn AI ambition into practical action…"). The copy
   opens "Australian Centre for AI in Marketing (ACAM)" with no leading "The",
   as supplied. Merged in PR #70.
+- **2026-10-07 (homepage)** — **Countdown** added to the hero, between the
+  ticket buttons and the pulse line (`src/components/Countdown.astro`, used in
+  `Hero.astro`). Four progress rings (days, hours, mins, secs) in the brand
+  colours, modelled on the Loop coming-soon template Cat pointed to. Counts down
+  to the opening, 13 Oct 2026 09:00 Sydney time (`EVENT_START` in
+  `src/config.ts`); from then it reads "humAIn 2026 is on now" and it hides
+  after 5pm on 14 Oct (`EVENT_END`, Cat's call). Without JavaScript only the
+  "Doors open 13 October · Sydney" line shows. The days ring fills against a
+  100-day window. "Above the pulse line" was read as the hero's pulse band, not
+  the second one after the Audience section. Checked in the dev server; **not
+  yet checked at phone width**. Merged in PR #71.
+

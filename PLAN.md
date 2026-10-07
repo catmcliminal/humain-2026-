@@ -673,6 +673,7 @@ lockfile before the build would run; `package-lock.json` was left untouched.
   Headshots for Aaron, Tea Uglow and Bridget Cleary were replaced with
   higher-resolution versions (resized to 1200px max, re-encoded to JPEG with
   metadata stripped — Tea's original carried GPS data). Tea's description text
-  had its typos fixed (`we use AI`, `AI`, a double space, `Her first`). Not
+  had its typos fixed (`we use AI`, `AI`, a double space). Pronouns are Tea's
+  own and were left exactly as supplied ("Their first"). Not
   applied to Tea's speaker bio: the text Cat pasted was treated as the session
   description, so her existing bio is unchanged.

@@ -677,3 +677,10 @@ lockfile before the build would run; `package-lock.json` was left untouched.
   own and were left exactly as supplied ("Their first"). Not
   applied to Tea's speaker bio: the text Cat pasted was treated as the session
   description, so her existing bio is unchanged.
+- **2026-10-07 (partners)** — **ACAM** supporting-association description
+  replaced with new copy from Cat, verbatim, in `src/utils/partners.ts` (two
+  paragraphs: "helps marketing realise the value of AI…" and "We believe in a
+  future where AI enables better marketing…"). It replaces the earlier
+  three-paragraph text ("turn AI ambition into practical action…"). The copy
+  opens "Australian Centre for AI in Marketing (ACAM)" with no leading "The",
+  as supplied. Merged in PR #70.

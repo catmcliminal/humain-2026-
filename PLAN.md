@@ -139,6 +139,26 @@ confirmed. Two changes came out of that confirmation:
   URL `/programme/return-of-big-ideas`, is unchanged.
 - No "Debate:" prefix on `When Anyone Can Make Anything…` — Cat's call.
 
+**Revised 2026-10-07:** Cat supplied a new day-one running order. Changes:
+
+- The Acknowledgement and Stela Solar's opening are now one 09:00 row,
+  *Acknowledgement and Opening Address*, speaker Stela Solar. The separate
+  `opening-remarks-australian-ai.yaml` was deleted.
+- *What remains human / human remains* (Cat McGinn) at 09:10 replaces Closing
+  Remarks: `closing-remarks.yaml` was renamed to `what-remains-human.yaml` and
+  retimed. The day no longer has a closing-remarks row; networking drinks now
+  start at 17:10.
+- Later sessions moved by 5–10 minutes (Human Dividend 11:40, Machine in the
+  Middle 12:05, lunch 12:35, Upfronts 13:35, Who Does AI Think We Are? 14:25,
+  Bridging the Missing Rung 15:25, Discipline of Friction 15:55, Fork This
+  Industry 16:20). The afternoon break (15:10) now comes *before* Bridging the
+  Missing Rung, so the two swapped `order` values; day-one `order` values were
+  renumbered to match.
+- Fork This Industry now has speakers (Tea Uglow, Bridget Cleary) and a
+  description: Bridget's case ("Bridget will argue that…") followed by Tea's
+  ("Counter position: …"), both supplied by Cat. The "no copy yet" note above
+  no longer applies to it.
+
 **Not on the page:** the 14:15 slot Cat has reserved for a topical session. It
 is a hold in the internal running order, not something to publish, so it leaves
 a gap between the AI Upfronts (13:25) and Bridging the Missing Rung (14:40).
@@ -645,3 +665,15 @@ lockfile before the build would run; `package-lock.json` was left untouched.
   AI agents… approachable") and an "About Time Under Tension" blurb. The
   existing description ("the advanced track", assumes hands-on AI experience)
   contradicts it, so it was left untouched pending Cat's call.
+- **2026-10-07 (speakers)** — **Aaron Michie** (Director, Global Marketing
+  Operations & Strategic Programs, Foxtel / DAZN) added as a speaker; he was
+  already on *The Future CMO* panel. Bio verbatim from Cat; `featured: false`,
+  `order: 50`. The panel row still reads "DAZN Media" for his company and the
+  speaker role reads "Foxtel / DAZN" — Cat said to leave the company as is.
+  Headshots for Aaron, Tea Uglow and Bridget Cleary were replaced with
+  higher-resolution versions (resized to 1200px max, re-encoded to JPEG with
+  metadata stripped — Tea's original carried GPS data). Tea's description text
+  had its typos fixed (`we use AI`, `AI`, a double space). Pronouns are Tea's
+  own and were left exactly as supplied ("Their first"). Not
+  applied to Tea's speaker bio: the text Cat pasted was treated as the session
+  description, so her existing bio is unchanged.

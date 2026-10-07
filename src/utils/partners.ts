@@ -94,11 +94,9 @@ Our focus is on ensuring human ingenuity remains a powerful source of creative a
     name: 'ACAM — Australian Centre for AI in Marketing',
     logo: '/images/logos/Australian_Centre_for_AI_in_Marketing.png',
     accent: 'var(--green)',
-    copy: `The Australian Centre for AI in Marketing (ACAM) helps marketers and organisations turn AI ambition into practical action.
+    copy: `Australian Centre for AI in Marketing (ACAM) helps marketing realise the value of AI. We help marketing leaders and teams understand their AI maturity, build practical AI capability and transform how marketing work gets done. We combine proprietary intelligence with practical expertise to help marketing leaders and teams move from AI experimentation to sustained adoption and measurable value.
 
-Through research, benchmarking, executive education and transformation programs, ACAM builds the insight, capability and confidence needed to adopt AI responsibly and create measurable value.
-
-ACAM connects leading marketers, technology partners, researchers and practitioners to help shape the future of AI in marketing.`,
+We believe in a future where AI enables better marketing, creates measurable value for organisations and enables more valuable human work. ACAM is the Australian authority on AI in marketing.`,
   },
   {
     role: 'Supporting Association',

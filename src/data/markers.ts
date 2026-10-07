@@ -41,18 +41,17 @@ export const SCHEDULE_MARKERS: ScheduleMarker[] = [
   {
     day: '2026-10-13',
     order: 14,
-    startTime: '12:25',
+    startTime: '12:35',
     label: 'Lunch',
     type: 'break',
     note: 'Round tables',
     href: '#round-tables',
   },
-  { day: '2026-10-13', order: 18, startTime: '15:40', label: 'Afternoon break', type: 'break' },
-  /* No time of its own: the closing remarks take 17:05 and the drinks follow
-     them. A supplied time goes here if one ever is. */
+  { day: '2026-10-13', order: 17, startTime: '15:10', label: 'Afternoon break', type: 'break' },
   {
     day: '2026-10-13',
-    order: 22,
+    order: 21,
+    startTime: '17:10',
     label: 'Networking drinks and human connection',
     type: 'break',
     partner: 'Networking Partner',

@@ -31,3 +31,11 @@ export const TICKET_IS_EXTERNAL = /^https?:\/\//.test(TICKET_URL);
  * site over to the next edition — new entries default to this year.
  */
 export const CURRENT_EDITION_YEAR = 2026;
+
+/**
+ * When the conference opens (day one, 09:00 Sydney, AEDT = UTC+11) and when it
+ * closes (5pm on day two). The homepage countdown counts down to the first and
+ * disappears after the second.
+ */
+export const EVENT_START = '2026-10-13T09:00:00+11:00';
+export const EVENT_END = '2026-10-14T17:00:00+11:00';

@@ -695,4 +695,16 @@ lockfile before the build would run; `package-lock.json` was left untouched.
   100-day window. "Above the pulse line" was read as the hero's pulse band, not
   the second one after the Audience section. Checked in the dev server; **not
   yet checked at phone width**. Merged in PR #71.
+- **2026-10-08 (ticket pills)** — Coloured ticket pills added to the home and
+  programme pages, all linking to `TICKET_URL`. Home: *Secure your ticket* under
+  the "What AI means" box (`About.astro`) and *Buy now* under "Who humAIn is
+  for" (`Audience.astro`). Programme: *Buy now* inside the Day 01 box and
+  *Secure your place* inside the Day 02 box at the top of the page, plus
+  *Secure your spot* under Day one, Round tables and Day two. Colours alternate
+  orange, pink and green via a new `btn-pop` class in `global.css`; on hover
+  each swaps to its opposite (orange to blue, pink and green to each other —
+  "opposite" read as complementary, with blue standing in for orange's partner).
+  White text on the orange and green is on the low side for contrast. Seen at
+  phone width only. Merged in PR #76. Also, the programme row pill changed
+  from "FULL SESSION →" to "SESSION DETAIL →" (PR #75).
 

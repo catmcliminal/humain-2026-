@@ -1,4 +1,8 @@
 ---
+import { TICKET_URL, TICKET_IS_EXTERNAL } from '../config';
+
+const ticketTarget = TICKET_IS_EXTERNAL ? '_blank' : undefined;
+const ticketRel = TICKET_IS_EXTERNAL ? 'noopener noreferrer' : undefined;
 ---
 
 <section id="about">
@@ -24,6 +28,9 @@
           to work in the real world.
         </p>
       </div>
+    </div>
+    <div class="sec-cta about-cta rv">
+      <a href={TICKET_URL} class="btn btn-pop btn-orange" target={ticketTarget} rel={ticketRel}><span class="dot"></span>Secure your ticket →</a>
     </div>
     <p class="merge rv">Most events pick a lane. humAIn brings them together.</p>
     <div class="frame rv">
@@ -53,6 +60,20 @@
 
 
 <style>
+  /* Sits under the right-hand "What AI means" box, so it lines up with that
+     column on desktop and falls back to the left once the boxes stack. */
+  .about-cta {
+    margin-top: 18px;
+    justify-content: flex-end;
+  }
+  .about-cta + .merge {
+    margin-top: 28px;
+  }
+  @media (max-width: 760px) {
+    .about-cta {
+      justify-content: flex-start;
+    }
+  }
   .frame {
     margin: 28px 0 0;
   }

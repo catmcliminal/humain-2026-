@@ -35,6 +35,13 @@ nav{position:sticky;top:0;z-index:100;background:rgba(11,9,8,.72);backdrop-filte
 .btn:hover{background:var(--pink);border-color:var(--pink);color:#fff;transform:translateY(-1px)}
 .btn .dot{width:7px;height:7px;border-radius:50%;background:var(--yellow)}
 .btn.ghost{background:transparent;color:var(--ink);border-color:var(--line-2)}
+.btn.btn-pop{background:var(--bc);border-color:var(--bc);color:#fff}
+.btn.btn-pop .dot{background:#fff}
+.btn.btn-pop:hover{background:var(--hc);border-color:var(--hc);color:#fff}
+.btn.btn-pop:focus-visible{outline-color:var(--hc)}
+.btn-orange{--bc:var(--orange);--hc:var(--blue)}
+.btn-pink{--bc:var(--pink);--hc:var(--green)}
+.btn-green{--bc:var(--green);--hc:var(--pink)}
 
 /* ---------- early-bird note (rides along with every ticket CTA) ---------- */
 .eb-note{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);white-space:nowrap}

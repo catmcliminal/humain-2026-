@@ -8,7 +8,7 @@ import PulseBand from '../components/PulseBand.astro';
 import TicketsProgramme from '../components/TicketsProgramme.astro';
 import { breadcrumbJsonLd } from '../utils/breadcrumbs';
 import { currentEdition } from '../utils/edition';
-import { SITE } from '../config';
+import { SITE, TICKET_URL, TICKET_IS_EXTERNAL } from '../config';
 import { themeById } from '../data/themes';
 import { DAYS } from '../data/days';
 import { ROUND_TABLES } from '../data/roundtables';
@@ -22,6 +22,8 @@ const sessions = currentEdition(await getCollection('schedule')).sort(
   (a, b) => a.data.order - b.data.order
 );
 const days = DAYS;
+const ticketTarget = TICKET_IS_EXTERNAL ? '_blank' : undefined;
+const ticketRel = TICKET_IS_EXTERNAL ? 'noopener noreferrer' : undefined;
 
 /*
  * The running order is sessions *and* the rows between them — the breaks, and
@@ -82,9 +84,18 @@ const hasAnySessions = sessions.length > 0;
                   <span class="day-jump-title">{d.kind}</span>
                   <span class="day-jump-date mono">{d.shortDate}</span>
                 </div>
-                <a class="day-jump-cta mono" href={`#${d.anchor}`}>
-                  Jump to {d.label} content →
-                </a>
+                <div class="day-jump-actions">
+                  <a class="day-jump-cta mono" href={`#${d.anchor}`}>
+                    Jump to {d.label} content →
+                  </a>
+                  <a
+                    href={TICKET_URL}
+                    class={`btn btn-pop ${d.date === '2026-10-13' ? 'btn-orange' : 'btn-green'}`}
+                    target={ticketTarget}
+                    rel={ticketRel}
+                    ><span class="dot"></span>{d.date === '2026-10-13' ? 'Buy now' : 'Secure your place'} →</a
+                  >
+                </div>
               </div>
             ))}
         </div>
@@ -215,6 +226,9 @@ const hasAnySessions = sessions.length > 0;
                       );
                     })}
                   </div>
+                  <div class="sec-cta">
+                    <a href={TICKET_URL} class={`btn btn-pop ${d.date === '2026-10-13' ? 'btn-green' : 'btn-pink'}`} target={ticketTarget} rel={ticketRel}><span class="dot"></span>Secure your spot →</a>
+                  </div>
                 </div>
                 )}
                 {/* The round tables run at lunch on day one, so they belong
@@ -238,6 +252,9 @@ const hasAnySessions = sessions.length > 0;
                         </div>
                       ))}
                     </div>
+                    <div class="sec-cta">
+                    <a href={TICKET_URL} class="btn btn-pop btn-orange" target={ticketTarget} rel={ticketRel}><span class="dot"></span>Secure your spot →</a>
+                  </div>
                   </div>
                 )}
                 </>
@@ -337,6 +354,12 @@ const hasAnySessions = sessions.length > 0;
     border: 1px solid var(--line-2);
     border-radius: 18px;
     background: var(--panel);
+  }
+  .day-jump-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
   }
   .day-jump-head {
     display: flex;

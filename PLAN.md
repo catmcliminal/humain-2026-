@@ -708,3 +708,12 @@ lockfile before the build would run; `package-lock.json` was left untouched.
   phone width only. Merged in PR #76. Also, the programme row pill changed
   from "FULL SESSION →" to "SESSION DETAIL →" (PR #75).
 
+- **2026-10-10 (essay not showing)** — Publishing "No winning square: the brand
+  risk of AI agents and trust" didn't appear on the site because the build was
+  failing, so Netlify kept serving the previous deploy. Editing the essay's
+  title in Keystatic created a second `.mdoc` under the new slug and left the
+  old one behind; the old copy closed its table with `{% table /%}` instead of
+  `{% /table %}`, which fails the Astro build. Fixed by deleting the stale copy
+  and its images (PR #78); the "-and-trust" entry is the one kept. Lesson for
+  editors: changing an entry's title in Keystatic can leave a duplicate behind,
+  and a published item that doesn't appear usually means a failed Netlify build.

@@ -69,6 +69,12 @@ As humAIn's media partner, B&T brings that reach and credibility to the conversa
     accent: 'var(--green)',
     copy: `Obsessd, the AI discoverability consultancy based in Australia, is built for brands that want to lead, not follow. Our locally based team brings 50+ years of combined experience across retail, commerce, media, technology, and AI systems - helping businesses position themselves for the next era of search, recommendation, and agentic commerce.`,
   },
+  {
+    role: 'Photography and Videography Partner',
+    name: 'Centre House',
+    logo: '/images/logos/Centre_House.png',
+    accent: 'var(--yellow)',
+  },
 ];
 
 /**

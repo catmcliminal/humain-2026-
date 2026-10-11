@@ -717,3 +717,13 @@ lockfile before the build would run; `package-lock.json` was left untouched.
   and its images (PR #78); the "-and-trust" entry is the one kept. Lesson for
   editors: changing an entry's title in Keystatic can leave a duplicate behind,
   and a published item that doesn't appear usually means a failed Netlify build.
+- **2026-10-11 (partners)** — **Centre House** added to `src/utils/partners.ts`
+  as *Photography and Videography Partner*, last in the main partners list, so
+  it shows on `/partners` and in the homepage "Our partners." strip. Logo
+  (`public/images/logos/Centre_House.png`, 400×500) is the version Cat sent: a
+  white chair and wordmark on a **green background**, so it will show as a green
+  block inside the usual white logo tile. A transparent or white-background
+  version would sit better. No write-up or website URL yet, so the card is logo,
+  role and name only, like Creative Natives. Accent is yellow, my pick (Cat
+  can change it). **Not yet seen in a browser** (the preview pane blocked
+  localhost); checked only that the entry and logo render in the page HTML.

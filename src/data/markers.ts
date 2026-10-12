@@ -58,6 +58,13 @@ export const SCHEDULE_MARKERS: ScheduleMarker[] = [
     partnerLogo: '/images/logos/Obsessd.png',
     partnerLogoDark: true,
   },
+  {
+    day: '2026-10-14',
+    order: 4,
+    startTime: '12:30–13:30',
+    label: 'Lunch and networking',
+    type: 'break',
+  },
 ];
 
 /** The markers on one day, in running order. */

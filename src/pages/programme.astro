@@ -6,14 +6,13 @@ import Footer from '../components/Footer.astro';
 import PageHeader from '../components/PageHeader.astro';
 import PulseBand from '../components/PulseBand.astro';
 import TicketsProgramme from '../components/TicketsProgramme.astro';
+import ScheduleDay from '../components/ScheduleDay.astro';
 import { breadcrumbJsonLd } from '../utils/breadcrumbs';
 import { currentEdition } from '../utils/edition';
+import { rowsForDay } from '../utils/schedule';
 import { SITE, TICKET_URL, TICKET_IS_EXTERNAL } from '../config';
-import { themeById } from '../data/themes';
 import { DAYS } from '../data/days';
 import { ROUND_TABLES } from '../data/roundtables';
-import { UPFRONTS } from '../data/upfronts';
-import { markersForDay, type ScheduleMarker } from '../data/markers';
 import { VENUE_LINE } from '../data/venue';
 
 const crumbs = breadcrumbJsonLd([{ name: 'Programme', url: `${SITE}/programme/` }]);
@@ -25,29 +24,10 @@ const days = DAYS;
 const ticketTarget = TICKET_IS_EXTERNAL ? '_blank' : undefined;
 const ticketRel = TICKET_IS_EXTERNAL ? 'noopener noreferrer' : undefined;
 
-/*
- * The running order is sessions *and* the rows between them — the breaks, and
- * the heading over the Creative Megathread block. Markers live in
- * `src/data/markers.ts` (not the schedule collection) and share one `order`
- * scale with it, so the two merge into a single ordered list per day.
- */
-type Session = (typeof sessions)[number];
-type Row =
-  | { kind: 'session'; order: number; session: Session }
-  | { kind: 'marker'; order: number; marker: ScheduleMarker };
-
-const rowsForDay = (date: string): Row[] =>
-  [
-    ...sessions
-      .filter((s) => s.data.day === date)
-      .map((s): Row => ({ kind: 'session', order: s.data.order, session: s })),
-    ...markersForDay(date).map((m): Row => ({ kind: 'marker', order: m.order, marker: m })),
-  ].sort((a, b) => a.order - b.order);
-
 const sessionsByDay = days.map((d) => ({
   ...d,
   sessions: sessions.filter((s) => s.data.day === d.date),
-  rows: rowsForDay(d.date),
+  rows: rowsForDay(sessions, d.date),
 }));
 const hasAnySessions = sessions.length > 0;
 ---
@@ -110,126 +90,7 @@ const hasAnySessions = sessions.length > 0;
               {sessionsByDay.map((d) => (
                 <>
                 {d.sessions.length > 0 && (
-                <div class="sched-day rv" id={d.anchor}>
-                  <div class="sched-day-head">
-                    <span class="sched-day-label mono">{d.label}</span>
-                    <span class="sched-day-date">{d.dateLabel}</span>
-                    <span class="sched-day-kind mono">{d.kind}</span>
-                  </div>
-                  <div class="sched-list">
-                    {d.rows.map((row) => {
-                      /* A break or a block heading — not a session, so no
-                         title link, no themes and no page to go to. */
-                      if (row.kind === 'marker') {
-                        const m = row.marker;
-                        return (
-                          <div class={`sched-marker is-${m.type}`}>
-                            <div class="sched-side">
-                              {m.startTime && <div class="sched-time mono">{m.startTime}</div>}
-                            </div>
-                            <div class="sched-marker-body">
-                              <span class="sched-marker-label">{m.label}</span>
-                              {m.note && (m.href ? (
-                                <a class="sched-marker-note" href={m.href}>{m.note} →</a>
-                              ) : (
-                                <span class="sched-marker-note">{m.note}</span>
-                              ))}
-                              {m.partner && (
-                                <span class="sched-partner mono">{m.partner}</span>
-                              )}
-                              {m.partner && m.partnerLogo && (
-                                <span class:list={['sched-partner-logo', m.partnerLogoDark && 'is-dark']}>
-                                  <img src={m.partnerLogo} alt={`${m.partner} logo`} loading="lazy" />
-                                </span>
-                              )}
-                            </div>
-                          </div>
-                        );
-                      }
-                      const s = row.session;
-                      return (
-                      <div class="sched-item">
-                        <div class="sched-side">
-                          {s.data.startTime && (
-                            <div class="sched-time mono">
-                              {s.data.startTime}{s.data.endTime && <>–{s.data.endTime}</>}
-                            </div>
-                          )}
-                          {[...(s.data.photos ?? []), ...(s.data.moderatorPhoto ? [s.data.moderatorPhoto] : [])].length > 0 && (
-                            <div class="sched-photos">
-                              {[...(s.data.photos ?? []), ...(s.data.moderatorPhoto ? [s.data.moderatorPhoto] : [])].map((photo) => (
-                                <img
-                                  class="sched-photo"
-                                  src={photo}
-                                  alt={s.data.speaker ?? s.data.title}
-                                  width="140"
-                                  height="140"
-                                  loading="lazy"
-                                />
-                              ))}
-                            </div>
-                          )}
-                        </div>
-                        <div class="sched-body">
-                          <div class="sched-top">
-                            <h3>
-                              <a class="sched-link" href={`/programme/${s.id}`}>{s.data.title}</a>
-                            </h3>
-                            {s.data.sessionType && (
-                              <span class="sched-kind mono">{s.data.sessionType}</span>
-                            )}
-                            {s.data.partner && (
-                              <span class="sched-partner mono">{s.data.partner}</span>
-                            )}
-                            {s.data.partner && s.data.partnerLogo && (
-                              <span class="sched-partner-logo">
-                                <img src={s.data.partnerLogo} alt={`${s.data.partner} logo`} loading="lazy" />
-                              </span>
-                            )}
-                          </div>
-                          {s.data.hook && <p class="sched-hook">{s.data.hook}</p>}
-                          {s.data.speakers && s.data.speakers.length > 0 ? (
-                            <ul class="sched-speakers">
-                              {s.data.speakers.map((sp) => (
-                                <li>
-                                  <span class="sched-speaker-name">{sp.name}</span>{(sp.title || sp.company) && (
-                                    <span class="sched-speaker-role">{[sp.title, sp.company].filter(Boolean).join(', ')}</span>
-                                  )}
-                                </li>
-                              ))}
-                            </ul>
-                          ) : (
-                            s.data.speaker && <div class="sched-speaker">{s.data.speaker}</div>
-                          )}
-                          {/* The Upfronts are one row rather than one each, so
-                              the row itself lists the pitches and links out to
-                              their pages. */}
-                          {s.id === 'ai-upfronts' && (
-                            <ul class="sched-upfronts">
-                              {UPFRONTS.map((u) => (
-                                <li>
-                                  <a href={`/programme/upfronts/${u.slug}`}>{u.company}</a>
-                                </li>
-                              ))}
-                            </ul>
-                          )}
-                        </div>
-                        <div class="sched-tags">
-                          {(s.data.themes ?? []).map((t) => (
-                            <span class="sched-theme">{themeById(t)?.name ?? t}</span>
-                          ))}
-                          <a class="sched-cta mono" href={`/programme/${s.id}`}>
-                            SESSION DETAIL →
-                          </a>
-                        </div>
-                      </div>
-                      );
-                    })}
-                  </div>
-                  <div class="sec-cta">
-                    <a href={TICKET_URL} class={`btn btn-pop ${d.date === '2026-10-13' ? 'btn-green' : 'btn-pink'}`} target={ticketTarget} rel={ticketRel}><span class="dot"></span>Secure your spot →</a>
-                  </div>
-                </div>
+                  <ScheduleDay day={d} rows={d.rows} ctaClass={d.date === '2026-10-13' ? 'btn-green' : 'btn-pink'} />
                 )}
                 {/* The round tables run at lunch on day one, so they belong
                     between the conference day and the workshop day — not after
@@ -405,10 +266,6 @@ const hasAnySessions = sessions.length > 0;
     outline: 3px solid var(--pink);
     outline-offset: 4px;
   }
-  /* The nav is sticky, so an anchored day would land under it. */
-  .sched-day {
-    scroll-margin-top: 90px;
-  }
 
   /* ---------- sessions ---------- */
   /* Tighter than the global 96px: the section head that used to sit under the
@@ -455,284 +312,6 @@ const hasAnySessions = sessions.length > 0;
     border: 1px solid var(--line-2);
     border-radius: 100px;
     padding: 4px 11px;
-  }
-  .sched-list {
-    display: flex;
-    flex-direction: column;
-  }
-  .sched-item {
-    display: grid;
-    grid-template-columns: 140px minmax(0, 1fr) 150px;
-    gap: 24px;
-    padding: 32px 0;
-    border-top: 1px solid var(--line);
-    text-decoration: none;
-    color: var(--ink);
-    transition: 0.2s;
-  }
-  .sched-item:first-child {
-    padding-top: 0;
-    border-top: none;
-  }
-  /* The row used to be one big <a>, which made its text impossible to select
-     (dragging inside a link drags the link). The title and the CTA carry the
-     link instead, so the copy stays selectable. */
-  .sched-link {
-    color: inherit;
-    text-decoration: none;
-  }
-  .sched-item:hover .sched-link {
-    color: var(--pink);
-  }
-  .sched-link:focus-visible,
-  .sched-cta:focus-visible {
-    outline: 3px solid var(--pink);
-    outline-offset: 4px;
-  }
-  .sched-side {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-  }
-  /* A grid rather than a row, because a panel can have more than two faces:
-     four across a 140px column would be 30px slivers, so they wrap two-up
-     instead — one photo fills the column, any more sit in pairs. */
-  .sched-upfronts {
-    margin: 10px 0 0;
-    padding: 0;
-    list-style: none;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px 14px;
-  }
-  .sched-upfronts a {
-    font-size: 14px;
-    color: var(--ink-2);
-    text-decoration: none;
-    border-bottom: 1px solid var(--line-2);
-    padding-bottom: 1px;
-  }
-  .sched-upfronts a:hover {
-    color: var(--ink);
-  }
-  .sched-photos {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 8px;
-    width: 100%;
-  }
-  .sched-photos:has(> :nth-child(2)) {
-    grid-template-columns: 1fr 1fr;
-  }
-  /* A lone portrait would otherwise fill the full column — twice the size of
-     each photo in a multi-speaker row, pushing that row taller than its own
-     text. Hold it to the size one photo gets inside a pair. */
-  .sched-photos:not(:has(> :nth-child(2))) .sched-photo {
-    width: calc(50% - 4px);
-  }
-  .sched-photo {
-    min-width: 0;
-    width: 100%;
-    /* The width/height="140" attributes (kept so the box is reserved before the
-       image loads) map to CSS height, and an explicit height beats
-       `aspect-ratio`. Without `height: auto` a two-speaker session renders
-       66x140 slivers instead of squares. */
-    height: auto;
-    aspect-ratio: 1;
-    border-radius: 12px;
-    object-fit: cover;
-    object-position: top;
-    display: block;
-  }
-  .sched-time {
-    color: var(--ink-2);
-    font-size: 12px;
-  }
-  .sched-top {
-    display: flex;
-    align-items: baseline;
-    gap: 12px;
-    flex-wrap: wrap;
-  }
-  .sched-body h3 {
-    font-family: var(--disp);
-    font-weight: 700;
-    font-size: 20px;
-    letter-spacing: -0.01em;
-    line-height: 1.2;
-    margin: 0;
-  }
-  .sched-hook {
-    font-size: 16px;
-    line-height: 1.5;
-    color: var(--ink);
-    margin: 10px 0 0;
-    max-width: 58ch;
-  }
-  .sched-speaker {
-    font-size: 13px;
-    color: var(--ink-2);
-    margin-top: 8px;
-  }
-  .sched-speakers {
-    margin: 8px 0 0;
-    padding: 0;
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-  .sched-speakers li {
-    font-size: 13px;
-    line-height: 1.4;
-    padding-left: 14px;
-    position: relative;
-  }
-  .sched-speakers li::before {
-    content: '—';
-    position: absolute;
-    left: 0;
-    color: var(--ink-2);
-  }
-  .sched-speaker-name {
-    color: var(--ink);
-  }
-  .sched-speaker-role {
-    color: var(--ink-2);
-  }
-  .sched-speaker-role::before {
-    content: ', ';
-  }
-  .sched-tags {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 6px;
-  }
-  .sched-cta {
-    text-decoration: none;
-    margin-top: 10px;
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    color: var(--ink);
-    border: 1px solid var(--line-2);
-    border-radius: 100px;
-    padding: 7px 14px;
-    white-space: nowrap;
-    transition: 0.2s;
-  }
-  .sched-item:hover .sched-cta {
-    background: var(--ink);
-    border-color: var(--ink);
-    color: #0b0908;
-  }
-  /* Sits beside the title rather than in the theme column: it says who
-     brought the session, which isn't the same kind of label as a theme. */
-  .sched-partner {
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--blue);
-    border: 1px solid var(--blue);
-    border-radius: 100px;
-    padding: 4px 10px;
-    white-space: nowrap;
-  }
-  .sched-kind {
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--yellow);
-    border: 1px solid var(--yellow);
-    border-radius: 100px;
-    padding: 4px 10px;
-    white-space: nowrap;
-  }
-  /* Same white chip the AI Upfronts logos get: these marks are drawn for
-     light backgrounds and would disappear straight onto the dark page. */
-  .sched-partner-logo {
-    display: inline-flex;
-    align-items: center;
-    background: #fff;
-    border-radius: 6px;
-    padding: 5px 9px;
-    height: 26px;
-  }
-  .sched-partner-logo img {
-    display: block;
-    max-height: 16px;
-    max-width: 70px;
-    width: auto;
-    height: auto;
-    object-fit: contain;
-  }
-  /* For logos that are light/white artwork and would disappear on white. */
-  .sched-partner-logo.is-dark {
-    background: var(--panel-2);
-    border: 1px solid var(--line-2);
-  }
-  .sched-theme {
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--pink);
-    border: 1px solid var(--line-2);
-    border-radius: 100px;
-    padding: 4px 10px;
-    white-space: nowrap;
-  }
-  /* ---------- breaks and block headings ---------- */
-  /* Same three-column grid as a session row so the times line up down the
-     page; the row itself is slim, because nothing happens on it. */
-  .sched-marker {
-    display: grid;
-    grid-template-columns: 140px minmax(0, 1fr) 150px;
-    gap: 24px;
-    padding: 18px 0;
-    border-top: 1px solid var(--line);
-  }
-  .sched-marker-body {
-    display: flex;
-    align-items: baseline;
-    gap: 14px;
-    flex-wrap: wrap;
-  }
-  .sched-marker.is-break .sched-marker-label {
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--ink-2);
-  }
-  /* A heading over the sessions that follow it, so it carries the weight of
-     one rather than receding like a break. */
-  .sched-marker.is-group {
-    padding: 28px 0 14px;
-  }
-  .sched-marker.is-group .sched-marker-label {
-    font-family: var(--disp);
-    font-weight: 800;
-    font-size: 20px;
-    letter-spacing: -0.01em;
-    color: var(--pink);
-  }
-  .sched-marker-note {
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--ink-2);
-  }
-  a.sched-marker-note {
-    color: var(--ink);
-    text-decoration: none;
-    border-bottom: 1px solid var(--line-2);
-    padding-bottom: 1px;
-  }
-  a.sched-marker-note:hover {
-    color: var(--pink);
   }
   .sched-empty {
     font-size: 15px;
@@ -825,27 +404,6 @@ const hasAnySessions = sessions.length > 0;
     .prog-coming {
       grid-template-columns: 1fr;
       gap: 48px;
-    }
-  }
-  @media (max-width: 720px) {
-    .sched-item,
-    .sched-marker {
-      grid-template-columns: 1fr;
-      gap: 14px;
-    }
-    .sched-side {
-      flex-direction: row;
-      align-items: center;
-      gap: 12px;
-    }
-    .sched-photos {
-      width: auto;
-      max-width: 160px;
-    }
-    .sched-tags {
-      flex-direction: row;
-      align-items: flex-start;
-      flex-wrap: wrap;
     }
   }
 

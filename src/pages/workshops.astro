@@ -1,0 +1,76 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import PageHeader from '../components/PageHeader.astro';
+import PulseBand from '../components/PulseBand.astro';
+import ScheduleDay from '../components/ScheduleDay.astro';
+import { breadcrumbJsonLd } from '../utils/breadcrumbs';
+import { currentEdition } from '../utils/edition';
+import { rowsForDay } from '../utils/schedule';
+import { SITE } from '../config';
+import { DAYS } from '../data/days';
+import { VENUE_LINE } from '../data/venue';
+
+const crumbs = breadcrumbJsonLd([
+  { name: 'AI Workshops and Masterclasses', url: `${SITE}/workshops/` },
+]);
+
+// Day two — the masterclass/workshop day. Pulls from the same `schedule`
+// collection and `src/data/markers.ts` breaks as /programme, so this page and
+// the Day 02 block there can never drift out of step with each other.
+const day = DAYS.find((d) => d.date === '2026-10-14')!;
+const sessions = currentEdition(await getCollection('schedule'));
+const hasSessions = sessions.some((s) => s.data.day === day.date);
+const rows = rowsForDay(sessions, day.date);
+---
+
+<BaseLayout
+  title="AI Workshops and Masterclasses | humAIn 2026, Sydney"
+  description="14 October 2026, Sydney — hands-on AI workshops and masterclasses on vibe coding, trustworthy agents, interactive worlds and AI-native marketing teams. The day after the humAIn conference."
+  extraJsonLd={[crumbs]}
+>
+  <Nav />
+  <main>
+    <PageHeader
+      secNum="— Workshops"
+      h1="AI Workshops and Masterclasses"
+      title="Hands-on, small-group sessions — day two of humAIn 2026"
+      lede={`${day.dateLabel} · ${VENUE_LINE}`}
+    />
+    <PulseBand h={80} />
+
+    <section id="workshops">
+      <div class="wrap">
+        {hasSessions ? (
+          <ScheduleDay day={day} rows={rows} ctaClass="btn-pink" />
+        ) : (
+          <p class="sched-empty rv">
+            The workshops running order is still being finalised. See the
+            <a href="/voices">confirmed speakers</a> in the meantime — times and topics will
+            appear here as they're locked in.
+          </p>
+        )}
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  #workshops {
+    padding-top: 40px;
+  }
+  .sched-empty {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--ink-2);
+    max-width: 56ch;
+  }
+  .sched-empty a {
+    color: var(--ink);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+</style>

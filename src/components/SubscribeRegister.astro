@@ -1,0 +1,141 @@
+---
+/**
+ * Prominent band directly under the hero: newsletter sign-up (opens the
+ * MailerLite form loaded by Newsletter.astro) and the "Register for humAIn
+ * 2027" interest form (Web3Forms, emailed to admin@humain.au like Contact).
+ */
+const accessKey = import.meta.env.WEB3FORMS_ACCESS_KEY ?? '';
+---
+
+<section id="subscribe" style="padding-top:0">
+  <div class="wrap">
+    <div class="sr rv">
+      <div class="sr-news">
+        <p class="sr-lede">
+          Subscribe to our regular newsletter to stay up to date with the ideas, people and technologies reshaping
+          media, marketing and the creative industries
+        </p>
+        <button class="btn nform-btn" type="button" onclick="ml('show', 'oxsrey', true)">Subscribe →</button>
+      </div>
+
+      <div class="sr-reg">
+        <h2>Register for humAIn 2027</h2>
+        <form class="contact-form" id="reg2027-form" action="https://api.web3forms.com/submit" method="POST">
+          <input type="hidden" name="access_key" value={accessKey} />
+          <input type="hidden" name="redirect" value="false" />
+          <input type="hidden" name="subject" value="Register for humAIn 2027" />
+          <input type="checkbox" name="botcheck" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" aria-hidden="true" tabindex="-1" />
+          <div class="cf-row">
+            <div class="cf-field">
+              <label for="reg-name">Name</label>
+              <input id="reg-name" type="text" name="name" placeholder="Your name" autocomplete="name" required />
+            </div>
+            <div class="cf-field">
+              <label for="reg-email">Email</label>
+              <input id="reg-email" type="email" name="email" placeholder="your@email.com" autocomplete="email" required />
+            </div>
+          </div>
+          <div class="cf-footer">
+            <button type="submit" class="btn cf-submit">Register →</button>
+            <p class="cf-result" id="reg-result" aria-live="polite"></p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .sr {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .sr-news,
+  .sr-reg {
+    border-radius: 22px;
+    padding: 44px 40px;
+  }
+  .sr-news {
+    background: var(--pink);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 28px;
+  }
+  .sr-lede {
+    font-family: var(--disp);
+    font-weight: 800;
+    font-size: clamp(22px, 2.4vw, 32px);
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+  }
+  .sr-news .nform-btn {
+    align-self: flex-start;
+  }
+  .sr-reg {
+    background: var(--panel);
+    border: 1px solid var(--line-2);
+  }
+  .sr-reg h2 {
+    font-family: var(--disp);
+    font-weight: 800;
+    font-size: clamp(26px, 3vw, 40px);
+    line-height: 0.98;
+    letter-spacing: -0.02em;
+    margin-bottom: 22px;
+  }
+  @media (max-width: 760px) {
+    .sr {
+      grid-template-columns: 1fr;
+    }
+    .sr-news,
+    .sr-reg {
+      padding: 32px 24px;
+    }
+  }
+</style>
+
+<script>
+  const form = document.getElementById('reg2027-form') as HTMLFormElement | null;
+  const result = document.getElementById('reg-result');
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+    if (result) result.textContent = '';
+
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 10000);
+
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: new FormData(form),
+        signal: controller.signal,
+      });
+      clearTimeout(timeout);
+      if (!res.ok) throw new Error(`Server error (${res.status})`);
+      const json = await res.json();
+      if (json.success) {
+        form.reset();
+        btn.textContent = 'Sent ✓';
+        if (result) result.textContent = "Thanks — we'll be in touch soon.";
+      } else {
+        throw new Error(json.message ?? 'Submission rejected');
+      }
+    } catch (err: unknown) {
+      clearTimeout(timeout);
+      btn.disabled = false;
+      btn.textContent = 'Register →';
+      const msg =
+        err instanceof Error && err.name === 'AbortError'
+          ? 'Request timed out — please try again.'
+          : 'Something went wrong. Please try again or email hello@humain.au directly.';
+      if (result) result.textContent = msg;
+    }
+  });
+</script>

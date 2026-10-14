@@ -5,10 +5,9 @@ import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import PageHeader from '../components/PageHeader.astro';
 import PulseBand from '../components/PulseBand.astro';
-import TicketsProgramme from '../components/TicketsProgramme.astro';
 import { breadcrumbJsonLd } from '../utils/breadcrumbs';
 import { currentEdition } from '../utils/edition';
-import { SITE, TICKET_URL, TICKET_IS_EXTERNAL } from '../config';
+import { SITE } from '../config';
 import { themeById } from '../data/themes';
 import { DAYS } from '../data/days';
 import { ROUND_TABLES } from '../data/roundtables';
@@ -22,8 +21,6 @@ const sessions = currentEdition(await getCollection('schedule')).sort(
   (a, b) => a.data.order - b.data.order
 );
 const days = DAYS;
-const ticketTarget = TICKET_IS_EXTERNAL ? '_blank' : undefined;
-const ticketRel = TICKET_IS_EXTERNAL ? 'noopener noreferrer' : undefined;
 
 /*
  * The running order is sessions *and* the rows between them — the breaks, and
@@ -88,13 +85,6 @@ const hasAnySessions = sessions.length > 0;
                   <a class="day-jump-cta mono" href={`#${d.anchor}`}>
                     Jump to {d.label} content →
                   </a>
-                  <a
-                    href={TICKET_URL}
-                    class={`btn btn-pop ${d.date === '2026-10-13' ? 'btn-orange' : 'btn-green'}`}
-                    target={ticketTarget}
-                    rel={ticketRel}
-                    ><span class="dot"></span>{d.date === '2026-10-13' ? 'Buy now' : 'Secure your place'} →</a
-                  >
                 </div>
               </div>
             ))}
@@ -227,7 +217,6 @@ const hasAnySessions = sessions.length > 0;
                     })}
                   </div>
                   <div class="sec-cta">
-                    <a href={TICKET_URL} class={`btn btn-pop ${d.date === '2026-10-13' ? 'btn-green' : 'btn-pink'}`} target={ticketTarget} rel={ticketRel}><span class="dot"></span>Secure your spot →</a>
                   </div>
                 </div>
                 )}
@@ -253,7 +242,6 @@ const hasAnySessions = sessions.length > 0;
                       ))}
                     </div>
                     <div class="sec-cta">
-                    <a href={TICKET_URL} class="btn btn-pop btn-orange" target={ticketTarget} rel={ticketRel}><span class="dot"></span>Secure your spot →</a>
                   </div>
                   </div>
                 )}
@@ -321,19 +309,13 @@ const hasAnySessions = sessions.length > 0;
       </div>
     </section>
 
-    {/* Three tiers, each with its own CTA, so the generic "Get tickets" button
-        that used to sit here would only repeat what the cards already offer. */}
-    <TicketsProgramme />
   </main>
   <Footer />
 </BaseLayout>
 
-
 <style>
   /* `hidden` has to beat the grid/flex display rules below, or filtered-out
      rows stay on screen. */
-
-
 
   /* ---------- filter chips ---------- */
 

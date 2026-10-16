@@ -44,7 +44,7 @@ const rows = rowsForDay(sessions, day.date);
     <section id="workshops">
       <div class="wrap">
         {hasSessions ? (
-          <ScheduleDay day={day} rows={rows} ctaClass="btn-pink" />
+          <ScheduleDay day={day} rows={rows} />
         ) : (
           <p class="sched-empty rv">
             The workshops running order is still being finalised. See the

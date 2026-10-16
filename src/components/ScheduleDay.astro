@@ -9,18 +9,14 @@ import type { Day } from '../data/days';
 import type { ScheduleRow } from '../utils/schedule';
 import { themeById } from '../data/themes';
 import { UPFRONTS } from '../data/upfronts';
-import { TICKET_URL, TICKET_IS_EXTERNAL } from '../config';
 
 interface Props {
   day: Day;
   rows: ScheduleRow[];
   /** e.g. "btn-green" / "btn-pink" — appended to "btn btn-pop" on the CTA. */
-  ctaClass: string;
 }
 
-const { day: d, rows, ctaClass } = Astro.props;
-const ticketTarget = TICKET_IS_EXTERNAL ? '_blank' : undefined;
-const ticketRel = TICKET_IS_EXTERNAL ? 'noopener noreferrer' : undefined;
+const { day: d, rows } = Astro.props;
 ---
 
 <div class="sched-day rv" id={d.anchor}>
@@ -131,11 +127,6 @@ const ticketRel = TICKET_IS_EXTERNAL ? 'noopener noreferrer' : undefined;
         </div>
       );
     })}
-  </div>
-  <div class="sec-cta">
-    <a href={TICKET_URL} class={`btn btn-pop ${ctaClass}`} target={ticketTarget} rel={ticketRel}
-      ><span class="dot"></span>Secure your spot →</a
-    >
   </div>
 </div>
 

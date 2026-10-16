@@ -4,14 +4,12 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
 import PulseBand from '../../components/PulseBand.astro';
-import EarlyBirdNote from '../../components/EarlyBirdNote.astro';
 import { breadcrumbJsonLd } from '../../utils/breadcrumbs';
 import { currentEdition } from '../../utils/edition';
-import { SITE, TICKET_URL, TICKET_IS_EXTERNAL } from '../../config';
+import { SITE } from '../../config';
 import { themeById } from '../../data/themes';
 import { dayByDate } from '../../data/days';
 import { VENUE } from '../../data/venue';
-import { ticketForDay } from '../../data/tickets';
 import { UPFRONTS } from '../../data/upfronts';
 import '../../styles/session-page.css';
 
@@ -28,9 +26,6 @@ export async function getStaticPaths() {
 const { session, siblings } = Astro.props;
 const d = session.data;
 
-const ticketTarget = TICKET_IS_EXTERNAL ? '_blank' : undefined;
-const ticketRel = TICKET_IS_EXTERNAL ? 'noopener noreferrer' : undefined;
-
 const day = dayByDate(d.day);
 
 // Speakers first, then the moderator if there is one — the grid sizes itself
@@ -42,7 +37,6 @@ const portraits = [
 
 const themes = (d.themes ?? []).map((t) => themeById(t)).filter((t) => t !== undefined);
 const primary = themes[0];
-const ticket = ticketForDay(d.day);
 
 // Related: sessions sharing any theme, nearest first by running order.
 const related = siblings
@@ -113,9 +107,6 @@ const description =
             {d.hook && <p class="sp-lede">{d.hook}</p>}
             {d.speaker && <p class="sp-speaker">{d.speaker}</p>}
             <div class="sp-acts">
-              <a href={TICKET_URL} class="btn" target={ticketTarget} rel={ticketRel}>
-                <span class="dot"></span>Get tickets from {ticket.price} →
-              </a>
               <a href="/programme" class="btn ghost">See the full programme →</a>
             </div>
           </div>
@@ -206,17 +197,6 @@ const description =
             )}
           </div>
 
-          <aside class="sp-aside">
-            <div class="sp-h">{ticket.days}</div>
-            <div class="sp-amt">
-              {ticket.price}
-            </div>
-            <p class="sp-ex">{ticket.name}, ex GST</p>
-            <a href={TICKET_URL} class="btn" target={ticketTarget} rel={ticketRel}>
-              <span class="dot"></span>Get tickets →
-            </a>
-            <EarlyBirdNote />
-          </aside>
         </div>
       </div>
     </section>
@@ -249,10 +229,6 @@ const description =
     <section style="padding-top:0">
       <div class="wrap">
         <div class="sec-cta rv">
-          <a href={TICKET_URL} class="btn" target={ticketTarget} rel={ticketRel}>
-            <span class="dot"></span>Get tickets →
-          </a>
-          <EarlyBirdNote />
         </div>
       </div>
     </section>

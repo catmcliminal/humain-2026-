@@ -695,6 +695,27 @@ lockfile before the build would run; `package-lock.json` was left untouched.
   100-day window. "Above the pulse line" was read as the hero's pulse band, not
   the second one after the Audience section. Checked in the dev server; **not
   yet checked at phone width**. Merged in PR #71.
+- **2026-10-14 (homepage)** — **Countdown removed** from the hero (Cat's call;
+  the conference is on). Deleted `src/components/Countdown.astro`, its use in
+  `Hero.astro`, and the now-unused `EVENT_START` / `EVENT_END` in
+  `src/config.ts`. Supersedes the 2026-10-07 countdown entry above.
+- **2026-10-14 (tickets removed)** — All ticket buttons and links removed from
+  the site (Cat's call): nav, hero, footer, every section CTA, FAQ, programme
+  and session pages, plus the early-bird notes beside them. Also removed: the
+  `TicketsProgramme` and (unused) `Tickets` components, the homepage tier
+  price cards in `Conference.astro` (the section itself stays), and the price
+  boxes on session pages. `TICKET_URL` / `src/data/tickets.ts` are kept for
+  re-use. **Still present:** Offer entries in the Event JSON-LD
+  (`BaseLayout.astro`) and "Register" links inside two news articles'
+  body copy (editor content). To bring tickets back, restore from git history.
+- **2026-10-14 (homepage)** — New band directly under the hero
+  (`src/components/SubscribeRegister.astro`): pink newsletter panel with Cat's
+  wording verbatim plus a Subscribe button (opens the same MailerLite popup
+  as the bottom Newsletter section), beside a **Register for humAIn 2027**
+  form (name + email, via Web3Forms to `admin@humain.au`, subject "Register
+  for humAIn 2027"). Fields and the success/error messages reuse the Contact
+  form's. **Not yet checked visually** (browser screenshots came back blank) or
+  at phone width.
 - **2026-10-08 (ticket pills)** — Coloured ticket pills added to the home and
   programme pages, all linking to `TICKET_URL`. Home: *Secure your ticket* under
   the "What AI means" box (`About.astro`) and *Buy now* under "Who humAIn is

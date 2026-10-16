@@ -165,6 +165,8 @@ const gallery = defineCollection({
     // Pin to the homepage gallery (the 7-tile bento). Unflagged images fill any
     // remaining slots by `order`, and all images appear on /gallery.
     featured: z.boolean().default(false),
+    // Edition the photo is from. Only used by the per-year pages (/gallery/2026).
+    year: z.number().optional(),
     order: z.number(),
   }),
 });

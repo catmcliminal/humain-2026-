@@ -8,7 +8,7 @@
 interface Props {
   secNum: string; // e.g. "05 — Speakers"
   title: string;
-  lede: string;
+  lede?: string;
   h1?: string; // optional page H1; when set, `title` renders as H2 instead
 }
 // Optional slot: anything passed as children renders under the lede (e.g. a CTA).
@@ -21,7 +21,7 @@ const { secNum, title, lede, h1 } = Astro.props;
     <span class="eyebrow"><span class="tk"></span><span class="mono">{secNum}</span></span>
     {h1 ? <h1 class="rv">{h1}</h1> : null}
     {h1 ? <h2 class="rv" set:html={title} /> : <h1 class="rv" set:html={title} />}
-    <p class="lede rv">{lede}</p>
+    {lede && <p class="lede rv">{lede}</p>}
     <slot />
   </div>
 </header>

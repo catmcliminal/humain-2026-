@@ -359,6 +359,10 @@ export default config({
             'Pin to the homepage gallery (7 tiles — unpinned images fill remaining tiles by order).',
           defaultValue: false,
         }),
+        year: fields.number({
+          label: 'Edition year',
+          description: 'Optional. Set to 2026 to show the photo on the 2026 gallery page.',
+        }),
         order: fields.number({
           label: 'Order',
           description: 'Lower numbers appear first.',

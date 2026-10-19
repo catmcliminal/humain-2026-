@@ -263,7 +263,7 @@ lockfile before the build would run; `package-lock.json` was left untouched.
 ## Open questions
 
 1. **OG share image** — upload a real one to `public/images/og-default.jpg` (1200×630px). Currently a placeholder, so link previews on LinkedIn/Slack/X are weak.
-2. **Real gallery photos** — only a placeholder gallery entry exists. Upload actual event photos.
+2. **Real gallery photos** — 2025 photos and 13 Day one 2026 photos are in (see 2026-10-16 note). None of the 2026 photos have captions yet.
 3. **Paul's Vercel project** — still running at humain-site-seven.vercel.app. Decommission once the Netlify site is confirmed stable on the real domain.
 4. **The five-section prose block on `/programme`** ("Turning AI adoption into real marketing advantage" and the four headings after it) predates the rebuild but its author is unconfirmed. Every other block on the page has been traced to Cat; this one has not. Confirm or replace.
 5. **"Explore the themes this sits in"** on session pages is now a non-interactive restatement of the theme tags already in the hero, since the chips no longer link. Keep as labels, point somewhere, or remove.
@@ -748,3 +748,26 @@ lockfile before the build would run; `package-lock.json` was left untouched.
   role and name only, like Creative Natives. Accent is yellow, my pick (Cat
   can change it). **Not yet seen in a browser** (the preview pane blocked
   localhost); checked only that the entry and logo render in the page HTML.
+- **2026-10-16 (2026 gallery photos)** — 13 Day one photographs from Cat's Drive
+  folder (`P1158080`–`P1169729`, 8–25MB originals) added to the `gallery`
+  collection as `src/content/gallery/humain-2026-*.yaml`, images in
+  `public/images/gallery/humain-2026-event/`, resized to a 1600px long edge at
+  JPEG q82 (**5.0MB total**, matching the 2025 set). They appear on the existing
+  `/gallery` page at `order: 29–41`, after the 2025 images; no new page or
+  schema field was needed. `featured: false`, so the homepage bento is
+  unchanged. **Alt text only, no captions** — the alt text describes what is
+  visible and names nobody; captions show on the page and so are Cat's to
+  supply. There is no year field, so 2025 and 2026 photos are mixed in one
+  list: leading with 2026 means lowering their `order`, and featuring any of
+  them on the homepage means ticking `featured`. Open question 2 (real gallery
+  photos) is now answered for 2026. Seen in a browser only as far as images
+  loading at the right dimensions; the grid itself was not checked visually.
+- **2026-10-16 (2026 gallery page)** — `/gallery/2026` added
+  (`src/pages/gallery/2026.astro`), showing only the 13 Day one photos. The
+  gallery collection gained an optional `year` field (Zod + Keystatic, "Edition
+  year"); the 13 entries carry `year: 2026` and the page filters on it. Editors
+  add future 2026 photos by setting that field. `PageHeader`'s `lede` became
+  optional; the lede is Cat's, "The humAIn community 2026". The h1 "humAIn 2026." and the
+  meta title/description (adapted from `/gallery`'s) are my wording, to confirm.
+  The page is not linked from anywhere yet, and the photos still also appear on
+  `/gallery`.

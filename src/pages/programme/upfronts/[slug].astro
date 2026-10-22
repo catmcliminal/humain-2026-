@@ -12,12 +12,10 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Nav from '../../../components/Nav.astro';
 import Footer from '../../../components/Footer.astro';
 import PulseBand from '../../../components/PulseBand.astro';
-import EarlyBirdNote from '../../../components/EarlyBirdNote.astro';
 import { breadcrumbJsonLd } from '../../../utils/breadcrumbs';
-import { SITE, TICKET_URL, TICKET_IS_EXTERNAL } from '../../../config';
+import { SITE } from '../../../config';
 import { dayByDate } from '../../../data/days';
 import { VENUE } from '../../../data/venue';
-import { ticketForDay } from '../../../data/tickets';
 import { UPFRONTS } from '../../../data/upfronts';
 import '../../../styles/session-page.css';
 
@@ -32,11 +30,7 @@ export async function getStaticPaths() {
 
 const { upfront, siblings } = Astro.props;
 
-const ticketTarget = TICKET_IS_EXTERNAL ? '_blank' : undefined;
-const ticketRel = TICKET_IS_EXTERNAL ? 'noopener noreferrer' : undefined;
-
 const day = dayByDate(UPFRONT_DAY);
-const ticket = ticketForDay(UPFRONT_DAY);
 
 const url = `${SITE}/programme/upfronts/${upfront.slug}/`;
 const crumbs = breadcrumbJsonLd([
@@ -87,9 +81,6 @@ const eventJsonLd = {
             {upfront.speaker && <p class="sp-speaker">{upfront.speaker}</p>}
 
             <div class="sp-acts">
-              <a href={TICKET_URL} class="btn" target={ticketTarget} rel={ticketRel}>
-                <span class="dot"></span>Get tickets{ticket ? ` from ${ticket.price}` : ''} →
-              </a>
               <a href="/programme/ai-upfronts" class="btn ghost">All AI Upfronts →</a>
             </div>
           </div>
@@ -134,17 +125,6 @@ const eventJsonLd = {
             </div>
           </div>
 
-          {ticket && (
-            <aside class="sp-aside">
-              <div class="sp-h">{ticket.days}</div>
-              <div class="sp-amt">{ticket.price}</div>
-              <p class="sp-ex">{ticket.name}, ex GST</p>
-              <a href={TICKET_URL} class="btn" target={ticketTarget} rel={ticketRel}>
-                <span class="dot"></span>Get tickets →
-              </a>
-              <EarlyBirdNote />
-            </aside>
-          )}
         </div>
       </div>
     </section>

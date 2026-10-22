@@ -1,11 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
 import { featuredFirst } from '../utils/featured';
-import EarlyBirdNote from './EarlyBirdNote.astro';
-import { TICKET_URL, TICKET_IS_EXTERNAL } from '../config';
-
-const ticketTarget = TICKET_IS_EXTERNAL ? '_blank' : undefined;
-const ticketRel = TICKET_IS_EXTERNAL ? 'noopener noreferrer' : undefined;
 
 // Homepage shows up to three published articles — featured first, then newest
 // to fill. The full archive lives at /news.
@@ -64,8 +59,6 @@ function patternSvg(index: number, key: string): string {
     </div>
     <div class="sec-cta rv" style="gap:12px;flex-wrap:wrap;margin-top:28px">
       <a href="/news" class="btn ghost">Browse all media →</a>
-      <a href={TICKET_URL} class="btn" target={ticketTarget} rel={ticketRel}><span class="dot"></span>Get tickets →</a>
-      <EarlyBirdNote />
     </div>
   </div>
 </section>

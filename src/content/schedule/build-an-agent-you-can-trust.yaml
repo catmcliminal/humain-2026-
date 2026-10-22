@@ -1,5 +1,7 @@
 title: 'Build an Agent You Can Trust: Time Under Tension'
 day: '2026-10-14'
+startTime: '09:00'
+endTime: '12:30'
 hook: >-
   How to design, test and contain an AI agent before it touches your brand,
   your customers or your budget.
@@ -24,6 +26,6 @@ description: >-
 
 
   This is the advanced track.
-order: 7
+order: 2
 active: true
 year: 2026

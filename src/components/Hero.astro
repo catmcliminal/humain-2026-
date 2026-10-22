@@ -1,11 +1,5 @@
 ---
 import PulseBand from './PulseBand.astro';
-import Countdown from './Countdown.astro';
-import EarlyBirdNote from './EarlyBirdNote.astro';
-import { TICKET_URL, TICKET_IS_EXTERNAL } from '../config';
-
-const ticketTarget = TICKET_IS_EXTERNAL ? '_blank' : undefined;
-const ticketRel = TICKET_IS_EXTERNAL ? 'noopener noreferrer' : undefined;
 
 const featuredSpeakerCompanies = [
   { name: 'Unilever', logo: '/images/logos/Unilever.svg' },
@@ -54,11 +48,7 @@ const featuredSpeakerCompanies = [
           </div>
         </div>
         <div class="hero-cta">
-          <a href={TICKET_URL} class="btn" target={ticketTarget} rel={ticketRel}
-            ><span class="dot"></span>Get tickets</a
-          >
           <a href="/programme" class="btn ghost">Explore the programme →</a>
-          <EarlyBirdNote />
         </div>
       </div>
       <div class="hero-mark rv">
@@ -66,7 +56,6 @@ const featuredSpeakerCompanies = [
       </div>
     </div>
   </div>
-  <Countdown />
   <PulseBand class="hero-pulse" h={150} />
   <div class="featured-speakers">
     <div class="wrap">

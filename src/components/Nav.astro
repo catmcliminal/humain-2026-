@@ -1,9 +1,4 @@
 ---
-import EarlyBirdNote from './EarlyBirdNote.astro';
-import { TICKET_URL, TICKET_IS_EXTERNAL } from '../config';
-
-const ticketTarget = TICKET_IS_EXTERNAL ? '_blank' : undefined;
-const ticketRel = TICKET_IS_EXTERNAL ? 'noopener noreferrer' : undefined;
 
 // Top-level nav groups, mirrored in Footer.astro's Event/Media/Community
 // columns so header and footer present the same site structure.
@@ -22,6 +17,7 @@ const groups = [
     children: [
       { label: 'Programme', href: '/programme' },
       { label: 'Conference', href: '/#conference' },
+      { label: 'AI Workshops and Masterclasses', href: '/workshops' },
       { label: 'Themes', href: '/#themes' },
       { label: 'Speakers', href: '/voices' },
       { label: 'Gallery', href: '/gallery' },
@@ -74,10 +70,6 @@ const groups = [
           <a href={g.href}>{g.label}</a>
         )
       ))}
-      <div class="nav-ticket">
-        <a href={TICKET_URL} class="btn" target={ticketTarget} rel={ticketRel}><span class="dot"></span>Get tickets</a>
-        <EarlyBirdNote class="eb-note--nav" />
-      </div>
     </div>
     <button class="nav-burger" id="nav-burger" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">
       <span></span><span></span><span></span>

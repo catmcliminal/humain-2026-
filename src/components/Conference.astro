@@ -1,15 +1,3 @@
----
-import EarlyBirdNote from './EarlyBirdNote.astro';
-import { TICKET_URL, TICKET_IS_EXTERNAL } from '../config';
-import { TICKETS } from '../data/tickets';
-
-const ticketTarget = TICKET_IS_EXTERNAL ? '_blank' : undefined;
-const ticketRel = TICKET_IS_EXTERNAL ? 'noopener noreferrer' : undefined;
-
-// Prices and tier names come from the shared list, not a second copy.
-const tiers = TICKETS;
----
-
 <section id="conference">
   <div class="wrap">
     <div class="conf">
@@ -27,27 +15,6 @@ const tiers = TICKETS;
             Two days of talks, debate: thinking out loud and building in public; connecting the people making AI with
             the people making meaning with it.
           </p>
-        </div>
-        <div class="conf-right" role="list" aria-label="Ticket options">
-          {tiers.map((t) => (
-            <div class:list={['tier', { feat: t.featured }]} role="listitem" aria-label={t.featured ? `${t.name} — recommended` : t.name}>
-              <div>
-                <div class="tn">{t.name}</div>
-                <div class="td">{t.days}</div>
-              </div>
-              <div class="tier-pricing">
-                <div class="tp">{t.price} <span class="tp-gst">+ gst</span></div>
-              </div>
-              <a
-                href={TICKET_URL}
-                class="btn tier-btn"
-                target={ticketTarget}
-                rel={ticketRel}
-                aria-label={`Register for ${t.name} — ${t.price} + gst`}
-              >Register now <span aria-hidden="true">→</span></a>
-              <EarlyBirdNote />
-            </div>
-          ))}
         </div>
       </div>
     </div>

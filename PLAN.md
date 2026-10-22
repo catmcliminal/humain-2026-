@@ -749,7 +749,6 @@ lockfile before the build would run; `package-lock.json` was left untouched.
   role and name only, like Creative Natives. Accent is yellow, my pick (Cat
   can change it). **Not yet seen in a browser** (the preview pane blocked
   localhost); checked only that the entry and logo render in the page HTML.
-<<<<<<< HEAD
 - **2026-10-22 (manifesto page)** — `/manifesto` built from the design handoff
   (`design_handoff_manifesto`): 11 principles with stand / margin notes / added
   lines, "The twelfth" proposals, and a sign-and-wall block. Files:
@@ -768,7 +767,6 @@ lockfile before the build would run; `package-lock.json` was left untouched.
   handoff); posts capped at 40 per visitor; page not yet in the sitemap
   priority/OG image; needs a check on the deployed Netlify site that Blobs
   writes persist.
-=======
 - **2026-10-16 (2026 gallery photos)** — 13 Day one photographs from Cat's Drive
   folder (`P1158080`–`P1169729`, 8–25MB originals) added to the `gallery`
   collection as `src/content/gallery/humain-2026-*.yaml`, images in
@@ -792,4 +790,3 @@ lockfile before the build would run; `package-lock.json` was left untouched.
   meta title/description (adapted from `/gallery`'s) are my wording, to confirm.
   The page is not linked from anywhere yet, and the photos still also appear on
   `/gallery`.
->>>>>>> origin/main

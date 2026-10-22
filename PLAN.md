@@ -111,6 +111,7 @@ at `_source/humAIn - 06 Pulse.html`).
 | 2026-09-25 | AiCandy's chip in the featured-speakers band is dark, not white | Its only source file (`AiCandy.png`) is white-only artwork on a transparent background — confirmed by test-rendering it on black — so it would be invisible on the white chip every other logo uses. Given a `dark: true` flag in the `featuredSpeakerCompanies` array in `Hero.astro` and an `.is-dark` chip modifier (`--panel-2` background) rather than sourcing a different-coloured AiCandy file, since none exists in the shared assets folder. |
 | 2026-09-25 | ACAM gets its own cropped logo file (`ACAM-mark.png`), separate from the shared `Australian_Centre_for_AI_in_Marketing.png` | The shared square PNG has ~100px of transparent padding above and below the actual mark (256×256 canvas, artwork only 244×53), so at the featured-speakers band's shared chip height it rendered far smaller than the other logos, which are closer to full-bleed. Traced the artwork's bounding box, trimmed to it and re-padded evenly (10px), giving a 264×73 file that fills the chip like its neighbours. The original square file is untouched and still used as-is by `/partners` and the `Audience.astro` "Previous attendees" logo cloud, both of which size it as a fixed square and would distort a wide crop. |
 | 2026-09-25 | Emma Barbato's workshop uses The Bruce Ryder Show promotional image as its session portrait, not her headshot | Cat's explicit instruction: "use the Bruce Ryder show image for the workshop, Emma headshot for speaker listing." The `photos` field on a schedule entry is documented as "one photo per speaker on the session" and every other use of it is a headshot, but the field just takes an image path — nothing stops it carrying session artwork instead when that's what's wanted. Her own `speakers` collection entry (which drives `/voices` and the homepage lineup) keeps her actual headshot. |
+| 2026-10-22 | Manifesto participation (votes, margin notes, added lines, proposals, signatures) is stored in Netlify Blobs behind `/api/manifesto`, not in a hosted database | The handoff needs a backend, but CLAUDE.md rules out separate services. Blobs is part of the Netlify account the site already runs on, so there is still one repo, one host. One JSON document with etag-guarded writes; visitor identity is an anonymous `hm_vid` cookie. The prototype's seeded votes, notes and signatories were fabricated and are **not** shipped — everything starts at zero. |
 
 ## Day one running order (2026-09-21)
 
@@ -748,6 +749,24 @@ lockfile before the build would run; `package-lock.json` was left untouched.
   role and name only, like Creative Natives. Accent is yellow, my pick (Cat
   can change it). **Not yet seen in a browser** (the preview pane blocked
   localhost); checked only that the entry and logo render in the page HTML.
+- **2026-10-22 (manifesto page)** — `/manifesto` built from the design handoff
+  (`design_handoff_manifesto`): 11 principles with stand / margin notes / added
+  lines, "The twelfth" proposals, and a sign-and-wall block. Files:
+  `src/pages/manifesto.astro` (markup, styles, client script),
+  `src/data/manifesto.ts` (principle copy, verbatim from the prototype),
+  `src/pages/api/manifesto.ts` + `src/utils/manifestoStore.ts` (API and
+  storage), `@netlify/blobs` added as a dependency. "Manifesto" added to the
+  Media nav group and the footer's Media column. Build is green and the API was
+  exercised with curl (toggle, note, line, proposal, sign, duplicate sign,
+  cross-origin 403). **Not seen in a browser** — the preview pane blocks
+  localhost and the Chrome extension did not respond — so layout, the
+  select-to-annotate pill and phone width are unchecked. Error strings added
+  that were not in the handoff: "Couldn't save that. Please try again.", "Select
+  a sentence from the principle.", "You've already signed.", "That's a lot of
+  posting. Try again later." Open: no moderation (posts go live, per the
+  handoff); posts capped at 40 per visitor; page not yet in the sitemap
+  priority/OG image; needs a check on the deployed Netlify site that Blobs
+  writes persist.
 - **2026-10-16 (2026 gallery photos)** — 13 Day one photographs from Cat's Drive
   folder (`P1158080`–`P1169729`, 8–25MB originals) added to the `gallery`
   collection as `src/content/gallery/humain-2026-*.yaml`, images in

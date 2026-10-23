@@ -817,4 +817,8 @@ lockfile before the build would run; `package-lock.json` was left untouched.
   the ranking from one place (`src/data/manifesto.ts`). Open: confirm whether the
   title should end in a full stop, and whether the body ("Name your influences.
   Honour contribution…") should change too.
+- **2026-10-23 (manifesto section labels)** — Section kickers renamed on Cat's
+  instruction: "02 — The voices" → "02 — Creative POV" and "03 — The principles"
+  → "03 — The manifesto". Read as label changes only: the 02 headline ("Pick them
+  up.") and its sub-line are unchanged, and the `#voices` anchor keeps its id.
 

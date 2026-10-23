@@ -130,23 +130,10 @@ const quoted = PRINCIPLES.filter((p) => p.quote);
       </div>
     </section>
 
-    <section class="wrap mf-section">
-      <div class="mf-secrow"><span>05 — Where the room stands</span><span data-stand-summary>0 stands · 0 notes</span></div>
-      <div class="mf-rank" data-rank>
-        {PRINCIPLES.map((p, i) => (
-          <a href={`#principle-${p.n}`} data-jump={`principle-${p.n}`} data-pid={`p${p.n}`} style={`--acc:${accent(i)}`}>
-            <span class="mf-rank-n">{pad(p.n)}</span>
-            <span class="mf-rank-track"><span class="mf-rank-bar" style="width:18%"></span><span class="mf-rank-title">{p.title}</span></span>
-            <span class="mf-rank-c" data-rank-count>0</span>
-          </a>
-        ))}
-      </div>
-    </section>
-
     <section id="sign" class="wrap mf-section">
       <div class="mf-sign">
         <div class="mf-sign-copy">
-          <div class="mf-kicker mf-kicker-ink">06 — Sign</div>
+          <div class="mf-kicker mf-kicker-ink">05 — Sign</div>
           <h2>Put your name to it.</h2>
           <p>Signing says you stand behind this, in public. Your name and city go on the wall below.</p>
         </div>
@@ -307,17 +294,7 @@ const quoted = PRINCIPLES.filter((p) => p.quote);
   .mf-prop p { margin: 0; flex: 1; font-size: 15px; line-height: 1.55; color: #fff; overflow-wrap: anywhere; }
   .mf-prop .mf-foot { padding-top: 14px; }
 
-  /* 05 Ranking */
-  .mf-rank { display: flex; flex-direction: column; gap: 8px; }
-  .mf-rank a { display: grid; grid-template-columns: 40px minmax(0, 1fr) 56px; gap: 16px; align-items: center; color: var(--ink); }
-  .mf-rank a:hover { opacity: .85; color: var(--ink); }
-  .mf-rank-n { font-family: var(--mono); font-size: 12px; letter-spacing: .1em; color: var(--ink-2); }
-  .mf-rank-track { position: relative; height: 44px; border-radius: 100px; background: var(--panel); overflow: hidden; }
-  .mf-rank-bar { position: absolute; left: 0; top: 0; bottom: 0; background: var(--acc); border-radius: 100px; transition: width .6s cubic-bezier(.2, .7, .2, 1); }
-  .mf-rank-title { position: absolute; left: 18px; right: 18px; top: 0; bottom: 0; display: flex; align-items: center; font-weight: 700; font-size: 14px; color: var(--ink-dark); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .mf-rank-c { font-family: var(--mono); font-size: 13px; text-align: right; }
-
-  /* 06 Sign */
+  /* Sign */
   .mf-sign { background: var(--pink); color: var(--ink-dark); border-radius: 22px; padding: 56px; display: flex; flex-wrap: wrap; gap: 40px; align-items: center; }
   .mf-sign-copy { flex: 1 1 380px; min-width: 0; }
   .mf-sign-copy h2 { margin: 0; font-family: var(--disp); font-weight: 800; font-size: clamp(34px, 4.8vw, 64px); line-height: .92; letter-spacing: -.025em; }
@@ -350,7 +327,7 @@ const quoted = PRINCIPLES.filter((p) => p.quote);
     .mf-sign { padding: 44px 30px; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .mf *, .mf-sticker, .mf-rank-bar { transition: none !important; }
+    .mf *, .mf-sticker { transition: none !important; }
     .mf-prop:hover, .mf-note:hover, .mf-index a:hover, .mf-stand:hover { transform: none; }
   }
 </style>
@@ -504,22 +481,10 @@ const quoted = PRINCIPLES.filter((p) => p.quote);
   function render() {
     if (!state) return;
     const s = state;
-    const stands = Object.values(s.votes).reduce((a, b) => a + b, 0);
     $$('[data-stat="signs"]').forEach((el) => (el.textContent = String(s.signs.length)));
-    $('[data-stand-summary]')!.textContent = `${stands} stands · ${s.notes.length} notes`;
 
-    // The eleven: live counts in the index and the ranking.
+    // The eleven: live counts in the index.
     for (const el of $$('.mf-index [data-pid]')) $('[data-index-count]', el)!.textContent = String(s.votes[el.dataset.pid!] ?? 0);
-    const rank = $('[data-rank]')!;
-    const max = Math.max(1, ...Object.values(s.votes));
-    const rows = $$('a[data-pid]', rank);
-    for (const el of rows) {
-      const n = s.votes[el.dataset.pid!] ?? 0;
-      $('[data-rank-count]', el)!.textContent = String(n);
-      $('.mf-rank-bar', el)!.style.width = `${Math.max(18, (n / max) * 100)}%`;
-    }
-    rows.sort((a, b) => (s.votes[b.dataset.pid!] ?? 0) - (s.votes[a.dataset.pid!] ?? 0));
-    if (rows.some((el, i) => rank.children[i] !== el)) rank.append(...rows);
 
     for (const art of $$('article[data-pid]')) {
       const pid = art.dataset.pid!;

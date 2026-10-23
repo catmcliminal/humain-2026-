@@ -804,3 +804,25 @@ lockfile before the build would run; `package-lock.json` was left untouched.
   in a browser**, so the board's drag behaviour, panel colours, annotate pill
   and phone width are unchecked. Not built from the handoff: IP rate-limiting
   (only the 40-posts-per-visitor cap exists).
+- **2026-10-23 (manifesto intro)** — First paragraph under the `/manifesto`
+  headline replaced with Cat's new copy ("When the automobile arrived…"),
+  verbatim. It keeps her mixed apostrophes: straight in "didn't", curly in
+  "we’re" — fix only if she asks. The old paragraph ("We didn’t get decades to
+  build the roads…") is gone from the site; the same words are still in the v1/v2
+  handoff files.
+- **2026-10-23 (manifesto principle 8)** — Title changed from "Pay and credit the
+  people who make the work possible." to "Pay your dues", as Cat supplied it —
+  **no full stop**, unlike the other ten titles, which all end in one. Body text
+  untouched. Principle 8's title feeds the page heading, "The eleven" index and
+  the ranking from one place (`src/data/manifesto.ts`). Open: confirm whether the
+  title should end in a full stop, and whether the body ("Name your influences.
+  Honour contribution…") should change too.
+- **2026-10-23 (manifesto section labels)** — Section kickers renamed on Cat's
+  instruction: "02 — The voices" → "02 — Creative POV" and "03 — The principles"
+  → "03 — The manifesto". Read as label changes only: the 02 headline ("Pick them
+  up.") and its sub-line are unchanged, and the `#voices` anchor keeps its id.
+- **2026-10-23 (manifesto principle 6)** — Title changed from "Be a beginner." to
+  "Novice mindset". Cat typed it lower-case with no full stop; the first letter
+  is capitalised to match the other titles (same as "Pay your dues"), and the
+  full stop is left off. Body text untouched.
+

@@ -863,3 +863,14 @@ lockfile before the build would run; `package-lock.json` was left untouched.
   submit quotes — **nothing on the page does that yet**; it is not built.
   (2) The remaining section labels read 01, 03, 04, 05 — a gap where 02 was.
 
+- 2026-10-23 — **Submit a quote on /manifesto.** New "Submit a quote" button
+  beside Scatter/Tidy opens a small form (quote, optional "who said it"); the
+  quote joins the Creative POV board as a draggable sticker for everyone. API
+  action `quote` (max 200 chars, curly quotes stripped, counts toward the
+  40-post cap, `hidden: true` in the blob hides one). Visitor stickers have no
+  principle link, so tapping them does nothing. Their drag positions are saved
+  in the same localStorage key. Also: the "Add a line" placeholder is now "One
+  sentence. Make it count." (was "…Say it plainly."). Closes the open item on
+  "Submit your own." **Open:** the form's own wording ("Your quote", "Who said
+  it? (optional)", "Add to the board →") is placeholder UI copy — Cat to
+  confirm. Not yet viewed in a browser.

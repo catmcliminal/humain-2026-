@@ -854,4 +854,12 @@ lockfile before the build would run; `package-lock.json` was left untouched.
   fit seven cards. Because it sorts first, the skins of the other cards shift one
   place. Visitors' saved card positions reset once, as the layout changed. Not seen
   in a browser; the new card may overlap Earn belief's.
+- **2026-10-23 (manifesto Creative POV section)** — Section 02 reshaped on Cat's
+  instruction: the "02 —" label above is gone, **"Creative POV" is now the
+  header**, and the body is "Pick them up" (a display-font lead line) followed by
+  "Drag the quotes around the board. Tap one to read the principle it belongs to.
+  Submit your own." The old "Pick them up." headline had a full stop; Cat's text
+  has none, so none is shown. **Open:** (1) "Submit your own." promises a way to
+  submit quotes — **nothing on the page does that yet**; it is not built.
+  (2) The remaining section labels read 01, 03, 04, 05 — a gap where 02 was.
 

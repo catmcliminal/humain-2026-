@@ -810,4 +810,11 @@ lockfile before the build would run; `package-lock.json` was left untouched.
   "we’re" — fix only if she asks. The old paragraph ("We didn’t get decades to
   build the roads…") is gone from the site; the same words are still in the v1/v2
   handoff files.
+- **2026-10-23 (manifesto principle 8)** — Title changed from "Pay and credit the
+  people who make the work possible." to "Pay your dues", as Cat supplied it —
+  **no full stop**, unlike the other ten titles, which all end in one. Body text
+  untouched. Principle 8's title feeds the page heading, "The eleven" index and
+  the ranking from one place (`src/data/manifesto.ts`). Open: confirm whether the
+  title should end in a full stop, and whether the body ("Name your influences.
+  Honour contribution…") should change too.
 

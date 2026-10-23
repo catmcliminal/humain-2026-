@@ -112,6 +112,7 @@ at `_source/humAIn - 06 Pulse.html`).
 | 2026-09-25 | ACAM gets its own cropped logo file (`ACAM-mark.png`), separate from the shared `Australian_Centre_for_AI_in_Marketing.png` | The shared square PNG has ~100px of transparent padding above and below the actual mark (256×256 canvas, artwork only 244×53), so at the featured-speakers band's shared chip height it rendered far smaller than the other logos, which are closer to full-bleed. Traced the artwork's bounding box, trimmed to it and re-padded evenly (10px), giving a 264×73 file that fills the chip like its neighbours. The original square file is untouched and still used as-is by `/partners` and the `Audience.astro` "Previous attendees" logo cloud, both of which size it as a fixed square and would distort a wide crop. |
 | 2026-09-25 | Emma Barbato's workshop uses The Bruce Ryder Show promotional image as its session portrait, not her headshot | Cat's explicit instruction: "use the Bruce Ryder show image for the workshop, Emma headshot for speaker listing." The `photos` field on a schedule entry is documented as "one photo per speaker on the session" and every other use of it is a headshot, but the field just takes an image path — nothing stops it carrying session artwork instead when that's what's wanted. Her own `speakers` collection entry (which drives `/voices` and the homepage lineup) keeps her actual headshot. |
 | 2026-10-22 | Manifesto participation (votes, margin notes, added lines, proposals, signatures) is stored in Netlify Blobs behind `/api/manifesto`, not in a hosted database | The handoff needs a backend, but CLAUDE.md rules out separate services. Blobs is part of the Netlify account the site already runs on, so there is still one repo, one host. One JSON document with etag-guarded writes; visitor identity is an anonymous `hm_vid` cookie. The prototype's seeded votes, notes and signatories were fabricated and are **not** shipped — everything starts at zero. |
+| 2026-10-23 | `/manifesto` rebuilt to the v2 design in place — no second route | A v2 handoff (index of the eleven, draggable quote board, full-colour principle panels, live ranking, pill signatory wall) replaced v1 the day after v1 merged. Same URL, same API and storage; only the page, the principle data (quotes added to 3, 5, 6, 7, 10) and two small API changes (own signature flagged for the pink pill; a `hidden: true` flag on any post, set by hand in the blob, hides it from the page). Quote-board positions live in the visitor's localStorage only. |
 | 2026-10-23 | `/resources` is an orphan page: no Nav/Footer link, `noindex, nofollow`, and filtered out of the sitemap in `astro.config.mjs` | Cat asked for a direct-link-only page carrying the speaker/partner resources article (Unstereotype Alliance, Gust PR, LEOPRD, Screen Swap offer, Obsessd, SI Global, RGA). Copy is verbatim from her Word doc; the doc's internal notes ("alternate images" links, "use slides or do you have an image Cat?") were left off the page. Content is hard-coded in `src/pages/resources.astro` with images in `public/images/resources/`, not a Keystatic collection. |
 
 ## Day one running order (2026-09-21)
@@ -791,3 +792,15 @@ lockfile before the build would run; `package-lock.json` was left untouched.
   meta title/description (adapted from `/gallery`'s) are my wording, to confirm.
   The page is not linked from anywhere yet, and the photos still also appear on
   `/gallery`.
+- **2026-10-23 (manifesto v2)** — `/manifesto` rebuilt to the v2 handoff
+  (`Manifesto v2.dc.html`) on `feature/manifesto-v2`. New: numbered section
+  index (01–06), "The eleven" jump list with live counts, draggable quote board
+  (Scatter / Tidy, saved in localStorage, tap jumps to the principle), accent
+  panel per principle, "Where the room stands" ranking, pill signatory wall.
+  Five quotes and their citations (Ross Colebatch, Matt Jones, Hilary Badger,
+  Rhys Delios Callanan, Tea Uglow) came from the prototype and are verbatim —
+  Tea's P10 quote has no closing full stop and its words repeat P7's last
+  sentence, as supplied. Build green; API re-tested with curl. **Still not seen
+  in a browser**, so the board's drag behaviour, panel colours, annotate pill
+  and phone width are unchecked. Not built from the handoff: IP rate-limiting
+  (only the 40-posts-per-visitor cap exists).

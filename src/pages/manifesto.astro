@@ -9,6 +9,8 @@ import { breadcrumbJsonLd } from '../utils/breadcrumbs';
 
 const crumbs = breadcrumbJsonLd([{ name: 'Manifesto', url: `${SITE}/manifesto/` }]);
 const pad = (n: number) => String(n).padStart(2, '0');
+const accent = (i: number) => ACCENTS[i % 5];
+const quoted = PRINCIPLES.filter((p) => p.quote);
 ---
 
 <BaseLayout
@@ -19,7 +21,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
   <Nav />
   <main class="mf">
     <header class="mf-head wrap">
-      <span class="eyebrow"><span class="tk"></span><span class="mono">A manifesto for creatives in the AI era</span></span>
+      <span class="eyebrow"><span class="tk"></span><span class="mono">01 — A manifesto for creatives in the AI era</span></span>
       <h1>We make stories. <em>This one is about us.</em></h1>
       <div class="mf-head-row">
         <div class="mf-intro">
@@ -27,92 +29,123 @@ const pad = (n: number) => String(n).padStart(2, '0');
           <p>This technological disruption requires one of our most ancient technologies: story. A future we can dream into being. A meaningful role for ourselves within it. Something worth working towards.</p>
           <p class="mf-statement">Don’t surrender your judgement. Keep asking. Keep choosing. Decide where you yield and where you stand.</p>
         </div>
-        <div class="mf-side">
-          <dl class="mf-stats">
-            <div><dt>Standing</dt><dd data-stat="stands">0</dd></div>
-            <div><dt>Margin notes</dt><dd data-stat="notes">0</dd></div>
-            <div><dt>Signatories</dt><dd data-stat="signs">0</dd></div>
-          </dl>
-          <p class="mf-how">Stand with a principle. Select any sentence to leave a note in the margin. Add a line. Propose a twelfth. Then sign it, or don’t.</p>
-        </div>
+        <nav class="mf-index" aria-label="The eleven principles">
+          <div class="mf-index-label">The eleven</div>
+          {PRINCIPLES.map((p, i) => (
+            <a href={`#principle-${p.n}`} data-jump={`principle-${p.n}`} data-pid={`p${p.n}`} style={`--acc:${accent(i)}`}>
+              <span class="mf-index-n">{pad(p.n)}</span><span class="mf-index-t">{p.title}</span><span class="mf-index-c" data-index-count>0</span>
+            </a>
+          ))}
+        </nav>
       </div>
-      <div class="mf-pulse"><PulseBand h={130} /></div>
+      <div class="mf-pulse"><PulseBand h={120} /></div>
     </header>
 
-    <div class="wrap mf-principles">
-      {PRINCIPLES.map((p, i) => (
-        <article
-          id={`principle-${p.n}`}
-          data-pid={`p${p.n}`}
-          style={`--acc:${ACCENTS[i % 5]};--acc-ink:${ACCENTS[i % 5] === '#FFC21A' ? '#0B0908' : '#fff'}`}
-        >
-          <div class="mf-body">
-            <div class="mf-eyebrow">Principle {pad(p.n)}</div>
-            <h2>{p.title}</h2>
-            <p class="mf-text" data-text>{p.body}</p>
-            {p.quote && (
-              <blockquote>
-                <p>{p.quote}</p>
-                <cite>{p.cite}</cite>
-              </blockquote>
-            )}
-            <div class="mf-lines" data-lines></div>
-            <div class="mf-card mf-composer" data-line-composer hidden>
-              <label for={`line-${p.n}`} class="mf-label">Add a line to this principle</label>
-              <textarea id={`line-${p.n}`} class="mf-field" rows="2" maxlength="300" placeholder="One sentence. Say it plainly." data-line-text></textarea>
-              <div class="mf-row">
-                <input class="mf-field mf-name" maxlength="60" placeholder="Your name (optional)" data-by aria-label="Your name (optional)" />
-                <button type="button" class="mf-pill primary" data-line-post>Add it →</button>
-                <button type="button" class="mf-text-btn" data-line-cancel>Cancel</button>
-              </div>
-            </div>
-            <div class="mf-actions">
-              <button type="button" class="mf-pill" data-stand aria-pressed="false">
-                <span class="mf-dot"></span><span data-stand-label>Stand with this</span><span class="mf-count" data-stand-count>0</span>
-              </button>
-              <button type="button" class="mf-pill mf-ghost" data-line-open>+ Add a line</button>
-              <span class="mf-hint">Select a sentence to annotate</span>
-            </div>
+    <section id="voices" class="wrap mf-voices">
+      <div class="mf-voices-head">
+        <div>
+          <div class="mf-kicker">02 — The voices</div>
+          <h2 class="mf-h2">Pick them up.</h2>
+          <p class="mf-sub">Drag the quotes around the board. Tap one to read the principle it belongs to.</p>
+        </div>
+        <div class="mf-row">
+          <button type="button" class="mf-pill primary" data-scatter>Scatter</button>
+          <button type="button" class="mf-pill mf-ghost" data-tidy>Tidy</button>
+        </div>
+      </div>
+      <div class="mf-board" data-board>
+        {quoted.map((p, k) => (
+          <div class={`mf-sticker sk${k % 3}`} data-n={p.n} style={`--c:${accent(p.n - 1)}`}>
+            <p>{p.quote}</p>
+            <div class="mf-sticker-foot"><span>{p.cite}</span><span class="mf-sticker-ref">Principle {pad(p.n)} →</span></div>
           </div>
-          <aside class="mf-margin">
-            <div class="mf-margin-head"><span>Margin</span><span data-note-count>00</span></div>
-            <div class="mf-card mf-composer mf-note-composer" data-note-composer hidden>
-              <p class="mf-quote" data-note-quote></p>
-              <textarea class="mf-field" rows="3" maxlength="600" placeholder="Agree, push back, add context." data-note-text aria-label="Your note"></textarea>
-              <input class="mf-field mf-name" maxlength="60" placeholder="Your name (optional)" data-by aria-label="Your name (optional)" />
-              <div class="mf-row">
-                <button type="button" class="mf-pill primary" data-note-post>Post note →</button>
-                <button type="button" class="mf-text-btn" data-note-cancel>Cancel</button>
+        ))}
+      </div>
+    </section>
+
+    <section class="wrap mf-principles-wrap">
+      <div class="mf-secrow"><span>03 — The principles</span><span>Select any sentence to annotate</span></div>
+      <div class="mf-principles">
+        {PRINCIPLES.map((p, i) => (
+          <article id={`principle-${p.n}`} data-pid={`p${p.n}`} style={`--acc:${accent(i)}`}>
+            <div class="mf-body">
+              <div class="mf-numrow"><span class="mf-num">{pad(p.n)}</span><span class="mf-numlabel">Principle</span></div>
+              <h2>{p.title}</h2>
+              <p class="mf-text" data-text>{p.body}</p>
+              {p.quote && (
+                <blockquote>
+                  <p>{p.quote}</p>
+                  <cite>{p.cite}</cite>
+                </blockquote>
+              )}
+              <div class="mf-lines" data-lines></div>
+              <div class="mf-card mf-composer" data-line-composer hidden>
+                <label for={`line-${p.n}`} class="mf-label">Add a line to this principle</label>
+                <textarea id={`line-${p.n}`} class="mf-field" rows="2" maxlength="300" placeholder="One sentence. Say it plainly." data-line-text></textarea>
+                <div class="mf-row">
+                  <input class="mf-field mf-name" maxlength="60" placeholder="Your name (optional)" data-by aria-label="Your name (optional)" />
+                  <button type="button" class="mf-pill solid" data-line-post>Add it →</button>
+                  <button type="button" class="mf-text-btn" data-line-cancel>Cancel</button>
+                </div>
+              </div>
+              <div class="mf-actions">
+                <button type="button" class="mf-pill mf-stand" data-stand aria-pressed="false">
+                  <span class="mf-dot"></span><span data-stand-label>Stand with this</span><span class="mf-count" data-stand-count>0</span>
+                </button>
+                <button type="button" class="mf-pill mf-outline" data-line-open>+ Add a line</button>
               </div>
             </div>
-            <div class="mf-notes" data-notes></div>
-            <p class="mf-empty" data-empty>Nothing in the margin yet. Highlight a sentence and say what you think.</p>
-          </aside>
-        </article>
-      ))}
-      <p class="mf-closing">Your experience is where the work comes from. <em>Give yourself a life to draw on.</em></p>
-    </div>
+            <aside class="mf-margin">
+              <div class="mf-margin-head"><span>Margin</span><span data-note-count>00</span></div>
+              <div class="mf-card mf-composer mf-note-composer" data-note-composer hidden>
+                <p class="mf-quote" data-note-quote></p>
+                <textarea class="mf-field" rows="3" maxlength="600" placeholder="Agree, push back, add context." data-note-text aria-label="Your note"></textarea>
+                <input class="mf-field mf-name" maxlength="60" placeholder="Your name (optional)" data-by aria-label="Your name (optional)" />
+                <div class="mf-row">
+                  <button type="button" class="mf-pill solid" data-note-post>Post note →</button>
+                  <button type="button" class="mf-text-btn" data-note-cancel>Cancel</button>
+                </div>
+              </div>
+              <div class="mf-notes" data-notes></div>
+              <p class="mf-empty" data-empty>Nothing in the margin yet. Highlight a sentence and say what you think.</p>
+            </aside>
+          </article>
+        ))}
+      </div>
+    </section>
 
     <section id="propose" class="wrap mf-section">
-      <div class="sec-head">
-        <h2>The twelfth.</h2>
-        <span class="sec-num mono">Proposed by the room</span>
-      </div>
+      <div class="mf-secrow"><span>04 — The twelfth</span><span>Proposed by the room</span></div>
+      <h2 class="mf-h2 mf-h2-tight">What’s missing?</h2>
       <p class="mf-propose-intro">Eleven is where we stopped, not where it ends. Propose what’s missing. The room decides what stands.</p>
       <div class="mf-grid" data-grid>
-        <div class="mf-tile mf-form" data-propose>
-          <div class="mf-pink-label">Propose a principle</div>
-          <input class="mf-field mf-prop-title" maxlength="80" placeholder="Title. Short. Imperative." data-prop-title aria-label="Title" />
-          <textarea class="mf-field" rows="4" maxlength="500" placeholder="Two or three sentences. Why this, why now." data-prop-body aria-label="Why this, why now"></textarea>
-          <input class="mf-field mf-name" maxlength="60" placeholder="Your name (optional)" data-by aria-label="Your name (optional)" />
-          <div><button type="button" class="mf-pill primary" data-prop-post>Propose it →</button></div>
+        <div class="mf-form" data-propose>
+          <div class="mf-form-label">Propose a principle</div>
+          <input class="mf-form-field mf-prop-title" maxlength="80" placeholder="Title. Short. Imperative." data-prop-title aria-label="Title" />
+          <textarea class="mf-form-field" rows="4" maxlength="500" placeholder="Two or three sentences. Why this, why now." data-prop-body aria-label="Why this, why now"></textarea>
+          <input class="mf-form-field mf-name" maxlength="60" placeholder="Your name (optional)" data-by aria-label="Your name (optional)" />
+          <div><button type="button" class="mf-pill mf-pinkpill" data-prop-post>Propose it →</button></div>
         </div>
+      </div>
+    </section>
+
+    <section class="wrap mf-section">
+      <div class="mf-secrow"><span>05 — Where the room stands</span><span data-stand-summary>0 stands · 0 notes</span></div>
+      <div class="mf-rank" data-rank>
+        {PRINCIPLES.map((p, i) => (
+          <a href={`#principle-${p.n}`} data-jump={`principle-${p.n}`} data-pid={`p${p.n}`} style={`--acc:${accent(i)}`}>
+            <span class="mf-rank-n">{pad(p.n)}</span>
+            <span class="mf-rank-track"><span class="mf-rank-bar" style="width:18%"></span><span class="mf-rank-title">{p.title}</span></span>
+            <span class="mf-rank-c" data-rank-count>0</span>
+          </a>
+        ))}
       </div>
     </section>
 
     <section id="sign" class="wrap mf-section">
       <div class="mf-sign">
         <div class="mf-sign-copy">
+          <div class="mf-kicker mf-kicker-ink">06 — Sign</div>
           <h2>Put your name to it.</h2>
           <p>Signing says you stand behind this, in public. Your name and city go on the wall below.</p>
         </div>
@@ -121,7 +154,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
             <input class="mf-sign-field" maxlength="60" placeholder="Full name" data-sign-name aria-label="Full name" autocomplete="name" />
             <input class="mf-sign-field" maxlength="60" placeholder="City" data-sign-city aria-label="City" autocomplete="address-level2" />
             <div class="mf-row">
-              <button type="button" class="nform-btn" data-sign-post>Sign the manifesto →</button>
+              <button type="button" class="mf-sign-btn" data-sign-post>Sign the manifesto →</button>
               <span class="mf-sign-error" data-sign-error role="alert"></span>
             </div>
           </div>
@@ -143,138 +176,185 @@ const pad = (n: number) => String(n).padStart(2, '0');
 </BaseLayout>
 
 <style is:global>
-  .mf { padding-bottom: 96px; }
+  .mf { --ink-dark: #0b0908; padding-bottom: 96px; }
   .mf em { font-style: normal; color: var(--pink); }
+  .mf-kicker, .mf-secrow { font-family: var(--mono); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-2); }
+  .mf-secrow { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 24px; margin-bottom: 28px; border-bottom: 1px solid var(--line); padding-bottom: 18px; }
+  .mf-kicker { margin-bottom: 14px; }
+  .mf-kicker-ink { color: var(--ink-dark); }
+  .mf-h2 { font-family: var(--disp); font-weight: 800; font-size: clamp(34px, 4.6vw, 62px); line-height: .95; letter-spacing: -.025em; margin: 0; }
+  .mf-h2-tight { margin-bottom: 16px; }
+  .mf-section { padding-top: 96px; }
 
-  /* Head */
-  .mf-head { padding-top: 76px; }
-  .mf-head .eyebrow { margin-bottom: 30px; }
-  .mf-head h1 { font-family: var(--disp); font-weight: 800; font-size: clamp(44px, 7.4vw, 112px); line-height: .92; letter-spacing: -.03em; text-wrap: balance; max-width: 14ch; margin: 0; }
-  .mf-head-row { display: flex; flex-wrap: wrap; gap: 48px; align-items: flex-end; margin-top: 48px; }
-  .mf-intro { flex: 1 1 520px; min-width: 0; max-width: 680px; display: flex; flex-direction: column; gap: 20px; font-size: 19px; line-height: 1.5; color: #fff; }
+  /* 01 Premise */
+  .mf-head { padding-top: 72px; }
+  .mf-head .eyebrow { margin-bottom: 28px; }
+  .mf-head h1 { font-family: var(--disp); font-weight: 800; font-size: clamp(48px, 8.6vw, 132px); line-height: .9; letter-spacing: -.03em; text-wrap: balance; max-width: 13ch; margin: 0; }
+  .mf-head-row { display: flex; flex-wrap: wrap; gap: 40px 56px; align-items: flex-start; margin-top: 48px; }
+  .mf-intro { flex: 1 1 520px; min-width: 0; max-width: 680px; display: flex; flex-direction: column; gap: 20px; font-size: 19px; line-height: 1.55; color: #fff; }
   .mf-intro p { margin: 0; }
-  .mf-intro .mf-statement { margin-top: 12px; font-family: var(--disp); font-weight: 700; font-size: clamp(20px, 2.2vw, 28px); line-height: 1.2; letter-spacing: -.015em; }
-  .mf-side { flex: 0 1 320px; display: flex; flex-direction: column; gap: 16px; padding-bottom: 6px; }
-  .mf-stats { margin: 0; display: flex; flex-direction: column; gap: 14px; font-family: var(--mono); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-2); }
-  .mf-stats div { display: flex; justify-content: space-between; gap: 16px; border-bottom: 1px solid var(--line); padding-bottom: 12px; }
-  .mf-stats dt, .mf-stats dd { margin: 0; }
-  .mf-stats dd { color: var(--ink); }
-  .mf-how { margin: 0; font-size: 14px; line-height: 1.5; color: var(--ink-2); }
-  .mf-pulse { margin-top: 40px; height: 130px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .mf-intro .mf-statement { margin-top: 10px; font-family: var(--disp); font-weight: 700; font-size: clamp(22px, 2.4vw, 30px); line-height: 1.18; letter-spacing: -.015em; }
+  .mf-index { flex: 1 1 300px; min-width: 0; max-width: 420px; display: flex; flex-direction: column; gap: 8px; }
+  .mf-index-label { font-family: var(--mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-2); margin-bottom: 6px; }
+  .mf-index a { display: flex; align-items: center; gap: 14px; padding: 9px 16px; border-radius: 100px; background: var(--acc); color: var(--ink-dark); font-weight: 700; font-size: 14px; line-height: 1.25; transition: .2s; }
+  .mf-index a:hover { transform: translateX(4px); color: var(--ink-dark); }
+  .mf-index-n, .mf-index-c { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; opacity: .75; font-weight: 400; }
+  .mf-index-t { flex: 1; min-width: 0; }
+  .mf-pulse { margin-top: 44px; height: 120px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
 
-  /* Principles */
-  .mf-principles { padding-top: 24px; }
-  .mf-principles article { display: flex; flex-wrap: wrap; gap: 40px 64px; padding: 56px 0 60px; border-bottom: 1px solid var(--line); scroll-margin-top: 80px; }
-  .mf-body { flex: 1 1 520px; min-width: 0; max-width: 720px; }
-  .mf-eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-2); margin-bottom: 18px; }
-  .mf-principles h2 { font-family: var(--disp); font-weight: 800; font-size: clamp(28px, 3.6vw, 46px); line-height: 1; letter-spacing: -.025em; margin: 0 0 22px; text-wrap: balance; }
-  .mf-text { font-size: 18px; line-height: 1.6; color: #fff; margin: 0; cursor: text; }
-  .mf-text mark { background: color-mix(in srgb, var(--acc) 20%, transparent); box-shadow: inset 0 -2px 0 var(--acc); border-radius: 2px; color: inherit; }
-  .mf-body blockquote { margin: 28px 0 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--pink); }
-  .mf-body blockquote p { margin: 0; font-family: var(--disp); font-weight: 700; font-size: clamp(20px, 2.2vw, 27px); line-height: 1.25; letter-spacing: -.015em; }
-  .mf-body cite { display: block; margin-top: 12px; font-style: normal; font-family: var(--mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-2); }
-  .mf-lines { display: flex; flex-direction: column; gap: 14px; }
+  /* 02 Voices */
+  .mf-voices { padding-top: 72px; }
+  .mf-voices-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 20px; margin-bottom: 24px; }
+  .mf-sub { margin: 14px 0 0; font-size: 16px; line-height: 1.5; color: var(--ink-2); max-width: 46ch; }
+  .mf-board { position: relative; height: 720px; border-radius: 18px; background: var(--panel); border: 1px solid var(--line); overflow: hidden; }
+  .mf-sticker { position: absolute; width: min(360px, 34%); padding: 22px 22px 18px; border-radius: 14px; cursor: grab; user-select: none; -webkit-user-select: none; touch-action: none; transition: transform .3s, left .5s cubic-bezier(.2, .7, .2, 1), top .5s cubic-bezier(.2, .7, .2, 1); }
+  .mf-sticker.is-drag { cursor: grabbing; transition: transform .15s; box-shadow: 0 18px 40px rgba(0, 0, 0, .5); }
+  .mf-sticker.sk0 { background: var(--c); color: var(--ink-dark); }
+  .mf-sticker.sk1 { background: var(--ink); color: var(--ink-dark); box-shadow: inset 0 0 0 2px var(--c); }
+  .mf-sticker.sk2 { background: var(--panel-2); color: var(--c); box-shadow: inset 0 0 0 1.5px var(--c); }
+  .mf-sticker.is-drag.sk1 { box-shadow: inset 0 0 0 2px var(--c), 0 18px 40px rgba(0, 0, 0, .5); }
+  .mf-sticker.is-drag.sk2 { box-shadow: inset 0 0 0 1.5px var(--c), 0 18px 40px rgba(0, 0, 0, .5); }
+  .mf-sticker p { margin: 0; font-family: var(--disp); font-weight: 700; font-size: clamp(19px, 1.9vw, 25px); line-height: 1.18; letter-spacing: -.015em; text-wrap: pretty; }
+  .mf-sticker-foot { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 16px; font-family: var(--mono); font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; }
+  .mf-sticker-ref { opacity: .7; white-space: nowrap; }
+
+  /* 03 Principles */
+  .mf-principles-wrap { padding-top: 96px; }
+  .mf-principles { display: flex; flex-direction: column; gap: 16px; }
+  .mf-principles article { display: flex; flex-wrap: wrap; gap: 40px 56px; padding: 52px 56px; border-radius: 18px; background: var(--acc); color: var(--ink-dark); scroll-margin-top: 90px; }
+  .mf-principles ::selection { background: rgba(11, 9, 8, .3); }
+  .mf-body { flex: 1 1 540px; min-width: 0; max-width: 760px; }
+  .mf-numrow { display: flex; align-items: flex-end; gap: 20px; margin-bottom: 22px; }
+  .mf-num { font-family: var(--disp); font-weight: 800; font-size: clamp(72px, 9vw, 140px); line-height: .78; letter-spacing: -.04em; }
+  .mf-numlabel { font-family: var(--mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; padding-bottom: 4px; }
+  .mf-principles h2 { font-family: var(--disp); font-weight: 800; font-size: clamp(30px, 3.8vw, 52px); line-height: .98; letter-spacing: -.025em; margin: 0 0 22px; text-wrap: balance; }
+  .mf-text { font-size: 19px; line-height: 1.6; margin: 0; cursor: text; max-width: 60ch; }
+  .mf-text mark { background: rgba(11, 9, 8, .14); box-shadow: inset 0 -2px 0 var(--ink-dark); border-radius: 2px; color: inherit; }
+  .mf-body blockquote { margin: 30px 0 0; padding: 22px 0 0; border-top: 1.5px solid var(--ink-dark); }
+  .mf-body blockquote p { margin: 0; font-family: var(--disp); font-weight: 700; font-size: clamp(22px, 2.4vw, 30px); line-height: 1.2; letter-spacing: -.015em; text-wrap: pretty; }
+  .mf-body cite { display: block; margin-top: 12px; font-style: normal; font-family: var(--mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; }
+  .mf-lines { display: flex; flex-direction: column; gap: 10px; }
   .mf-lines:not(:empty) { margin-top: 28px; }
-  .mf-line { display: flex; gap: 16px; align-items: flex-start; padding: 16px 18px; border: 1px solid var(--line-2); border-radius: 14px; background: var(--panel); }
+  .mf-line { display: flex; gap: 16px; align-items: flex-start; padding: 16px 18px; border-radius: 14px; background: var(--ink-dark); color: var(--ink); }
   .mf-line > div { flex: 1; min-width: 0; }
-  .mf-line p { margin: 0; font-size: 16px; line-height: 1.5; color: #fff; overflow-wrap: anywhere; }
+  .mf-line p { margin: 0; font-size: 16px; line-height: 1.5; overflow-wrap: anywhere; }
+  .mf-line .mf-label { display: block; font-size: 10px; letter-spacing: .14em; margin-bottom: 6px; }
   .mf-by { font-family: var(--mono); font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-2); }
   .mf-line .mf-by { margin-top: 8px; }
 
-  .mf-card { display: flex; flex-direction: column; gap: 10px; padding: 18px; border: 1px solid var(--line-2); border-radius: 14px; background: var(--panel); }
+  .mf-card { display: flex; flex-direction: column; gap: 10px; padding: 18px; border-radius: 14px; background: var(--ink-dark); color: var(--ink); }
   .mf-card[hidden], .mf-annotate[hidden], .mf-toast[hidden], .mf-signed[hidden], .mf-sign-form[hidden], .mf-empty[hidden] { display: none; }
   .mf-composer { margin-top: 20px; }
-  .mf-note-composer { margin-top: 0; border-color: var(--pink); }
+  .mf-note-composer { margin-top: 0; }
   .mf-label { font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-2); }
   .mf-quote { margin: 0; font-size: 14px; line-height: 1.45; color: var(--ink-2); }
   .mf-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
   .mf-name { flex: 1 1 160px; }
 
-  .mf-field { width: 100%; background: var(--paper); border: 1px solid var(--line-2); border-radius: 10px; padding: 11px 16px; font-family: var(--sans); font-size: 15px; color: var(--ink); }
+  .mf-field { width: 100%; background: var(--panel-2); border: 1px solid var(--line-2); border-radius: 10px; padding: 11px 16px; font-family: var(--sans); font-size: 15px; color: var(--ink); }
   textarea.mf-field { padding: 12px 16px; resize: vertical; line-height: 1.5; }
   .mf-name { font-size: 14px; }
-  .mf-field:focus, .mf-sign-field:focus { outline: none; border-color: var(--pink); box-shadow: 0 0 0 3px rgba(240, 55, 154, .12); }
-  .mf-field::placeholder { color: var(--ink-2); }
+  .mf-field:focus, .mf-form-field:focus, .mf-sign-field:focus { outline: none; border-color: var(--ink); }
+  .mf-field::placeholder, .mf-form-field::placeholder, .mf-sign-field::placeholder { color: var(--ink-2); }
 
   /* Pills */
   .mf-pill { display: inline-flex; align-items: center; gap: 9px; font-family: var(--sans); font-weight: 700; font-size: 14px; padding: 12px 20px; border-radius: 100px; cursor: pointer; transition: .2s; border: 1px solid var(--line-2); background: transparent; color: var(--ink); }
-  .mf-pill:hover { border-color: var(--pink); }
-  .mf-pill:focus-visible, .mf-annotate:focus-visible, .mf-text-btn:focus-visible { outline: 3px solid var(--pink); outline-offset: 3px; }
-  .mf-pill.sm { font-size: 12px; padding: 7px 13px; gap: 7px; white-space: nowrap; }
-  .mf-pill.is-on { background: var(--acc); border-color: var(--acc); color: var(--acc-ink); }
-  .mf-pill.primary { background: var(--ink); border-color: var(--ink); color: #0b0908; padding: 11px 18px; }
-  .mf-pill.primary:hover { background: var(--pink); border-color: var(--pink); color: #fff; }
-  .mf-ghost:hover { background: var(--ink); color: #0b0908; border-color: var(--ink); }
-  .mf-actions .mf-pill[data-stand]:hover { transform: translateY(-1px); }
-  .mf-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: currentColor; opacity: .9; }
+  .mf-pill:focus-visible, .mf-annotate:focus-visible, .mf-text-btn:focus-visible, .mf-sign-btn:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+  .mf-pill.primary { background: var(--ink); border-color: var(--ink); color: var(--ink-dark); }
+  .mf-pill.primary:hover { background: var(--pink); border-color: var(--pink); transform: translateY(-1px); }
+  .mf-ghost:hover { background: var(--ink); color: var(--ink-dark); border-color: var(--ink); }
+  .mf-pill.solid { background: var(--acc); border: 0; color: var(--ink-dark); padding: 11px 18px; }
+  .mf-pill.sm { font-size: 12px; padding: 7px 13px; gap: 7px; white-space: nowrap; color: var(--ink); }
+  .mf-pill.sm.is-on { background: var(--c); border-color: var(--c); color: var(--ink-dark); }
+  .mf-stand { background: var(--ink-dark); border: 1.5px solid var(--ink-dark); color: var(--ink); }
+  .mf-stand.is-on { color: var(--acc); }
+  .mf-stand:hover { transform: translateY(-1px); }
+  .mf-outline { border: 1.5px solid var(--ink-dark); color: var(--ink-dark); }
+  .mf-outline:hover { background: var(--ink-dark); color: var(--ink); }
+  .mf-pinkpill { background: var(--pink); border: 0; color: var(--ink-dark); }
+  .mf-pinkpill:hover { transform: translateY(-1px); }
+  .mf-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
   .mf-count { font-family: var(--mono); font-size: 12px; letter-spacing: .08em; opacity: .8; }
   .mf-text-btn { background: none; border: 0; color: var(--ink-2); font-family: var(--sans); font-size: 14px; cursor: pointer; padding: 8px; }
   .mf-text-btn:hover { color: var(--ink); }
-  .mf-actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-top: 30px; }
-  .mf-hint { font-family: var(--mono); font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+  .mf-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 30px; }
 
   /* Margin */
-  .mf-margin { flex: 1 1 280px; min-width: 0; max-width: 420px; display: flex; flex-direction: column; gap: 12px; padding-top: 6px; }
-  .mf-margin-head { display: flex; justify-content: space-between; align-items: baseline; font-family: var(--mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-2); border-bottom: 1px solid var(--line); padding-bottom: 10px; }
-  .mf-notes { display: flex; flex-direction: column; gap: 12px; }
+  .mf-margin { flex: 1 1 300px; min-width: 0; max-width: 420px; display: flex; flex-direction: column; gap: 10px; }
+  .mf-margin-head { display: flex; justify-content: space-between; align-items: baseline; font-family: var(--mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; border-bottom: 1.5px solid var(--ink-dark); padding-bottom: 10px; }
+  .mf-notes { display: flex; flex-direction: column; gap: 10px; }
   .mf-note { transition: .25s; }
-  .mf-note:hover { background: var(--panel-2); }
+  .mf-note:hover { transform: translateY(-3px); }
   .mf-note .mf-quote { font-size: 13px; }
-  .mf-note-text { margin: 0; font-size: 15px; line-height: 1.5; color: #fff; overflow-wrap: anywhere; }
+  .mf-note-text { margin: 0; font-size: 15px; line-height: 1.5; overflow-wrap: anywhere; }
   .mf-foot { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding-top: 10px; border-top: 1px solid var(--line); }
-  .mf-empty { margin: 0; font-size: 14px; line-height: 1.5; color: var(--ink-2); }
+  .mf-empty { margin: 0; font-size: 14px; line-height: 1.5; }
 
-  .mf-closing { margin: 0; padding: 72px 0 0; font-family: var(--disp); font-weight: 800; font-size: clamp(26px, 3.6vw, 48px); line-height: 1.05; letter-spacing: -.025em; max-width: 22ch; text-wrap: balance; }
-
-  /* The twelfth */
-  .mf-section { padding-top: 96px; }
-  .mf-section .sec-head { margin-bottom: 40px; }
+  /* 04 The twelfth */
   .mf-propose-intro { margin: 0 0 32px; font-size: 17px; line-height: 1.55; color: #fff; max-width: 56ch; }
-  .mf-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 18px; }
-  .mf-tile { display: flex; flex-direction: column; gap: 14px; padding: 28px 26px; border: 1px solid var(--line-2); border-radius: 16px; background: var(--panel); transition: .25s; }
-  .mf-form { gap: 12px; }
-  .mf-form:hover { transform: none; background: var(--panel); }
-  .mf-pink-label { font-family: var(--mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--pink); }
+  .mf-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+  .mf-form { display: flex; flex-direction: column; gap: 12px; padding: 28px 26px; border-radius: 18px; background: var(--ink); color: var(--ink-dark); }
+  .mf-form-label { font-family: var(--mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; }
+  .mf-form-field { width: 100%; background: var(--ink-dark); border: 1px solid var(--ink-dark); border-radius: 10px; padding: 11px 16px; font-family: var(--sans); font-size: 14px; color: var(--ink); }
+  textarea.mf-form-field { resize: vertical; font-size: 15px; line-height: 1.5; padding: 12px 16px; }
   .mf-prop-title { font-size: 16px; font-weight: 700; padding: 12px 16px; }
-  .mf-prop { }
+  .mf-prop { display: flex; flex-direction: column; gap: 14px; padding: 28px 26px; border: 1px solid var(--line-2); border-radius: 18px; background: var(--panel); transition: .25s; }
   .mf-prop:hover { background: var(--panel-2); transform: translateY(-4px); }
-  .mf-prop .mf-eyebrow { margin: 0; font-size: 11px; }
+  .mf-prop-rank { font-family: var(--mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--c); }
   .mf-prop h3 { margin: 0; font-family: var(--disp); font-weight: 800; font-size: 24px; line-height: 1.06; letter-spacing: -.015em; overflow-wrap: anywhere; }
   .mf-prop p { margin: 0; flex: 1; font-size: 15px; line-height: 1.55; color: #fff; overflow-wrap: anywhere; }
   .mf-prop .mf-foot { padding-top: 14px; }
 
-  /* Sign */
-  .mf-sign { background: var(--pink); color: #fff; border-radius: 22px; padding: 56px; display: flex; flex-wrap: wrap; gap: 40px; align-items: center; }
+  /* 05 Ranking */
+  .mf-rank { display: flex; flex-direction: column; gap: 8px; }
+  .mf-rank a { display: grid; grid-template-columns: 40px minmax(0, 1fr) 56px; gap: 16px; align-items: center; color: var(--ink); }
+  .mf-rank a:hover { opacity: .85; color: var(--ink); }
+  .mf-rank-n { font-family: var(--mono); font-size: 12px; letter-spacing: .1em; color: var(--ink-2); }
+  .mf-rank-track { position: relative; height: 44px; border-radius: 100px; background: var(--panel); overflow: hidden; }
+  .mf-rank-bar { position: absolute; left: 0; top: 0; bottom: 0; background: var(--acc); border-radius: 100px; transition: width .6s cubic-bezier(.2, .7, .2, 1); }
+  .mf-rank-title { position: absolute; left: 18px; right: 18px; top: 0; bottom: 0; display: flex; align-items: center; font-weight: 700; font-size: 14px; color: var(--ink-dark); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .mf-rank-c { font-family: var(--mono); font-size: 13px; text-align: right; }
+
+  /* 06 Sign */
+  .mf-sign { background: var(--pink); color: var(--ink-dark); border-radius: 22px; padding: 56px; display: flex; flex-wrap: wrap; gap: 40px; align-items: center; }
   .mf-sign-copy { flex: 1 1 380px; min-width: 0; }
-  .mf-sign-copy h2 { margin: 0; font-family: var(--disp); font-weight: 800; font-size: clamp(32px, 4.4vw, 58px); line-height: .94; letter-spacing: -.02em; }
-  .mf-sign-copy p { margin: 16px 0 0; font-size: 16px; line-height: 1.5; max-width: 40ch; color: #fff; }
+  .mf-sign-copy h2 { margin: 0; font-family: var(--disp); font-weight: 800; font-size: clamp(34px, 4.8vw, 64px); line-height: .92; letter-spacing: -.025em; }
+  .mf-sign-copy p { margin: 16px 0 0; font-size: 17px; line-height: 1.5; max-width: 40ch; }
   .mf-sign-side { flex: 1 1 320px; min-width: 0; }
   .mf-sign-form { display: flex; flex-direction: column; gap: 10px; }
   .mf-sign-form .mf-row { gap: 14px; }
-  .mf-sign-field { width: 100%; background: #0b0908; border: 1px solid #0b0908; border-radius: 10px; padding: 14px 18px; font-family: var(--sans); font-size: 15px; color: var(--ink); }
-  .mf-sign-error { font-size: 13px; color: #ffe6f3; }
-  .mf-signed { display: flex; flex-direction: column; gap: 8px; padding: 24px 28px; background: #0b0908; border-radius: 14px; }
+  .mf-sign-field { width: 100%; background: var(--ink-dark); border: 1px solid var(--ink-dark); border-radius: 10px; padding: 14px 18px; font-family: var(--sans); font-size: 15px; color: var(--ink); }
+  .mf-sign-btn { background: var(--ink-dark); color: var(--ink); border: 0; font-family: var(--sans); font-weight: 700; font-size: 15px; padding: 15px 32px; border-radius: 100px; cursor: pointer; transition: .2s; }
+  .mf-sign-btn:hover { transform: translateY(-1px); }
+  .mf-sign-error { font-size: 14px; font-weight: 700; }
+  .mf-signed { display: flex; flex-direction: column; gap: 8px; padding: 24px 28px; background: var(--ink-dark); color: var(--ink); border-radius: 14px; }
   .mf-signed-name { font-family: var(--disp); font-weight: 700; font-size: 22px; letter-spacing: -.01em; overflow-wrap: anywhere; }
   .mf-signed-note { font-size: 14px; color: var(--ink-2); }
-  .mf-wall-head { display: flex; align-items: baseline; justify-content: space-between; gap: 24px; margin: 64px 0 24px; border-bottom: 1px solid var(--line); padding-bottom: 16px; font-family: var(--mono); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-2); }
-  .mf-wall { display: flex; flex-wrap: wrap; gap: 10px 28px; font-size: 15px; line-height: 1.5; color: #fff; }
-  .mf-wall span span, .mf-wall .mf-more { color: var(--ink-2); }
+  .mf-wall-head { display: flex; align-items: baseline; justify-content: space-between; gap: 24px; margin: 56px 0 22px; border-bottom: 1px solid var(--line); padding-bottom: 16px; font-family: var(--mono); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-2); }
+  .mf-wall { display: flex; flex-wrap: wrap; gap: 10px; }
+  .mf-sig { display: inline-flex; gap: 8px; padding: 9px 16px; border-radius: 100px; font-size: 14px; font-weight: 700; background: var(--panel); color: var(--ink); border: 1px solid var(--line-2); }
+  .mf-sig span { opacity: .7; }
+  .mf-sig.is-mine { background: var(--pink); color: var(--ink-dark); }
+  .mf-more { padding: 9px 16px; color: var(--ink-2); }
 
   /* Floating bits */
-  .mf-annotate { position: fixed; z-index: 200; transform: translate(-50%, -100%); background: var(--ink); color: var(--paper); border: 0; border-radius: 100px; padding: 10px 16px; font-family: var(--sans); font-size: 13px; font-weight: 700; cursor: pointer; box-shadow: 0 8px 24px rgba(0, 0, 0, .45); }
-  .mf-toast { position: fixed; z-index: 200; left: 50%; bottom: 24px; transform: translateX(-50%); background: var(--ink); color: var(--paper); border-radius: 100px; padding: 12px 20px; font-size: 14px; font-weight: 700; box-shadow: 0 8px 24px rgba(0, 0, 0, .45); max-width: calc(100vw - 32px); }
+  .mf-annotate { position: fixed; z-index: 200; transform: translate(-50%, -100%); background: var(--ink-dark); color: var(--ink); border: 1px solid var(--line-2); border-radius: 100px; padding: 10px 16px; font-family: var(--sans); font-size: 13px; font-weight: 700; cursor: pointer; box-shadow: 0 8px 24px rgba(0, 0, 0, .45); }
+  .mf-toast { position: fixed; z-index: 200; left: 50%; bottom: 24px; transform: translateX(-50%); background: var(--ink); color: var(--ink-dark); border-radius: 100px; padding: 12px 20px; font-size: 14px; font-weight: 700; box-shadow: 0 8px 24px rgba(0, 0, 0, .45); max-width: calc(100vw - 32px); }
 
   @media (max-width: 760px) {
+    .mf-board { height: 1020px; }
+    .mf-sticker { width: 84%; }
+    .mf-principles article { padding: 32px 24px; }
     .mf-sign { padding: 44px 30px; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .mf-pill, .mf-tile, .mf-note { transition: none; }
-    .mf-prop:hover, .mf-actions .mf-pill[data-stand]:hover { transform: none; }
+    .mf *, .mf-sticker, .mf-rank-bar { transition: none !important; }
+    .mf-prop:hover, .mf-note:hover, .mf-index a:hover, .mf-stand:hover { transform: none; }
   }
 </style>
 
 <script>
-  import { PRINCIPLES } from '../data/manifesto';
+  import { PRINCIPLES, ACCENTS } from '../data/manifesto';
 
   interface Note { id: string; pid: string; quote: string; text: string; by: string; n: number }
   interface Line { id: string; pid: string; text: string; by: string; n: number }
@@ -284,7 +364,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
     notes: Note[];
     lines: Line[];
     proposals: Proposal[];
-    signs: { name: string; city: string }[];
+    signs: { name: string; city: string; mine: boolean }[];
     mine: string[];
     mySign: { name: string; city: string } | null;
   }
@@ -292,6 +372,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
   const API = '/api/manifesto';
   const WALL_LIMIT = 48;
   const bodies = new Map(PRINCIPLES.map((p) => [`p${p.n}`, p.body]));
+  const accentOf = (pid: string) => ACCENTS[(Number(pid.slice(1)) - 1) % 5];
 
   const $ = <T extends HTMLElement = HTMLElement>(sel: string, root: ParentNode = document) =>
     root.querySelector<T>(sel);
@@ -385,9 +466,9 @@ const pad = (n: number) => String(n).padStart(2, '0');
     btn.setAttribute('aria-pressed', String(on));
   }
 
-  function smallPill(key: string, onWord: string, offWord: string, n: number) {
+  function smallPill(key: string, onWord: string, offWord: string, n: number, color: string) {
     const on = mine.has(key);
-    const b = h('button', { type: 'button', class: 'mf-pill sm' }, `${on ? onWord : offWord} · ${n}`);
+    const b = h('button', { type: 'button', class: 'mf-pill sm', style: `--c:${color}` }, `${on ? onWord : offWord} · ${n}`);
     pillState(b, on);
     b.addEventListener('click', () => toggle(key));
     return b;
@@ -422,12 +503,25 @@ const pad = (n: number) => String(n).padStart(2, '0');
     if (!state) return;
     const s = state;
     const stands = Object.values(s.votes).reduce((a, b) => a + b, 0);
-    $$('[data-stat="stands"]').forEach((el) => (el.textContent = String(stands)));
-    $$('[data-stat="notes"]').forEach((el) => (el.textContent = String(s.notes.length)));
     $$('[data-stat="signs"]').forEach((el) => (el.textContent = String(s.signs.length)));
+    $('[data-stand-summary]')!.textContent = `${stands} stands · ${s.notes.length} notes`;
+
+    // The eleven: live counts in the index and the ranking.
+    for (const el of $$('.mf-index [data-pid]')) $('[data-index-count]', el)!.textContent = String(s.votes[el.dataset.pid!] ?? 0);
+    const rank = $('[data-rank]')!;
+    const max = Math.max(1, ...Object.values(s.votes));
+    const rows = $$('a[data-pid]', rank);
+    for (const el of rows) {
+      const n = s.votes[el.dataset.pid!] ?? 0;
+      $('[data-rank-count]', el)!.textContent = String(n);
+      $('.mf-rank-bar', el)!.style.width = `${Math.max(18, (n / max) * 100)}%`;
+    }
+    rows.sort((a, b) => (s.votes[b.dataset.pid!] ?? 0) - (s.votes[a.dataset.pid!] ?? 0));
+    if (rows.some((el, i) => rank.children[i] !== el)) rank.append(...rows);
 
     for (const art of $$('article[data-pid]')) {
       const pid = art.dataset.pid!;
+      const color = accentOf(pid);
       const notes = s.notes.filter((n) => n.pid === pid);
 
       const stand = $('[data-stand]', art)!;
@@ -435,7 +529,6 @@ const pad = (n: number) => String(n).padStart(2, '0');
       $('[data-stand-label]', art)!.textContent = mine.has(pid) ? 'Standing with this' : 'Stand with this';
       $('[data-stand-count]', art)!.textContent = String(s.votes[pid] ?? 0);
 
-      // Don't rebuild the paragraph while someone is mid-selection inside it.
       const text = $('[data-text]', art)!;
       const quotes = notes.map((n) => n.quote);
       if (text.dataset.marked !== quotes.join('|')) {
@@ -448,8 +541,8 @@ const pad = (n: number) => String(n).padStart(2, '0');
           .filter((l) => l.pid === pid)
           .map((l) =>
             h('div', { class: 'mf-line' },
-              h('div', {}, h('p', {}, l.text), h('div', { class: 'mf-by' }, `Added by ${l.by}`)),
-              smallPill('l:' + l.id, 'Standing', 'Stand', l.n)),
+              h('div', {}, h('span', { class: 'mf-label' }, '+ Added line'), h('p', {}, l.text), h('div', { class: 'mf-by' }, l.by)),
+              smallPill('l:' + l.id, 'Standing', 'Stand', l.n, color)),
           ),
       );
 
@@ -459,37 +552,54 @@ const pad = (n: number) => String(n).padStart(2, '0');
           h('div', { class: 'mf-card mf-note' },
             h('p', { class: 'mf-quote' }, `“${n.quote}”`),
             h('p', { class: 'mf-note-text' }, n.text),
-            h('div', { class: 'mf-foot' }, h('span', { class: 'mf-by' }, n.by), smallPill('n:' + n.id, 'Agreed', 'Agree', n.n))),
+            h('div', { class: 'mf-foot' }, h('span', { class: 'mf-by' }, n.by), smallPill('n:' + n.id, 'Agreed', 'Agree', n.n, color))),
         ),
       );
       $('[data-empty]', art)!.hidden = notes.length > 0 || !$('[data-note-composer]', art)!.hidden;
     }
 
-    // The twelfth: most-stood first.
+    // The twelfth: most-stood first, accent cycling by rank.
     const grid = $('[data-grid]')!;
     $$('.mf-prop', grid).forEach((el) => el.remove());
     [...s.proposals]
       .sort((a, b) => b.n - a.n)
       .forEach((x, r) => {
+        const c = ACCENTS[r % 5];
         grid.append(
-          h('div', { class: 'mf-tile mf-prop' },
-            h('div', { class: 'mf-eyebrow' }, `Proposed ${pad(12 + r)}`),
+          h('div', { class: 'mf-prop', style: `--c:${c}` },
+            h('div', { class: 'mf-prop-rank' }, `Proposed ${pad(12 + r)}`),
             h('h3', {}, x.title),
             h('p', {}, x.body),
-            h('div', { class: 'mf-foot' }, h('span', { class: 'mf-by' }, x.by), smallPill('x:' + x.id, 'Standing', 'Stand', x.n))),
+            h('div', { class: 'mf-foot' }, h('span', { class: 'mf-by' }, x.by), smallPill('x:' + x.id, 'Standing', 'Stand', x.n, c))),
         );
       });
 
-    // Signatures
+    // Signatures: your own pill first, in pink.
     const form = $('[data-sign-form]')!;
     const signed = $('[data-signed]')!;
     form.hidden = !!s.mySign;
     signed.hidden = !s.mySign;
     if (s.mySign) $('[data-signed-name]')!.textContent = `${s.mySign.name}, ${s.mySign.city}`;
     const newest = [...s.signs].reverse();
-    const wall = newest.slice(0, WALL_LIMIT).map((x) => h('span', {}, x.name, h('span', {}, `, ${x.city}`)));
+    newest.sort((a, b) => Number(b.mine) - Number(a.mine));
+    const wall = newest
+      .slice(0, WALL_LIMIT)
+      .map((x) => h('span', { class: x.mine ? 'mf-sig is-mine' : 'mf-sig' }, x.name, h('span', {}, `· ${x.city}`)));
     if (newest.length > WALL_LIMIT) wall.push(h('span', { class: 'mf-more' }, `and ${newest.length - WALL_LIMIT} more`));
     $('[data-wall]')!.replaceChildren(...wall);
+  }
+
+  /* ---------- jump links ---------- */
+
+  function jumpTo(id: string) {
+    const el = document.getElementById(id);
+    if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 90, behavior: 'smooth' });
+  }
+  for (const a of $$('[data-jump]')) {
+    a.addEventListener('click', (e) => {
+      e.preventDefault();
+      jumpTo(a.dataset.jump!);
+    });
   }
 
   /* ---------- composers ---------- */
@@ -521,7 +631,6 @@ const pad = (n: number) => String(n).padStart(2, '0');
 
     $('[data-stand]', art)!.addEventListener('click', () => toggle(pid));
 
-    // Add a line
     const lineBox = $('[data-line-composer]', art)!;
     const lineText = $<HTMLTextAreaElement>('[data-line-text]', art)!;
     $('[data-line-open]', art)!.addEventListener('click', () => {
@@ -540,22 +649,19 @@ const pad = (n: number) => String(n).padStart(2, '0');
       closeLine();
     });
 
-    // Margin note
     const noteBox = $('[data-note-composer]', art)!;
     const noteText = $<HTMLTextAreaElement>('[data-note-text]', art)!;
     $('[data-note-cancel]', art)!.addEventListener('click', closeNote);
     $('[data-note-post]', art)!.addEventListener('click', async () => {
       const text = noteText.value.trim();
       if (!text) return;
-      const quote = noteBox.dataset.quote ?? '';
-      const err = await send({ action: 'note', pid, quote, text, by: draftName });
+      const err = await send({ action: 'note', pid, quote: noteBox.dataset.quote ?? '', text, by: draftName });
       if (err) return say(err);
       noteText.value = '';
       closeNote();
     });
   }
 
-  // Propose a twelfth
   const propTitle = $<HTMLInputElement>('[data-prop-title]')!;
   const propBody = $<HTMLTextAreaElement>('[data-prop-body]')!;
   $('[data-prop-post]')!.addEventListener('click', async () => {
@@ -566,7 +672,6 @@ const pad = (n: number) => String(n).padStart(2, '0');
     propBody.value = '';
   });
 
-  // Sign
   const signName = $<HTMLInputElement>('[data-sign-name]')!;
   const signCity = $<HTMLInputElement>('[data-sign-city]')!;
   const signError = $('[data-sign-error]')!;
@@ -640,5 +745,116 @@ const pad = (n: number) => String(n).padStart(2, '0');
     $<HTMLTextAreaElement>('[data-note-text]', article)!.focus();
   });
 
+  /* ---------- draggable quote board ---------- */
+
+  type Pos = { x: number; y: number; r: number };
+  const POSKEY = 'humain-manifesto-stickers-v1';
+  const LAYOUT: Record<string, [number, number, number]> = {
+    3: [2, 5, -4], 4: [50, 3, 3], 5: [24, 35, -2], 6: [66, 38, 5], 7: [3, 66, 2], 10: [46, 70, -5],
+  };
+  const board = $('[data-board]')!;
+  const cards = $$('.mf-sticker', board);
+  const isNarrow = () => window.innerWidth < 760;
+  let narrow = isNarrow();
+  let pos: Record<string, Pos> = {};
+  let zTop = 1;
+
+  function defaultPos(): Record<string, Pos> {
+    const out: Record<string, Pos> = {};
+    Object.entries(LAYOUT).forEach(([n, [x, y, r]], k) => {
+      out[n] = narrow ? { x: k % 2 ? 14 : 2, y: k * 15.5 + 1, r: k % 2 ? 3 : -3 } : { x, y, r };
+    });
+    return out;
+  }
+  function savePos() {
+    if (narrow) return;
+    try {
+      localStorage.setItem(POSKEY, JSON.stringify(pos));
+    } catch {
+      /* private mode: positions just won't be remembered */
+    }
+  }
+  function loadPos() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(POSKEY) ?? 'null');
+      if (!narrow && saved && Object.keys(LAYOUT).every((n) => saved[n])) return saved as Record<string, Pos>;
+    } catch {
+      /* fall through to the default layout */
+    }
+    return defaultPos();
+  }
+  function place(card: HTMLElement, dragging = false) {
+    const p = pos[card.dataset.n!];
+    card.style.left = `${p.x}%`;
+    card.style.top = `${p.y}%`;
+    card.style.transform = dragging ? 'rotate(0deg) scale(1.04)' : `rotate(${p.r}deg)`;
+  }
+  const placeAll = () => cards.forEach((c) => place(c));
+
+  for (const card of cards) {
+    card.addEventListener('pointerdown', (e) => {
+      e.preventDefault();
+      const n = card.dataset.n!;
+      const rect = board.getBoundingClientRect();
+      const wPct = (card.offsetWidth / rect.width) * 100;
+      const hPct = (card.offsetHeight / rect.height) * 100;
+      const p0 = { ...pos[n] };
+      const sx = e.clientX;
+      const sy = e.clientY;
+      let moved = false;
+      card.style.zIndex = String(++zTop);
+      card.classList.add('is-drag');
+      place(card, true);
+      const move = (ev: PointerEvent) => {
+        const dx = ev.clientX - sx;
+        const dy = ev.clientY - sy;
+        if (Math.abs(dx) + Math.abs(dy) > 4) moved = true;
+        pos[n] = {
+          ...p0,
+          x: Math.max(0, Math.min(100 - wPct, p0.x + (dx / rect.width) * 100)),
+          y: Math.max(0, Math.min(100 - hPct, p0.y + (dy / rect.height) * 100)),
+        };
+        place(card, true);
+      };
+      const up = () => {
+        window.removeEventListener('pointermove', move);
+        window.removeEventListener('pointerup', up);
+        window.removeEventListener('pointercancel', up);
+        card.classList.remove('is-drag');
+        place(card);
+        savePos();
+        if (!moved) jumpTo('principle-' + n);
+      };
+      window.addEventListener('pointermove', move);
+      window.addEventListener('pointerup', up);
+      window.addEventListener('pointercancel', up);
+    });
+  }
+
+  $('[data-scatter]')!.addEventListener('click', () => {
+    for (const n of Object.keys(pos)) {
+      pos[n] = {
+        x: Math.random() * (narrow ? 14 : 62),
+        y: Math.random() * (narrow ? 82 : 70),
+        r: Math.round(Math.random() * 14 - 7),
+      };
+    }
+    placeAll();
+    savePos();
+  });
+  $('[data-tidy]')!.addEventListener('click', () => {
+    pos = defaultPos();
+    placeAll();
+    savePos();
+  });
+  window.addEventListener('resize', () => {
+    if (isNarrow() === narrow) return;
+    narrow = isNarrow();
+    pos = defaultPos();
+    placeAll();
+  });
+
+  pos = loadPos();
+  placeAll();
   load();
 </script>

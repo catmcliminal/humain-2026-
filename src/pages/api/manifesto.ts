@@ -38,10 +38,10 @@ function publicState(doc: Doc, vid: string) {
   const mySign = doc.signs.find((s) => s.vid === vid);
   return {
     votes: Object.fromEntries(PRINCIPLES.map((p) => ['p' + p.n, count('p' + p.n)])),
-    notes: doc.notes.map((n) => ({ id: n.id, pid: n.pid, quote: n.quote, text: n.text, by: n.by, n: count('n:' + n.id) })),
-    lines: doc.lines.map((l) => ({ id: l.id, pid: l.pid, text: l.text, by: l.by, n: count('l:' + l.id) })),
-    proposals: doc.proposals.map((x) => ({ id: x.id, title: x.title, body: x.body, by: x.by, n: count('x:' + x.id) })),
-    signs: doc.signs.map((s) => ({ name: s.name, city: s.city })),
+    notes: doc.notes.filter((n) => !n.hidden).map((n) => ({ id: n.id, pid: n.pid, quote: n.quote, text: n.text, by: n.by, n: count('n:' + n.id) })),
+    lines: doc.lines.filter((l) => !l.hidden).map((l) => ({ id: l.id, pid: l.pid, text: l.text, by: l.by, n: count('l:' + l.id) })),
+    proposals: doc.proposals.filter((x) => !x.hidden).map((x) => ({ id: x.id, title: x.title, body: x.body, by: x.by, n: count('x:' + x.id) })),
+    signs: doc.signs.filter((s) => !s.hidden).map((s) => ({ name: s.name, city: s.city, mine: s.vid === vid })),
     mine,
     mySign: mySign ? { name: mySign.name, city: mySign.city } : null,
   };

@@ -9,10 +9,10 @@
  */
 import { getStore } from '@netlify/blobs';
 
-export interface Note { id: string; pid: string; quote: string; text: string; by: string; at: number }
-export interface Line { id: string; pid: string; text: string; by: string; at: number }
-export interface Proposal { id: string; title: string; body: string; by: string; at: number }
-export interface Signature { id: string; name: string; city: string; vid: string; at: number }
+export interface Note { id: string; pid: string; quote: string; text: string; by: string; at: number; hidden?: boolean }
+export interface Line { id: string; pid: string; text: string; by: string; at: number; hidden?: boolean }
+export interface Proposal { id: string; title: string; body: string; by: string; at: number; hidden?: boolean }
+export interface Signature { id: string; name: string; city: string; vid: string; at: number; hidden?: boolean }
 
 export interface Doc {
   /** key → visitor ids. Keys: `p1`…`p11`, `n:<id>`, `l:<id>`, `x:<id>`. */

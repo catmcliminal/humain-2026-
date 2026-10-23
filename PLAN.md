@@ -831,4 +831,11 @@ lockfile before the build would run; `package-lock.json` was left untouched.
   (Cat chose "under the intro"). Verbatim; the stray closing quote mark in her
   paste was left out. Styled as a small mono label, which is a layout call. The
   three intro paragraphs she pasted alongside already matched the live copy.
+- **2026-10-23 (manifesto intro header)** — Cat: header "This is a co-created
+  manifesto for creatives everywhere. Share your POV", body below "Don’t
+  surrender your judgement…" — and, after a first attempt to move both under
+  section 03 was stopped, "intro section". So both stay in the intro column: the
+  co-created line is now a display-font header (no closing full stop, as supplied)
+  with the "Don’t surrender…" statement beneath it as its body. It replaces the
+  small mono label from PR #87. The header's size is my layout call.
 

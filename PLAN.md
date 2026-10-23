@@ -874,3 +874,8 @@ lockfile before the build would run; `package-lock.json` was left untouched.
   "Submit your own." **Open:** the form's own wording ("Your quote", "Who said
   it? (optional)", "Add to the board →") is placeholder UI copy — Cat to
   confirm. Not yet viewed in a browser.
+- 2026-10-23 — **Section numbers removed on /manifesto.** The "01 —", "03 —",
+  "04 —" and "05 —" prefixes are gone from the eyebrow and section labels
+  (they now read "A manifesto for creatives in the AI era", "The manifesto",
+  "The twelfth", "Sign"). Principle numbers 01–11 are unchanged. Closes the
+  label-gap open item.

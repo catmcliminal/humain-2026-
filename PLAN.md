@@ -821,4 +821,8 @@ lockfile before the build would run; `package-lock.json` was left untouched.
   instruction: "02 — The voices" → "02 — Creative POV" and "03 — The principles"
   → "03 — The manifesto". Read as label changes only: the 02 headline ("Pick them
   up.") and its sub-line are unchanged, and the `#voices` anchor keeps its id.
+- **2026-10-23 (manifesto principle 6)** — Title changed from "Be a beginner." to
+  "Novice mindset". Cat typed it lower-case with no full stop; the first letter
+  is capitalised to match the other titles (same as "Pay your dues"), and the
+  full stop is left off. Body text untouched.
 

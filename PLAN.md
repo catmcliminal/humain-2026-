@@ -887,3 +887,8 @@ lockfile before the build would run; `package-lock.json` was left untouched.
   people go quiet that leaders should worry." The body now ends "…what happens
   next?" Any margin note anchored to the removed sentence stops highlighting
   (notes are kept, just no longer matched).
+- 2026-10-23 — **/manifesto intro: paragraph breaks and copy.** The two intro
+  paragraphs are now four, per Cat's text. Changes: "transforming our working
+  lives **at pace** while the destination keeps shifting"; added "Stuff worth
+  making." to the last paragraph. The first paragraph keeps its straight
+  apostrophe in "didn't" exactly as supplied (the rest of the page uses curly).

@@ -13,6 +13,6 @@ import sitemap from '@astrojs/sitemap';
  */
 export default defineConfig({
   site: 'https://www.humain.au',
-  integrations: [react(), markdoc(), keystatic(), sitemap()],
+  integrations: [react(), markdoc(), keystatic(), sitemap({ filter: (page) => !page.includes('/resources') })],
   adapter: netlify(),
 });

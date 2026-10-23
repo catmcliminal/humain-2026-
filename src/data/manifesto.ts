@@ -22,7 +22,7 @@ export const PRINCIPLES: Principle[] = [
   { n: 8, title: 'Pay your dues', body: 'Name your influences. Honour contribution. Fight for consent and compensation. Creative work does not become worthless because a machine can absorb and re-generate it.' },
   { n: 9, title: 'Don’t fall into the productivity trap.', body: 'Spend the dividend on purpose. Decide what the time saved is for before someone fills it. A stranger, wilder, bigger idea. A deeper conversation. Time to teach. Time to live. Make the gain worth having.' },
   { n: 10, title: 'Earn belief.', body: 'Put your name to your choices. Be willing to explain them. Listen when people say the work leaves them cold. Trust asks something of us. Give it care, attention and a person who will answer.', quote: '“Dream, or find a dream to follow”', cite: 'Tea Uglow' },
-  { n: 11, title: 'Tell your own story.', body: 'Don’t accept a future you weren’t in the room to write. Invite dissent. Speak out. Ask hard questions: who gets the savings, who loses the work, what happens next? It’s when people go quiet that leaders should worry.' },
+  { n: 11, title: 'Tell your own story.', body: 'Don’t accept a future you weren’t in the room to write. Invite dissent. Speak out. Ask hard questions: who gets the savings, who loses the work, what happens next?' },
 ];
 
 /** Accent cycles pink, orange, yellow, blue, green; one accent per principle. */

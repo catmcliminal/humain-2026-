@@ -863,3 +863,23 @@ lockfile before the build would run; `package-lock.json` was left untouched.
   submit quotes — **nothing on the page does that yet**; it is not built.
   (2) The remaining section labels read 01, 03, 04, 05 — a gap where 02 was.
 
+- 2026-10-23 — **Submit a quote on /manifesto.** New "Submit a quote" button
+  beside Scatter/Tidy opens a small form (quote, optional "who said it"); the
+  quote joins the Creative POV board as a draggable sticker for everyone. API
+  action `quote` (max 200 chars, curly quotes stripped, counts toward the
+  40-post cap, `hidden: true` in the blob hides one). Visitor stickers have no
+  principle link, so tapping them does nothing. Their drag positions are saved
+  in the same localStorage key. Also: the "Add a line" placeholder is now "One
+  sentence. Make it count." (was "…Say it plainly."). Closes the open item on
+  "Submit your own." **Open:** the form's own wording ("Your quote", "Who said
+  it? (optional)", "Add to the board →") is placeholder UI copy — Cat to
+  confirm. Not yet viewed in a browser.
+- 2026-10-23 — **Section numbers removed on /manifesto.** The "01 —", "03 —",
+  "04 —" and "05 —" prefixes are gone from the eyebrow and section labels
+  (they now read "A manifesto for creatives in the AI era", "The manifesto",
+  "The twelfth", "Sign"). Principle numbers 01–11 are unchanged. Closes the
+  label-gap open item.
+- 2026-10-23 — **Principle 11 trimmed.** Removed the last sentence, "It’s when
+  people go quiet that leaders should worry." The body now ends "…what happens
+  next?" Any margin note anchored to the removed sentence stops highlighting
+  (notes are kept, just no longer matched).

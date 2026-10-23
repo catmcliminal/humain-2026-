@@ -21,7 +21,7 @@ const quoted = PRINCIPLES.filter((p) => p.quote);
   <Nav />
   <main class="mf">
     <header class="mf-head wrap">
-      <span class="eyebrow"><span class="tk"></span><span class="mono">01 — A manifesto for creatives in the AI era</span></span>
+      <span class="eyebrow"><span class="tk"></span><span class="mono">A manifesto for creatives in the AI era</span></span>
       <h1>We make stories. <em>This one is about us.</em></h1>
       <div class="mf-head-row">
         <div class="mf-intro">
@@ -52,6 +52,15 @@ const quoted = PRINCIPLES.filter((p) => p.quote);
         <div class="mf-row">
           <button type="button" class="mf-pill primary" data-scatter>Scatter</button>
           <button type="button" class="mf-pill mf-ghost" data-tidy>Tidy</button>
+          <button type="button" class="mf-pill mf-ghost" data-quote-open>Submit a quote</button>
+        </div>
+      </div>
+      <div class="mf-card mf-composer mf-quote-composer" data-quote-composer hidden>
+        <textarea class="mf-field" rows="3" maxlength="200" placeholder="Your quote" data-quote-text aria-label="Your quote"></textarea>
+        <div class="mf-row">
+          <input class="mf-field mf-name" maxlength="60" placeholder="Who said it? (optional)" data-quote-cite aria-label="Who said it? (optional)" />
+          <button type="button" class="mf-pill mf-pinkpill" data-quote-post>Add to the board →</button>
+          <button type="button" class="mf-text-btn" data-quote-cancel>Cancel</button>
         </div>
       </div>
       <div class="mf-board" data-board>
@@ -65,7 +74,7 @@ const quoted = PRINCIPLES.filter((p) => p.quote);
     </section>
 
     <section class="wrap mf-principles-wrap">
-      <div class="mf-secrow"><span>03 — The manifesto</span><span>Select any sentence to annotate</span></div>
+      <div class="mf-secrow"><span>The manifesto</span><span>Select any sentence to annotate</span></div>
       <div class="mf-principles">
         {PRINCIPLES.map((p, i) => (
           <article id={`principle-${p.n}`} data-pid={`p${p.n}`} style={`--acc:${accent(i)}`}>
@@ -82,7 +91,7 @@ const quoted = PRINCIPLES.filter((p) => p.quote);
               <div class="mf-lines" data-lines></div>
               <div class="mf-card mf-composer" data-line-composer hidden>
                 <label for={`line-${p.n}`} class="mf-label">Add a line to this principle</label>
-                <textarea id={`line-${p.n}`} class="mf-field" rows="2" maxlength="300" placeholder="One sentence. Say it plainly." data-line-text></textarea>
+                <textarea id={`line-${p.n}`} class="mf-field" rows="2" maxlength="300" placeholder="One sentence. Make it count." data-line-text></textarea>
                 <div class="mf-row">
                   <input class="mf-field mf-name" maxlength="60" placeholder="Your name (optional)" data-by aria-label="Your name (optional)" />
                   <button type="button" class="mf-pill solid" data-line-post>Add it →</button>
@@ -116,7 +125,7 @@ const quoted = PRINCIPLES.filter((p) => p.quote);
     </section>
 
     <section id="propose" class="wrap mf-section">
-      <div class="mf-secrow"><span>04 — The twelfth</span><span>Proposed by the room</span></div>
+      <div class="mf-secrow"><span>The twelfth</span><span>Proposed by the room</span></div>
       <h2 class="mf-h2 mf-h2-tight">What’s missing?</h2>
       <p class="mf-propose-intro">Eleven is where we stopped, not where it ends. Propose what’s missing. The room decides what stands.</p>
       <div class="mf-grid" data-grid>
@@ -133,7 +142,7 @@ const quoted = PRINCIPLES.filter((p) => p.quote);
     <section id="sign" class="wrap mf-section">
       <div class="mf-sign">
         <div class="mf-sign-copy">
-          <div class="mf-kicker mf-kicker-ink">05 — Sign</div>
+          <div class="mf-kicker mf-kicker-ink">Sign</div>
           <h2>Put your name to it.</h2>
           <p>Signing says you stand behind this, in public. Your name and city go on the wall below.</p>
         </div>
@@ -196,6 +205,7 @@ const quoted = PRINCIPLES.filter((p) => p.quote);
   .mf-voices-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 20px; margin-bottom: 24px; }
   .mf-lead { margin: 18px 0 0; font-family: var(--disp); font-weight: 700; font-size: clamp(22px, 2.4vw, 30px); line-height: 1.18; letter-spacing: -.015em; }
   .mf-sub { margin: 10px 0 0; font-size: 16px; line-height: 1.5; color: var(--ink-2); max-width: 46ch; }
+  .mf-quote-composer { margin: 0 0 20px; border: 1px solid var(--line-2); }
   .mf-board { position: relative; height: 720px; border-radius: 18px; background: var(--panel); border: 1px solid var(--line); overflow: hidden; }
   .mf-sticker { position: absolute; width: min(360px, 34%); padding: 22px 22px 18px; border-radius: 14px; cursor: grab; user-select: none; -webkit-user-select: none; touch-action: none; transition: transform .3s, left .5s cubic-bezier(.2, .7, .2, 1), top .5s cubic-bezier(.2, .7, .2, 1); }
   .mf-sticker.is-drag { cursor: grabbing; transition: transform .15s; box-shadow: 0 18px 40px rgba(0, 0, 0, .5); }
@@ -338,12 +348,14 @@ const quoted = PRINCIPLES.filter((p) => p.quote);
 
   interface Note { id: string; pid: string; quote: string; text: string; by: string; n: number }
   interface Line { id: string; pid: string; text: string; by: string; n: number }
+  interface BoardQuote { id: string; text: string; cite: string }
   interface Proposal { id: string; title: string; body: string; by: string; n: number }
   interface State {
     votes: Record<string, number>;
     notes: Note[];
     lines: Line[];
     proposals: Proposal[];
+    quotes: BoardQuote[];
     signs: { name: string; city: string; mine: boolean }[];
     mine: string[];
     mySign: { name: string; city: string } | null;
@@ -526,6 +538,8 @@ const quoted = PRINCIPLES.filter((p) => p.quote);
       $('[data-empty]', art)!.hidden = notes.length > 0 || !$('[data-note-composer]', art)!.hidden;
     }
 
+    syncQuotes();
+
     // The twelfth: most-stood first, accent cycling by rank.
     const grid = $('[data-grid]')!;
     $$('.mf-prop', grid).forEach((el) => el.remove());
@@ -653,6 +667,24 @@ const quoted = PRINCIPLES.filter((p) => p.quote);
     if (err) signError.textContent = err;
   });
 
+  const quoteBox = $('[data-quote-composer]')!;
+  const quoteText = $<HTMLTextAreaElement>('[data-quote-text]')!;
+  const quoteCite = $<HTMLInputElement>('[data-quote-cite]')!;
+  $('[data-quote-open]')!.addEventListener('click', () => {
+    quoteBox.hidden = false;
+    quoteText.focus();
+  });
+  $('[data-quote-cancel]')!.addEventListener('click', () => (quoteBox.hidden = true));
+  $('[data-quote-post]')!.addEventListener('click', async () => {
+    const text = quoteText.value.trim();
+    if (!text) return;
+    const err = await send({ action: 'quote', text, cite: quoteCite.value });
+    if (err) return say(err);
+    quoteText.value = '';
+    quoteCite.value = '';
+    quoteBox.hidden = true;
+  });
+
   /* ---------- annotate-a-sentence ---------- */
 
   const pill = $('[data-annotate]')!;
@@ -721,17 +753,29 @@ const quoted = PRINCIPLES.filter((p) => p.quote);
     2: [70, 66, 3], 3: [2, 5, -4], 4: [50, 3, 3], 5: [24, 35, -2], 6: [66, 38, 5], 7: [3, 66, 2], 10: [46, 70, -5],
   };
   const board = $('[data-board]')!;
-  const cards = $$('.mf-sticker', board);
+  const cards = (): HTMLElement[] => $$('.mf-sticker', board);
   const isNarrow = () => window.innerWidth < 760;
   let narrow = isNarrow();
   let pos: Record<string, Pos> = {};
   let zTop = 1;
+
+  // Slots for quotes visitors add, cycled in the order they arrived.
+  const EXTRA: [number, number, number][] = [
+    [36, 28, -3], [80, 6, 4], [12, 36, 3], [58, 20, -4], [30, 56, 5], [84, 40, -2], [46, 40, 2], [2, 34, -5],
+  ];
+  const extraPos = (k: number): Pos => {
+    if (narrow) return { x: k % 2 ? 14 : 2, y: (7 + k) * 15.5 % 82 + 1, r: k % 2 ? 3 : -3 };
+    const [x, y, r] = EXTRA[k % EXTRA.length];
+    return { x, y, r };
+  };
+  const extraKeys = () => cards().map((c) => c.dataset.n!).filter((n) => n.startsWith('q:'));
 
   function defaultPos(): Record<string, Pos> {
     const out: Record<string, Pos> = {};
     Object.entries(LAYOUT).forEach(([n, [x, y, r]], k) => {
       out[n] = narrow ? { x: k % 2 ? 14 : 2, y: k * 15.5 + 1, r: k % 2 ? 3 : -3 } : { x, y, r };
     });
+    extraKeys().forEach((n, k) => (out[n] = extraPos(k)));
     return out;
   }
   function savePos() {
@@ -743,23 +787,27 @@ const quoted = PRINCIPLES.filter((p) => p.quote);
     }
   }
   function loadPos() {
+    const base = defaultPos();
     try {
       const saved = JSON.parse(localStorage.getItem(POSKEY) ?? 'null');
-      if (!narrow && saved && Object.keys(LAYOUT).every((n) => saved[n])) return saved as Record<string, Pos>;
+      if (!narrow && saved && Object.keys(LAYOUT).every((n) => saved[n])) {
+        for (const n of Object.keys(base)) if (saved[n]) base[n] = saved[n];
+      }
     } catch {
       /* fall through to the default layout */
     }
-    return defaultPos();
+    return base;
   }
   function place(card: HTMLElement, dragging = false) {
     const p = pos[card.dataset.n!];
+    if (!p) return;
     card.style.left = `${p.x}%`;
     card.style.top = `${p.y}%`;
     card.style.transform = dragging ? 'rotate(0deg) scale(1.04)' : `rotate(${p.r}deg)`;
   }
-  const placeAll = () => cards.forEach((c) => place(c));
+  const placeAll = () => cards().forEach((c) => place(c));
 
-  for (const card of cards) {
+  function wire(card: HTMLElement) {
     card.addEventListener('pointerdown', (e) => {
       e.preventDefault();
       const n = card.dataset.n!;
@@ -791,12 +839,41 @@ const quoted = PRINCIPLES.filter((p) => p.quote);
         card.classList.remove('is-drag');
         place(card);
         savePos();
-        if (!moved) jumpTo('principle-' + n);
+        if (!moved && !n.startsWith('q:')) jumpTo('principle-' + n);
       };
       window.addEventListener('pointermove', move);
       window.addEventListener('pointerup', up);
       window.addEventListener('pointercancel', up);
     });
+  }
+  cards().forEach(wire);
+
+  /** Bring the board's visitor-added stickers in line with the server's list. */
+  function syncQuotes() {
+    if (!state) return;
+    const want = state.quotes;
+    const have = new Map(extraKeys().map((n) => [n, $(`[data-n="${n}"]`, board)!]));
+    for (const [n, el] of have) if (!want.some((q) => 'q:' + q.id === n)) el.remove();
+    const staticCount = PRINCIPLES.filter((p) => p.quote).length;
+    want.forEach((q, k) => {
+      const key = 'q:' + q.id;
+      if (have.has(key)) return;
+      const card = h('div', { class: `mf-sticker sk${(staticCount + k) % 3}`, 'data-n': key, style: `--c:${ACCENTS[(k + 1) % 5]}` },
+        h('p', {}, `“${q.text}”`),
+        h('div', { class: 'mf-sticker-foot' }, h('span', {}, q.cite)));
+      pos[key] ??= loadSaved(key) ?? extraPos(k);
+      board.append(card);
+      wire(card);
+      place(card);
+    });
+  }
+  function loadSaved(key: string): Pos | null {
+    if (narrow) return null;
+    try {
+      return JSON.parse(localStorage.getItem(POSKEY) ?? 'null')?.[key] ?? null;
+    } catch {
+      return null;
+    }
   }
 
   $('[data-scatter]')!.addEventListener('click', () => {

@@ -838,4 +838,10 @@ lockfile before the build would run; `package-lock.json` was left untouched.
   co-created line is now a display-font header (no closing full stop, as supplied)
   with the "Don’t surrender…" statement beneath it as its body. It replaces the
   small mono label from PR #87. The header's size is my layout call.
+- **2026-10-23 (manifesto ranking removed)** — "05 — Where the room stands" (the
+  live leaderboard of the eleven by stand count) taken off `/manifesto` "for now"
+  on Cat's instruction: markup, styles and the script that sorted it are gone.
+  The sign section was renumbered from 06 to 05 so the index has no gap. "The
+  eleven" jump list at the top still shows each principle's live count. To bring
+  it back, restore from PR #85's version of `manifesto.astro`.
 

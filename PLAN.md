@@ -879,3 +879,7 @@ lockfile before the build would run; `package-lock.json` was left untouched.
   (they now read "A manifesto for creatives in the AI era", "The manifesto",
   "The twelfth", "Sign"). Principle numbers 01–11 are unchanged. Closes the
   label-gap open item.
+- 2026-10-23 — **Principle 11 trimmed.** Removed the last sentence, "It’s when
+  people go quiet that leaders should worry." The body now ends "…what happens
+  next?" Any margin note anchored to the removed sentence stops highlighting
+  (notes are kept, just no longer matched).

@@ -848,4 +848,42 @@ lockfile before the build would run; `package-lock.json` was left untouched.
   removed on Cat's instruction; the intro under "What’s missing?" now reads "Eleven
   is where we stopped, not where it ends. Propose what’s missing." Only that page
   copy changed — the line was not in the meta description.
+- **2026-10-23 (manifesto quote, Jeremy Somers)** — Added to principle 02 (*Refuse
+  the average.*, Cat's choice): "a lot of creative is just a little bit creative,
+  and AI is getting really good at being a little bit creative" — Jeremy Somers.
+  Verbatim, so lower-case opening and no closing full stop, unlike the other quotes.
+  It shows in the principle's panel and as a seventh card on the quote board.
+  Layout calls (mine): the card's default board position is bottom right
+  (`2: [70, 66, 3]`) and the phone-width board is 1180px tall instead of 1020 to
+  fit seven cards. Because it sorts first, the skins of the other cards shift one
+  place. Visitors' saved card positions reset once, as the layout changed. Not seen
+  in a browser; the new card may overlap Earn belief's.
+- **2026-10-23 (manifesto Creative POV section)** — Section 02 reshaped on Cat's
+  instruction: the "02 —" label above is gone, **"Creative POV" is now the
+  header**, and the body is "Pick them up" (a display-font lead line) followed by
+  "Drag the quotes around the board. Tap one to read the principle it belongs to.
+  Submit your own." The old "Pick them up." headline had a full stop; Cat's text
+  has none, so none is shown. **Open:** (1) "Submit your own." promises a way to
+  submit quotes — **nothing on the page does that yet**; it is not built.
+  (2) The remaining section labels read 01, 03, 04, 05 — a gap where 02 was.
 
+- 2026-10-23 — **Submit a quote on /manifesto.** New "Submit a quote" button
+  beside Scatter/Tidy opens a small form (quote, optional "who said it"); the
+  quote joins the Creative POV board as a draggable sticker for everyone. API
+  action `quote` (max 200 chars, curly quotes stripped, counts toward the
+  40-post cap, `hidden: true` in the blob hides one). Visitor stickers have no
+  principle link, so tapping them does nothing. Their drag positions are saved
+  in the same localStorage key. Also: the "Add a line" placeholder is now "One
+  sentence. Make it count." (was "…Say it plainly."). Closes the open item on
+  "Submit your own." **Open:** the form's own wording ("Your quote", "Who said
+  it? (optional)", "Add to the board →") is placeholder UI copy — Cat to
+  confirm. Not yet viewed in a browser.
+- 2026-10-23 — **Section numbers removed on /manifesto.** The "01 —", "03 —",
+  "04 —" and "05 —" prefixes are gone from the eyebrow and section labels
+  (they now read "A manifesto for creatives in the AI era", "The manifesto",
+  "The twelfth", "Sign"). Principle numbers 01–11 are unchanged. Closes the
+  label-gap open item.
+- 2026-10-23 — **Principle 11 trimmed.** Removed the last sentence, "It’s when
+  people go quiet that leaders should worry." The body now ends "…what happens
+  next?" Any margin note anchored to the removed sentence stops highlighting
+  (notes are kept, just no longer matched).

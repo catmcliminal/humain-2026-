@@ -6,7 +6,7 @@ export const prerender = false;
 
 const COOKIE = 'hm_vid';
 const MAX_POSTS_PER_VISITOR = 40;
-const LIMITS = { name: 60, city: 60, note: 600, line: 300, title: 80, body: 500 };
+const LIMITS = { name: 60, city: 60, note: 600, line: 300, title: 80, body: 500, quote: 200, cite: 60 };
 const PRINCIPLE_IDS = new Set(PRINCIPLES.map((p) => 'p' + p.n));
 
 const json = (data: unknown, status = 200) =>
@@ -41,6 +41,7 @@ function publicState(doc: Doc, vid: string) {
     notes: doc.notes.filter((n) => !n.hidden).map((n) => ({ id: n.id, pid: n.pid, quote: n.quote, text: n.text, by: n.by, n: count('n:' + n.id) })),
     lines: doc.lines.filter((l) => !l.hidden).map((l) => ({ id: l.id, pid: l.pid, text: l.text, by: l.by, n: count('l:' + l.id) })),
     proposals: doc.proposals.filter((x) => !x.hidden).map((x) => ({ id: x.id, title: x.title, body: x.body, by: x.by, n: count('x:' + x.id) })),
+    quotes: doc.quotes.filter((q) => !q.hidden).map((q) => ({ id: q.id, text: q.text, cite: q.cite })),
     signs: doc.signs.filter((s) => !s.hidden).map((s) => ({ name: s.name, city: s.city, mine: s.vid === vid })),
     mine,
     mySign: mySign ? { name: mySign.name, city: mySign.city } : null,
@@ -123,6 +124,15 @@ export const POST: APIRoute = async ({ request, cookies, url }) => {
         const id = newId();
         doc.lines.push({ id, pid, text, by: author(body.by), at: Date.now() });
         stand('l:' + id);
+        countPost();
+        return {};
+      }
+
+      if (action === 'quote') {
+        // Curly quotes around a pasted quote are display-only; strip them so they aren't doubled.
+        const text = clean(body.text, LIMITS.quote + 2).replace(/^[“"]+|[”"]+$/g, '').trim().slice(0, LIMITS.quote);
+        if (text.length < 4) return { error: 'Write a quote first.' };
+        doc.quotes.push({ id: newId(), text, cite: clean(body.cite, LIMITS.cite) || 'Anonymous', by: vid, at: Date.now() });
         countPost();
         return {};
       }

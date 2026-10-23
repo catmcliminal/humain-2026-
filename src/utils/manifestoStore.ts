@@ -11,6 +11,7 @@ import { getStore } from '@netlify/blobs';
 
 export interface Note { id: string; pid: string; quote: string; text: string; by: string; at: number; hidden?: boolean }
 export interface Line { id: string; pid: string; text: string; by: string; at: number; hidden?: boolean }
+export interface Quote { id: string; text: string; cite: string; by: string; at: number; hidden?: boolean }
 export interface Proposal { id: string; title: string; body: string; by: string; at: number; hidden?: boolean }
 export interface Signature { id: string; name: string; city: string; vid: string; at: number; hidden?: boolean }
 
@@ -20,12 +21,14 @@ export interface Doc {
   notes: Note[];
   lines: Line[];
   proposals: Proposal[];
+  /** Quotes visitors have put on the board. */
+  quotes: Quote[];
   signs: Signature[];
   /** Posts per visitor, for a crude cap on abuse. */
   posts: Record<string, number>;
 }
 
-export const emptyDoc = (): Doc => ({ stands: {}, notes: [], lines: [], proposals: [], signs: [], posts: {} });
+export const emptyDoc = (): Doc => ({ stands: {}, notes: [], lines: [], proposals: [], quotes: [], signs: [], posts: {} });
 
 const KEY = 'state-v1';
 let memory: Doc | null = null;

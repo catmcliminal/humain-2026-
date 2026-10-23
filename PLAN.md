@@ -844,6 +844,10 @@ lockfile before the build would run; `package-lock.json` was left untouched.
   The sign section was renumbered from 06 to 05 so the index has no gap. "The
   eleven" jump list at the top still shows each principle's live count. To bring
   it back, restore from PR #85's version of `manifesto.astro`.
+- **2026-10-23 (manifesto "The twelfth" intro)** — "The room decides what stands."
+  removed on Cat's instruction; the intro under "What’s missing?" now reads "Eleven
+  is where we stopped, not where it ends. Propose what’s missing." Only that page
+  copy changed — the line was not in the meta description.
 - **2026-10-23 (manifesto quote, Jeremy Somers)** — Added to principle 02 (*Refuse
   the average.*, Cat's choice): "a lot of creative is just a little bit creative,
   and AI is getting really good at being a little bit creative" — Jeremy Somers.

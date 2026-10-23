@@ -24,6 +24,16 @@ import PageHeader from '../components/PageHeader.astro';
           </figure>
 
           <section>
+            <p class="res-thanks">Thanks to our content partner R/GA</p>
+            <h2>Can brands think for themselves</h2>
+            <figure class="res-fig res-fig--sq">
+              <img src="/images/resources/rga-session.jpg" width="1400" height="1400" alt="Two speakers on stage at humAIn beneath the title “Can brands think for themselves?”" loading="lazy" />
+            </figure>
+            <p>Thanks for coming along to humAIn. AI now sits between brands and their customers, and most brands are using it for scale. Our Global CEO Robin Forbes and APAC Executive Strategy Director Marie Conley opened the conference by asking whether brands can think for themselves. Not on their own. The ones that stay distinct are the ones where people decide what the brand stands for first, then built that into the system.</p>
+            <p>If you’d like to keep talking, I’d love to hear from you at <a href="mailto:victoria.curro@rga.com">victoria.curro@rga.com</a>.</p>
+          </section>
+
+          <section>
             <h2>Unstereotype Alliance: the Who’s Missing?</h2>
             <figure class="res-fig">
               <img src="/images/resources/unstereotype-panel.jpg" width="1400" height="932" alt="A panel of four speakers seated on stage beside a slide showing a QR code for the 3Cs Playbook for Inclusive AI" loading="lazy" />
@@ -87,15 +97,6 @@ import PageHeader from '../components/PageHeader.astro';
             <p>To request the materials or arrange a consultation, email Julia at <a href="mailto:julia.vargiu@siglobal.com">julia.vargiu@siglobal.com</a>.</p>
           </section>
 
-          <section>
-            <h2>Can brands think for themselves</h2>
-            <figure class="res-fig res-fig--sq">
-              <img src="/images/resources/rga-session.jpg" width="1400" height="1400" alt="Two speakers on stage at humAIn beneath the title “Can brands think for themselves?”" loading="lazy" />
-            </figure>
-            <p>Thanks for coming along to humAIn. AI now sits between brands and their customers, and most brands are using it for scale. Our Global CEO Robin Forbes and APAC Executive Strategy Director Marie Conley opened the conference by asking whether brands can think for themselves. Not on their own. The ones that stay distinct are the ones where people decide what the brand stands for first, then built that into the system.</p>
-            <p>If you’d like to keep talking, I’d love to hear from you at <a href="mailto:victoria.curro@rga.com">victoria.curro@rga.com</a>.</p>
-          </section>
-
         </div>
       </div>
     </div>
@@ -123,6 +124,15 @@ import PageHeader from '../components/PageHeader.astro';
     padding-top: 24px;
     border-top: 1px solid var(--line-2);
   }
+  .res-body .res-thanks {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--pink);
+    margin: 36px 0 0;
+  }
+  .res-thanks + h2 { margin-top: 12px; border-top: 0; padding-top: 0; }
   .res-fig { margin: 0 0 28px; }
   .res-fig img {
     display: block;

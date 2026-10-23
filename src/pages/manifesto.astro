@@ -321,7 +321,7 @@ const quoted = PRINCIPLES.filter((p) => p.quote);
   .mf-toast { position: fixed; z-index: 200; left: 50%; bottom: 24px; transform: translateX(-50%); background: var(--ink); color: var(--ink-dark); border-radius: 100px; padding: 12px 20px; font-size: 14px; font-weight: 700; box-shadow: 0 8px 24px rgba(0, 0, 0, .45); max-width: calc(100vw - 32px); }
 
   @media (max-width: 760px) {
-    .mf-board { height: 1020px; }
+    .mf-board { height: 1180px; }
     .mf-sticker { width: 84%; }
     .mf-principles article { padding: 32px 24px; }
     .mf-sign { padding: 44px 30px; }
@@ -717,7 +717,7 @@ const quoted = PRINCIPLES.filter((p) => p.quote);
   type Pos = { x: number; y: number; r: number };
   const POSKEY = 'humain-manifesto-stickers-v1';
   const LAYOUT: Record<string, [number, number, number]> = {
-    3: [2, 5, -4], 4: [50, 3, 3], 5: [24, 35, -2], 6: [66, 38, 5], 7: [3, 66, 2], 10: [46, 70, -5],
+    2: [70, 66, 3], 3: [2, 5, -4], 4: [50, 3, 3], 5: [24, 35, -2], 6: [66, 38, 5], 7: [3, 66, 2], 10: [46, 70, -5],
   };
   const board = $('[data-board]')!;
   const cards = $$('.mf-sticker', board);

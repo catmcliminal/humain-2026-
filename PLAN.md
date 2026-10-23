@@ -825,4 +825,10 @@ lockfile before the build would run; `package-lock.json` was left untouched.
   "Novice mindset". Cat typed it lower-case with no full stop; the first letter
   is capitalised to match the other titles (same as "Pay your dues"), and the
   full stop is left off. Body text untouched.
+- **2026-10-23 (manifesto co-created line)** — "This is a co-created manifesto
+  for creatives everywhere. Share your POV." added as the last line of the intro
+  column on `/manifesto`, under the "Don’t surrender your judgement…" statement
+  (Cat chose "under the intro"). Verbatim; the stray closing quote mark in her
+  paste was left out. Styled as a small mono label, which is a layout call. The
+  three intro paragraphs she pasted alongside already matched the live copy.
 

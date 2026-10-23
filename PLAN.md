@@ -804,3 +804,10 @@ lockfile before the build would run; `package-lock.json` was left untouched.
   in a browser**, so the board's drag behaviour, panel colours, annotate pill
   and phone width are unchecked. Not built from the handoff: IP rate-limiting
   (only the 40-posts-per-visitor cap exists).
+- **2026-10-23 (manifesto intro)** — First paragraph under the `/manifesto`
+  headline replaced with Cat's new copy ("When the automobile arrived…"),
+  verbatim. It keeps her mixed apostrophes: straight in "didn't", curly in
+  "we’re" — fix only if she asks. The old paragraph ("We didn’t get decades to
+  build the roads…") is gone from the site; the same words are still in the v1/v2
+  handoff files.
+

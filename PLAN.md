@@ -887,3 +887,9 @@ lockfile before the build would run; `package-lock.json` was left untouched.
   people go quiet that leaders should worry." The body now ends "…what happens
   next?" Any margin note anchored to the removed sentence stops highlighting
   (notes are kept, just no longer matched).
+- 2026-10-27 (speakers) — **Tim de Sousa** (Partner; Co-founder – Sabirus
+  Advisory) added as a speaker. Role and bio verbatim from Cat (three
+  paragraphs; curly quotes around ‘Agile 50’ kept as supplied); `featured:
+  false`, `order: 51`. Photo (`Tim de Sousa.png`, 700×693) cropped square and
+  saved as a 693×693 JPEG at 82K. Not added to any schedule session — none was
+  named. No `sessionType` or `themes` set.

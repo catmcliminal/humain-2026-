@@ -2,7 +2,7 @@
 /**
  * Prominent band directly under the hero: newsletter sign-up (opens the
  * MailerLite form loaded by Newsletter.astro) and the "Register for humAIn
- * 2027" interest form (Web3Forms, emailed to admin@humain.au like Contact).
+ * 2027" interest form (Web3Forms, emailed to Cat@humain.au like Contact).
  */
 const accessKey = import.meta.env.WEB3FORMS_ACCESS_KEY ?? '';
 ---
@@ -134,7 +134,7 @@ const accessKey = import.meta.env.WEB3FORMS_ACCESS_KEY ?? '';
       const msg =
         err instanceof Error && err.name === 'AbortError'
           ? 'Request timed out — please try again.'
-          : 'Something went wrong. Please try again or email hello@humain.au directly.';
+          : 'Something went wrong. Please try again or email Cat@humain.au directly.';
       if (result) result.textContent = msg;
     }
   });

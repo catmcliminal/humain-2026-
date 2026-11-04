@@ -132,7 +132,7 @@ const crumbs = breadcrumbJsonLd([{ name: 'Partners', url: `${SITE}/partners/` }]
                 <label for="cc-message">Message</label>
                 <textarea id="cc-message" name="message" rows="4" placeholder="Tell us about your organisation and what you're looking for…"></textarea>
               </div>
-              <a id="cc-mailto" class="btn cf-submit" href="mailto:admin@humain.au,denise@humain.au">Email Denise →</a>
+              <a id="cc-mailto" class="btn cf-submit" href="mailto:Cat@humain.au,denise@humain.au">Email Denise →</a>
             </div>
           </div>
         </div>
@@ -149,7 +149,7 @@ const crumbs = breadcrumbJsonLd([{ name: 'Partners', url: `${SITE}/partners/` }]
     const email = (document.getElementById('cc-email') as HTMLInputElement | null)?.value ?? '';
     const message = (document.getElementById('cc-message') as HTMLTextAreaElement | null)?.value ?? '';
     const body = `Name: ${name}\nEmail: ${email}\n\n${message}`;
-    mailLink.href = `mailto:admin@humain.au,denise@humain.au?subject=${encodeURIComponent('Partnership enquiry')}&body=${encodeURIComponent(body)}`;
+    mailLink.href = `mailto:Cat@humain.au,denise@humain.au?subject=${encodeURIComponent('Partnership enquiry')}&body=${encodeURIComponent(body)}`;
   });
 </script>
 

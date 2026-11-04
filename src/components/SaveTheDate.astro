@@ -1,0 +1,54 @@
+---
+/**
+ * Save-the-date band for the next edition, directly under the hero.
+ * Wording is supplied by the organisers — edit it here.
+ */
+---
+
+<section id="save-the-date" style="padding-top:0">
+  <div class="wrap">
+    <div class="std rv">
+      <div class="std-eyebrow mono">Save the date</div>
+      <h2 class="std-h">humAIn 2027</h2>
+      <p class="std-meta">Conference October 21 2027</p>
+      <p class="std-meta">Tech Central, 477 Pitt Street</p>
+      <p class="std-note">Super early bird tickets on sale soon.</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .std {
+    background: var(--panel);
+    border: 1px solid var(--line-2);
+    border-radius: 22px;
+    padding: 44px 40px;
+  }
+  .std-eyebrow {
+    color: var(--pink);
+    margin-bottom: 14px;
+  }
+  .std-h {
+    font-family: var(--disp);
+    font-weight: 800;
+    font-size: clamp(34px, 5vw, 64px);
+    line-height: 0.98;
+    letter-spacing: -0.02em;
+    margin-bottom: 18px;
+  }
+  .std-meta {
+    font-family: var(--disp);
+    font-weight: 700;
+    font-size: clamp(18px, 2vw, 26px);
+    line-height: 1.2;
+  }
+  .std-note {
+    margin-top: 18px;
+    opacity: 0.8;
+  }
+  @media (max-width: 760px) {
+    .std {
+      padding: 32px 24px;
+    }
+  }
+</style>

@@ -101,7 +101,7 @@ const accessKey = import.meta.env.WEB3FORMS_ACCESS_KEY ?? '';
       btn.textContent = 'Send message →';
       const msg = err instanceof Error && err.name === 'AbortError'
         ? 'Request timed out — please try again.'
-        : 'Something went wrong. Please try again or email hello@humain.au directly.';
+        : 'Something went wrong. Please try again or email Cat@humain.au directly.';
       if (result) result.textContent = msg;
     }
   });

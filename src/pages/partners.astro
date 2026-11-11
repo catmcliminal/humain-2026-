@@ -108,15 +108,8 @@ const crumbs = breadcrumbJsonLd([{ name: 'Partners', url: `${SITE}/partners/` }]
     <section id="become-a-partner" style="padding-top:0;padding-bottom:96px">
       <div class="wrap">
         <div class="contact-cta rv">
-          <div class="cc-photo">
-            <img src="/images/team/denise-fletcher.jpg" alt="Denise Fletcher" loading="lazy" />
-          </div>
           <div class="cc-body">
             <p class="cc-lede">Get in touch to explore opportunities to showcase your thought leadership to a grown up and highly engaged audience.</p>
-            <div class="cc-contact">
-              <span class="cc-name">Denise Fletcher</span>
-              <span class="cc-role">Head of Partnerships</span>
-            </div>
             <div class="cc-form" id="partners-contact-form">
               <div class="cf-row">
                 <div class="cf-field">
@@ -132,7 +125,7 @@ const crumbs = breadcrumbJsonLd([{ name: 'Partners', url: `${SITE}/partners/` }]
                 <label for="cc-message">Message</label>
                 <textarea id="cc-message" name="message" rows="4" placeholder="Tell us about your organisation and what you're looking for…"></textarea>
               </div>
-              <a id="cc-mailto" class="btn cf-submit" href="mailto:Cat@humain.au,denise@humain.au">Email Denise →</a>
+              <a id="cc-mailto" class="btn cf-submit" href="mailto:Cat@humain.au">Get in touch →</a>
             </div>
           </div>
         </div>
@@ -149,7 +142,7 @@ const crumbs = breadcrumbJsonLd([{ name: 'Partners', url: `${SITE}/partners/` }]
     const email = (document.getElementById('cc-email') as HTMLInputElement | null)?.value ?? '';
     const message = (document.getElementById('cc-message') as HTMLTextAreaElement | null)?.value ?? '';
     const body = `Name: ${name}\nEmail: ${email}\n\n${message}`;
-    mailLink.href = `mailto:Cat@humain.au,denise@humain.au?subject=${encodeURIComponent('Partnership enquiry')}&body=${encodeURIComponent(body)}`;
+    mailLink.href = `mailto:Cat@humain.au?subject=${encodeURIComponent('Partnership enquiry')}&body=${encodeURIComponent(body)}`;
   });
 </script>
 
@@ -275,8 +268,7 @@ const crumbs = breadcrumbJsonLd([{ name: 'Partners', url: `${SITE}/partners/` }]
 
   .contact-cta {
     display: grid;
-    grid-template-columns: 220px 1fr;
-    gap: 40px;
+    grid-template-columns: 1fr;
     background: var(--panel);
     border: 1px solid var(--line-2);
     border-radius: 16px;

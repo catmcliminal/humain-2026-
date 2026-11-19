@@ -334,7 +334,7 @@ const quoted = PRINCIPLES.filter((p) => p.quote);
   .mf-toast { position: fixed; z-index: 200; left: 50%; bottom: 24px; transform: translateX(-50%); background: var(--ink); color: var(--ink-dark); border-radius: 100px; padding: 12px 20px; font-size: 14px; font-weight: 700; box-shadow: 0 8px 24px rgba(0, 0, 0, .45); max-width: calc(100vw - 32px); }
 
   @media (max-width: 760px) {
-    .mf-board { height: 1180px; }
+    .mf-board { height: 1340px; }
     .mf-sticker { width: 84%; }
     .mf-principles article { padding: 32px 24px; }
     .mf-sign { padding: 44px 30px; }
@@ -752,7 +752,7 @@ const quoted = PRINCIPLES.filter((p) => p.quote);
   type Pos = { x: number; y: number; r: number };
   const POSKEY = 'humain-manifesto-stickers-v1';
   const LAYOUT: Record<string, [number, number, number]> = {
-    2: [70, 66, 3], 3: [2, 5, -4], 4: [50, 3, 3], 5: [24, 35, -2], 6: [66, 38, 5], 7: [3, 66, 2], 10: [46, 70, -5],
+    1: [68, 4, -3], 2: [70, 66, 3], 3: [2, 5, -4], 4: [50, 3, 3], 5: [24, 35, -2], 6: [66, 38, 5], 7: [3, 66, 2], 10: [46, 70, -5],
   };
   const board = $('[data-board]')!;
   const cards = (): HTMLElement[] => $$('.mf-sticker', board);
@@ -766,7 +766,7 @@ const quoted = PRINCIPLES.filter((p) => p.quote);
     [36, 28, -3], [80, 6, 4], [12, 36, 3], [58, 20, -4], [30, 56, 5], [84, 40, -2], [46, 40, 2], [2, 34, -5],
   ];
   const extraPos = (k: number): Pos => {
-    if (narrow) return { x: k % 2 ? 14 : 2, y: (7 + k) * 15.5 % 82 + 1, r: k % 2 ? 3 : -3 };
+    if (narrow) return { x: k % 2 ? 14 : 2, y: (Object.keys(LAYOUT).length + k) * 15.5 % 82 + 1, r: k % 2 ? 3 : -3 };
     const [x, y, r] = EXTRA[k % EXTRA.length];
     return { x, y, r };
   };

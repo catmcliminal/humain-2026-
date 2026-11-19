@@ -892,3 +892,11 @@ lockfile before the build would run; `package-lock.json` was left untouched.
   lives **at pace** while the destination keeps shifting"; added "Stuff worth
   making." to the last paragraph. The first paragraph keeps its straight
   apostrophe in "didn't" exactly as supplied (the rest of the page uses curly).
+- 2026-11-20 — **Mandie van der Merwe quote added to principle 01.** Text exactly
+  as Cat corrected it: "…really is joy; the joy of connecting with people,
+  the joy of an idea, the joy of making that lateral leap." (first version
+  was supplied without punctuation); cite "Mandie van der Merwe, Chief Creative Officer, Saatchi &
+  Saatchi, AWARD chair". It also appears on the Creative POV board as an eighth
+  sticker (default spot top right, may overlap one card until dragged/Tidy);
+  mobile board height raised 1180 → 1340px to fit. Cite is long — check how
+  the sticker footer wraps. Not viewed in a browser.

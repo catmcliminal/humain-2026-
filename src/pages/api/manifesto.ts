@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro';
 import { PRINCIPLES } from '../../data/manifesto';
 import { mutateDoc, readDoc, type Doc } from '../../utils/manifestoStore';
+import { anyFlagged } from '../../utils/flagwords';
 
 export const prerender = false;
 
@@ -18,6 +19,7 @@ const json = (data: unknown, status = 200) =>
 const clean = (v: unknown, max: number) =>
   typeof v === 'string' ? v.replace(/\s+/g, ' ').trim().slice(0, max) : '';
 const author = (v: unknown) => clean(v, LIMITS.name) || 'Anonymous';
+const NOT_ALLOWED = 'That can’t be published. Please reword it.';
 const newId = () => crypto.randomUUID().slice(0, 12);
 
 function visitor(cookies: Parameters<APIRoute>[0]['cookies'], secure: boolean) {
@@ -38,11 +40,11 @@ function publicState(doc: Doc, vid: string) {
   const mySign = doc.signs.find((s) => s.vid === vid);
   return {
     votes: Object.fromEntries(PRINCIPLES.map((p) => ['p' + p.n, count('p' + p.n)])),
-    notes: doc.notes.filter((n) => !n.hidden).map((n) => ({ id: n.id, pid: n.pid, quote: n.quote, text: n.text, by: n.by, n: count('n:' + n.id) })),
-    lines: doc.lines.filter((l) => !l.hidden).map((l) => ({ id: l.id, pid: l.pid, text: l.text, by: l.by, n: count('l:' + l.id) })),
-    proposals: doc.proposals.filter((x) => !x.hidden).map((x) => ({ id: x.id, title: x.title, body: x.body, by: x.by, n: count('x:' + x.id) })),
-    quotes: doc.quotes.filter((q) => !q.hidden).map((q) => ({ id: q.id, text: q.text, cite: q.cite })),
-    signs: doc.signs.filter((s) => !s.hidden).map((s) => ({ name: s.name, city: s.city, mine: s.vid === vid })),
+    notes: doc.notes.filter((n) => !n.hidden && !anyFlagged(n.text, n.by)).map((n) => ({ id: n.id, pid: n.pid, quote: n.quote, text: n.text, by: n.by, n: count('n:' + n.id) })),
+    lines: doc.lines.filter((l) => !l.hidden && !anyFlagged(l.text, l.by)).map((l) => ({ id: l.id, pid: l.pid, text: l.text, by: l.by, n: count('l:' + l.id) })),
+    proposals: doc.proposals.filter((x) => !x.hidden && !anyFlagged(x.title, x.body, x.by)).map((x) => ({ id: x.id, title: x.title, body: x.body, by: x.by, n: count('x:' + x.id) })),
+    quotes: doc.quotes.filter((q) => !q.hidden && !anyFlagged(q.text, q.cite)).map((q) => ({ id: q.id, text: q.text, cite: q.cite })),
+    signs: doc.signs.filter((s) => !s.hidden && !anyFlagged(s.name, s.city)).map((s) => ({ name: s.name, city: s.city, mine: s.vid === vid })),
     mine,
     mySign: mySign ? { name: mySign.name, city: mySign.city } : null,
   };
@@ -97,6 +99,7 @@ export const POST: APIRoute = async ({ request, cookies, url }) => {
         const name = clean(body.name, LIMITS.name);
         const city = clean(body.city, LIMITS.city);
         if (!name || !city) return { error: 'Name and city, please.' };
+        if (anyFlagged(name, city)) return { error: NOT_ALLOWED };
         if (doc.signs.some((s) => s.vid === vid)) return { error: 'You’ve already signed.' };
         doc.signs.push({ id: newId(), name, city, vid, at: Date.now() });
         return {};
@@ -110,6 +113,7 @@ export const POST: APIRoute = async ({ request, cookies, url }) => {
         const quote = typeof body.quote === 'string' ? body.quote.trim() : '';
         const text = clean(body.text, LIMITS.note);
         if (!principle || !text) return { error: 'Write a note first.' };
+        if (anyFlagged(text, body.by)) return { error: NOT_ALLOWED };
         // The quoted sentence must really be in the principle, or the highlight can't land.
         if (quote.length < 4 || !principle.body.includes(quote)) return { error: 'Select a sentence from the principle.' };
         doc.notes.push({ id: newId(), pid, quote, text, by: author(body.by), at: Date.now() });
@@ -121,6 +125,7 @@ export const POST: APIRoute = async ({ request, cookies, url }) => {
         const pid = clean(body.pid, 8);
         const text = clean(body.text, LIMITS.line);
         if (!PRINCIPLE_IDS.has(pid) || !text) return { error: 'Write a line first.' };
+        if (anyFlagged(text, body.by)) return { error: NOT_ALLOWED };
         const id = newId();
         doc.lines.push({ id, pid, text, by: author(body.by), at: Date.now() });
         stand('l:' + id);
@@ -132,6 +137,7 @@ export const POST: APIRoute = async ({ request, cookies, url }) => {
         // Curly quotes around a pasted quote are display-only; strip them so they aren't doubled.
         const text = clean(body.text, LIMITS.quote + 2).replace(/^[“"]+|[”"]+$/g, '').trim().slice(0, LIMITS.quote);
         if (text.length < 4) return { error: 'Write a quote first.' };
+        if (anyFlagged(text, body.cite)) return { error: NOT_ALLOWED };
         doc.quotes.push({ id: newId(), text, cite: clean(body.cite, LIMITS.cite) || 'Anonymous', by: vid, at: Date.now() });
         countPost();
         return {};
@@ -141,6 +147,7 @@ export const POST: APIRoute = async ({ request, cookies, url }) => {
         const title = clean(body.title, LIMITS.title);
         const text = clean(body.body, LIMITS.body);
         if (!title || !text) return { error: 'A title and a few sentences, please.' };
+        if (anyFlagged(title, text, body.by)) return { error: NOT_ALLOWED };
         const id = newId();
         doc.proposals.push({ id, title, body: text, by: author(body.by), at: Date.now() });
         stand('x:' + id);

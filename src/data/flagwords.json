@@ -1,0 +1,52 @@
+{
+  "name": "Prediction Engine auto-flag list",
+  "version": 1,
+  "purpose": "Flag predictions and callsigns that contain slurs or antisemitic, racist or other bigoted terms. A flagged item is hidden at once and sent to the host queue, where a person can restore it. Matching errs towards flagging: a false positive costs one click, a miss puts a slur on the big screen.",
+  "matching": {
+    "normalise": [
+      "lowercase",
+      "strip accents (NFKD, drop combining marks)",
+      "map look-alike characters using leet below",
+      "collapse 3+ repeats of a letter to 2 (niiigger -> niigger), then also test with repeats collapsed to 1"
+    ],
+    "leet": { "0": "o", "1": "i", "!": "i", "|": "i", "3": "e", "4": "a", "@": "a", "5": "s", "$": "s", "7": "t", "8": "b", "9": "g", "+": "t" },
+    "words": "Match as whole words (word boundaries), plus simple plural/suffix forms: s, es, z, y, ie, ies, ed, ing.",
+    "phrases": "Match after collapsing all whitespace and punctuation between words to a single space.",
+    "compact": "Remove every non-letter from the normalised text, then substring match. Catches spaced-out evasion (n i g g e r, k.i.k.e). Only long, unambiguous terms belong here.",
+    "symbols": "Match against the raw text before normalisation.",
+    "allowlist": "Never flag these even if a rule matches (place names and common words that contain listed strings)."
+  },
+  "words": [
+    "nigger", "nigga", "niggah", "negroid", "darkie", "darky", "sambo", "jigaboo", "jiggaboo", "coon", "spook", "golliwog", "pickaninny", "tarbaby",
+    "abo", "boong", "lubra",
+    "chink", "chinky", "gook", "zipperhead", "slant", "slanty", "chinaman",
+    "spic", "spick", "wetback", "beaner",
+    "paki", "pajeet", "towelhead", "raghead", "muzzie", "muzrat",
+    "wog", "dago", "wop", "polack", "gyppo", "gippo", "pikey", "kraut",
+    "kike", "kyke", "yid", "yids", "heeb", "hebe", "hymie", "shylock", "zog", "khazar", "khazarian", "holohoax", "shoah-business", "goyim", "jewed",
+    "1488", "rahowa", "heil", "hh88", "6mwe", "nazi", "nazis", "neonazi",
+    "faggot", "fag", "faggy", "fagot", "dyke", "poof", "poofter", "pooftah", "tranny", "trannie", "shemale", "troon", "troid", "groomer",
+    "retard", "retarded", "tard", "spastic", "spaz", "spacker", "mong", "mongoloid",
+    "cunt", "whore", "slut", "femoid", "foid",
+    "untermensch", "subhuman"
+  ],
+  "phrases": [
+    "sand nigger", "camel jockey", "porch monkey", "jungle bunny", "curry muncher", "ching chong",
+    "jewish question", "the jq", "goyim know", "the goyim", "oven dodger", "happy merchant", "rootless cosmopolitan", "zionist occupied", "zionist occupation government", "jews control", "jews run", "jewish media", "jewish bankers", "synagogue of satan", "christ killer", "christ killers", "holocaust hoax", "holocaust never happened", "six million lie", "6 million lie", "gas the", "into the oven", "ovens",
+    "14 words", "fourteen words", "sieg heil", "white power", "white pride world wide", "white genocide", "great replacement", "day of the rope", "race war", "racial holy war", "blood and soil", "remigration now",
+    "kill all", "exterminate the", "deport them all", "send them back"
+  ],
+  "compact": [
+    "nigger", "nigga", "faggot", "kike", "chink", "wetback", "towelhead", "raghead", "holohoax", "siegheil", "whitepower", "whitegenocide", "jewishquestion", "goyimknow", "ovendodger", "happymerchant", "tranny", "retard", "1488"
+  ],
+  "symbols": [ "(((", ")))", "卐", "卍", "ϟϟ", "ᛋᛋ", "👃🏻💰" ],
+  "allowlist": [
+    "scunthorpe", "spokesperson", "spoke", "kraut rock", "krautrock", "cockatoo", "raccoon", "cocoon", "tycoon", "slanted", "fagin", "dyker", "hebrew", "yiddish", "jewish", "jews", "jew", "israel", "israeli", "muslim", "islam", "black", "asian", "aboriginal", "indigenous", "gay", "lesbian", "trans", "queer", "disabled", "autistic", "nazi germany", "anti-nazi", "antinazi"
+  ],
+  "notes": [
+    "Identity words (jew, muslim, black, gay, trans, aboriginal) are deliberately NOT flagged. People will write about these groups in good faith, and flagging the group name itself is a form of bias.",
+    "Some listed terms have innocent uses (coon in place names, spook as a ghost, nazi in a history reference, heil, ovens, slant). They are kept because a human reviews every flag. Remove any that produce too many false positives in testing.",
+    "Hate language changes. Review this list before each public run against the ADL Hate Symbols Database (adl.org/resources/hate-symbols/search) and add new coded terms.",
+    "Apply the same check to callsigns at join. A flagged callsign is rejected with: CALLSIGN NOT ALLOWED. TRY ANOTHER."
+  ]
+}

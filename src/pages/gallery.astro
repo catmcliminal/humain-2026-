@@ -11,7 +11,10 @@ import { SITE } from '../config';
 // cleanly in the same Pulse rhythm.
 const tileClasses = ['g-a', 'g-b', 'g-c', 'g-d', 'g-e', 'g-f', 'g-g'];
 
-const images = (await getCollection('gallery')).sort((a, b) => a.data.order - b.data.order);
+// Newest edition first (2026 before 2025), then by editor-set `order` within a year.
+const images = (await getCollection('gallery')).sort(
+  (a, b) => (b.data.year ?? 0) - (a.data.year ?? 0) || a.data.order - b.data.order,
+);
 const crumbs = breadcrumbJsonLd([{ name: 'Gallery', url: `${SITE}/gallery/` }]);
 ---
 

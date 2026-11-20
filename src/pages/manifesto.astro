@@ -10,7 +10,13 @@ import { breadcrumbJsonLd } from '../utils/breadcrumbs';
 const crumbs = breadcrumbJsonLd([{ name: 'Manifesto', url: `${SITE}/manifesto/` }]);
 const pad = (n: number) => String(n).padStart(2, '0');
 const accent = (i: number) => ACCENTS[i % 5];
-const quoted = PRINCIPLES.filter((p) => p.quote);
+// One sticker per pull quote. A principle's first quote keys as its number ("2"); any
+// further ones as "2b", "2c"… so each keeps its own board position (see LAYOUT).
+const stickers = PRINCIPLES.flatMap((p) =>
+  [p.quote ? { quote: p.quote, cite: p.cite } : null, ...(p.moreQuotes ?? [])]
+    .map((q, i) => (q && q.quote ? { n: p.n, key: i ? `${p.n}${String.fromCharCode(97 + i)}` : String(p.n), quote: q.quote, cite: q.cite } : null))
+    .filter((x): x is { n: number; key: string; quote: string; cite: string | undefined } => x !== null),
+);
 ---
 
 <BaseLayout
@@ -66,10 +72,10 @@ const quoted = PRINCIPLES.filter((p) => p.quote);
         </div>
       </div>
       <div class="mf-board" data-board>
-        {quoted.map((p, k) => (
-          <div class={`mf-sticker sk${k % 3}`} data-n={p.n} style={`--c:${accent(p.n - 1)}`}>
-            <p>{p.quote}</p>
-            <div class="mf-sticker-foot"><span>{p.cite}</span><span class="mf-sticker-ref">Principle {pad(p.n)} →</span></div>
+        {stickers.map((st, k) => (
+          <div class={`mf-sticker sk${k % 3}`} data-n={st.key} style={`--c:${accent(st.n - 1)}`}>
+            <p>{st.quote}</p>
+            <div class="mf-sticker-foot"><span>{st.cite}</span><span class="mf-sticker-ref">Principle {pad(st.n)} →</span></div>
           </div>
         ))}
       </div>
@@ -758,7 +764,7 @@ const quoted = PRINCIPLES.filter((p) => p.quote);
   type Pos = { x: number; y: number; r: number };
   const POSKEY = 'humain-manifesto-stickers-v1';
   const LAYOUT: Record<string, [number, number, number]> = {
-    1: [68, 4, -3], 2: [70, 66, 3], 3: [2, 5, -4], 4: [50, 3, 3], 5: [24, 35, -2], 6: [66, 38, 5], 7: [3, 66, 2], 10: [46, 70, -5],
+    1: [68, 4, -3], 2: [70, 66, 3], 3: [2, 5, -4], 4: [50, 3, 3], 5: [30, 35, -2], 6: [66, 38, 5], 7: [3, 66, 2], 10: [46, 70, -5], '2b': [1, 36, -3],
   };
   const board = $('[data-board]')!;
   const cards = (): HTMLElement[] => $$('.mf-sticker', board);
@@ -847,7 +853,7 @@ const quoted = PRINCIPLES.filter((p) => p.quote);
         card.classList.remove('is-drag');
         place(card);
         savePos();
-        if (!moved && !n.startsWith('q:')) jumpTo('principle-' + n);
+        if (!moved && !n.startsWith('q:')) jumpTo('principle-' + parseInt(n, 10));
       };
       window.addEventListener('pointermove', move);
       window.addEventListener('pointerup', up);
@@ -862,7 +868,7 @@ const quoted = PRINCIPLES.filter((p) => p.quote);
     const want = state.quotes;
     const have = new Map(extraKeys().map((n) => [n, $(`[data-n="${n}"]`, board)!]));
     for (const [n, el] of have) if (!want.some((q) => 'q:' + q.id === n)) el.remove();
-    const staticCount = PRINCIPLES.filter((p) => p.quote).length;
+    const staticCount = Object.keys(LAYOUT).length;
     want.forEach((q, k) => {
       const key = 'q:' + q.id;
       if (have.has(key)) return;

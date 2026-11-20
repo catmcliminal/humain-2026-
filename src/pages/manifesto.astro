@@ -90,6 +90,12 @@ const quoted = PRINCIPLES.filter((p) => p.quote);
                   <cite>{p.cite}</cite>
                 </blockquote>
               )}
+              {p.moreQuotes?.map((m) => (
+                <blockquote>
+                  <p>{m.quote}</p>
+                  <cite>{m.cite}</cite>
+                </blockquote>
+              ))}
               <div class="mf-lines" data-lines></div>
               <div class="mf-card mf-composer" data-line-composer hidden>
                 <label for={`line-${p.n}`} class="mf-label">Add a line to this principle</label>

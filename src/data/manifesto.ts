@@ -9,11 +9,13 @@ export interface Principle {
   body: string;
   quote?: string;
   cite?: string;
+  /** Further pull quotes shown beneath the first, in the principle's own card (not on the quote board). */
+  moreQuotes?: { quote: string; cite: string }[];
 }
 
 export const PRINCIPLES: Principle[] = [
   { n: 1, title: 'Defend your right to do what you love.', body: 'Automate the sludge, don’t outsource the soul. Define the work that matters to you. Draw your boundaries. Permission to say no is as important as pressure to adopt.', quote: '“So much of what I do really is joy; the joy of connecting with people, the joy of an idea, the joy of making that lateral leap.”', cite: 'Mandie van der Merwe, Chief Creative Officer, Saatchi & Saatchi, AWARD chair' },
-  { n: 2, title: 'Refuse the average.', body: 'Plausible is cheap. Make the choice only you can make. Bring your experience, your obsessions, your inconvenient point of view. Give us something worth our time.', quote: '“a lot of creative is just a little bit creative, and AI is getting really good at being a little bit creative”', cite: 'Jeremy Somers' },
+  { n: 2, title: 'Refuse the average.', body: 'Plausible is cheap. Make the choice only you can make. Bring your experience, your obsessions, your inconvenient point of view. Give us something worth our time.', quote: '“a lot of creative is just a little bit creative, and AI is getting really good at being a little bit creative”', cite: 'Jeremy Somers', moreQuotes: [{ quote: '“We need to distinguish between ‘generating’ and ‘creating’. Creativity is the refusal of the average.”', cite: 'Cat McGinn, writer & curator, humAIn' }] },
   { n: 3, title: 'Cleave to craft.', body: 'Making something is easier. Knowing whether it deserves to exist still demands judgement. Make deliberate choices. Revise. Reject. Know why this version works and the other fifty don’t.', quote: '“A skilled photographer moved a camera an inch to the left, and suddenly that car looks so much better.”', cite: 'Ross Colebatch' },
   { n: 4, title: 'Keep the friction.', body: 'The hard part is where the thinking happens. Before you remove a step, ask what that step made possible. The easy route is always one click away. Choosing the harder one takes courage. Find it.', quote: '“This is difficult” does not mean “this is wrong.”', cite: 'Lucinda Barlow and Ben Cooper' },
   { n: 5, title: 'Invest in the apprenticeship.', body: 'That’s how mastery thrives. Give beginners real work and permission to fail. Protect the practice through which judgement develops. We all learned on someone else’s payroll. Pay it forward.', quote: '“We can’t demand experienced people while removing the experiences that develop them.”', cite: 'Matt Jones' },

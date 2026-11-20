@@ -19,7 +19,7 @@ const json = (data: unknown, status = 200) =>
 const clean = (v: unknown, max: number) =>
   typeof v === 'string' ? v.replace(/\s+/g, ' ').trim().slice(0, max) : '';
 const author = (v: unknown) => clean(v, LIMITS.name) || 'Anonymous';
-const NOT_ALLOWED = 'That can’t be published. Please reword it.';
+const NOT_ALLOWED = "We can't publish that. Please reword it.";
 const newId = () => crypto.randomUUID().slice(0, 12);
 
 function visitor(cookies: Parameters<APIRoute>[0]['cookies'], secure: boolean) {

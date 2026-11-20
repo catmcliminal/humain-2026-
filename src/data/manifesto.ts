@@ -29,3 +29,11 @@ export const PRINCIPLES: Principle[] = [
 
 /** Accent cycles pink, orange, yellow, blue, green; one accent per principle. */
 export const ACCENTS = ['#F0379A', '#F0531F', '#FFC21A', '#3D72F5', '#19A85B'];
+
+/**
+ * Pull quotes that live only on the draggable quote board, not under any principle.
+ * `key` must match a position in LAYOUT (manifesto.astro). `cite` is optional.
+ */
+export const BOARD_QUOTES: { key: string; quote: string; cite?: string }[] = [
+  { key: 'b1', quote: '“Make it count.”' },
+];

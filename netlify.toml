@@ -94,12 +94,6 @@
 # Prediction Engine game (separate Netlify site, humain-predictionengine). Unlinked orphan page;
 # the QR code is the only entry. Do not link it from the site navigation.
 [[redirects]]
-  from = "/predictionengine2027"
-  to = "/predictionengine2027/"
-  status = 301
-  force = true
-
-[[redirects]]
   from = "/predictionengine2027/*"
   to = "https://humain-predictionengine.netlify.app/predictionengine2027/:splat"
   status = 200

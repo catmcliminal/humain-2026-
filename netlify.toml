@@ -1,4 +1,4 @@
-x`x`[build]
+[build]
   publish = "dist"
   command = "npm run build"
 
@@ -13,7 +13,7 @@ x`x`[build]
     # Insight Tag loaders (see src/components/TrackingPixels.astro) — without
     # them in script-src the pixels are blocked and report nothing. Their
     # beacons go out as images, which img-src https: already allows.
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://assets.mailerlite.com https://www.googletagmanager.com https://connect.facebook.net https://snap.licdn.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://static.mailerlite.com https://*.mailerlite.com; font-src https://fonts.gstatic.com; img-src 'self' data: https:; frame-src https://www.youtube.com https://player.vimeo.com https://assets.mailerlite.com https://*.mailerlite.com; connect-src 'self' https://api.web3forms.com https://api.github.com https://github.com https://assets.mailerlite.com https://static.mailerlite.com https://www.google-analytics.com https://www.googletagmanager.com https://www.facebook.com https://px.ads.linkedin.com; worker-src 'none'"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://assets.mailerlite.com https://www.googletagmanager.com https://connect.facebook.net https://snap.licdn.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://static.mailerlite.com https://*.mailerlite.com; font-src https://fonts.gstatic.com; img-src 'self' data: https:; frame-src https://www.youtube.com https://player.vimeo.com https://assets.mailerlite.com https://*.mailerlite.com; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://*.firebasedatabase.app wss://*.firebasedatabase.app https://api.web3forms.com https://api.github.com https://github.com https://assets.mailerlite.com https://static.mailerlite.com https://www.google-analytics.com https://www.googletagmanager.com https://www.facebook.com https://px.ads.linkedin.com; worker-src 'none'"
 
 [[headers]]
   for = "/keystatic*"
@@ -90,3 +90,17 @@ x`x`[build]
   from = "/api/keystatic/*"
   to = "/.netlify/functions/ssr"
   status = 200
+
+# Prediction Engine game (separate Netlify site, humain-predictionengine). Unlinked orphan page;
+# the QR code is the only entry. Do not link it from the site navigation.
+[[redirects]]
+  from = "/predictionengine2027"
+  to = "/predictionengine2027/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/predictionengine2027/*"
+  to = "https://humain-predictionengine.netlify.app/predictionengine2027/:splat"
+  status = 200
+  force = true
